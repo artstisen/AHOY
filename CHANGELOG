@@ -1,1 +1,208 @@
-Changelog here...
+ 
+
+
+                   ______  __  __    ___   __  __  __       
+                  /\  __ \/\ \/\ \  / __ \/\ \/\ \/\ \      
+                  \ \ \/\ \ \ \ \ \/\ \/\ \ \ \_\ \ \ \     
+                   \ \ \_\ \ \ \_\ \ \ \ \ \ \____ \ \_\    
+                    \ \  __ \ \  __ \ \ \_\ \/____\ \/_/_   
+                     \ \ \ \ \ \_\/\ \ \____/ /\_____\/\_\  
+                      \/_/\/_/\/_/\/_/\/___/  \/_____/\/_/   
+  
+
+  CHANGELOG v1.5.0.0 (Current release)
+
++ Legal notice: This version of Ahoy is distributed as free software
+                 under the MIT license (https://mit-license.org)
+------------------------------------------------------------------------
++ New feature: Pending...
+^ Optimization: Pending... 
+! Bug: Pending...
+
+
+  CHANGELOG v1.4.1.8 (Previous release)
+
++ Legal notice: This version of Ahoy is distributed as free software
+                 under the MIT license (https://mit-license.org)
+------------------------------------------------------------------------
+^ Optimization: Minor Log refinements.
+! Bug: Backup to alternate directory disabled after previous update -Fixed.
+
+
+  CHANGELOG v1.4.1.7 (Previous release)
+
++ Legal notice: This version of Ahoy is distributed as free software
+                 under the MIT license (https://mit-license.org)
+------------------------------------------------------------------------
++ New feature: Keyboard shortcut CTRL+N creates a new entry from PLOP/UE.
++ New feature: Keyboard shortcut CTRL+E focus main window from PLOP/UE.
++ New feature: Keyboard shortcut CTRL+O opens the load Pool dialog from Splash/Login dialog.
++ New feature: Set form opacity from the View Menu.
+^ Optimization: New Ahoy! program icon.
+^ Optimization: Context menu (Copy) in About dialog.
+^ Optimization: New domain (ahoynote.org) reference added throughout the application.
+^ Optimization: Now highlighting password strength indicator in Password Generator.
+^ Optimization: Typermax Game refined.
+^ Optimization: Password Generator refined.
+^ Optimization: QuickGuide updated with changes.
+! Bug: Loading Pool from login dialog removes focus from login dialog -Fixed.
+! Bug: Exception on rare occasions caused by the derived RichEd20.DLL -Fixed.
+! Bug: Backup location conflicting with simultaneous instances of Ahoy -Fixed.
+! Bug: Typermax game didn't exit when loading another Pool -Fixed.
+! Bug: Reset settings didn't reset form opacity -Fixed.
+
+
+  CHANGELOG v1.4.1.5 (Previous release)
+
++ Legal notice: This version of Ahoy is distributed as free software
+                 under the MIT license (https://mit-license.org)
+------------------------------------------------------------------------
++ New feature: Backups are now placed in a "Backup" folder instead of the root directory.
+               (Old backup files in the root directory can be deleted for less file-clutter)
++ New feature: General commands "plop", "ue" and "default" added.
+^ Optimization: The Find All option now shows dialog at 10.000+ Entries instead of 5.000+.
+^ Optimization: Pool command "pool.reload" changed to "pool.default".
+^ Optimization: Tools command structure changed from "tool." to "tools.".
+^ Optimization: Options command structure changed from "option." to "options.".
+^ Optimization: Pool Information dialog updated with backup directory information + larger dimensions.
+^ Optimization: The Log Monitor (debug function) updated with system Date/Time.
+^ Optimization: Minor UI optimizations.
+^ Optimization: Several Log optimizations.
+^ Optimization: Minor I/O code optimizations.
+! Bug: Not disabling Advanced Pool menu on Sleep/Lock -Fixed.
+! Bug: Not reacting on ESC when pinned control has focus in New Entry dialog -Fixed.
+
+
+  CHANGELOG v1.4.1.4 (Previous release)
+
++ Legal notice: This version of Ahoy is distributed as free software
+                 under the MIT license (https://mit-license.org)
+------------------------------------------------------------------------
++ New feature: Password strength indicator in New Password dialog.
++ New feature: Password Tester implemented in Password Generator.
++ New feature: Display current Pool during login and in main window title.
++ New feature: General commands "halt" and "resume" added.
++ New feature: Command "pool.new" added (Create Pool).
++ New feature: Notification Editor now has -2 and -4 Hour buttons.
+^ Optimization: Duplicating an Entry in the Pinned list now places it above the original.
+^ Optimization: Duplicating an Entry now selects the duplicated entry.
+^ Optimization: Help option in Paragraph Dividers regarding Tags.
+^ Optimization: Help option for Password Tester (in Password Generator).
+^ Optimization: Help option in New Password dialog.
+^ Optimization: Pressing ESC in New Pool Password dialog now returns to previous Pool.
+^ Optimization: Password Generator "Wordplay" now generates 9 instead of 7 examples.
+^ Optimization: QuickGuide updated with latest changes.
+^ Optimization: Several UI improvements.
+! Bug: Maintenance dialog not disposed when loading another Pool -Fixed.
+! Bug: Locked Entries scrolling to top when edits are rejected -Fixed.
+! Bug: Context menu in New Password dialog not picking up theme formatting -Fixed.
+
+
+  CHANGELOG v1.4.1.3 (Previous release)
+
++ Legal notice: This version of Ahoy is distributed as free software
+                 under the MIT license (https://mit-license.org)
+------------------------------------------------------------------------
++ New feature: Create, load and work with Pool files in any directory.
++ New feature: Insert Time and Selection Tags in Paragraph Dividers.
++ New feature: Individual Paragraph Divider reset buttons added.
++ New feature: PLOP Settings updated for Newlines, Trim and ESC.
++ New feature: Menu item "Advanced" added to File Menu with current + new Pool operations.
++ New feature: General commands "info" and "div" added.
++ New feature: Command "tool.div" added (Open Paragraph Dividers).
++ New feature: Service command "pool.renew" added (Renew Session ID).
+^ Optimization: Paragraph Divider UI improved.
+^ Optimization: Additional Paragraph Divider presets added.
+^ Optimization: PLOP minimum window size decreased.
+^ Optimization: The option "Auto-Add Blank Lines" is now disabled by default.
+^ Optimization: Pool Information dialog improved with detailed information.
+^ Optimization: Additional content added to Password Generator.
+^ Optimization: Pinned Entries in search result are now marked with Pinned icon.
+^ Optimization: Blinking read-only indication for Pool read-only mode.
+^ Optimization: Autosave logic improved to include changes in Paragraph Dividers.
+^ Optimization: Style Editor UI improvements.
+^ Optimization: Find and Replace dialog set to center on parent editor instead of center screen.
+^ Optimization: Log improved.
+^ Optimization: General UI improvements.
+^ Optimization: QuickGuide updated with the latest changes.
+! Bug: Export collection not cleared on Pool Switch, Demo and Load -Fixed.
+! Bug: TextBox Zoom feature conflicting with Windows CTRL+Mousewheel Zoom -Fixed.
+! Bug: Premature Demo exit when using certain Pool operations -Fixed.
+! Bug: PLOP settings close button not changing icon-style on theme change -Fixed.
+! Bug: PLOP content reappears after Plopping and closing PLOP -Fixed.
+! Bug: Occasional exception in PLOP outside screenbounds logic -Fixed.
+! Bug: MouseMove in some editors acting as MouseHover, preventing Entry autosave -Fixed.
+                              
+
+  CHANGELOG v1.3.2.5 (Previous release)
+
++ Legal notice: This version of Ahoy is distributed as free software
+                 under the MIT license (https://mit-license.org)
+------------------------------------------------------------------------
++ New feature: Find and Replace feature in Main/PLOP/UE editors (Right click/CTRL+ALT+SHIFT+F).
++ New feature: UPPERCASE and lowercase option in title field context-menu added.
++ New feature: General command "save" added (corresponds to global command "ahoy.save").
++ New feature: New training mode added in Typermax Game (via in-game help dialog).
+^ Optimization: Extensive changes to Typermax game-play + running statistics and version display.
+^ Optimization: Autosave indicator button enhanced (Save/Auto blink).
+^ Optimization: Cut/Copy/Paste context-menu items now have bold fonts in Main/PLOP/UE editors.
+^ Optimization: Initial login prompt forced-to-front to prevent loss of input focus in some cases.
+^ Optimization: General UI optimizations.
+! Bug: Pressing SHIFT+TAB with "Title Tab To Content" enabled didn't return to title field -Fixed.
+
+
+  CHANGELOG v1.3.2.4 (Previous release)
+
++ Legal notice: This version of Ahoy is distributed as free software
+                 under the MIT license (https://mit-license.org)
+------------------------------------------------------------------------
++ New feature: Tab in Title field to focus content option added (defaults to Enabled).
++ New feature: Auto-Add blank lines option added (15 lines, defaults to Enabled).
++ New feature: General commands ("game", "op", "theme", "style", "type", "reset", "clear", "new", "x") added.
+^ Optimization: Typermax Game updated with time bonus challenges etc.
+^ Optimization: Typewriter emulator default style changed to style "A".
+^ Optimization: Hide list and memo when opening Typermax or ANSI Edit.
+! Bug: Changing from multiple screens to single setup occasionally left windows outside screen bounds -Fixed.
+
+
+  CHANGELOG v1.3.2.3 (Previous release)
+
++ Legal notice: This version of Ahoy is distributed as free software
+                 under the MIT license (https://mit-license.org)
+------------------------------------------------------------------------
+^ Optimization: Command group definitions in QuickGuide/command reference added.
+^ Optimization: Command prefix "options." and "tools." changed to "option." and "tool.".
+^ Optimization: ANSI Edit character preset sequence rearranged.
+^ Optimization: ANSI Edit default character set changed to 1.
+! Bug: ANSI Edit Insert/Clear buttons ignoring user choice -Fixed.
+
+
+  CHANGELOG v1.3.2.2 (Previous release)
+
++ Legal notice: This version of Ahoy is distributed as free software
+                 under the MIT license (https://mit-license.org)
+------------------------------------------------------------------------
++ New feature: Toggle "Enforce Scrollbars" (Options menu).
++ New feature: Color theme "Midnight Funk" added.
++ New feature: Auto-completion in Command Prompt w. command descriptions (Press TAB/SHIFT+TAB).
++ New feature: Commands library and execution structure completely rewritten (and tested).
++ New feature: Right click Entries in search result to Mark for Export.
++ New feature: ANSI/ASCII Art Editor rewritten + new features (Tools -> Additional Tools -> ANSI Edit).
+^ Optimization: The command "pool.undo" now covers undo of latest Import operation.
+^ Optimization: Export indicator ("EX") on marked list-items (Search and Pinned list).
+^ Optimization: Documentation (QuickGuide) updated regarding new commands, "EX" mark etc.
+^ Optimization: Style Editor usability improvements.
+^ Optimization: Theme Selector usability improvements.
+^ Optimization: Color picker selection by clicking previews + tooltips added.
+^ Optimization: Pin icon set on Toggle TopMost button in PLOP.
+^ Optimization: Dialog when disabling Top Most desktop position in PLOP.
+^ Optimization: ANSI/ASCII Art Editor now available from Paragraph Dividers editor.
+^ Optimization: Remove "Blank" layout mode option (too silly to fly).
+^ Optimization: Micro Calculator alignment (nudged position in Main Editor).
+^ Optimization: Save Micro Calculator visibility separately for Main, PLOP/UE Editors.
+^ Optimization: Flip QuickGuide logo option (ANSI vs. ASCII) added in Display Mode "Plenty".
+^ Optimization: Flip QuickGuide logo to ASCII version on selected Color Themes.
+^ Optimization: Text symbols & decorations updated.
+! Bug: ISO 8601 DateTime issues with import/export between OS's with different Culture settings -Fixed.
+! Bug: Tiny cursor issues on UHD resolutions in Windows -Fixed.
+! Bug: Context menu in input dialogs not persisting complete colortheme -Fixed.
