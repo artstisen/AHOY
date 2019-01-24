@@ -1,7 +1,7 @@
 # ahoy
 AHOY! note-taking software
 
-This application was written in C#. Concept and programming by Lars Brandt Stisen.
+Concept and programming by Lars Brandt Stisen.
 
 
  For support and updates please visit www.ahoynote.org
