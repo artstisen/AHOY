@@ -2,7 +2,6 @@
 AHOY! note-taking software
 
 This application was written in C#
-
 Concept and programming by Lars Brandt Stisen
 See copyright notice below for license details
 
