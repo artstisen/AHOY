@@ -10,20 +10,31 @@
                       \/_/\/_/\/_/\/_/\/___/  \/_____/\/_/   
   
 
-  CHANGELOG v1.5.0.0 (Current release)
+
+  CHANGELOG v1.5.0.1 (Current release)
 
 + Legal notice: This version of Ahoy is distributed as free software
-                 under the MIT license (https://mit-license.org)
+                 under the MIT license.
 ------------------------------------------------------------------------
-+ New feature: Pending...
-^ Optimization: Pending... 
-! Bug: Pending...
++ New feature:  *"Home Screen" with status display (Version, Pool name (default/secondary/custom),
+                Autosave, Pool R/W- and backup states), in 3 (ANSI, ASCII and custom) configurations
+                (theme and command dependent).
+                *) Replaces the "display text" feature in the View menu.
+                *) Replaces the Quick Guide as default display text.
+^ Optimization: General code refactoring with few code/memory optimizations.
+^ Optimization: Default layout mode changed to "Plenty".
+^ Optimization: Quick Guide updated (text rewrites/additions and top/logo section).
+^ Optimization: Several dialog, menu, log, info and message display texts rewrites/updates.
+^ Optimization: Entry lock, bookmark, and Pin buttons updated to ignore Home Screen state.
+^ Optimization: Minor changes to the Roman numerals converter guide.
+^ Optimization: Service command "test" added (debugging routine).
+! Bug: Pinned list not cleared when last Entry in Pool is delete while pinned -Fixed.
 
 
   CHANGELOG v1.4.1.8 (Previous release)
 
 + Legal notice: This version of Ahoy is distributed as free software
-                 under the MIT license (https://mit-license.org)
+                 under the MIT license.
 ------------------------------------------------------------------------
 ^ Optimization: Minor Log refinements.
 ! Bug: Backup to alternate directory disabled after previous update -Fixed.
@@ -32,7 +43,7 @@
   CHANGELOG v1.4.1.7 (Previous release)
 
 + Legal notice: This version of Ahoy is distributed as free software
-                 under the MIT license (https://mit-license.org)
+                 under the MIT license.
 ------------------------------------------------------------------------
 + New feature: Keyboard shortcut CTRL+N creates a new entry from PLOP/UE.
 + New feature: Keyboard shortcut CTRL+E focus main window from PLOP/UE.
@@ -55,7 +66,7 @@
   CHANGELOG v1.4.1.5 (Previous release)
 
 + Legal notice: This version of Ahoy is distributed as free software
-                 under the MIT license (https://mit-license.org)
+                 under the MIT license.
 ------------------------------------------------------------------------
 + New feature: Backups are now placed in a "Backup" folder instead of the root directory.
                (Old backup files in the root directory can be deleted for less file-clutter)
@@ -76,7 +87,7 @@
   CHANGELOG v1.4.1.4 (Previous release)
 
 + Legal notice: This version of Ahoy is distributed as free software
-                 under the MIT license (https://mit-license.org)
+                 under the MIT license.
 ------------------------------------------------------------------------
 + New feature: Password strength indicator in New Password dialog.
 + New feature: Password Tester implemented in Password Generator.
@@ -101,7 +112,7 @@
   CHANGELOG v1.4.1.3 (Previous release)
 
 + Legal notice: This version of Ahoy is distributed as free software
-                 under the MIT license (https://mit-license.org)
+                 under the MIT license.
 ------------------------------------------------------------------------
 + New feature: Create, load and work with Pool files in any directory.
 + New feature: Insert Time and Selection Tags in Paragraph Dividers.
@@ -137,7 +148,7 @@
   CHANGELOG v1.3.2.5 (Previous release)
 
 + Legal notice: This version of Ahoy is distributed as free software
-                 under the MIT license (https://mit-license.org)
+                 under the MIT license.
 ------------------------------------------------------------------------
 + New feature: Find and Replace feature in Main/PLOP/UE editors (Right click/CTRL+ALT+SHIFT+F).
 + New feature: UPPERCASE and lowercase option in title field context-menu added.
@@ -154,7 +165,7 @@
   CHANGELOG v1.3.2.4 (Previous release)
 
 + Legal notice: This version of Ahoy is distributed as free software
-                 under the MIT license (https://mit-license.org)
+                 under the MIT license.
 ------------------------------------------------------------------------
 + New feature: Tab in Title field to focus content option added (defaults to Enabled).
 + New feature: Auto-Add blank lines option added (15 lines, defaults to Enabled).
@@ -168,7 +179,7 @@
   CHANGELOG v1.3.2.3 (Previous release)
 
 + Legal notice: This version of Ahoy is distributed as free software
-                 under the MIT license (https://mit-license.org)
+                 under the MIT license.
 ------------------------------------------------------------------------
 ^ Optimization: Command group definitions in QuickGuide/command reference added.
 ^ Optimization: Command prefix "options." and "tools." changed to "option." and "tool.".
@@ -180,7 +191,7 @@
   CHANGELOG v1.3.2.2 (Previous release)
 
 + Legal notice: This version of Ahoy is distributed as free software
-                 under the MIT license (https://mit-license.org)
+                 under the MIT license.
 ------------------------------------------------------------------------
 + New feature: Toggle "Enforce Scrollbars" (Options menu).
 + New feature: Color theme "Midnight Funk" added.
