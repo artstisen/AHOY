@@ -1,4 +1,4 @@
-# ahoy
+# AHOY!
 AHOY! note-taking software
 
 Concept and programming by Lars Brandt Stisen.
