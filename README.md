@@ -15,15 +15,19 @@ System requirements: Windows 10, 8.1/8, 7 and Vista (32/64 bit) with .NET 4.5 or
 
 Installer: MSI
 
+Binaries: Single executable (EXE)
+
+Code Signing Certificate (executable and installer): Comodo (SHA-2)
+
 License: AHOY! is distributed as free software under the MIT license
 
 Programming language: C#
 
 Technology: .NET/WinForms and WPF
 
-Encryption: 3DES ISO/IEC 18033-3:2010
+File encryption: 3DES ISO/IEC 18033-3:2010
 
-File output formats: .xml, .txt, .ahoy
+File output formats: .xml, .txt, .ahoy (Encrypted XML)
 
 Encoding: UTF-8 (Unicode)
 
