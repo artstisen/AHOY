@@ -17,7 +17,7 @@ Installer: MSI
 
 Binaries: Single executable (EXE)
 
-Code Signing Certificate (executable and installer): Comodo (SHA-2)
+Code Signing Authority (executable and installer): Comodo (SHA-2)
 
 License: AHOY! is distributed as free software under the MIT license
 
