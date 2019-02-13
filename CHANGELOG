@@ -16,23 +16,26 @@
 + Legal notice: This version of Ahoy is distributed as free software
                  under the MIT license.
 ------------------------------------------------------------------------
-+ New feature:  Check for software updates (located in the Help menu).
-+ New feature:  *Home Screen with status display (Version, Pool name (default/secondary/custom),
++ New feature:  Home Screen with status display (Version, Pool name (default/secondary/custom),
                 Autosave, Pool R/W- and backup states), in 3 (ANSI, ASCII and custom) configurations
                 (theme and command dependent).
-                *) Replaces the "display text" feature in the View menu.
-                *) Replaces the Quick Guide as default display text.
-+ New feature:  Magic Screen Blocker (invisible screen locking GIF-gimmick). CTRL+ALT+ENTER to toggle
+                -Replaces the "display text" feature in the View menu.
+                -Replaces the Quick Guide as default display text.
++ New feature:  Check for software updates (located in the Help menu).
++ New feature:  Colorize search results according to pinned colors.
++ New feature:  Colorize selected Entry title according to pinned colors.
++ New feature:  Magic Screen Blocker (invisible screen locking gimmick). CTRL+ALT+ENTER to toggle
                 w. password (must be enabled via command: CTRL+ALT+A (type "blocker")).
 ^ Optimization: General code refactoring with few code/memory optimizations.
 ^ Optimization: Default layout mode changed to "Plenty".
-^ Optimization: Minor changes to the Debug window (Live Log-view) for smooth rendering.
 ^ Optimization: Quick Guide updated (text rewrites/additions and top/logo section).
 ^ Optimization: Several dialog, menu, log, info and message display texts rewrites/updates.
 ^ Optimization: Entry lock, bookmark, and Pin buttons updated to ignore Home Screen state.
 ^ Optimization: Minor changes to the Roman numerals converter guide.
 ^ Optimization: General command "blocker" added (toggle screen locking gimmick).
-^ Optimization: Service command "test" added (debugging routine).
+^ Optimization: Service command "test" added (demo routine)
+^ Optimization: Minor changes to the Debug window (Log monitor) rendering/transparency.
+^ Optimization: ANSI Editor changed to be top-most window when open.
 ! Bug: Pinned list not cleared when last Entry in Pool is delete while pinned -Fixed.
 
 
