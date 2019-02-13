@@ -15,7 +15,7 @@ System requirements: Windows 10, 8.1/8, 7 and Vista (32/64 bit) with .NET 4.5 or
 
 Installer: MSI
 
-Binaries: Single executable (EXE)
+Binaries: Single 3MB executable (EXE)
 
 Code Signing Authority (executable and installer): Comodo (SHA-2)
 
