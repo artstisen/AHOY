@@ -36,6 +36,7 @@
 ^ Optimization: Service command "test" added (demo routine)
 ^ Optimization: Minor changes to the Debug window (Log monitor) rendering/transparency.
 ^ Optimization: ANSI Editor changed to be top-most window when open.
+^ Optimization: Minor adjustments to color theme 2 highlight color contrast.
 ! Bug: Pinned list not cleared when last Entry in Pool is delete while pinned -Fixed.
 
 
