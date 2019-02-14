@@ -37,7 +37,7 @@
 ^ Optimization: Minor changes to the Debug window (Log monitor) rendering/transparency.
 ^ Optimization: ANSI Editor changed to be top-most window when open.
 ^ Optimization: Minor adjustments to color theme 2 highlight color contrast.
-! Bug: Typewriter emulator spawns repeated dialogs when entry is write protected -Fixed.
+! Bug: Typewriter emulator spawns multiple dialogs when entry is write protected -Fixed.
 ! Bug: PLOP Editor memory exception on rare occasions caused by derived RichEd20.DLL -Fixed.
 ! Bug: Pinned list not cleared when last Entry in Pool is delete while pinned -Fixed.
 
