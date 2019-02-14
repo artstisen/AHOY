@@ -39,6 +39,7 @@
 ^ Optimization: ANSI Editor changed to be top-most window when open.
 ^ Optimization: Typermax game changed to be top-most window when open.
 ^ Optimization: Minor adjustments to color theme 2 highlight color contrast.
+! Bug: Hold buttons not cleared when creating a new Pool -Fixed.
 ! Bug: Typermax highscore not cleared when creating a new Pool -Fixed.
 ! Bug: Typewriter emulator spawns multiple dialogs when entry is write protected -Fixed.
 ! Bug: PLOP Editor memory exception on rare occasions caused by derived RichEd20.DLL -Fixed.
