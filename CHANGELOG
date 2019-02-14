@@ -32,6 +32,7 @@
 ^ Optimization: Several dialog, menu, log, info and message display texts rewrites/updates.
 ^ Optimization: Entry lock, bookmark, and Pin buttons updated to ignore Home Screen state.
 ^ Optimization: Minor changes to the Roman numerals converter guide.
+^ Optimization: Command Prompt now available from within Stickies (CTRL+ALT+A).
 ^ Optimization: General command "blocker" added (toggle screen locking gimmick).
 ^ Optimization: Service command "test" added (demo routine)
 ^ Optimization: Minor changes to the Debug window (Log monitor) rendering/transparency.
