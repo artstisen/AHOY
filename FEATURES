@@ -1,0 +1,44 @@
+
+Key features
+
+    Create, edit, pin, rank, colorize and search through thousands of lengthy entries without any performance impact
+    All entries are stored in the encrypted file repository (the "Pool"), and saved locally on your computer by default, with the option to save and load from cloud or network drive which enables you to share your notes between one or more instances of AHOY!
+    Save single documents to a plain text file (.txt) or export multiple entries to XML
+    Print your entries using a USB, Blue-tooth or network printer
+    AHOY! sports an automated backup feature with optional alternate backup location to USB stick, Cloud/Network drive etc.
+    Each Pool file (yes, you can use as many as you like) will store thousands of entries
+    1000 session persistent undo/redo steps across all entries and editors (switching between entries will preserve undo/redo's until program exit)
+    Lock entries to prevent edits/deletion, or lock the entire user interface with a customizable automated time-out interval. Use the invisible Magic Screen Blocker (described in detail below) to lock your computer
+    Bookmark and recall positions in your text
+    Place up to 32 Sticky Notes on your desktop, with multi-screen and color theme support (yellow, green, red, blue, purple, black + custom theme)
+    Simultaneous editing of linked entries using the renowned "PLOP" editor and Utility Editor
+    Type quick notes into the notepad (Memo) hidden behind the pinned list as bonus utility
+    Spell checker (English (UK), English (US), German (DE), French (FR), Spanish (ES))
+    Search and replace text
+    Use a plethora of text formatting tools (Casing/ASCII decorations (bulleting, underline etc.), several EOL operations)
+    Create custom paragraph dividers with or without timestamps for easy insertion by shortcut
+    Choose between 15 predefined color themes (incl. dark mode) and create your own using a detailed set of parameters. Share your customized color themes through import/export
+    Change opacity of the AHOY! user interface
+    Change font size and and weight. Choose between two mono-spaced fonts (Courier New and Consolas)
+    Hold and recall entries using the Hold buttons (or use the Pinned list with fast selection through keyboard shortcuts)
+    History option (last edited entries) and forwards/backwards navigation to recall previous entries
+    Set notification alerts with a custom message, and use diverse snooze/postpone options
+    AHOY! has multi-monitor support for all persistent editors and sticky notes
+    Keyboard shortcuts for all primary controls
+    Customizable home screen with status display
+    Word and WPM counter (Set word count goals)
+
+Additional features
+
+    Typewriter emulator mode for distraction-free writing using a customizable typewriter interface
+    Password generator with strong password tester (Output includes alphanumeric and ASCII (in selectable lengths), wordplay and GUID's)
+    Document/message encryption with output in plain text as BASE64 encoded string
+    Roman numerals converter (Example: 1925 = MCMXXV)
+    Calculator: Built-in convenient and fast calculator for drafting estimates etc. (Example: 200-((200/100)*20)+500*(3,66/2) = 1075,00)
+    Command prompt control of all main features in AHOY! incl. interaction with Windows shell (start processes etc.) and popular browsers with parameters
+    Password protected event log
+    Magic Screen Blocker: A password protected screen locking gimmick that will lock multiple screens at once while being completely transparent (invisible). Unauthorized users interacting with the seemingly unlocked computer (clicking with the mouse or typing on the keyboard) will be confronted with an animated GIF (Internet meme) saying "Ah ah ah, you didn't say the magic word". Exit the Magic Screen Blocker by typing CTRL+ALT+ENTER. Please note: This feature is disabled by default to avoid unintentional use and must be enabled by command input. Please consult the built-in documentation (Quick Guide) for more information.
+    NOTE: Notification alerts will not be raised when the Magic Screen Blocker is active
+    ANSI/ASCII art editor: Create classic text-based artwork using ASCII and ANSI character elements
+    Typing game: Train your fingers on the keyboard with the built-in touch typing game Typermax. Typermax includes a training mode, statistics (Typing speed/WPM, accuracy, +/- hits and penalty), a progressive level system with no cap, a mix of static and randomly generated phrases, bonus levels and a persisted high score. With an internal dictionary containing over 60.000 English words there is plenty of game-time for even the most skilled typist
+
