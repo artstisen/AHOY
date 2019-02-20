@@ -17,30 +17,34 @@
                  under the MIT license.
 ------------------------------------------------------------------------
 + New feature:  Home Screen with status display (Version, Pool name (default/secondary/custom),
-                Autosave, Pool R/W- and backup states) in 3 (ANSI, ASCII and custom) configurations
+                Autosave, Pool R/W- and backup states), in 3 (ANSI, ASCII and custom) configurations
                 (theme and command dependent).
                 -Replaces the "display text" feature in the View menu.
                 -Replaces the Quick Guide as default display text.
 + New feature:  Check for software updates (located in the Help menu).
 + New feature:  Colorize search results according to pinned colors.
 + New feature:  Colorize selected Entry title according to pinned colors.
++ New feature:  Colorize PLOP marquee title according to pinned colors.
 + New feature:  Magic Screen Blocker (invisible screen locking gimmick). CTRL+ALT+ENTER to toggle
                 w. password (must be enabled via command: CTRL+ALT+A (type "blocker")).
-^ Optimization: General code refactoring with few code/memory optimizations.
 ^ Optimization: Default layout mode changed to "Plenty".
+^ Optimization: Command Prompt now available from within Stickies (CTRL+ALT+A).
+^ Optimization: General command "blocker" added (toggle screen locking gimmick).
+^ Optimization: General command "check" added (check for updates).
+^ Optimization: Service command "tools.dcheck" added (server test/debug routine).
+^ Optimization: Service command "tools.ucheck" added (server test/debug routine).
+^ Optimization: Service command "tools.vcheck" added (server test/debug routine).
 ^ Optimization: Quick Guide updated (text rewrites/additions and top/logo section).
 ^ Optimization: Several dialog, menu, log, info and message display texts rewrites/updates.
 ^ Optimization: Entry lock, bookmark, and Pin buttons updated to ignore Home Screen state.
 ^ Optimization: Minor changes to the Roman numerals converter guide.
-^ Optimization: Command Prompt now available from within Stickies (CTRL+ALT+A).
-^ Optimization: General command "blocker" added (toggle screen locking gimmick).
-^ Optimization: Service command "test" added (demo routine)
 ^ Optimization: Minor changes to the Debug window (Log monitor) rendering/transparency.
 ^ Optimization: ANSI Editor changed to be top-most window when open.
 ^ Optimization: Typermax game changed to be top-most window when open.
 ^ Optimization: Minor adjustments to color theme 2 highlight color contrast.
-! Bug: Hold buttons not cleared when creating a new Pool -Fixed.
-! Bug: Typermax game highscore not cleared when creating a new Pool -Fixed.
+^ Optimization: General code refactoring with few code/memory optimizations.
+! Bug: Hold buttons not cleared when creating a new Pool from File menu -Fixed.
+! Bug: Typermax highscore not cleared when creating a new Pool from File menu -Fixed.
 ! Bug: Typewriter emulator spawns multiple dialogs when entry is write protected -Fixed.
 ! Bug: PLOP Editor memory exception on rare occasions caused by derived RichEd20.DLL -Fixed.
 ! Bug: Pinned list not cleared when last Entry in Pool is delete while pinned -Fixed.
