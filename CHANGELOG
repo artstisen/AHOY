@@ -25,8 +25,9 @@
 + New feature:  Colorize search results according to pinned colors.
 + New feature:  Colorize selected Entry title according to pinned colors.
 + New feature:  Colorize PLOP marquee title according to pinned colors.
-+ New feature:  Magic Screen Blocker (invisible screen locking gimmick). CTRL+ALT+ENTER to toggle
-                w. password (must be enabled via command: CTRL+ALT+A (type "blocker")).
++ New feature:  Magic Screen Blocker: transparent screen locking gimmick.
+                -Press CTRL+ALT+ENTER to toggle w. password.
+                -Must be enabled via command: CTRL+ALT+A (type "blocker").
 ^ Optimization: Default layout mode changed to "Plenty".
 ^ Optimization: Command Prompt now available from within Stickies (CTRL+ALT+A).
 ^ Optimization: General command "blocker" added (toggle screen locking gimmick).
@@ -46,7 +47,7 @@
 ! Bug: Hold buttons not cleared when creating a new Pool from File menu -Fixed.
 ! Bug: Typermax highscore not cleared when creating a new Pool from File menu -Fixed.
 ! Bug: Typewriter emulator spawns multiple dialogs when entry is write protected -Fixed.
-! Bug: PLOP Editor memory exception on rare occasions caused by derived RichEd20.DLL -Fixed.
+! Bug: PLOP/UE memory exception on rare occasions caused by derived RichEd20.DLL -Fixed.
 ! Bug: Pinned list not cleared when last Entry in Pool is delete while pinned -Fixed.
 
 
