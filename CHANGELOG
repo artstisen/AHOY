@@ -24,7 +24,7 @@
 + New feature:  Check for software updates (located in the Help menu).
 + New feature:  Colorize search results according to pinned colors.
 + New feature:  Colorize selected Entry title according to pinned colors.
-+ New feature:  Colorize PLOP marquee title according to pinned colors.
++ New feature:  Colorize PLOP marquee according to pinned colors.
 + New feature:  Magic Screen Blocker: transparent screen locking gimmick.
                 -Press CTRL+ALT+ENTER to toggle w. password.
                 -Must be enabled via command: CTRL+ALT+A (type "blocker").
@@ -36,7 +36,7 @@
 ^ Optimization: Service command "tools.ucheck" added (server test/debug routine).
 ^ Optimization: Service command "tools.vcheck" added (server test/debug routine).
 ^ Optimization: Quick Guide updated (text rewrites/additions and top/logo section).
-^ Optimization: Several dialog, menu, log, info and message display texts rewrites/updates.
+^ Optimization: Several dialog, menu, log, info and message display text-rewrites/updates.
 ^ Optimization: Entry lock, bookmark, and Pin buttons updated to ignore Home Screen state.
 ^ Optimization: Minor changes to the Roman numerals converter guide.
 ^ Optimization: Minor changes to the Debug window (Log monitor) rendering/transparency.
