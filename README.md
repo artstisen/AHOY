@@ -1,12 +1,12 @@
 # AHOY!
-AHOY! note-taking software
+Note-taking software
 
 Concept and programming by Lars Brandt Stisen.
 For support and updates please visit www.ahoynote.org
 
 NOTE: Dictionaries available to the AHOY! Spell Checker are dependent on the .NET Framework version currently installed on your system. Please consult the documentation for more information.
 
-## SPECIFICATIONS
+### SPECIFICATIONS
 
 System requirements: Windows 10, 8.1/8, 7 and Vista (32/64 bit) with .NET 4.5 or higher
 
@@ -14,7 +14,7 @@ Installer: MSI
 
 Binaries: Single 3MB executable (EXE)
 
-Code Signing (executable and installer): Comodo/Sectigo (SHA2)
+Code Signing (executable and installer): Sectigo (Comodo)
 
 License: AHOY! is distributed as free software under the MIT license
 
