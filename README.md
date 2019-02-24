@@ -1,8 +1,7 @@
 # AHOY!
 Note-taking software
 
-Concept and programming by Lars Brandt Stisen.
-For support and updates please visit www.ahoynote.org
+Concept and programming by Lars Brandt Stisen, www.ahoynote.org
 
 NOTE: Dictionaries available to the AHOY! Spell Checker are dependent on the .NET Framework version currently installed on your system. Please consult the documentation for more information.
 
