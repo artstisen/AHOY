@@ -1,5 +1,5 @@
 # AHOY!
-Note-taking software
+#### Note-taking software
 
 Concept and programming by Lars Brandt Stisen, www.ahoynote.org
 
