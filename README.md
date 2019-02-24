@@ -6,7 +6,7 @@ For support and updates please visit www.ahoynote.org
 
 NOTE: Dictionaries available to the AHOY! Spell Checker are dependent on the .NET Framework version currently installed on your system. Please consult the documentation for more information.
 
-### SPECIFICATIONS
+## SPECIFICATIONS
 
 System requirements: Windows 10, 8.1/8, 7 and Vista (32/64 bit) with .NET 4.5 or higher
 
