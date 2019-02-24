@@ -30,8 +30,10 @@
                 -Must be enabled via command: CTRL+ALT+A (type "blocker").
 ^ Optimization: Default layout mode changed to "Plenty".
 ^ Optimization: Command Prompt now available from within Stickies (CTRL+ALT+A).
+^ Optimization: Keyboard shortcuts CTRL+F, CTRL+I, CTRL+O, CTRL+ALT+Q now available in PLOP/UE.
 ^ Optimization: General command "blocker" added (toggle screen locking gimmick).
 ^ Optimization: General command "check" added (check for updates).
+^ Optimization: General/Pool command "reload" added (reload Pool).
 ^ Optimization: Service command "tools.dcheck" added (server test/debug routine).
 ^ Optimization: Service command "tools.ucheck" added (server test/debug routine).
 ^ Optimization: Service command "tools.vcheck" added (server test/debug routine).
@@ -43,6 +45,8 @@
 ^ Optimization: ANSI Editor changed to be top-most window when open.
 ^ Optimization: Typermax game changed to be top-most window when open.
 ^ Optimization: Minor adjustments to color theme 2 highlight color contrast.
+^ Optimization: Lock button icon updated.
+^ Optimization: General optimizations to PLOP/UE indicators and code execution routines.
 ^ Optimization: General code refactoring with few code/memory optimizations.
 ! Bug: Hold buttons not cleared when creating a new Pool from File menu -Fixed.
 ! Bug: Typermax highscore not cleared when creating a new Pool from File menu -Fixed.
