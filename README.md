@@ -1,7 +1,7 @@
 # AHOY!
 #### Note-taking software
-
 Concept and programming by Lars Brandt Stisen, www.ahoynote.org
+
 
 
 ## SPECIFICATIONS
