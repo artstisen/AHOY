@@ -3,7 +3,6 @@
 
 Concept and programming by Lars Brandt Stisen, www.ahoynote.org
 
-NOTE: Dictionaries available to the AHOY! Spell Checker are dependent on the .NET Framework version currently installed on your system. Please consult the documentation for more information.
 
 ## SPECIFICATIONS
 
@@ -36,6 +35,7 @@ Default data directory: %appdata%/Ahoy
 Fonts: Consolas and Courier New
 
 Please note: Windows 7 does not include the Consolas font by default, unless installed with Microsoft Office, Visual Studio etc. 
+Please note: Dictionaries available to the AHOY! Spell Checker are dependent on the .NET Framework version currently installed on your system. Please consult the documentation for more information.
 
 
 
