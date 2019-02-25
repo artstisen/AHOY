@@ -40,7 +40,7 @@
 ^ Optimization: Quick Guide updated (text rewrites/additions and top/logo section).
 ^ Optimization: Several dialog, menu, log, info and message display text-rewrites/updates.
 ^ Optimization: Clear search result now clears search-in-content field.
-^ Optimization: Entry lock, bookmark, and Pin buttons updated to ignore Home Screen state.
+^ Optimization: Entry lock, bookmark and Pin buttons updated to ignore Home Screen state.
 ^ Optimization: Minor changes to the Roman numerals converter guide.
 ^ Optimization: Minor changes to the Debug window (Log monitor) rendering/transparency.
 ^ Optimization: ANSI Editor changed to be top-most window when open.
