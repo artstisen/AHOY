@@ -21,6 +21,7 @@
                 (theme and command dependent).
                 -Replaces the "display text" feature in the View menu.
                 -Replaces the Quick Guide as default display text.
++ New feature:  Checklist Template (insert a dynamic customizable tag-based progress bar indicator). 
 + New feature:  Check for software updates (located in the Help menu).
 + New feature:  Colorize search results according to pinned colors.
 + New feature:  Colorize selected Entry title according to pinned colors.
@@ -32,8 +33,10 @@
 ^ Optimization: Print (CTRL+P) now available from within the Typewriter emulator.
 ^ Optimization: Command Prompt now available from within Stickies (CTRL+ALT+A).
 ^ Optimization: Keyboard shortcuts CTRL+F, CTRL+I, CTRL+O, CTRL+ALT+Q now available in PLOP/UE.
+^ Optimization: Keyboard shortcut CTRL+ALT+P will insert the Checklist Template.
+^ Optimization: General command "check" added (insert checklist template).
 ^ Optimization: General command "blocker" added (toggle screen locking gimmick).
-^ Optimization: General command "check" added (check for updates).
+^ Optimization: General command "update" added (check for updates).
 ^ Optimization: General/Pool command "reload" added (reload Pool).
 ^ Optimization: Service command "tools.dcheck" added (server test/debug routine).
 ^ Optimization: Service command "tools.ucheck" added (server test/debug routine).
@@ -51,6 +54,7 @@
 ^ Optimization: General optimizations to PLOP/UE indicators and code execution routines.
 ^ Optimization: Minor optimizations to the Color Picker.
 ^ Optimization: General code refactoring with few code/memory optimizations.
+! Bug: Find/Replace omitting alternating repeated words separated by 1 wspace/newline -Fixed.
 ! Bug: Hold buttons not cleared when creating a new Pool from File menu -Fixed.
 ! Bug: Typermax highscore not cleared when creating a new Pool from File menu -Fixed.
 ! Bug: Typewriter emulator spawns multiple dialogs when entry is write protected -Fixed.
