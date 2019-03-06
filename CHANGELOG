@@ -34,6 +34,7 @@
 ^ Optimization: Command Prompt now available from within Stickies (CTRL+ALT+A).
 ^ Optimization: Keyboard shortcuts CTRL+F, CTRL+I, CTRL+O, CTRL+ALT+Q now available in PLOP/UE.
 ^ Optimization: Keyboard shortcut CTRL+ALT+P will insert the Checklist Template.
+^ Optimization: Keyboard shortcut CTRL+SHIFT+D will duplicate text selection.
 ^ Optimization: General command "check" added (insert checklist template).
 ^ Optimization: General command "blocker" added (toggle screen locking gimmick).
 ^ Optimization: General command "update" added (check for updates).
