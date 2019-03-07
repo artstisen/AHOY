@@ -30,7 +30,7 @@
                 -Press CTRL+ALT+ENTER to toggle w. password.
                 -Must be enabled via command: CTRL+ALT+A (type "blocker").
 ^ Optimization: Default layout mode changed to "Plenty".
-^ Optimization: Warning dialogs now uses Bold font.
+^ Optimization: Warning dialogs now use Bold font.
 ^ Optimization: Print (CTRL+P) now available from within the Typewriter emulator.
 ^ Optimization: Command Prompt now available from within Stickies (CTRL+ALT+A).
 ^ Optimization: Keyboard shortcuts CTRL+F, CTRL+I, CTRL+O, CTRL+ALT+Q now available in PLOP/UE.
