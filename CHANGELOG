@@ -39,6 +39,7 @@
 ^ Optimization: General command "blocker" added (toggle screen locking gimmick).
 ^ Optimization: General command "update" added (check for updates).
 ^ Optimization: General/Pool command "reload" added (reload Pool).
+^ Optimization: Several general commands now have abbreviations: time = t etc.
 ^ Optimization: Service command "tools.dcheck" added (server test/debug routine).
 ^ Optimization: Service command "tools.ucheck" added (server test/debug routine).
 ^ Optimization: Service command "tools.vcheck" added (server test/debug routine).
