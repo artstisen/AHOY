@@ -63,6 +63,7 @@
 ! Bug: Typermax highscore not cleared when creating a new Pool from File menu -Fixed.
 ! Bug: Typewriter emulator spawns multiple dialogs when entry is write protected -Fixed.
 ! Bug: PLOP/UE memory exception on rare occasions caused by derived RichEd20.DLL -Fixed.
+! Bug: Pinned list not refreshed when performing a global Pool undo -Fixed.
 ! Bug: Pinned list not cleared when last Entry in Pool is delete while pinned -Fixed.
 
 
