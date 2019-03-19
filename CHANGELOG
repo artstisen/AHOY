@@ -29,6 +29,7 @@
 + New feature:  Magic Screen Blocker: transparent screen locking gimmick.
                 -Press CTRL+ALT+ENTER to toggle w. password.
                 -Must be enabled via command: CTRL+ALT+A (type "blocker").
+^ Optimization: Privacy statement added to the Quick Guide and About dialog (Help Menu).
 ^ Optimization: Lock button will highlight when trying to edit a locked entry.
 ^ Optimization: Selecting a locked entry will highlight the Lock button.
 ^ Optimization: Default layout mode changed to "Plenty".
