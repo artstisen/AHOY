@@ -12,8 +12,6 @@ Installer: MSI
 
 Binaries: Single 3MB executable (EXE)
 
-Code Signing (executable and installer): Sectigo (Comodo)
-
 License: AHOY! is distributed as free software under the MIT license
 
 Programming language: C#
