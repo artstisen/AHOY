@@ -1,32 +1,30 @@
-
 Key features
 
-    Create, edit, pin, rank, colorize and search through thousands of lengthy entries without any performance impact
-    All entries are stored in the encrypted file repository (the "Pool"), and saved locally on your computer by default, with the option to save and load from cloud or network drive which enables you to share your notes between one or more instances of AHOY!
-    Save single documents to a plain text file (.txt) or export multiple entries to XML
-    Print your entries using a USB, Blue-tooth or network printer
-    AHOY! sports an automated backup feature with optional alternate backup location to USB stick, Cloud/Network drive etc.
-    Each Pool file (yes, you can use as many as you like) will store thousands of entries
-    1000 session persistent undo/redo steps across all entries and editors (switching between entries will preserve undo/redo's until program exit)
-    Lock entries to prevent edits/deletion, or lock the entire user interface with a customizable automated time-out interval. Use the invisible Magic Screen Blocker (described in detail below) to lock your computer
+    Create, edit, pin, rank, colorize and search through an unlimited number of lengthy entries
+    (All entries are stored in the encrypted file repository (the "Pool") and saved locally on your computer by default, with the option to save and load from cloud or network drive which enables you to share your notes between one or more instances of AHOY! If you need more than one Pool, just create another. There is no limit to the number of Pools you can use)
+    AHOY! sports automated save and backup features with optional alternate backup location to USB stick, Cloud/Network drive etc.
+    Save single documents to a plain text file (.txt/Unicode) or export multiple entries to XML
+    Print your entries using a USB, Bluetooth or network printer
+    1000 session persistent undo/redo steps across all entries and editors (switching between entries will preserve undo/redo until program exit). You can also undo entire Pool operations (restore deleted entries etc.) in the current session
+    Lock single entries to prevent edits/deletion or lock the AHOY! user interface with a customizable automated time-out interval
     Bookmark and recall positions in your text
-    Place up to 32 Sticky Notes on your desktop, with multi-screen and color theme support (yellow, green, red, blue, purple, black + custom theme)
-    Simultaneous editing of linked entries using the renowned "PLOP" editor and Utility Editor
+    Place up to 32 Sticky Notes on your desktop, with multi-screen and color theme support
+    Simultaneous editing of linked entries using the renowned PLOP and Utility Editor
     Type quick notes into the notepad (Memo) hidden behind the pinned list as bonus utility
     Spell checker (English (UK), English (US), German (DE), French (FR), Spanish (ES))
-    Search and replace text
-    Use a plethora of text formatting tools (Casing/ASCII decorations (bulleting, underline etc.), several EOL operations)
+    Search/replace and format text using a plethora of text formatting tools
     Create custom paragraph dividers with or without timestamps for easy insertion by shortcut
-    Choose between 15 predefined color themes (incl. dark mode) and create your own using a detailed set of parameters. Share your customized color themes through import/export
-    Change opacity of the AHOY! user interface
-    Change font size and and weight. Choose between two mono-spaced fonts (Courier New and Consolas)
+    Use Checklist Templates to create dynamic customizable tag-based progress bars. Or download and import ready-made Checklist Templates
+    Choose between 15 predefined color themes (incl. dark mode) and create your own using a detailed set of parameters for changing colors, textures, icons, opacity etc. Share your customized color themes through import/export or download user-define themes
     Hold and recall entries using the Hold buttons (or use the Pinned list with fast selection through keyboard shortcuts)
-    History option (last edited entries) and forwards/backwards navigation to recall previous entries
-    Set notification alerts with a custom message, and use diverse snooze/postpone options
+    The History option will show the latest edited entries. Use forwards/backwards navigation to recall previous selected entries
+    Set notification alerts with a custom message and use diverse snooze/postpone options
     AHOY! has multi-monitor support for all persistent editors and sticky notes
-    Keyboard shortcuts for all primary controls
+    Keyboard shortcuts for all primary controls with optional command line control of all main features incl. interaction with Windows shell and popular browsers using parameters
     Customizable home screen with status display
-    Word and WPM counter (Set word count goals)
+    Word and WPM counter –Set word count goals etc.
+    Password protected event log
+
 
 Additional features
 
