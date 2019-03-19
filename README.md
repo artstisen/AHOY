@@ -35,5 +35,5 @@ Fonts: Consolas and Courier New
 Please note: Windows 7 does not include the Consolas font by default, unless installed with Microsoft Office, Visual Studio etc. 
 Please note: Dictionaries available to the AHOY! Spell Checker are dependent on the .NET Framework version currently installed on your system. Please consult the documentation for more information.
 
-PRIVACY:
+**PRIVACY:**
 None of your data is sent from AHOY! to the Internet. Any compromise of data from placing your Pool-file on a shared/cloud synchronized drive is the sole responsibility of you as the user. When you manually do a check for software updates (from the Help Menu) AHOY! will request the latest version number from the AHOY! website and match it with its own version number before asking you to visit the download page. The AHOY! event log is local and for personal/debugging purposes. The log is stored in the encrypted Pool-file.
