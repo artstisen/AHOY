@@ -21,6 +21,7 @@
                 (theme and command dependent).
                 -Replaces the "display text" feature in the View menu.
                 -Replaces the Quick Guide as default display text.
++ New feature:  Colorize an unlimited number of pinned Entries (Custom Color context menu).
 + New feature:  Checklist Template (insert a dynamic customizable tag-based progress bar indicator). 
 + New feature:  Check for software updates (located in the Help menu).
 + New feature:  Colorize search results according to pinned colors.
