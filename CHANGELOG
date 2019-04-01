@@ -25,10 +25,10 @@
 + New feature:  Check for software updates (located in the Help menu).
 + New feature:  Pinned colors expanded from 8 preset colors to include infinite custom colors.
                 -Copy and paste custom colors between pinned entries (CTRL+SHIFT+C/CTRL+SHIFT+V).
-+ New feature:  Color Picker now has a "Flip colors" button (Press X to flip).
 + New feature:  Colorize search results according to pinned colors.
 + New feature:  Colorize selected Entry title according to pinned colors.
 + New feature:  Colorize PLOP marquee according to pinned colors.
++ New feature:  Color Picker now has a "Flip colors" button (Press X to flip).
 + New feature:  Magic Screen Blocker: transparent screen locking gimmick.
                 -Press CTRL+ALT+ENTER to toggle w. password.
                 -Must be enabled via command: CTRL+ALT+A (type "blocker").
@@ -50,7 +50,7 @@
 ^ Optimization: General command "check" added (insert checklist template).
 ^ Optimization: General command "blocker" added (toggle screen locking gimmick).
 ^ Optimization: General command "update" added (check for updates).
-^ Optimization: Theme command "table" added (list theme colors in HEX/RGB).
+^ Optimization: Theme command "theme.table" added (list theme colors in HEX/RGB).
 ^ Optimization: General/Pool command "reload" added (reload Pool).
 ^ Optimization: Several general commands now have abbreviations: time = t etc.
 ^ Optimization: Service command "tools.dcheck" added (server test/debug routine).
