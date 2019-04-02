@@ -64,7 +64,8 @@
 ^ Optimization: Minor changes to the Debug window (Log monitor) rendering/transparency.
 ^ Optimization: ANSI Editor changed to be top-most window when open.
 ^ Optimization: Typermax game changed to be top-most window when open.
-^ Optimization: Minor adjustments to color theme 2 highlight color contrast.
+^ Optimization: Minor adjustments to color theme 14 (index 13) pinned color preset.
+^ Optimization: Minor adjustments to color theme 2 (index 1) highlight color contrast.
 ^ Optimization: Lock button icon updated.
 ^ Optimization: General optimizations to PLOP/UE indicators and code execution routines.
 ^ Optimization: Minor optimizations to the Color Picker.
