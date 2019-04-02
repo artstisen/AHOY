@@ -29,7 +29,7 @@
 + New feature:  Colorize selected Entry title according to pinned colors.
 + New feature:  Colorize PLOP marquee according to pinned colors.
 + New feature:  Color Picker now has a "Flip colors" button (Press X to flip).
-+ New feature:  Magic Screen Blocker: transparent screen locking gimmick.
++ New feature:  Magic Screen Blocker: transparent/invisible screen locking gimmick.
                 -Press CTRL+ALT+ENTER to toggle w. password.
                 -Must be enabled via command: CTRL+ALT+A (type "blocker").
 ^ Optimization: Privacy statement added to the Quick Guide and About dialog (Help Menu).
