@@ -16,7 +16,7 @@ License: AHOY! is distributed as free software under the MIT license
 
 Programming language: C#
 
-Technology: .NET/WinForms and WPF
+Technology: .NET (WinForms and WPF)
 
 File encryption: 3DES ISO/IEC 18033-3:2010
 
@@ -37,4 +37,4 @@ Please note: Dictionaries available to the AHOY! Spell Checker are dependent on 
 
 **PRIVACY STATEMENT**
 
-None of your data is sent from AHOY! to the Internet. Any compromise of data from placing your Pool file on a shared/network/cloud/Internet-enabled/synchronized drive is the sole responsibility of you as the user. When performing a software update check (from the Help Menu) AHOY! will request the latest version number from the AHOY! website and match it with its own version number, before asking you to visit the download page. AHOY! does not automatically perform version checks. The AHOY! event log is local-only and for user requested diagnostics/debugging purposes. The log is stored in the encrypted Pool file. Disclaimer disclosed in the software license.
+None of your data is sent from AHOY! to the Internet. Any compromise of data from placing your files on a shared/network/cloud/Internet-enabled/synchronized drive is the sole responsibility of you as the user. When performing a software update check (from the Help Menu) AHOY! will request the latest version number from the AHOY! website and match it with its own version number, before asking you to visit the download page. AHOY! does not automatically perform version checks. The AHOY! event log is local-only and for user requested diagnostics/debugging purposes. The log is stored in the encrypted Pool file. Disclaimer disclosed in the software license.
