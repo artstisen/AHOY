@@ -22,13 +22,15 @@
                 -Replaces the "display text" feature in the View menu.
                 -Replaces the Quick Guide as default display text.
 + New feature:  Checklist Template (insert a dynamic customizable tag-based progress bar indicator). 
+                -Enables you to measure progress on a project via simple tags in your text.
 + New feature:  Check for software updates (located in the Help menu).
 + New feature:  Pinned colors expanded from 8 preset colors to include infinite custom colors.
                 -Copy and paste custom colors between pinned entries (CTRL+SHIFT+C/CTRL+SHIFT+V).
 + New feature:  Colorize search results according to pinned colors.
 + New feature:  Colorize selected Entry title according to pinned colors.
 + New feature:  Colorize PLOP marquee according to pinned colors.
-+ New feature:  Color Picker now has a "Flip colors" button (Press X to flip).
++ New feature:  Color Picker now has a "Flip Colors" button (Press X to flip).
++ New feature:  Color Picker now has a "Reset Colors" button (Press R to reset).
 + New feature:  Magic Screen Blocker: transparent/invisible screen locking gimmick.
                 -Press CTRL+ALT+ENTER to toggle w. password.
                 -Must be enabled via command: CTRL+ALT+A (type "blocker").
@@ -64,7 +66,8 @@
 ^ Optimization: Minor changes to the Debug window (Log monitor) rendering/transparency.
 ^ Optimization: ANSI Editor changed to be top-most window when open.
 ^ Optimization: Typermax game changed to be top-most window when open.
-^ Optimization: Minor adjustments to color theme 14 (index 13) pinned color preset.
+^ Optimization: Notification editor now accepts CTRL+T (Insert timestamp).
+^ Optimization: Adjustments to color theme 14 (index 13) pinned color presets.
 ^ Optimization: Minor adjustments to color theme 2 (index 1) highlight color contrast.
 ^ Optimization: Lock button icon updated.
 ^ Optimization: General optimizations to PLOP/UE indicators and code execution routines.
