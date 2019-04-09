@@ -52,6 +52,7 @@
 ^ Optimization: General command "check" added (insert checklist template).
 ^ Optimization: General command "blocker" added (toggle screen locking gimmick).
 ^ Optimization: General command "update" added (check for updates).
+^ Optimization: General command "prism" added (animation color shift effect).
 ^ Optimization: Theme command "theme.table" added (list theme colors in HEX/RGB).
 ^ Optimization: General/Pool command "reload" added (reload Pool).
 ^ Optimization: Several general commands now have abbreviations: time = t etc.
