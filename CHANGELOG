@@ -26,7 +26,7 @@
 + New feature:  Check for software updates (located in the Help menu).
 + New feature:  Pinned colors expanded from 8 preset colors to include infinite custom colors.
                 - Copy and paste custom colors between pinned entries (CTRL+SHIFT+C/CTRL+SHIFT+V).
-                - Color Picker available from the pinned entries list.
+                - Color Picker directly available from the selected entry within the pinned list.
                 - 20 sample colors available from the pinned entries list.
 + New feature:  Colorize search results according to pinned colors.
 + New feature:  Colorize selected Entry title according to pinned colors.
