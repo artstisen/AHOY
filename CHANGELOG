@@ -33,6 +33,9 @@
 + New feature:  Colorize PLOP marquee according to pinned colors.
 + New feature:  Color Picker now has a "Flip Colors" button (Press X to flip).
 + New feature:  Color Picker now has a "Reset Colors" button (Press R to reset).
++ New feature:  New "prism effect" -A color-shifting effect that looks best on a darker color theme.
++ New feature:  Color theme "Age of Kings" added.
++ New feature:  Clicking an empty space in the Pinned list will ask to create a new Pinned entry.
 + New feature:  Magic Screen Blocker: transparent/invisible screen locking gimmick.
                 - Press CTRL+ALT+ENTER to toggle w. password.
                 - Must be enabled via command: CTRL+ALT+A (type "blocker").
