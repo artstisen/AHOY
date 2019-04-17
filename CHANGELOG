@@ -38,6 +38,7 @@
 + New feature:  Color theme selector (View -> Color Themes...) updated with three default themes.
 + New feature:  Clicking an empty space in the Pinned list will ask to create a new Pinned entry.
 + New feature:  Clicking an empty Search result list will show History.
++ New feature:  Keyboard shortcut CTRL+SHIF+N will create a new pinned entry.
 + New feature:  Magic Screen Blocker: transparent/invisible screen locking gimmick.
                 - Press CTRL+ALT+ENTER to toggle w. password.
                 - Must be enabled via command: CTRL+ALT+A (type "blocker").
