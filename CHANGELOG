@@ -35,7 +35,7 @@
 + New feature:  Color Picker now has a "Reset Colors" button (Press R to reset).
 + New feature:  New "prism effect" -A color-shifting effect that looks best on a darker color theme.
 + New feature:  Color theme "Age of Kings" added.
-+ New feature:  Color theme selector (View -> Color Themes...) updated with three default themes.
++ New feature:  Color theme selector (View -> Color Themes) updated with three default themes.
 + New feature:  Clicking an empty space in the Pinned list will ask to create a new Pinned entry.
 + New feature:  Clicking an empty Search result list will show History.
 + New feature:  Keyboard shortcut CTRL+SHIF+N will create a new pinned entry.
