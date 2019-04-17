@@ -23,6 +23,7 @@
                 - Replaces the Quick Guide as default display text.
 + New feature:  Checklist Template (insert a dynamic customizable tag-based progress bar indicator). 
                 - Enables you to measure progress on a project via simple tags in your text.
++ New feature:  Bookmark Template (insert a customizable tag based bookmark). 
 + New feature:  Check for software updates (located in the Help menu).
 + New feature:  Pinned colors expanded from 8 preset colors to include infinite custom colors.
                 - Copy and paste custom colors between pinned entries (CTRL+SHIFT+C/CTRL+SHIFT+V).
