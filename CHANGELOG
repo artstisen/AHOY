@@ -34,7 +34,7 @@
 + New feature:  Colorize PLOP marquee according to pinned colors.
 + New feature:  Color Picker now has a "Flip Colors" button (Press X to flip).
 + New feature:  Color Picker now has a "Reset Colors" button (Press R to reset).
-+ New feature:  New "prism effect" (A color-shifting effect that looks best on a darker color theme).
++ New feature:  The "prism effect" (A color-shifting effect that looks best on a darker color theme).
 + New feature:  Color theme "Age of Kings" added.
 + New feature:  Color theme selector (View -> Color Themes) updated with three default themes.
 + New feature:  Clicking an empty space in the Pinned list will ask to create a new Pinned entry.
@@ -46,7 +46,7 @@
                 - Must be enabled via command: CTRL+ALT+A (type "blocker").
 ^ Optimization: Privacy statement added to the Quick Guide and About dialog (Help Menu).
 ^ Optimization: Lock button will highlight when trying to edit a locked entry.
-^ Optimization: Selecting a locked entry will highlight the Lock button.
+                - Selecting a locked entry will highlight the Lock button.
 ^ Optimization: Default layout mode changed to "Plenty".
 ^ Optimization: Calculator help dialog ("?" icon) now includes basic VAT calculation examples.
 ^ Optimization: Warning dialogs now use Bold font.
