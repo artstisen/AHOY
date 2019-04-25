@@ -31,6 +31,7 @@ Additional features
     Password generator with strong password tester (Output includes alphanumeric and ASCII (in selectable lengths), wordplay and GUID's)
     Document/message encryption with output in plain text as BASE64 encoded string
     Typewriter emulator mode for distraction-free writing using a customizable typewriter interface
+    Random Number Generator (specify range, number of dice etc.)
     Roman numerals converter. Example: 1925 = MCMXXV
     Calculator: Built-in convenient and fast calculator for drafting estimates etc. Example: 200-((200/100)*20)+500*(3,66/2) = 1075,00
     Magic Screen Blocker: A password protected screen locking gimmick that will lock multiple screens at once while being completely transparent (invisible). Unauthorized users interacting with the seemingly unlocked computer (clicking with the mouse or typing on the keyboard) will be confronted with an animated GIF (Internet meme). Exit the Magic Screen Blocker by typing CTRL+ALT+ENTER. Please note: This feature is disabled by default to avoid unintentional use and must be enabled by command input. Please consult the built-in documentation (Quick Guide) for more information.
