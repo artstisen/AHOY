@@ -86,6 +86,7 @@
 ^ Optimization: General optimizations to PLOP/UE indicators and code execution routines.
 ^ Optimization: Minor optimizations to the Color Picker.
 ^ Optimization: General code refactoring with several code/memory optimizations.
+! Bug: Remote backup dialog showing when switching pool (default directory option) -Fixed.
 ! Bug: Find/Replace omitting alternating repeating words separated by 1 wspace/newline -Fixed.
 ! Bug: Hold buttons not cleared when creating a new Pool from File menu -Fixed.
 ! Bug: Typermax highscore not cleared when creating a new Pool from File menu -Fixed.
