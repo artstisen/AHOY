@@ -17,8 +17,8 @@
                  under the MIT license.
 ------------------------------------------------------------------------
 + New feature:  Home Screen with status display (Version, Pool name (default/secondary/custom),
-                Autosave, Pool R/W- and backup states), in 3 (ANSI, ASCII and custom) configurations
-                (theme and command dependent).
+                Autosave, Pool R/W- and backup states, plus 24h clock), in 3 (ANSI, ASCII and custom) 
+                configurations (theme and command dependent).
                 - Replaces the "display text" feature in the View menu.
                 - Replaces the Quick Guide as default display text.
 + New feature:  Checklist Template (insert a dynamic customizable tag-based progress bar indicator). 
