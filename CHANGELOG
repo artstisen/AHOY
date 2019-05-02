@@ -17,7 +17,7 @@
                  under the MIT license.
 ------------------------------------------------------------------------
 + New feature:  Home Screen with status display (Version, Pool name (default/secondary/custom),
-                Autosave, Pool R/W- and backup states, plus 24h clock), in 3 (ANSI, ASCII and custom) 
+                Autosave, Pool R/W- and backup states, 24h clock option), in 3 (ANSI, ASCII and custom)
                 configurations (theme and command dependent).
                 - Replaces the "display text" feature in the View menu.
                 - Replaces the Quick Guide as default display text.
@@ -46,6 +46,7 @@
 + New feature:  Magic Screen Blocker: transparent/invisible screen locking gimmick.
                 - Press CTRL+ALT+ENTER to toggle w. password.
                 - Must be enabled via command: CTRL+ALT+A (type "blocker").
+^ Optimization: Toggle 24h clock display on/off in the options menu.
 ^ Optimization: Privacy statement added to the Quick Guide and About dialog (Help Menu).
 ^ Optimization: Lock button will highlight when trying to edit a locked entry.
                 - Selecting a locked entry will highlight the Lock button.
