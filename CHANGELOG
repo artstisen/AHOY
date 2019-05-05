@@ -61,6 +61,7 @@
 ^ Optimization: Keyboard shortcuts CTRL+F, CTRL+I, CTRL+O, CTRL+ALT+Q now available in PLOP/UE.
 ^ Optimization: Keyboard shortcut CTRL+ALT+P will insert the Checklist Template.
 ^ Optimization: Keyboard shortcut CTRL+SHIFT+D will duplicate text selection.
+^ Optimization: Global Undo added to Edit menu (Undo latest Pool operation).
 ^ Optimization: General command "undo" added (Undo latest Pool operation).
 ^ Optimization: General command "ent" added (list all entries).
 ^ Optimization: General command "mon" added (open log monitor).
