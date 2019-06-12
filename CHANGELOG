@@ -16,6 +16,8 @@
 + Legal notice: This version of Ahoy is distributed as free software
                  under the MIT license.
 ------------------------------------------------------------------------
++ New feature:  Live search (enabled by default).
++ New feature:  Title priority search (enabled by default).
 + New feature:  Home Screen with status display (Version, Pool name (default/secondary/custom),
                 Autosave, Pool R/W- and backup states, 24h clock option), in 3 (ANSI, ASCII and custom)
                 configurations (theme and command dependent).
@@ -44,7 +46,6 @@
                 - Pinned list context menu updated with related menu item.
 + New feature:  Notification editor scroll to caret/top option added.
 + New feature:  Random Numbers Generator (Tools -> Additional Tools).
-+ New feature:  Title priority search option (set by default).
 + New feature:  Magic Screen Blocker: transparent/invisible screen locking gimmick.
                 - Press CTRL+ALT+ENTER to toggle w. password.
                 - Must be enabled via command: CTRL+ALT+A (type "blocker").
