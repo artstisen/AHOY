@@ -46,7 +46,7 @@
                 - Pinned list context menu updated with related menu item.
 + New feature:  Notification editor scroll to caret/top option added.
 + New feature:  Random Numbers Generator (Tools -> Additional Tools).
-+ New feature:  Toggle window border on/off.
++ New feature:  Toggle window border on/off (View Menu -> Layout Mode).
 + New feature:  Magic Screen Blocker: transparent/invisible screen locking gimmick.
                 - Press CTRL+ALT+ENTER to toggle w. password.
                 - Must be enabled via command: CTRL+ALT+A (type "blocker").
