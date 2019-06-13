@@ -291,4 +291,4 @@
 ^ Optimization: Text symbols & decorations updated.
 ! Bug: ISO 8601 DateTime issues with import/export between OS's with different Culture settings -Fixed.
 ! Bug: Tiny cursor issues on UHD resolutions in Windows -Fixed.
-! Bug: Context menu in input dialogs not persisting complete colortheme -Fixed.
+! Bug: Context menu in input dialogs not persisting complete color theme -Fixed.
