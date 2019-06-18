@@ -22,7 +22,9 @@
 ^ Optimization: "Hide Pinned by Click" now disabled by default (Options menu).
 ^ Optimization: Options command "clickpin" added (toggle New Pinned by Click).
 ^ Optimization: Options command "hidepin" added (toggle Hide Pinned by Click).
-! Bug: Selecting Password Generator from Tools menu returns to home screen -Fixed.
+^ Optimization: Minor changes to dialog/title display texts.
+^ Optimization: Minor additions to the Quick Guide.
+! Bug: Selecting Password Generator from Tools menu returns to Home Screen -Fixed.
 
 
   CHANGELOG v1.5.0.2 (Previous release)
