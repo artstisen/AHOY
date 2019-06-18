@@ -11,7 +11,20 @@
   
 
 
-  CHANGELOG v1.5.0.2 (Current release)
+  CHANGELOG v1.5.0.3 (Current release)
+
++ Legal notice: This version of Ahoy is distributed as free software
+                 under the MIT license.
+------------------------------------------------------------------------
+^ Optimization: Enhanced folder browser dialog for remote backup selection.
+^ Optimization: Remote backup selection flow optimized.
+^ Optimization: "New Pinned by Click" option now disabled by default (Options menu).
+^ Optimization: "Hide Pinned by Click" now disabled by default (Options menu).
+^ Optimization: Options command "clickpin" added (toggle New Pinned by Click).
+^ Optimization: Options command "hidepin" added (toggle Hide Pinned by Click).
+
+
+  CHANGELOG v1.5.0.2 (Previous release)
 
 + Legal notice: This version of Ahoy is distributed as free software
                  under the MIT license.
