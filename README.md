@@ -8,9 +8,9 @@ Concept and programming by Lars Brandt Stisen, www.ahoynote.org
 
 System requirements: Windows 10, 8.1/8, 7 and Vista (32/64 bit) with .NET 4.5 or higher
 
-Installer: MSI
+Installer: NSIS (Code signed/SHA2)
 
-Binaries: Single 3MB executable (EXE)
+Binaries: Single 3MB executable (Code signed/SHA2)
 
 License: AHOY! is distributed as free software under the MIT license
 
@@ -26,7 +26,7 @@ Encoding: UTF-8 (Unicode)
 
 DateTime format: ISO 8601
 
-Week numbers (notification dialog display): European standard
+Week numbers (notification dialog display): ISO 8601
 
 Default data directory: %appdata%/Ahoy
 
