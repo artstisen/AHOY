@@ -14,9 +14,9 @@ Password generator
 
 Notification alerts
 
-Up to 32 sticky notes to place on your desktop
+Place up to 32 sticky notes on your desktopp
 
-Edit multiple entries at once with the PLOP Editor
+Work on multiple entries at once using the detached PLOP Editor
 
 Checklist templates with progressbar
 
@@ -24,7 +24,7 @@ Color themes and lots of customizations
 
 Multi monitor support for all main editors and sticky notes
 
-Calculator, message encryption, typewriter emulator, ANSI art editor and 100+ more features...
+Calculator, message encryption, typewriter emulator, typing game and lots more...
 
 
 ## SPECIFICATIONS
