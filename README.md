@@ -24,7 +24,7 @@ Color themes and lots of customizations
 
 Multi monitor support for all main editors and sticky notes
 
-Calculator, message encryption, ANSI art editor and 100+ more features...
+Calculator, message encryption, typewriter emulator, ANSI art editor and 100+ more features...
 
 
 ## SPECIFICATIONS
