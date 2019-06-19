@@ -6,13 +6,13 @@ Concept and programming by Lars Brandt Stisen, www.ahoynote.org
 
 An unlimited repository of notes with fast live search, password protection and encryption
 
-Prioritize and colorize entries in the pinned list
+Prioritize and colorize entries with the pinned list
 
 Autosave and backup features
 
 Password generator
 
-Notifications
+Notification alerts
 
 Up to 32 sticky notes to place on your desktop
 
