@@ -2,6 +2,29 @@
 #### Note-taking software
 Concept and programming by Lars Brandt Stisen, www.ahoynote.org
 
+## KEY FEATURES
+
+An unlimited repository of notes with fast live search, password protection and encryption
+
+Prioritize and colorize entries in the pinned list
+
+Autosave and backup features
+
+Password generator
+
+Notifications
+
+Up to 32 sticky notes to place on your desktop
+
+Edit multiple entries at once with the PLOP Editor
+
+Checklist templates with progressbar
+
+Color themes and lots of customizations
+
+Multi monitor support for all main editors and sticky notes
+
+Calculator, message encryption, ANSI art editor and 100+ more features...
 
 
 ## SPECIFICATIONS
