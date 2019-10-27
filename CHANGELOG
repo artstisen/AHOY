@@ -11,7 +11,31 @@
   
 
 
-  CHANGELOG v1.5.1.1 (Current release)
+  CHANGELOG v1.5.2.2 (Current release)
+
++ Legal notice: This version of Ahoy is distributed as free software
+                 under the MIT license.
+------------------------------------------------------------------------
++ New feature: CTRL+TAB between the two latest selected entries.
+               -Ignored when both Hold buttons 1 and 2 are active.
++ New feature: Text sorting (A-Z/Z-A) in Main Editor, PLOP/UE and Stickies.
+               -Context menu (right click): Text Operations -> Sort Selection.
++ New feature: Keyboard control of window position and size (Main Editor, PLOP/UE, Stickies).
+               -Toggle this feature in the View menu or by command input.
+^ Optimization: Calculator now limited to max 5 decimals (feature request).
+^ Optimization: Additional formulas added to calculator help ("?") icon.
+^ Optimization: Password Generator dialog to spawn new entry with none selected.
+^ Optimization: Command "kb" added (toggle Keyboard Control).
+^ Optimization: Command "az" added (sort selection descending).
+^ Optimization: Command "za" added (sort selection ascending).
+^ Optimization: Command "theme.dev" updated to include Keyboard Control.
+^ Optimization: Quick Guide updated with Keyboard Control information.
+^ Optimization: Title field auto-truncation and auto-clear "New Entry" defaults on click.
+^ Optimization: Minor changes to selected dialog texts.
+! Bug: PLOP/UE height decreasing on each startup w. window borders disabled -Fixed.
+
+
+  CHANGELOG v1.5.1.1 (Previous release)
 
 + Legal notice: This version of Ahoy is distributed as free software
                  under the MIT license.
