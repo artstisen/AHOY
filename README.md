@@ -51,7 +51,7 @@ DateTime format: ISO 8601
 
 Week numbers (notification dialog display): ISO 8601
 
-Default data directory: %appdata%/Ahoy
+Default data directory: %appdata%\Ahoy
 
 Fonts: Consolas and Courier New
 
