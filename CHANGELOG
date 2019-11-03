@@ -10,8 +10,30 @@
                       \/_/\/_/\/_/\/_/\/___/  \/_____/\/_/   
   
 
+  CHANGELOG v1.5.2.3 (Current release)
 
-  CHANGELOG v1.5.2.2 (Current release)
++ Legal notice: This version of Ahoy is distributed as free software
+                 under the MIT license.
+------------------------------------------------------------------------
++ New feature: The "Find and Replace" dialog now supports text selection
+^ Optimization: Text Operation "EOL to space" now only affects the selected text
+^ Optimization: Text Operation "EOL to space (Preserve Paragraphs)" now only affects the
+                selected text
+^ Optimization: Text Operation "Trim Space" now only affects the selected text and
+                does not remove newlines
+^ Optimization: The software update check now exits AHOY! to release the application for
+                update (confirmation dialog)
+^ Optimization: Window size and location settings logic optimized for all editors to save
+                immediately after changes occur
+^ Optimization: A recent Windows 10 update has rendered the CTRL+ALT+SHIFT+F keyboard shortcut
+                (open "Find and Replace" dialog) inactive. So this has been changed permanently to
+                CTRL+ALT+SHIFT+R in both Main and PLOP/UE editors.
+^ Optimization: Minor changes to dialog texts
+NOTE: Please view the changelog for v1.5.2.2 for recent additions to the software as the two
+      versions where published with close intervals.
+
+
+  CHANGELOG v1.5.2.2 (Previous release)
 
 + Legal notice: This version of Ahoy is distributed as free software
                  under the MIT license.
