@@ -10,25 +10,65 @@
                       \/_/\/_/\/_/\/_/\/___/  \/_____/\/_/   
   
 
-  CHANGELOG v1.5.2.3 (Current release)
+  CHANGELOG v1.5.3.6 (Current release)
 
 + Legal notice: This version of Ahoy is distributed as free software
                  under the MIT license.
 ------------------------------------------------------------------------
-+ New feature: The "Find and Replace" dialog now supports text selection
-^ Optimization: Text Operation "EOL to space" now only affects the selected text
++ New feature: Notifications now support repeating notifications with multiple options.
++ New feature: Home screen clock (Options menu) now display verbose date/time with ISO weeknumber.
++ New feature: Checklist template now include "Standard" (tag based) and "Matrix" (grid based).
++ New feature: Additional 4 color themes added with a total of 20 predefined themes.
++ New feature: Color adjustment (RGB/Balance + random and preset colors) added to color picker.
++ New feature: Insert timestamp (CTRL+T) now include 6 modes through command input (CTRL+ALT+A):
+               "options.timestamp"/"ts":  Display timestamp format
+               "options.timestamp1"/"ts1": YYYY-MM-DD HH:MM:SS
+               "options.timestamp2"/"ts2": YYYY-MM-DD HH:MM
+               "options.timestamp3"/"ts3": YYYY-MM-DD
+               "options.timestamp4"/"ts4": HH:MM:SS
+               "options.timestamp5"/"ts5": HH:MM
+               "options.timestamp6"/"ts6": YYYYMMDDHHMMSS
+               (The current mode is saved/persisted as application setting)
+               TIP: Use the "list" command to display all available commands.
+^ Optimization: Command "options.cleanup" added (delete unused entries).
+^ Optimization: Command "theme.csv" added (retrieve color theme as comma separated string).
+^ Optimization: Command "time" now shows ISO weeknumber and quick-calendar display.
+^ Optimization: Find and replace dialog automatically detects text selections.
+^ Optimization: Checklist template now supports more character types.
+^ Optimization: &bull; character added to symbols dialog.
+^ Optimization: Calculator now takes character "x" for "*".
+^ Optimization: Calculator help dialog information updated.
+^ Optimization: Notification dialog now includes quick-calendar display.
+^ Optimization: Typermax game updated with history display and penalty blinking effect.
+^ Optimization: Style editor now supports forwards and backwards paging beyond max/min values.
+^ Optimization: Disabling pool write protection now requires password.
+^ Optimization: PLOP/UE default opacity and theme import behavior updated.
+^ Optimization: PLOP/UE autosave logic enhanced.
+^ Optimization: Resetting all settings now resets PLOP/UE topmost setting.
+^ Optimization: Color themes are now loaded from embedded XML files instead of being hardcoded.
+^ Optimization: Several code, UI, dialog and help text optimizations.
+! Bug: Find and replace dialog infinite loop with matching source and target -Fixed.
+
+
+  CHANGELOG v1.5.2.3 (Previous release)
+
++ Legal notice: This version of Ahoy is distributed as free software
+                 under the MIT license.
+------------------------------------------------------------------------
++ New feature: The "Find and Replace" dialog now supports text selection.
+^ Optimization: Text Operation "EOL to space" now only affects the selected text.
 ^ Optimization: Text Operation "EOL to space (Preserve Paragraphs)" now only affects the
-                selected text
+                selected text.
 ^ Optimization: Text Operation "Trim Space" now only affects the selected text and
-                does not remove newlines
+                does not remove newlines.
 ^ Optimization: The software update check now exits AHOY! to release the application for
-                update (confirmation dialog)
+                update (confirmation dialog).
 ^ Optimization: Window size and location settings logic optimized for all editors to save
-                immediately after changes occur
+                immediately after changes occur.
 ^ Optimization: A recent Windows 10 update has rendered the CTRL+ALT+SHIFT+F keyboard shortcut
                 (open "Find and Replace" dialog) inactive. So this has been changed permanently to
                 CTRL+ALT+SHIFT+R in both Main and PLOP/UE editors.
-^ Optimization: Minor changes to dialog texts
+^ Optimization: Minor changes to dialog texts.
 NOTE: Please view the changelog for v1.5.2.2 for recent additions to the software as the two
       versions where published with close intervals.
 
