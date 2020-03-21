@@ -6,7 +6,7 @@ Concept and programming by Lars Brandt Stisen, www.ahoynote.org
 
 An unlimited repository of notes with fast live search, password protection and encryption
 
-Prioritize and colorize entries using the pinned list
+Prioritize, categorize and colorize entries using the pinned list
 
 Autosave and backup features
 
