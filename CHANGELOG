@@ -8,9 +8,39 @@
                     \ \  __ \ \  __ \ \ \_\ \/____\ \/_/_   
                      \ \ \ \ \ \_\/\ \ \____/ /\_____\/\_\  
                       \/_/\/_/\/_/\/_/\/___/  \/_____/\/_/   
-  
 
-  CHANGELOG v1.5.3.6 (Current release)
+
+  CHANGELOG v1.5.5.2 (Current release)
+
++ Legal notice: This version of Ahoy is distributed as free software
+                 under the MIT license.
+------------------------------------------------------------------------
++ New feature: Categories: Organize entries using categories with a selection of display styles
+               and color options.
+               - Create as many categories as you like, and add an unlimited number of entries
+                 to one or more categories.
+               - Expand/Collapse category view in the pinned list (State is saved across sessions).
+               - Work with categories from both the pinned list and search result using the
+                 context menu (Right click).
+               - Control categories via command input (CTRL+ALT+A):
+                 "rel": Count entries in category
+                 "relm": Edit category
+                 "rela": Add current entry to category
+                 "relc": Clear all categories
+                 "relr": Remove selected entry from category
+                 "relu": Remove all entries from category
+                 "rell": Show related to category
+                 "rels": Show editing category
+                 "relf": Flip category display style (1-8)
+                 "relq": Create dummy category with gradient color
+                 "relg": Set category gradient color
+^ Optimization: Timestamp modes (ts-commands) now affecting Paragraph Dividers as well.
+^ Optimization: Notification micro calendar now shows more details.
+^ Optimization: Quick Guide updated with information about categories.
+^ Optimization: General code and UI optimizations.
+
+
+  CHANGELOG v1.5.3.6 (Previous release)
 
 + Legal notice: This version of Ahoy is distributed as free software
                  under the MIT license.
