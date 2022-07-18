@@ -3,7 +3,9 @@
 
 ## NEWS! You might want to checkout my latest project:
 [**Marbles** cross-platform note-taking software for Windows and Linux](https://github.com/artstisen/marbles)
-Marbles is made with the same principles in mind as AHOY: Notes are stored as a searchable collection of entries contained in a single encrypted file for easy portability. Plug Marbles into any Windows or Linux system and access your secure data in a 1-to-1 experience across platforms in your preferred terminal.
+
+- Marbles is made with the same principles in mind as AHOY: Notes are stored as a searchable collection of entries contained in a single encrypted file for easy portability.
+- Plug Marbles into any Windows or Linux system and access your secure data in a 1-to-1 experience across platforms in your preferred terminal.
 
 ## KEY FEATURES
 
