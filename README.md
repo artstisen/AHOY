@@ -1,6 +1,8 @@
 # AHOY!
-#### Note-taking software
-Concept and programming by Lars Brandt Stisen, www.ahoynote.org
+#### Note-taking software for Windows
+
+## You might want to checkout my latest project:
+[**Marbles** cross-platform note-taking software for Windows and Linux](https://github.com/artstisen/marbles)
 
 ## KEY FEATURES
 
