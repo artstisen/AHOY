@@ -7,6 +7,8 @@
 # AHOY!
 #### Note-taking software for Windows
 
+[Ahoy screenshot](ahoy-screenshot.png)
+
 ## KEY FEATURES
 
 An unlimited repository of notes with fast live search, password protection and encryption
