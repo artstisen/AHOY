@@ -7,7 +7,7 @@
 # AHOY!
 #### Note-taking software for Windows
 
-[Ahoy screenshot](ahoy-screenshot.png)
+![Ahoy screenshot](ahoy-screenshot.png)
 
 ## KEY FEATURES
 
