@@ -3,6 +3,7 @@
 
 - Marbles is made with the same principles in mind as AHOY: Notes are stored as a searchable collection of entries contained in a single encrypted file for easy portability.
 - Plug Marbles into any Windows or Linux system and access your secure data in a 1-to-1 experience across platforms in your preferred terminal.
+- The Marbles project contains the _AhoyToMarbles_ tool that can be used to migrate your AHOY data to Marbles.
 
 # AHOY!
 #### Note-taking software for Windows
