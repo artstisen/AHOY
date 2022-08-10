@@ -44,3 +44,9 @@
 
 Please note: Windows 7 does not include the Consolas font by default, unless installed with Microsoft Office, Visual Studio etc. 
 Please note: Dictionaries available to the AHOY! Spell Checker are dependent on the .NET Framework version currently installed on your system. Please consult the documentation for more information.
+
+## DOWNLOAD
+
+Download the latest release here: [https://github.com/artstisen/AHOY/releases/tag/v1.6.1.1](https://github.com/artstisen/AHOY/releases/tag/v1.6.1.1)
+
+
