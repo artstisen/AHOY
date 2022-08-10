@@ -10,7 +10,23 @@
                       \/_/\/_/\/_/\/_/\/___/  \/_____/\/_/   
 
 
-  CHANGELOG v1.5.5.2 (Current release)
+  CHANGELOG v1.6.1.1 (Current release)
+
++ Legal notice: This version of Ahoy is distributed as free software
+                 under the MIT license.
+------------------------------------------------------------------------
+^ Optimization: Updated to .NET 4.8 (hence a shift in minor version number)
+                - Ahoy.exe.config included with the Ahoy.exe to supply AppContextSwitchOverrides
+                  for the inherited RichTextBox to show ANSI graphics properly.
+^ Optimization: Changed tools browser options from IExplore to MS Edge
+^ Optimization: Password generator now adds a symbol to the password when using the "Wordplay" option
+^ Optimization: Search now defaults to title and content search instead of "Title Priority Search"
+^ Optimization: Encryption logic updated to latest .NET implementation
+^ Optimization: Minor optimizations and tweaks to code, UI and help texts (with ref. to Github)
+! Bug: Importing an entry collection as XML sometimes prevented AHOY! from saving -FIXED.
+
+
+  CHANGELOG v1.5.5.2 (Previous release)
 
 + Legal notice: This version of Ahoy is distributed as free software
                  under the MIT license.
