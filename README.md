@@ -1,12 +1,6 @@
 ## Latest news:
-**Marbles - cross-platform note-taking software for Windows and Linux** [https://github.com/artstisen/marbles](https://github.com/artstisen/marbles)
-
+**Marbles - cross-platform note-taking terminal application for Windows and Linux** [https://github.com/artstisen/marbles](https://github.com/artstisen/marbles)
 **Marbles.nvim - easy file encryption for Neovim** [https://github.com/artstisen/marbles.nvim](https://github.com/artstisen/marbles.nvim)
-
-![Marbles console text editor](marbles-notekeeper-windows-terminal.jpg)
-- Marbles is made with the same principles in mind as AHOY: Notes are stored as a searchable collection of entries contained in a single encrypted file for easy portability.
-- Plug Marbles into any Windows or Linux system and access your secure data in a 1-to-1 experience across platforms in your preferred terminal.
-- The Marbles project contains the [_AhoyToMarbles_](https://github.com/artstisen/marbles/blob/main/Guide-to-installation.md) tool that can be used to migrate your AHOY data to Marbles.
 
 # AHOY!
 #### Note-taking software for Windows
