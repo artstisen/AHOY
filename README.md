@@ -175,4 +175,4 @@ The full list is in the [changelog](CHANGELOG.md).
 
 ## License
 
-[MIT](LICENSE) © 2019-2026 LBS
+[MIT](LICENSE) © 2019-2026 Lars Brandt Stisen
