@@ -17823,10 +17823,22 @@ namespace AhoyBrowser
 
             BlockLiveSearch = false;
             tbSearch.KeyUp += TbSearch_KeyUp;
+            tbSearch.TextChanged += TbSearch_ImeTextCommitted;
         }
+
+        // Set while an IME (Japanese, Chinese, ...) is composing in the search box
+        private bool ImeInputPending { get; set; }
 
         private void TbSearch_KeyUp(object sender, KeyEventArgs e)
         {
+            // Keys typed into an IME: wait until the text is committed (see TbSearch_ImeTextCommitted),
+            // searching now would interrupt the composition
+            if (ImeHelper.IsImeKey(e))
+            {
+                ImeInputPending = true;
+                return;
+            }
+
             if (!BlockLiveSearchTimed)
             {
                 if (BlockLiveSearch)
@@ -17840,8 +17852,26 @@ namespace AhoyBrowser
             }
         }
 
+        // The IME committed its text: run the live search on the final text
+        private void TbSearch_ImeTextCommitted(object sender, EventArgs e)
+        {
+            if (ImeInputPending && !ImeHelper.IsComposing(tbSearch))
+            {
+                ImeInputPending = false;
+                if (!BlockLiveSearchTimed && !BlockLiveSearch)
+                {
+                    PerformLiveSearch(false);
+                }
+            }
+        }
+
         private void TimerLiveSearch_Tick(object sender, EventArgs e)
         {
+            // Still composing in an IME: try again on the next tick
+            if (ImeHelper.IsComposing(tbSearch))
+            {
+                return;
+            }
             timerLiveSearch.Enabled = false;
             if (tbSearch.Text.Length > 1)
             {

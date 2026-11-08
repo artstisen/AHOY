@@ -79,13 +79,8 @@ namespace AhoyBrowser
             FocusContentDelayed = false;
             FocusContentDelayCounter = 0;
             tbNote.Text = stickyText;
-            this.CenterToParent(); // Ensure the location can be set
             SetWindowPositionAndSize(left, top, width, height);
-            if (!IsOnScreen(this))
-            {
-                Log.StickyStatus("Adjusting location...");
-                SetDefaultWindowSizeAndLocation();
-            }
+            EnsureVisibleOnScreen();
             IgnoreChanges = false;// Ignore end <----------------------------
             ShowSplash(false, "", false, 0);
             ResumeLayout();
@@ -1008,7 +1003,8 @@ namespace AhoyBrowser
         {
             if (!IgnoreChanges)
             {
-                MainForm.SubmitStickyContent(this.ID, tbNote.Text, this.Width, this.Height, this.Left, this.Top, ColorTheme, this.TopMost, open, remove, StatusCode, StatusComplete);
+                Rectangle bounds = this.WindowState == FormWindowState.Normal ? this.Bounds : this.RestoreBounds;
+                MainForm.SubmitStickyContent(this.ID, tbNote.Text, bounds.Width, bounds.Height, bounds.Left, bounds.Top, ColorTheme, this.TopMost, open, remove, StatusCode, StatusComplete);
             }
         }
 
@@ -1411,32 +1407,53 @@ namespace AhoyBrowser
         #endregion
 
         #region Check form position (addition 22-03-2018)
-        bool isInsideBounds;
+        // A sticky counts as reachable if a strip along its top edge (where it is dragged)
+        // is visible on some monitor. Touching a screen with a single pixel is not enough.
+        private const int MinimumVisibleWidth = 60;
+        private const int MinimumVisibleHeight = 20;
+
         public bool IsOnScreen(Form form)
         {
+            Rectangle grabStrip = new Rectangle(form.Left, form.Top, form.Width, Math.Min(form.Height, 30));
+            foreach (Screen screen in Screen.AllScreens)
+            {
+                Rectangle visible = Rectangle.Intersect(screen.WorkingArea, grabStrip);
+                if (visible.Width >= MinimumVisibleWidth && visible.Height >= MinimumVisibleHeight)
+                {
+                    return true;
+                }
+            }
+            Log.StickyStatus("Outside bounds");
+            return false;
+        }
+
+        /// <summary>
+        /// If the sticky is not reachable (e.g. its monitor was disconnected or rearranged), move it
+        /// onto the nearest monitor, keeping its size where possible, instead of resetting it.
+        /// </summary>
+        private void EnsureVisibleOnScreen()
+        {
+            if (IsOnScreen(this))
+            {
+                return;
+            }
             try
             {
-                Log.StickyStatus("Checking screen bounds");
-                isInsideBounds = false;
-
-                // Create rectangle
-                Rectangle formRectangle = new Rectangle(form.Left, form.Top, form.Width, form.Height);
-                // Test
-                isInsideBounds = Screen.AllScreens.Any(s => s.WorkingArea.IntersectsWith(formRectangle));
-
-                if (!isInsideBounds)
-                {
-                    Log.StickyStatus("Outside bounds");
-                }
-
-                return isInsideBounds;
+                Log.StickyStatus("Adjusting location...");
+                Rectangle workingArea = Screen.FromRectangle(this.Bounds).WorkingArea; // nearest screen
+                int width = Math.Min(this.Width, workingArea.Width);
+                int height = Math.Min(this.Height, workingArea.Height);
+                int x = Math.Clamp(this.Left, workingArea.Left, workingArea.Right - width);
+                int y = Math.Clamp(this.Top, workingArea.Top, workingArea.Bottom - height);
+                this.Bounds = new Rectangle(x, y, width, height);
+                SubmitContent(true, false);
             }
             catch
             {
-                Log.StickyError("Sticky screen bounds check");
-                return true;
+                SetDefaultWindowSizeAndLocation();
             }
         }
+
         #endregion
 
         #region Sort selection

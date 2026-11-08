@@ -341,7 +341,7 @@
             this.Name = "Sticky";
             this.ShowInTaskbar = false;
             this.SizeGripStyle = System.Windows.Forms.SizeGripStyle.Hide;
-            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
+            this.StartPosition = System.Windows.Forms.FormStartPosition.Manual; // Location is restored from the Pool
             this.Text = "Sticky";
             this.Activated += new System.EventHandler(this.Sticky_Activated);
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.Sticky_FormClosing);
