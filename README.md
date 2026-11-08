@@ -4,7 +4,7 @@
 
 ## Project status
 
-AHOY! is in **maintenance mode**. My focus is now on [Marbles](https://github.com/artstisen/marbles) and [Blyant](https://blyant-editor.com/), so AHOY! gets bug fixes but no new features.
+AHOY! is in **maintenance mode**. My focus is now on [Marbles](https://github.com/artstisen/marbles), [Blyant](https://blyant-editor.com/) and [Lexetype](https://lexetype.com/), so AHOY! gets bug fixes but no new features.
 
 You are welcome to fork AHOY! and build on it: it is MIT licensed, so you can change and share your own version. Bug reports are welcome under [Issues](../../issues). See [CONTRIBUTING.md](CONTRIBUTING.md).
 
@@ -12,6 +12,7 @@ You are welcome to fork AHOY! and build on it: it is MIT licensed, so you can ch
 
 - **[Marbles](https://github.com/artstisen/marbles)** is the cross-platform, modal terminal successor to AHOY!: encrypted notes in the terminal on Windows, Linux and macOS. Your AHOY! notes can be moved to it with *File -> Export to Marbles*.
 - **[Blyant](https://blyant-editor.com/)** is a cross-platform, Vim-style modal text editor for writing and programming in the terminal, built on the same foundation as Marbles.
+- **[Lexetype](https://lexetype.com/)** is a typewriter simulator that simulates electric and mechanical typewriters, featuring overtyping, ink consumption, and precise printing in DIN and Letter formats.
 
 ![AHOY! main window with search results, pinned list, categories and context menus](docs/images/ahoy-screenshot.png)
 

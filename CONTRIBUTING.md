@@ -1,6 +1,6 @@
 # Contributing to AHOY!
 
-AHOY! is in **maintenance mode**. My focus is now on [Marbles](https://github.com/artstisen/marbles) and [Blyant](https://blyant-editor.com/), so AHOY! gets bug fixes but no new features.
+AHOY! is in **maintenance mode**. My focus is now on [Marbles](https://github.com/artstisen/marbles), [Blyant](https://blyant-editor.com/) and [Lexetype](https://lexetype.com/), so AHOY! gets bug fixes but no new features.
 
 ## Reporting a bug
 
