@@ -12,7 +12,7 @@ namespace AhoyBrowser
         public string ID { get; set; }
         public string StickyText { get; set; }
         private int SplashTimeoutCounter { get; set; }
-        private const string StickyVersion = "v1.0.3";
+        private const string StickyVersion = "v1.0.4";
         private bool IgnoreChanges { get; set; }
         public bool FocusOnSpawn { get; set; }
         private bool StickySleeping { get; set; }
@@ -264,9 +264,9 @@ namespace AhoyBrowser
             }
             else
             {
-                lbSplash.Text = "┌──────────┐" + Environment.NewLine;
-                lbSplash.Text += "│  STICKY  │" + Environment.NewLine;
-                lbSplash.Text += "└────" + StickyVersion + "┘";
+                lbSplash.Text = "+----------+" + Environment.NewLine;
+                lbSplash.Text += "|  STICKY  |" + Environment.NewLine;
+                lbSplash.Text += "+----" + StickyVersion + "+";
             }
             lbSplash.Visible = true;
             lbSplash.BringToFront();

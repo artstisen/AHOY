@@ -545,27 +545,8 @@ namespace AhoyBrowser
         // The small preview text content window
         private void SetDisplayTextPreview()
         {
-            if (GetQuickGuideCycle() == 1)
-            {
-                lbTestContent.Font = Design.StyleEditorXXSSmallFont();
-                lbTestContent.Text = IO.AhoyASCIILogo1TextReader(4, 5, 0);
-            }
-            else if (GetQuickGuideCycle() == 2)
-            {
-                lbTestContent.Font = Design.StyleEditorXSSmallFont();
-                lbTestContent.Text = IO.AhoyASCIILogo1TextReader(2, 6, 1);
-            }
-            else
-            {
-                lbTestContent.Font = Design.StyleEditorXSSmallFont();
-                lbTestContent.Text = IO.StyleEditorTextReader();
-            }
-        }
-
-        // Determine Home Screen by theme
-        private int GetQuickGuideCycle()
-        {
-            return 0;
+            lbTestContent.Font = Design.StyleEditorXSSmallFont();
+            lbTestContent.Text = IO.StyleEditorTextReader();
         }
 
 
@@ -900,7 +881,6 @@ namespace AhoyBrowser
             ButtonBitmaps.UserSelectedBitmapVersion = BitmapPreviewIndex;
             AhoyColors.SubmitCustomColorPreview();
             AhoyColors.ColorTheme = AhoyColors.PreviewColorTheme;
-            MainForm.DisplayTextCycle = GetQuickGuideCycle();
             MainForm.SelectedTexture = MainForm.SelectedTexturePreview;
             MainForm.FormOpacity = this.Opacity;
             MainForm.StyleEditorHasChanges = true;

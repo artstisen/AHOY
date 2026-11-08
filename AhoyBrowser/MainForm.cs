@@ -200,7 +200,6 @@ namespace AhoyBrowser
         public static int TimeStampFormat { get; set; }
 
         // --------------------------------------------------------
-        // Release date and time (timestamp) / timestamp (seconds omitted, like this "202208081401")
         // --------------------------------------------------------
 
         #endregion
@@ -1391,11 +1390,6 @@ namespace AhoyBrowser
                 {
                     e.Handled = true;
                 }
-                else if (e.KeyData == (Keys.Control | Keys.Alt | Keys.P)) // Multiple shortcut keypress
-                {
-                    InsertChecklistTemplate();
-                    e.Handled = true;
-                }
                 else if (e.KeyData == (Keys.Control | Keys.Alt | Keys.X)) // Multiple shortcut keypress
                 {
                     generatePasswordToolStripMenuItem_Click(this, null);
@@ -1404,11 +1398,6 @@ namespace AhoyBrowser
                 else if (e.KeyData == (Keys.Control | Keys.Shift | Keys.N)) // Multiple shortcut keypress
                 {
                     CreatePinnedEntry();
-                    e.Handled = true;
-                }
-                else if (e.KeyData == (Keys.Control | Keys.Shift | Keys.B)) // Multiple shortcut keypress
-                {
-                    InsertBookmarkTemplate();
                     e.Handled = true;
                 }
                 else if (e.KeyData == (Keys.Control | Keys.Alt | Keys.Y)) // Multiple shortcut keypress
@@ -2128,35 +2117,20 @@ namespace AhoyBrowser
                 // Resolve title field colors
                 RefreshTitleColor();
 
-                // Resolve Bookmark template and scroll to index
-                if (EntryTemplate.HasBookmarkTemplate(CurrentEntry.Content))
+                // Set caret position if available
+                if (CurrentEntry.CaretPosition > 0 && CurrentEntry.CaretPosition <= tbContent.Text.Length)
                 {
-                    int index = EntryTemplate.GetBookmarkCaretIndex(CurrentEntry.Content);
-                    if (index >= 0)
-                    {
-                        // Move cursor to last selected position
-                        tbContent.Focus();
-                        tbContent.Select(index, 0);
-                        tbContent.ScrollToCaret();
-                    }
+                    // Move cursor to last selected position
+                    tbContent.Focus();
+                    tbContent.Select(CurrentEntry.CaretPosition, 0);
+                    tbContent.ScrollToCaret();
                 }
-                else
+                else if (CurrentEntry.CaretPosition > tbContent.Text.Length)
                 {
-                    // Set caret position if available
-                    if (CurrentEntry.CaretPosition > 0 && CurrentEntry.CaretPosition <= tbContent.Text.Length)
-                    {
-                        // Move cursor to last selected position
-                        tbContent.Focus();
-                        tbContent.Select(CurrentEntry.CaretPosition, 0);
-                        tbContent.ScrollToCaret();
-                    }
-                    else if (CurrentEntry.CaretPosition > tbContent.Text.Length)
-                    {
-                        // Scroll to end
-                        tbContent.Focus();
-                        tbContent.Select(tbContent.Text.Length, 0);
-                        tbContent.ScrollToCaret();
-                    }
+                    // Scroll to end
+                    tbContent.Focus();
+                    tbContent.Select(tbContent.Text.Length, 0);
+                    tbContent.ScrollToCaret();
                 }
                 CurrentEntry.IgnoreTextChanged = false;
                 AddToNavigator(CurrentEntry);
@@ -2277,35 +2251,20 @@ namespace AhoyBrowser
                     }
                     UpdateMenuItems();
 
-                    // Resolve Bookmark template and scroll to index
-                    if (EntryTemplate.HasBookmarkTemplate(CurrentEntry.Content))
+                    // Set caret position if available
+                    if (CurrentEntry.CaretPosition > 0 && CurrentEntry.CaretPosition <= tbContent.Text.Length)
                     {
-                        int index = EntryTemplate.GetBookmarkCaretIndex(CurrentEntry.Content);
-                        if (index >= 0)
-                        {
-                            // Move cursor to last selected position
-                            tbContent.Focus();
-                            tbContent.Select(index, 0);
-                            tbContent.ScrollToCaret();
-                        }
+                        // Move cursor to last selected position
+                        tbContent.Focus();
+                        tbContent.Select(CurrentEntry.CaretPosition, 0);
+                        tbContent.ScrollToCaret();
                     }
-                    else
+                    else if (CurrentEntry.CaretPosition > tbContent.Text.Length)
                     {
-                        // Set caret position if available
-                        if (CurrentEntry.CaretPosition > 0 && CurrentEntry.CaretPosition <= tbContent.Text.Length)
-                        {
-                            // Move cursor to last selected position
-                            tbContent.Focus();
-                            tbContent.Select(CurrentEntry.CaretPosition, 0);
-                            tbContent.ScrollToCaret();
-                        }
-                        else if (CurrentEntry.CaretPosition > tbContent.Text.Length)
-                        {
-                            // Scroll to end
-                            tbContent.Focus();
-                            tbContent.Select(tbContent.Text.Length, 0);
-                            tbContent.ScrollToCaret();
-                        }
+                        // Scroll to end
+                        tbContent.Focus();
+                        tbContent.Select(tbContent.Text.Length, 0);
+                        tbContent.ScrollToCaret();
                     }
                     CurrentEntry.IgnoreTextChanged = false;
                     AddToNavigator(CurrentEntry);
@@ -3742,63 +3701,6 @@ namespace AhoyBrowser
                 tbContent.DeleteCurrentLine();
             }
         }
-
-        private void SelectionToSlickFrame(bool caps)
-        {
-            if (tbContent.SelectedText.Length > 0)
-            {
-                tbContent.SelectedText = TextTransform.TextToSlickFrame(tbContent.SelectedText, caps);
-            }
-            else
-            {
-                AhoySimpleMessageBox msg = new AhoySimpleMessageBox(MessageText.SelectToDecorate(), MessageText.DecorateCaption(), false);
-                msg.TopMost = true;
-                msg.ShowDialog();
-            }
-        }
-
-        private void SelectionToEmbossedFrame(bool caps)
-        {
-            if (tbContent.SelectedText.Length > 0)
-            {
-                tbContent.SelectedText = TextTransform.TextToEmbossedFrame(tbContent.SelectedText, caps);
-            }
-            else
-            {
-                AhoySimpleMessageBox msg = new AhoySimpleMessageBox(MessageText.SelectToDecorate(), MessageText.DecorateCaption(), false);
-                msg.TopMost = true;
-                msg.ShowDialog();
-            }
-        }
-
-        private void SelectionToSlickTab(bool caps)
-        {
-            if (tbContent.SelectedText.Length > 0)
-            {
-                tbContent.SelectedText = TextTransform.TextToSlickTab(tbContent.SelectedText, caps);
-            }
-            else
-            {
-                AhoySimpleMessageBox msg = new AhoySimpleMessageBox(MessageText.SelectToDecorate(), MessageText.DecorateCaption(), false);
-                msg.TopMost = true;
-                msg.ShowDialog();
-            }
-        }
-
-        private void SelectionToEmbossedTab(bool caps)
-        {
-            if (tbContent.SelectedText.Length > 0)
-            {
-                tbContent.SelectedText = TextTransform.TextToEnbossedTab(tbContent.SelectedText, caps);
-            }
-            else
-            {
-                AhoySimpleMessageBox msg = new AhoySimpleMessageBox(MessageText.SelectToDecorate(), MessageText.DecorateCaption(), false);
-                msg.TopMost = true;
-                msg.ShowDialog();
-            }
-        }
-
         private void SelectionToBulletAndLine(bool caps)
         {
             if (tbContent.SelectedText.Length > 0)
@@ -4031,15 +3933,8 @@ namespace AhoyBrowser
                     }
 
                     CurrentEntry.IgnoreTextChanged = false;
-                    // Check for template tags and update tilte
-                    CurrentEntry.Title = EntryTemplate.GetResult(tbContent.Text, tbTitle.Text);
+                    CurrentEntry.Title = tbTitle.Text;
                     CurrentEntry.Content = tbContent.Text;
-                    // Update Pinned list and ressubmit changed display title
-                    if (EntryTemplate.Triggered)
-                    {
-                        tbTitle.Text = CurrentEntry.Title;
-                        PopulatePinList();
-                    }
                     CurrentEntry.Changed = IO.GetIsoDateTimeNow();
                     pinChanged = CurrentEntry.Pin;
                     //CurrentEntry.Pin = cbPinned.Checked;
@@ -5106,8 +5001,9 @@ namespace AhoyBrowser
                 // Set Animations
                 AnimationsEnabled = settingsObject.Animations;
 
-                // DisplayText cycle
-                DisplayTextCycle = settingsObject.DisplayTextCycle;
+                // DisplayText cycle (the Labyrinth screen, 2, was removed in 2.0)
+                DisplayTextCycle = settingsObject.DisplayTextCycle >= 0 && settingsObject.DisplayTextCycle <= MaxDisplayTextCycle
+                    ? settingsObject.DisplayTextCycle : Settings.DefaultDisplayTextCycle;
                 RefreshDummyText();
 
                 // Set text zooms
@@ -5789,11 +5685,13 @@ namespace AhoyBrowser
         #endregion
 
         #region INTERFACE
+        internal const int MaxDisplayTextCycle = 1; // 0 = small logo, 1 = large logo
+
         // Display a selection of text symbols to play with
         private void SelectDummyTextVersion(int index)
         {
             // Cycle between guides
-            if (index >= 0 && index <= 2)
+            if (index >= 0 && index <= MaxDisplayTextCycle)
             {
                 Log.LogHomeScreenSelection();
                 DisplayTextCycle = index;
@@ -5807,7 +5705,7 @@ namespace AhoyBrowser
         private void FlipDummyTextVersion()
         {
             // Cycle between guides
-            if (DisplayTextCycle < 2)
+            if (DisplayTextCycle < MaxDisplayTextCycle)
             {
                 DisplayTextCycle += 1;
             }
@@ -8356,9 +8254,6 @@ namespace AhoyBrowser
                         case "rels":
                             RelatedSelectMaster();
                             break;
-                        case "relf":
-                            FlipRelatedDisplayStyle();
-                            break;
                         case "relq":
                             CreateDummyCategory();
                             break;
@@ -8457,22 +8352,6 @@ namespace AhoyBrowser
                             break;
                         case "t":
                             ShowDateTime();
-                            break;
-                        case "check":
-                            // Insert progress template text
-                            InsertChecklistTemplate();
-                            break;
-                        case "task":
-                            // Insert progress template text
-                            InsertChecklistTemplate();
-                            break;
-                        case "prog":
-                            // Insert progress template text
-                            InsertChecklistTemplate();
-                            break;
-                        case "book":
-                            // Insert progress template text
-                            InsertBookmarkTemplate();
                             break;
                         case "flip":
                             FlipDummyTextVersion();
@@ -8861,7 +8740,7 @@ namespace AhoyBrowser
             {
                 if (i == value)
                 {
-                    tempTimestamp += "● ";
+                    tempTimestamp += "> ";
                     tempTimestamp += (i + 1) + ": " + TimeStamp.GetTimeStampFormat(i) + TextTransform.CalculateSpacesFromStringToGivenLengthReturnChar(TimeStamp.GetTimeStampFormat(i), TimeStamp.GetTimeStampFormat(0).Length, " ") + Environment.NewLine;
                 }
                 else
@@ -10687,48 +10566,6 @@ namespace AhoyBrowser
         {
             SelectionToLower();
         }
-
-        private void slickFrameToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            // Create a simple frame around selection
-            SelectionToSlickFrame(false);
-        }
-
-        private void slickFrameAndCapsToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            SelectionToSlickFrame(true);
-        }
-
-        private void embossedFrameToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            SelectionToEmbossedFrame(false);
-        }
-
-        private void embossedFrameCapsToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            SelectionToEmbossedFrame(true);
-        }
-
-        private void slickTabToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            SelectionToSlickTab(false);
-        }
-
-        private void slickTabCapsToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            SelectionToSlickTab(true);
-        }
-
-        private void embossedTabToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            SelectionToEmbossedTab(false);
-        }
-
-        private void embossedTabCapsToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            SelectionToEmbossedTab(true);
-        }
-
         private void bulletLineToolStripMenuItem_Click(object sender, EventArgs e)
         {
             SelectionToBulletAndLine(false);
@@ -11034,7 +10871,7 @@ namespace AhoyBrowser
         //        case 4:
         //            return "I";  // Inactive notification
         //        case 5:
-        //            return "╤"; // Pinned
+        //            return "*>"; // Pinned
         //        case 6:
         //            return "►"; // Notification indicator
         //        case 7:
@@ -11083,7 +10920,7 @@ namespace AhoyBrowser
                     {
                         if (entry.Pin)
                         {
-                            tempSearchItemPrefix = "╤";
+                            tempSearchItemPrefix = "*>";
                         }
                         else
                         {
@@ -11644,7 +11481,7 @@ namespace AhoyBrowser
 
 
 
-        private Label lbPinnedAndMemoAnimation;
+        private PixelArtLabel lbPinnedAndMemoAnimation;
         private void InitializeAnimationLabel()
         {
             // Create label for text animation if not already initialized
@@ -11652,7 +11489,7 @@ namespace AhoyBrowser
             if (lbPinnedAndMemoAnimation == null)
             {
                 // Use the pinned list color theme styling for the animation
-                lbPinnedAndMemoAnimation = new Label();
+                lbPinnedAndMemoAnimation = new PixelArtLabel();
                 lbPinnedAndMemoAnimation.SetBounds(listBoxPinned.Location.X, listBoxPinned.Location.Y, listBoxPinned.Width, listBoxPinned.Height);
                 lbPinnedAndMemoAnimation.Font = Design.ContentFieldFont();
                 lbPinnedAndMemoAnimation.TextAlign = ContentAlignment.MiddleCenter;
@@ -13987,8 +13824,8 @@ namespace AhoyBrowser
             }
 
             // Set result
-            tbContent.SelectedText = Environment.NewLine + "──── Input ────" + Environment.NewLine + input + Environment.NewLine + Environment.NewLine +
-                                     "──── Output ────" + Environment.NewLine + output + Environment.NewLine;
+            tbContent.SelectedText = Environment.NewLine + "---- Input ----" + Environment.NewLine + input + Environment.NewLine + Environment.NewLine +
+                                     "---- Output ----" + Environment.NewLine + output + Environment.NewLine;
         }
         #endregion
 
@@ -16994,15 +16831,6 @@ namespace AhoyBrowser
                 SetAsciiLogo();
             }
         }
-
-        private void labyrinthToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            if (!labyrinthToolStripMenuItem.Checked)
-            {
-                SetLabyrinthLogo();
-            }
-        }
-
         private void layoutCCustomToolStripMenuItem_Click(object sender, EventArgs e)
         {
             if (!layoutCToolStripMenuItem.Checked)
@@ -17020,19 +16848,12 @@ namespace AhoyBrowser
         {
             SelectDummyTextVersion(1);
         }
-
-        private void SetLabyrinthLogo()
-        {
-            SelectDummyTextVersion(2);
-        }
-
         // Resolve Home Screen menu buttons
         private void ResolveHomeScreenSelectionMenu()
         {
             layoutAToolStripMenuItem.Checked = false;
             layoutBToolStripMenuItem.Checked = false;
             layoutCToolStripMenuItem.Checked = false;
-            labyrinthToolStripMenuItem.Checked = false;
 
             // If custom display text
             if (!string.IsNullOrEmpty(CustomDisplayText))
@@ -17046,10 +16867,6 @@ namespace AhoyBrowser
             else if (DisplayTextCycle == 1) // If displaytext 1
             {
                 layoutBToolStripMenuItem.Checked = true;
-            }
-            else if (DisplayTextCycle == 2) // If displaytext 2
-            {
-                labyrinthToolStripMenuItem.Checked = true;
             }
         }
         #endregion
@@ -17128,142 +16945,9 @@ namespace AhoyBrowser
 
 
         #region Checklist/Progress Bar (addition 28-02-2019)
-        private void checklistTemplateToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            InsertChecklistTemplate();
-        }
-
-        private void InsertChecklistTemplate()
-        {
-            if (CurrentEntryNotNullOrDummy() && tbContent.Focused)
-            {
-                try
-                {
-                    AhoyAnswerMessageBox msgAccept = new AhoyAnswerMessageBox(MessageText.ChecklistInsertionMessage(), MessageText.EntryTemplateCaption(), false, false);
-                    msgAccept.TopMost = true;
-                    msgAccept.ShowDialog();
-                    if (!msgAccept.Accepted)
-                    {
-                        return;
-                    }
-
-                    if (EntryTemplate.HasTemplate(tbContent.Text))
-                    {
-                        AhoySimpleMessageBox msg = new AhoySimpleMessageBox(MessageText.EntryTemplateAlreadyActiveMessage(MessageText.ProgressBarCaption()), MessageText.EntryTemplateCaption(), false);
-                        msg.TopMost = true;
-                        msg.ShowDialog();
-                        return;
-                    }
-
-                    Log.LogEntryTemplateStatus("Checklist");
-                    // Save text, if any in the clipboard
-                    string tempText = "";
-                    if (Clipboard.ContainsText())
-                    {
-                        tempText = Clipboard.GetText();
-                    }
-
-                    // Ask for standard or matrix
-                    AhoyAnswerMessageBox msgSelectType = new AhoyAnswerMessageBox("*** Please select template style ***\nStandard = Tag based\nMatrix = Grid based", "Template Style", true, false);
-                    msgSelectType.SetCustomButtonText("Cancel", "Standard", "Matrix", "Template Style", "(tags)", "(grid)", "", 0);
-                    msgSelectType.ShowDialog();
-
-                    if (msgSelectType.Canceled)
-                    {
-                        Log.LogEntryTemplateStatus("Insertion canceled");
-                        return;
-                    }
-                    else if (msgSelectType.Accepted) // Standard
-                    {
-                        // Get template text
-                        SetClipboardText(IO.ChecklistTemplateTextReader(0) + TextTransform.GetNewLines(2));
-                    }
-                    else if (!msgSelectType.Accepted) // Matrix
-                    {
-                        // Get template text
-                        SetClipboardText(IO.ChecklistTemplateTextReader(1) + TextTransform.GetNewLines(2));
-                    }
-
-                    // Go to index 0
-                    if (tbContent.Text.Length > 0)
-                    {
-                        tbContent.Select(0, 0);
-                    }
-                    //Paste into content
-                    tbContent.Paste();
-                    // Add text back to clipboard
-                    if (tempText.Length > 0)
-                    {
-                        SetClipboardText(tempText);
-                    }
-                }
-                catch
-                {
-                    Log.LogEntryTemplateStatus("Error");
-                }
-            }
-            else
-            {
-                AhoySimpleMessageBox msg = new AhoySimpleMessageBox(MessageText.InsertionFailedMessage("Checklist"), MessageText.EntryTemplateCaption(), false);
-                msg.TopMost = true;
-                msg.ShowDialog();
-            }
-        }
         #endregion
 
         #region Bookmark template (addition 17-04-2019)
-        private void bookmarkTemplateToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            InsertBookmarkTemplate();
-        }
-        private void InsertBookmarkTemplate()
-        {
-            if (CurrentEntryNotNullOrDummy() && tbContent.Focused)
-            {
-                try
-                {
-                    if (EntryTemplate.IdentifyBookmarkTemplate(tbContent.Text))
-                    {
-                        AhoySimpleMessageBox msg = new AhoySimpleMessageBox(MessageText.EntryTemplateAlreadyActiveMessage(MessageText.BookmarkCaption()), MessageText.EntryTemplateCaption(), false);
-                        msg.TopMost = true;
-                        msg.ShowDialog();
-                        return;
-                    }
-
-                    Log.LogEntryTemplateStatus("Bookmark");
-                    // Save text, if any in the clipboard
-                    string tempText = "";
-                    if (Clipboard.ContainsText())
-                    {
-                        tempText = Clipboard.GetText();
-                    }
-                    // Get template text
-                    SetClipboardText(IO.BookmarkTemplateTextReader() + TextTransform.GetNewLines(2));
-                    // Go to index 0
-                    if (tbContent.Text.Length > 0)
-                    {
-                        tbContent.Select(0, 0);
-                    }
-                    //Paste into content
-                    tbContent.Paste();
-                    // Add text back to clipboard
-                    if (tempText.Length > 0)
-                    {
-                        SetClipboardText(tempText);
-                    }
-                }
-                catch
-                {
-                    Log.LogEntryTemplateStatus("Error");
-                }
-            }
-            else
-            {
-                AhoySimpleMessageBox msg = new AhoySimpleMessageBox(MessageText.InsertionFailedMessage("Bookmark"), MessageText.BookmarkCaption(), false);
-                msg.TopMost = true;
-                msg.ShowDialog();
-            }
-        }
         #endregion
 
 
@@ -18018,7 +17702,7 @@ namespace AhoyBrowser
             }
 
             // Return message
-            return TextTransform.TextToSlickFrame(tempCurrentNoResultMessage, false);
+            return Environment.NewLine + tempCurrentNoResultMessage;
         }
 
         // Get random message
@@ -18610,14 +18294,6 @@ namespace AhoyBrowser
         ToolStripMenuItem newRelatedMenuItemOptionsPinned;
 
         ToolStripMenuItem newRelatedMenuItemOptionGradient;
-        ToolStripMenuItem newRelatedMenuItemOption1;
-        ToolStripMenuItem newRelatedMenuItemOption2;
-        ToolStripMenuItem newRelatedMenuItemOption3;
-        ToolStripMenuItem newRelatedMenuItemOption4;
-        ToolStripMenuItem newRelatedMenuItemOption5;
-        ToolStripMenuItem newRelatedMenuItemOption6;
-        ToolStripMenuItem newRelatedMenuItemOption7;
-        ToolStripMenuItem newRelatedMenuItemOption8;
 
         ToolStripMenuItem newRelatedMenuItemShowAllPinned;
         ToolStripMenuItem newRelatedMenuItemShowAllSearch;
@@ -18625,7 +18301,6 @@ namespace AhoyBrowser
         ToolStripMenuItem newRelatedMenuItemShowRelatedSearch;
 
         ToolStripSeparator newRelatedSeparatorPinned;
-        ToolStripSeparator newRelatedSeparatorOptionsPinned;
         ToolStripSeparator newRelatedSeparatorSearch;
         /// <summary>
         /// Initialize related menu items
@@ -18742,70 +18417,11 @@ namespace AhoyBrowser
             newRelatedMenuItemOptionGradient.Size = new System.Drawing.Size(251, 22);
             newRelatedMenuItemOptionGradient.Click += new System.EventHandler(relatedMenuItem_ItemClicked);
 
-            newRelatedMenuItemOption1 = new ToolStripMenuItem();
-            newRelatedMenuItemOption1.Name = rel11;
-            newRelatedMenuItemOption1.Text = "Style 1 (Default)";
-            newRelatedMenuItemOption1.Tag = "";
-            newRelatedMenuItemOption1.Size = new System.Drawing.Size(251, 22);
-            newRelatedMenuItemOption1.Click += new System.EventHandler(relatedMenuItem_ItemClicked);
-
-            newRelatedMenuItemOption2 = new ToolStripMenuItem();
-            newRelatedMenuItemOption2.Name = rel12;
-            newRelatedMenuItemOption2.Text = "Style 2";
-            newRelatedMenuItemOption2.Tag = "";
-            newRelatedMenuItemOption2.Size = new System.Drawing.Size(251, 22);
-            newRelatedMenuItemOption2.Click += new System.EventHandler(relatedMenuItem_ItemClicked);
-
-            newRelatedMenuItemOption3 = new ToolStripMenuItem();
-            newRelatedMenuItemOption3.Name = rel13;
-            newRelatedMenuItemOption3.Text = "Style 3";
-            newRelatedMenuItemOption3.Tag = "";
-            newRelatedMenuItemOption3.Size = new System.Drawing.Size(251, 22);
-            newRelatedMenuItemOption3.Click += new System.EventHandler(relatedMenuItem_ItemClicked);
-
-            newRelatedMenuItemOption4 = new ToolStripMenuItem();
-            newRelatedMenuItemOption4.Name = rel14;
-            newRelatedMenuItemOption4.Text = "Style 4";
-            newRelatedMenuItemOption4.Tag = "";
-            newRelatedMenuItemOption4.Size = new System.Drawing.Size(251, 22);
-            newRelatedMenuItemOption4.Click += new System.EventHandler(relatedMenuItem_ItemClicked);
-
-            newRelatedMenuItemOption5 = new ToolStripMenuItem();
-            newRelatedMenuItemOption5.Name = rel15;
-            newRelatedMenuItemOption5.Text = "Style 5";
-            newRelatedMenuItemOption5.Tag = "";
-            newRelatedMenuItemOption5.Size = new System.Drawing.Size(251, 22);
-            newRelatedMenuItemOption5.Click += new System.EventHandler(relatedMenuItem_ItemClicked);
-
-            newRelatedMenuItemOption6 = new ToolStripMenuItem();
-            newRelatedMenuItemOption6.Name = rel16;
-            newRelatedMenuItemOption6.Text = "Style 6";
-            newRelatedMenuItemOption6.Tag = "";
-            newRelatedMenuItemOption6.Size = new System.Drawing.Size(251, 22);
-            newRelatedMenuItemOption6.Click += new System.EventHandler(relatedMenuItem_ItemClicked);
-
-            newRelatedMenuItemOption7 = new ToolStripMenuItem();
-            newRelatedMenuItemOption7.Name = rel17;
-            newRelatedMenuItemOption7.Text = "Style 7";
-            newRelatedMenuItemOption7.Tag = "";
-            newRelatedMenuItemOption7.Size = new System.Drawing.Size(251, 22);
-            newRelatedMenuItemOption7.Click += new System.EventHandler(relatedMenuItem_ItemClicked);
-
-            newRelatedMenuItemOption8 = new ToolStripMenuItem();
-            newRelatedMenuItemOption8.Name = rel18;
-            newRelatedMenuItemOption8.Text = "Style 8";
-            newRelatedMenuItemOption8.Tag = "";
-            newRelatedMenuItemOption8.Size = new System.Drawing.Size(251, 22);
-            newRelatedMenuItemOption8.Click += new System.EventHandler(relatedMenuItem_ItemClicked);
-
 
             // Separators
             newRelatedSeparatorPinned = new ToolStripSeparator();
             newRelatedSeparatorPinned.Name = "relatedMenuItemDividerPinned";
             newRelatedSeparatorPinned.Size = new System.Drawing.Size(248, 6);
-            newRelatedSeparatorOptionsPinned = new ToolStripSeparator();
-            newRelatedSeparatorOptionsPinned.Name = "relatedMenuItemDividerOptionsPinned";
-            newRelatedSeparatorOptionsPinned.Size = new System.Drawing.Size(248, 6);
             newRelatedSeparatorSearch = new ToolStripSeparator();
             newRelatedSeparatorSearch.Name = "relatedMenuItemDividerSearch";
             newRelatedSeparatorSearch.Size = new System.Drawing.Size(248, 6);
@@ -18837,15 +18453,6 @@ namespace AhoyBrowser
             newRelatedMenuItemShowSearch.DropDownItems.Add(newRelatedMenuItemShowRelatedSearch);
 
             newRelatedMenuItemOptionsPinned.DropDownItems.Add(newRelatedMenuItemOptionGradient);
-            newRelatedMenuItemOptionsPinned.DropDownItems.Add(newRelatedSeparatorOptionsPinned);
-            newRelatedMenuItemOptionsPinned.DropDownItems.Add(newRelatedMenuItemOption1);
-            newRelatedMenuItemOptionsPinned.DropDownItems.Add(newRelatedMenuItemOption2);
-            newRelatedMenuItemOptionsPinned.DropDownItems.Add(newRelatedMenuItemOption3);
-            newRelatedMenuItemOptionsPinned.DropDownItems.Add(newRelatedMenuItemOption4);
-            newRelatedMenuItemOptionsPinned.DropDownItems.Add(newRelatedMenuItemOption5);
-            newRelatedMenuItemOptionsPinned.DropDownItems.Add(newRelatedMenuItemOption6);
-            newRelatedMenuItemOptionsPinned.DropDownItems.Add(newRelatedMenuItemOption7);
-            newRelatedMenuItemOptionsPinned.DropDownItems.Add(newRelatedMenuItemOption8);
         }
 
         // Refresh the itemems when opening the context menus
@@ -18947,30 +18554,6 @@ namespace AhoyBrowser
                     }
                     PopulatePinListAndReselect();
                     break;
-                case rel11:
-                    SetCategoryStyle(0);
-                    break;
-                case rel12:
-                    SetCategoryStyle(1);
-                    break;
-                case rel13:
-                    SetCategoryStyle(2);
-                    break;
-                case rel14:
-                    SetCategoryStyle(3);
-                    break;
-                case rel15:
-                    SetCategoryStyle(4);
-                    break;
-                case rel16:
-                    SetCategoryStyle(5);
-                    break;
-                case rel17:
-                    SetCategoryStyle(6);
-                    break;
-                case rel18:
-                    SetCategoryStyle(7);
-                    break;
                 case rel19:
                     SetRelatedGradient(true);
                     break;
@@ -19031,46 +18614,10 @@ namespace AhoyBrowser
         private void ResolveRelatedOptionsMenuItems(Entry entry)
         {
             newRelatedMenuItemOptionsPinned.Visible = false;
-            newRelatedMenuItemOption1.Checked = false;
-            newRelatedMenuItemOption2.Checked = false;
-            newRelatedMenuItemOption3.Checked = false;
-            newRelatedMenuItemOption4.Checked = false;
-            newRelatedMenuItemOption5.Checked = false;
-            newRelatedMenuItemOption6.Checked = false;
-            newRelatedMenuItemOption7.Checked = false;
-            newRelatedMenuItemOption8.Checked = false;
 
             if (entry != null && Related.HasRelated(entry))
             {
                 newRelatedMenuItemOptionsPinned.Visible = true;
-                // Update options
-                switch (CurrentEntry.RelatedStyle)
-                {
-                    case 0:
-                        newRelatedMenuItemOption1.Checked = true;
-                        break;
-                    case 1:
-                        newRelatedMenuItemOption2.Checked = true;
-                        break;
-                    case 2:
-                        newRelatedMenuItemOption3.Checked = true;
-                        break;
-                    case 3:
-                        newRelatedMenuItemOption4.Checked = true;
-                        break;
-                    case 4:
-                        newRelatedMenuItemOption5.Checked = true;
-                        break;
-                    case 5:
-                        newRelatedMenuItemOption6.Checked = true;
-                        break;
-                    case 6:
-                        newRelatedMenuItemOption7.Checked = true;
-                        break;
-                    case 7:
-                        newRelatedMenuItemOption8.Checked = true;
-                        break;
-                }
             }
         }
 
@@ -19907,59 +19454,6 @@ namespace AhoyBrowser
                 tempToggleRelatedViewLastID = ""; // Important to clear here to make functionality seem intuitive
             }
         }
-
-        private void FlipRelatedDisplayStyle()
-        {
-            if (CurrentEntryNotNullOrDummy() && Related.HasRelated(CurrentEntry))
-            {
-                if (CurrentEntry.RelatedStyle == 0)
-                {
-                    SetCategoryStyle(1);
-                }
-                else if (CurrentEntry.RelatedStyle == 1)
-                {
-                    SetCategoryStyle(2);
-                }
-                else if (CurrentEntry.RelatedStyle == 2)
-                {
-                    SetCategoryStyle(3);
-                }
-                else if (CurrentEntry.RelatedStyle == 3)
-                {
-                    SetCategoryStyle(4);
-                }
-                else if (CurrentEntry.RelatedStyle == 4)
-                {
-                    SetCategoryStyle(5);
-                }
-                else if (CurrentEntry.RelatedStyle == 5)
-                {
-                    SetCategoryStyle(6);
-                }
-                else if (CurrentEntry.RelatedStyle == 6)
-                {
-                    SetCategoryStyle(7);
-                }
-                else
-                {
-                    SetCategoryStyle(0);
-                }
-            }
-        }
-
-        private void SetCategoryStyle(int index)
-        {
-            if (CurrentEntryNotNullOrDummy() && Related.HasRelated(CurrentEntry))
-            {
-                CurrentEntry.RelatedStyle = index;
-                Log.GeneralEntryStatus("Category style " + index.ToString());
-                CurrentEntryHasChanges();
-                SubmitChangesToEntriesList();
-                PopulatePinListAndReselect();
-                ResolveRelatedOptionsMenuItems(CurrentEntry);
-            }
-        }
-
 
         private void AddNewEntryToEditingCategory()
         {

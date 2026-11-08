@@ -256,7 +256,7 @@ namespace AhoyBrowser
 
         private void ABC123(int length)
         {
-            GeneratedString = Environment.NewLine + "──── Keys ────" + Environment.NewLine;
+            GeneratedString = Environment.NewLine + "---- Keys ----" + Environment.NewLine;
             for (int i = 0; i < 5; i++)
             {
                 GeneratedString += PasswordGeneratorC.GeneratePassword(length) + Environment.NewLine;
@@ -266,12 +266,12 @@ namespace AhoyBrowser
 
         private void WordPlay(bool useSpecialChars)
         {
-            GeneratedString = Environment.NewLine + "──── Keys ────" + Environment.NewLine + PasswordGeneratorB.GetPasswords(useSpecialChars) + Environment.NewLine;
+            GeneratedString = Environment.NewLine + "---- Keys ----" + Environment.NewLine + PasswordGeneratorB.GetPasswords(useSpecialChars) + Environment.NewLine;
         }
 
         private void GenerateGuid()
         {
-            GeneratedString = Environment.NewLine + "──── Keys ────" + Environment.NewLine;
+            GeneratedString = Environment.NewLine + "---- Keys ----" + Environment.NewLine;
             for (int i = 0; i < 5; i++)
             {
                 GeneratedString += Guid.NewGuid().ToString() + Environment.NewLine;
@@ -281,7 +281,7 @@ namespace AhoyBrowser
 
         private void GenerateStrong(int length)
         {
-            GeneratedString = Environment.NewLine + "──── Keys ────" + Environment.NewLine;
+            GeneratedString = Environment.NewLine + "---- Keys ----" + Environment.NewLine;
             for (int i = 0; i < 5; i++)
             {
                 GeneratedString += PasswordGenerator.GeneratePassword(length) + Environment.NewLine;

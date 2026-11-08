@@ -845,232 +845,34 @@ namespace AhoyBrowser
 
 
 
-        // Supplies the characters based on the current DisplayCode (Related class)
+        // Prefix for an entry inside an expanded category (pinned list).
+        // Plain ASCII only: the former styles used box-drawing, shade and bullet characters, whose
+        // width and look depend on the font (and are often double-width on East Asian systems).
+        //   01- Category
+        //      | first / middle entries
+        //      \ last entry
+        // (The stored RelatedStyle is kept in the Pool for compatibility but no longer changes the look.)
         public static string GetRelatedDisplayChar(Entry entry, int offset)
         {
-            if (entry.DisplayCode == 0)
+            string indent = TextTransform.GetBlankSpace(3 + offset);
+            switch (entry.DisplayCode)
             {
-                if (entry.RelatedStyle == 0)
-                {
-                    return TextTransform.GetBlankSpace(3 + offset) + "│";
-                }
-                else if (entry.RelatedStyle == 1)
-                {
-                    return "░▒" + TextTransform.GetRepeatedCharacter(offset, "▒") + " │";
-                }
-                else if (entry.RelatedStyle == 2)
-                {
-                    return "░▒" + TextTransform.GetRepeatedCharacter(offset, "▒") + " ║";
-                }
-                else if (entry.RelatedStyle == 3)
-                {
-                    return " " + TextTransform.GetRepeatedCharacter(offset, " ") + "● ";
-                }
-                else if (entry.RelatedStyle == 4)
-                {
-                    return "╠═─";
-                }
-                else if (entry.RelatedStyle == 5)
-                {
-                    return "█▓▒░";
-                }
-                else if (entry.RelatedStyle == 6)
-                {
-                    return "├─";
-                }
-                else if (entry.RelatedStyle == 7)
-                {
-                    return "";
-                }
+                case 0: // middle
+                case 1: // first
+                    return indent + "|";
+                case 2: // last
+                case 3: // only entry
+                    return indent + "\\";
+                default:
+                    return "?";
             }
-            else if (entry.DisplayCode == 1)
-            {
-                if (entry.RelatedStyle == 0)
-                {
-                    return TextTransform.GetBlankSpace(2 + offset) + "└┐";
-                }
-                else if (entry.RelatedStyle == 1)
-                {
-                    return "░" + TextTransform.GetRepeatedCharacter(offset, "▒") + " └┐";
-                }
-                else if (entry.RelatedStyle == 2)
-                {
-                    return "░" + TextTransform.GetRepeatedCharacter(offset, "▒") + " ╚╗";
-                }
-                else if (entry.RelatedStyle == 3)
-                {
-                    return " " + TextTransform.GetRepeatedCharacter(offset, " ") + "● ";
-                }
-                else if (entry.RelatedStyle == 4)
-                {
-                    return "╠═─";
-                }
-                else if (entry.RelatedStyle == 5)
-                {
-                    return "█▓▒░";
-                }
-                else if (entry.RelatedStyle == 6)
-                {
-                    return "├─";
-                }
-                else if (entry.RelatedStyle == 7)
-                {
-                    return "";
-                }
-            }
-            else if (entry.DisplayCode == 2)
-            {
-                if (entry.RelatedStyle == 0)
-                {
-                    return TextTransform.GetBlankSpace(3 + offset) + "└";
-                }
-                else if (entry.RelatedStyle == 1)
-                {
-                    return "░▒" + TextTransform.GetRepeatedCharacter(offset, "▒") + " └";
-                }
-                else if (entry.RelatedStyle == 2)
-                {
-                    return "░▒" + TextTransform.GetRepeatedCharacter(offset, "▒") + " ╙";
-                }
-                else if (entry.RelatedStyle == 3)
-                {
-                    return " " + TextTransform.GetRepeatedCharacter(offset, " ") + "● ";
-                }
-                else if (entry.RelatedStyle == 4)
-                {
-                    return "╚═─";
-                }
-                else if (entry.RelatedStyle == 5)
-                {
-                    return "▀▓▒░";
-                }
-                else if (entry.RelatedStyle == 6)
-                {
-                    return "└─";
-                }
-                else if (entry.RelatedStyle == 7)
-                {
-                    return "";
-                }
-            }
-            else if (entry.DisplayCode == 3)
-            {
-                if (entry.RelatedStyle == 0)
-                {
-                    return TextTransform.GetBlankSpace(2 + offset) + "└─";
-                }
-                else if (entry.RelatedStyle == 1)
-                {
-                    return "░" + TextTransform.GetRepeatedCharacter(offset, "▒") + " └─";
-                }
-                else if (entry.RelatedStyle == 2)
-                {
-                    return "░" + TextTransform.GetRepeatedCharacter(offset, "▒") + " ╙─";
-                }
-                else if (entry.RelatedStyle == 3)
-                {
-                    return " " + TextTransform.GetRepeatedCharacter(offset, " ") + "●";
-                }
-                else if (entry.RelatedStyle == 4)
-                {
-                    return "╚═─";
-                }
-                else if (entry.RelatedStyle == 5)
-                {
-                    return "▀▓▒░";
-                }
-                else if (entry.RelatedStyle == 6)
-                {
-                    return "└─";
-                }
-                else if (entry.RelatedStyle == 7)
-                {
-                    return "";
-                }
-            }
-            // Return ? if nothing was hit
-            return "?";
         }
-
-
-        // Category char (collapsed/expanded)
+        // Category prefix: "-" when expanded, "+" when collapsed
         public static string GetMasterDisplayChar(string lineNumber, Entry entry, int offset, bool ignoreView)
         {
-            // If expanded
-            if (entry.RelatedView && !ignoreView)
-            {
-                if (entry.RelatedStyle == 0)
-                {
-                    return lineNumber + TextTransform.GetBlankSpace(offset) + "┌";
-                }
-                else if (entry.RelatedStyle == 1)
-                {
-                    return lineNumber + TextTransform.GetBlankSpace(offset) + "┌";
-                }
-                else if (entry.RelatedStyle == 2)
-                {
-                    return "░" + TextTransform.GetRepeatedCharacter(offset, "▒") + " ╓";
-                }
-                else if (entry.RelatedStyle == 3)
-                {
-                    return "○";
-                }
-                else if (entry.RelatedStyle == 4)
-                {
-                    return "╓";
-                }
-                else if (entry.RelatedStyle == 5)
-                {
-                    return "▄";
-                }
-                else if (entry.RelatedStyle == 6)
-                {
-                    return "┌";
-                }
-                else if (entry.RelatedStyle == 7)
-                {
-                    return "";
-                }
-
-            }
-            else // If collapsed
-            {
-                if (entry.RelatedStyle == 0)
-                {
-                    return lineNumber + TextTransform.GetBlankSpace(offset) + "+";
-                }
-                else if (entry.RelatedStyle == 1)
-                {
-                    return lineNumber + TextTransform.GetBlankSpace(offset) + "+";
-                }
-                else if (entry.RelatedStyle == 2)
-                {
-                    return "░" + TextTransform.GetRepeatedCharacter(offset, "▒") + " +";
-                }
-                else if (entry.RelatedStyle == 3)
-                {
-                    return "●";
-                }
-                else if (entry.RelatedStyle == 4)
-                {
-                    return "+";
-                }
-                else if (entry.RelatedStyle == 5)
-                {
-                    return "■";
-                }
-                else if (entry.RelatedStyle == 6)
-                {
-                    return "+";
-                }
-                else if (entry.RelatedStyle == 7)
-                {
-                    return " +";
-                }
-            }
-            return "?";
+            bool expanded = entry.RelatedView && !ignoreView;
+            return lineNumber + TextTransform.GetBlankSpace(offset) + (expanded ? "-" : "+");
         }
-
         public static string GetDummyMasterChars(int index)
         {
             switch (index)

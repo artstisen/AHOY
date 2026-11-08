@@ -90,58 +90,43 @@ namespace AhoyBrowser
                     "Email: " + Environment.NewLine +
                     "URL: ");
                 // Preset
-                PresetList.Add(TextTransform.GetNewLines(1) + TextTransform.GetBlankSpace(2) + "─══ Start (" + TimeStampReplaceString + ") ══─" + TextTransform.GetNewLines(2) +
+                PresetList.Add(TextTransform.GetNewLines(1) + TextTransform.GetBlankSpace(2) + "-== Start (" + TimeStampReplaceString + ") ==-" + TextTransform.GetNewLines(2) +
                         SelectionReplaceString + TextTransform.GetNewLines(1));
                 // Preset
                 PresetList.Add(TextTransform.GetNewLines(1) + "/////////////// " + TimeStampReplaceString + " ///////////////" + TextTransform.GetNewLines(3));
                 // Preset
-                PresetList.Add(TextTransform.GetNewLines(1) + TextTransform.GetBlankSpace(2) + TimeStampReplaceString + "\n►─────── PARAGRAPH START" + TextTransform.GetNewLines(2));
+                PresetList.Add(TextTransform.GetNewLines(1) + TextTransform.GetBlankSpace(2) + TimeStampReplaceString + "\n>------- PARAGRAPH START" + TextTransform.GetNewLines(2));
                 // Preset
                 PresetList.Add(TextTransform.GetNewLines(2) + TextTransform.GetBlankSpace(2) + "/*** DONE ***/ (" + TimeStampReplaceString + ")" + TextTransform.GetNewLines(4));
                 // Preset
-                PresetList.Add("      ┌┐" + TextTransform.GetNewLines(1) +
-                            "   ┌─┐││" + TextTransform.GetNewLines(1) +
-                            "──┐│ │││" + TextTransform.GetNewLines(1) +
-                            "  └┘ │││ " + SelectionReplaceString + TextTransform.GetNewLines(1) +
-                            "     └┘│┌──────────────────" + TextTransform.GetNewLines(1) +
-                            "       └┘" + TextTransform.GetNewLines(4));
-                // Preset
-                PresetList.Add(TextTransform.GetNewLines(2) + TextTransform.GetBlankSpace(2) + "┌────────────────────┐" + TextTransform.GetNewLines(1) +
-                        TextTransform.GetBlankSpace(2) + "│ ■► TODO            │" + TextTransform.GetNewLines(1) +
-                        TextTransform.GetBlankSpace(2) + "└────────────────────┘" + TextTransform.GetNewLines(4));
+                PresetList.Add(TextTransform.GetNewLines(2) + TextTransform.GetBlankSpace(2) + "+--------------------+" + TextTransform.GetNewLines(1) +
+                        TextTransform.GetBlankSpace(2) + "| #> TODO            |" + TextTransform.GetNewLines(1) +
+                        TextTransform.GetBlankSpace(2) + "+--------------------+" + TextTransform.GetNewLines(4));
                 // Preset
                 PresetList.Add(TextTransform.GetNewLines(2) + TextTransform.GetBlankSpace(2) + "-- // --" + TextTransform.GetNewLines(4));
                 // Preset
-                PresetList.Add(TextTransform.GetNewLines(2) + TextTransform.GetBlankSpace(2) + "─══ // ══─" + TextTransform.GetNewLines(4));
+                PresetList.Add(TextTransform.GetNewLines(2) + TextTransform.GetBlankSpace(2) + "-== // ==-" + TextTransform.GetNewLines(4));
                 // Preset
                 PresetList.Add(TextTransform.GetNewLines(2) + "//////// " + SelectionReplaceString + TextTransform.GetNewLines(3));
                 // Preset
-                PresetList.Add(TextTransform.GetNewLines(2) + "■────────────►" + TextTransform.GetNewLines(3));
+                PresetList.Add(TextTransform.GetNewLines(2) + "#------------>" + TextTransform.GetNewLines(3));
                 // Preset
-                PresetList.Add(TextTransform.GetNewLines(2) + "◄────────────□" + TextTransform.GetNewLines(3));
+                PresetList.Add(TextTransform.GetNewLines(2) + "<------------o" + TextTransform.GetNewLines(3));
                 // Preset
                 PresetList.Add(TextTransform.GetNewLines(2) + "-------------------------" + TextTransform.GetNewLines(3));
                 // Preset
                 PresetList.Add(TextTransform.GetNewLines(2) + TextTransform.GetBlankSpace(2) + "/*** BLOCK START ***/" + TextTransform.GetNewLines(4));
                 // Preset
-                PresetList.Add(TextTransform.GetNewLines(2) + TextTransform.GetBlankSpace(2) + "┌─────════─────┐" + TextTransform.GetNewLines(1) +
-                        TextTransform.GetBlankSpace(2) + "║--   DONE   --║" + TextTransform.GetNewLines(1) +
-                        TextTransform.GetBlankSpace(2) + "└─────════─────┘" + TextTransform.GetNewLines(2));
+                PresetList.Add(TextTransform.GetNewLines(2) + TextTransform.GetBlankSpace(2) + "+-----====-----+" + TextTransform.GetNewLines(1) +
+                        TextTransform.GetBlankSpace(2) + "|--   DONE   --|" + TextTransform.GetNewLines(1) +
+                        TextTransform.GetBlankSpace(2) + "+-----====-----+" + TextTransform.GetNewLines(2));
                 // Preset
                 PresetList.Add(TextTransform.GetNewLines(2) + TextTransform.GetBlankSpace(2) + SelectionReplaceString + TextTransform.GetNewLines(1) +
-                        TextTransform.GetBlankSpace(2) + "■■■■■■■■■■■■■■■■■■■■■■■■" + TextTransform.GetNewLines(3));
+                        TextTransform.GetBlankSpace(2) + "########################" + TextTransform.GetNewLines(3));
                 // Preset
-                PresetList.Add(TextTransform.GetNewLines(2) + TextTransform.GetBlankSpace(2) + "┌──────────────────────╖" + TextTransform.GetNewLines(1) +
-                        TextTransform.GetBlankSpace(2) + "│ PENDING              ║" + TextTransform.GetNewLines(1) +
-                        TextTransform.GetBlankSpace(2) + "╘══════════════════════╝" + TextTransform.GetNewLines(2));
-                // Preset
-                PresetList.Add(TextTransform.GetNewLines(1) + TextTransform.GetBlankSpace(1) + "████████████████████" + TextTransform.GetNewLines(1) +
-                        TextTransform.GetBlankSpace(1) + "█████████ ██████████" + TextTransform.GetNewLines(1) +
-                        TextTransform.GetBlankSpace(1) + "████████ █ █████████" + TextTransform.GetNewLines(1) +
-                        TextTransform.GetBlankSpace(1) + "███████ █ █ ████████" + TextTransform.GetNewLines(1) +
-                        TextTransform.GetBlankSpace(1) + "█████████ ██████████" + TextTransform.GetNewLines(1) +
-                        TextTransform.GetBlankSpace(1) + "█████████ ██████████" + TextTransform.GetNewLines(1) +
-                        TextTransform.GetBlankSpace(1) + "████████████████████" + TextTransform.GetNewLines(3));
+                PresetList.Add(TextTransform.GetNewLines(2) + TextTransform.GetBlankSpace(2) + "+----------------------+" + TextTransform.GetNewLines(1) +
+                        TextTransform.GetBlankSpace(2) + "| PENDING              |" + TextTransform.GetNewLines(1) +
+                        TextTransform.GetBlankSpace(2) + "+======================+" + TextTransform.GetNewLines(2));
             }
         }
 

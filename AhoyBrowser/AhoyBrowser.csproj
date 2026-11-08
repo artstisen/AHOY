@@ -17,7 +17,7 @@
     <Product>AHOY</Product>
     <Company>AHOY</Company>
     <AssemblyTitle>Ahoy</AssemblyTitle>
-    <Copyright>Copyright © LBS</Copyright>
+    <Copyright>Copyright © 2019-2026 LBS</Copyright>
     <ApplicationHighDpiMode>SystemAware</ApplicationHighDpiMode>
     <ForceDesignerDpiUnaware>true</ForceDesignerDpiUnaware>
     <!-- WFO1000: public runtime-only properties on forms; they are never designer-serialized -->

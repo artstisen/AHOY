@@ -1872,11 +1872,10 @@ namespace AhoyBrowser
 
             if (string.IsNullOrEmpty(DummyText))
             {
-                StreamReader reader1, reader2, reader3, reader4;
+                StreamReader reader1, reader2, reader3;
                 // Load embedded file
                 reader1 = new StreamReader(Splash.asm.GetManifestResourceStream("AhoyBrowser.TextFiles.QuickGuideTop1.txt"));
                 reader2 = new StreamReader(Splash.asm.GetManifestResourceStream("AhoyBrowser.TextFiles.QuickGuideTop2.txt"));
-                reader4 = new StreamReader(Splash.asm.GetManifestResourceStream("AhoyBrowser.TextFiles.QuickGuideTop4.txt"));
                 reader3 = new StreamReader(Splash.asm.GetManifestResourceStream("AhoyBrowser.TextFiles.QuickGuideShortcutPreview.txt"));
 
                 try
@@ -1897,15 +1896,6 @@ namespace AhoyBrowser
                         {
 
                             DummyText += reader2.ReadLine() + Environment.NewLine;
-                        }
-                    }
-                    else if (MainForm.DisplayTextCycle == 2)
-                    {
-                        // Read alternate top
-                        while (reader4.Peek() != -1)
-                        {
-
-                            DummyText += reader4.ReadLine() + Environment.NewLine;
                         }
                     }
 
@@ -2058,8 +2048,7 @@ namespace AhoyBrowser
                     }
 
                     // Add privacy statement and license text
-                    QuickGuideText5 += Environment.NewLine + Environment.NewLine + SoftwareLicenseTextReader() + Environment.NewLine + Environment.NewLine +
-                        TextTransform.GetBlankSpace(16) + "───────────═END═───────────" + Environment.NewLine;
+                    QuickGuideText5 += Environment.NewLine + Environment.NewLine + SoftwareLicenseTextReader() + Environment.NewLine;
 
                     return QuickGuideText1 + QuickGuideText3 + QuickGuideText4 + QuickGuideText5;
                 }
@@ -2145,75 +2134,6 @@ namespace AhoyBrowser
         #endregion
 
 
-        #region Entry Template text reader
-        public static string ChecklistTemplateTextReader(int index)
-        {
-            StreamReader reader;
-            // Load embedded dictionary file
-            switch (index)
-            {
-                case 0:
-                    reader = new StreamReader(Splash.asm.GetManifestResourceStream("AhoyBrowser.TextFiles.TplProgressBar.txt"));
-                    break;
-                case 1:
-                    reader = new StreamReader(Splash.asm.GetManifestResourceStream("AhoyBrowser.TextFiles.TplMatrixA.txt"));
-                    break;
-                default:
-                    reader = new StreamReader(Splash.asm.GetManifestResourceStream("AhoyBrowser.TextFiles.TplProgressBar.txt"));
-                    break;
-            }
-
-            try
-            {
-                string tmpContent = "";
-
-                while (reader.Peek() != -1)
-                {
-                    tmpContent += reader.ReadLine() + Environment.NewLine;
-                }
-
-                return tmpContent;
-            }
-            catch
-            {
-                return "";
-            }
-            finally
-            {
-                // always close the reader when finished
-                reader.Close();
-            }
-        }
-
-        public static string BookmarkTemplateTextReader()
-        {
-            StreamReader reader;
-            // Load embedded dictionary file
-            reader = new StreamReader(Splash.asm.GetManifestResourceStream("AhoyBrowser.TextFiles.TplBookmark.txt"));
-
-            try
-            {
-                string tmpContent = "";
-
-                while (reader.Peek() != -1)
-                {
-                    tmpContent += reader.ReadLine() + Environment.NewLine;
-                }
-
-                return tmpContent;
-            }
-            catch
-            {
-                return "";
-            }
-            finally
-            {
-                // always close the reader when finished
-                reader.Close();
-            }
-        }
-        #endregion
-
         #region Software License text reader
         public static string SoftwareLicenseTextReader()
         {
@@ -2274,48 +2194,6 @@ namespace AhoyBrowser
         // }
         // #endregion
 
-        #region Ahoy ASCII Logo1
-        public static string AhoyASCIILogo1TextReader(int topMargin, int leftMargin, int type)
-        {
-            StreamReader reader;
-            // Load embedded dictionary file
-            if (type == 0)
-            {
-                reader = new StreamReader(Splash.asm.GetManifestResourceStream("AhoyBrowser.TextFiles.AhoyASCIILogo1.txt"));
-            }
-            else
-            {
-                reader = new StreamReader(Splash.asm.GetManifestResourceStream("AhoyBrowser.TextFiles.AhoyASCIILogo2.txt"));
-            }
-
-            try
-            {
-                string tmpContent = "";
-
-                if (topMargin > 0)
-                {
-                    tmpContent += TextTransform.GetNewLines(topMargin);
-                }
-
-                while (reader.Peek() != -1)
-                {
-                    tmpContent += TextTransform.GetBlankSpace(leftMargin) + reader.ReadLine() + Environment.NewLine;
-                }
-
-                return tmpContent;
-            }
-            catch
-            {
-                return "";
-            }
-            finally
-            {
-                // always close the reader when finished
-                reader.Close();
-            }
-        }
-        #endregion
-
         #region Command reference text
         private static string tempHeadline;
         private static string tempBaseline;
@@ -2328,7 +2206,7 @@ namespace AhoyBrowser
             if (!string.IsNullOrEmpty(input) && input.Length > 0)
             {
                 tempLeftMargin = 16;
-                tempBaseline = "───────────═X═───────────";
+                tempBaseline = new string(' ', 25); // width used to centre the heading (no underline is drawn)
                 tempInputLength = input.Trim().Length;
 
                 // If headline is shorter or equal to the baseline string
@@ -2348,7 +2226,7 @@ namespace AhoyBrowser
 
                     tempHeadline = TextTransform.GetNewLines(2) +
                                     TextTransform.GetBlankSpace(tempLeftMarginCalculated) + input.Trim().ToUpper() + Environment.NewLine;
-                    tempHeadline += TextTransform.GetBlankSpace(tempLeftMargin) + tempBaseline + TextTransform.GetNewLines(3);
+                    tempHeadline += TextTransform.GetNewLines(2);
 
                 }// If headline is longer than headline string
                 else if (tempInputLength > tempBaseline.Length)

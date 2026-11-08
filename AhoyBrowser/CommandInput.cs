@@ -111,7 +111,6 @@ namespace AhoyBrowser
                 CommandLibrary.Add(new Command("relu", "Remove all from category"));
                 CommandLibrary.Add(new Command("rell", "Show related to category"));
                 CommandLibrary.Add(new Command("rels", "Show editing category"));
-                CommandLibrary.Add(new Command("relf", "Flip category display style"));
                 CommandLibrary.Add(new Command("relq", "Create dummy category"));
                 CommandLibrary.Add(new Command("relg", "Category gradient color"));
                 // Related commands end

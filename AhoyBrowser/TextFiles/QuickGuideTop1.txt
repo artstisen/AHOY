@@ -2,7 +2,7 @@
 00:00 ABC 00 ABC 0000 W00
 
 
-       █  █ █  █  █ █ █   Autosave .......... asave
-      █ █ █ █ █ █ ███ █   Pool .............. prw
-      ███ ███ █ █  █      Local Backup ...... lbak
-      █ █ █ █  █  █   █   Remote Backup ..... rbak
+         _   _  _  ___ __   __ _    Autosave .......... asave
+        /_\ | || |/ _ \\ \ / /| |   Pool .............. prw
+       / _ \| __ | (_) |\ V / |_|   Local Backup ...... lbak
+      /_/ \_\_||_|\___/  |_|  (_)   Remote Backup ..... rbak

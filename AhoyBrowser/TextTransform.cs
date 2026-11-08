@@ -89,156 +89,6 @@ namespace AhoyBrowser
 
             TempLines.Clear();
         }
-
-        public static string TextToSlickFrame(string text, bool toUpper)
-        {
-            if (text.Length > 0)
-            {
-                // Reset variables
-                InitializeList();
-                TempSlickFrameBuilder = "";
-                TempFrameSide = "";
-                TempFrameLength = 0;
-                TempLineCount = 0;
-
-                if (toUpper)
-                {
-                    text = text.ToUpper();
-                }
-                TempLines.AddRange(text.Split('\n'));
-                TempLineCount = TempLines.Count;
-                TempFrameLength = CountLongestString(text) + 2; // + 2 for the blank space added on each side of the text
-                TempSlickFrameBuilder = Environment.NewLine + "┌";
-                for (int i = 0; i < TempFrameLength; i++)
-                {
-                    TempFrameSide += "─";
-                }
-                TempSlickFrameBuilder += TempFrameSide + "┐" + Environment.NewLine;
-                for (int i = 0; i < TempLineCount; i++)
-                {
-                    TempSlickFrameBuilder += "│ " + TempLines[i] + CalculateSpacesFromStringToGivenLength(TempLines[i], TempFrameLength - 2) + " │" + Environment.NewLine;
-                }
-                TempSlickFrameBuilder += "└" + TempFrameSide + "┘";
-                return TempSlickFrameBuilder;
-            }
-            else
-            {
-                return text;
-            }
-        }
-
-
-        public static string TextToEmbossedFrame(string text, bool toUpper)
-        {
-            if (text.Length > 0)
-            {
-                // Reset variables
-                InitializeList();
-                TempSlickFrameBuilder = "";
-                TempFrameSide = "";
-                TempFrameBottom = "";
-                TempFrameLength = 0;
-                TempLineCount = 0;
-
-                if (toUpper)
-                {
-                    text = text.ToUpper();
-                }
-                TempLines.AddRange(text.Split('\n'));
-                TempLineCount = TempLines.Count;
-                TempFrameLength = CountLongestString(text) + 2; // + 2 for the blank space added on each side of the text
-                TempSlickFrameBuilder = Environment.NewLine + "┌";
-                for (int i = 0; i < TempFrameLength; i++)
-                {
-                    TempFrameSide += "─";
-                    TempFrameBottom += "═";
-                }
-                TempSlickFrameBuilder += TempFrameSide + "╖" + Environment.NewLine;
-                for (int i = 0; i < TempLineCount; i++)
-                {
-                    TempSlickFrameBuilder += "│ " + TempLines[i] + CalculateSpacesFromStringToGivenLength(TempLines[i], TempFrameLength - 2) + " ║" + Environment.NewLine;
-                }
-                TempSlickFrameBuilder += "╘" + TempFrameBottom + "╝";
-                return TempSlickFrameBuilder;
-            }
-            else
-            {
-                return text;
-            }
-        }
-
-        public static string TextToSlickTab(string text, bool toUpper)
-        {
-            if (text.Length > 0)
-            {
-                // Reset variables
-                TempSlickFrameBuilder = "";
-                TempOriginalSelection = "";
-                TempFrameTop = "";
-                TempFrameBottom = "";
-                TempFrameLength = 0;
-
-                if (toUpper)
-                {
-                    text = text.ToUpper();
-                }
-
-                TempOriginalSelection = text;
-                TempFrameLength = TempOriginalSelection.Length + 2; // + 2 for the blank space added on each side of the text
-                TempSlickFrameBuilder = Environment.NewLine + GetBlankSpace(2) + "┌";
-                for (int i = 0; i < TempFrameLength; i++)
-                {
-                    TempFrameTop += "─";
-                    TempFrameBottom += " ";
-                }
-                TempSlickFrameBuilder += TempFrameTop + "┐" + Environment.NewLine;
-                TempSlickFrameBuilder += GetBlankSpace(2) + "│ " + TempOriginalSelection + " │" + Environment.NewLine;
-                TempSlickFrameBuilder += "──┘" + TempFrameBottom + "└──────────";
-
-                return TempSlickFrameBuilder;
-            }
-            else
-            {
-                return text;
-            }
-        }
-
-        public static string TextToEnbossedTab(string text, bool toUpper)
-        {
-            if (text.Length > 0)
-            {
-                // Reset variables
-                TempSlickFrameBuilder = "";
-                TempOriginalSelection = "";
-                TempFrameTop = "";
-                TempFrameBottom = "";
-                TempFrameLength = 0;
-
-                if (toUpper)
-                {
-                    text = text.ToUpper();
-                }
-
-                TempOriginalSelection = text;
-                TempFrameLength = TempOriginalSelection.Length + 2; // + 2 for the blank space added on each side of the text
-                TempSlickFrameBuilder = Environment.NewLine + GetBlankSpace(2) + "┌";
-                for (int i = 0; i < TempFrameLength; i++)
-                {
-                    TempFrameTop += "─";
-                    TempFrameBottom += " ";
-                }
-                TempSlickFrameBuilder += TempFrameTop + "╖" + Environment.NewLine;
-                TempSlickFrameBuilder += GetBlankSpace(2) + "│ " + TempOriginalSelection + " ║" + Environment.NewLine;
-                TempSlickFrameBuilder += "══╛" + TempFrameBottom + "╚══════════";
-
-                return TempSlickFrameBuilder;
-            }
-            else
-            {
-                return text;
-            }
-        }
-
         public static string SelectionToBulletAndLine(string text, bool toUpper)
         {
             if (text.Length > 0)
@@ -258,7 +108,7 @@ namespace AhoyBrowser
                 TempSlickFrameBuilder = Environment.NewLine + TempOriginalSelection + Environment.NewLine;
                 for (int i = 0; i < TempFrameLength; i++)
                 {
-                    TempFrameSide += "─";
+                    TempFrameSide += "-";
                 }
                 TempSlickFrameBuilder += GetBlankSpace(2) + TempFrameSide;
 
@@ -319,11 +169,11 @@ namespace AhoyBrowser
                 {
                     if (i == tempBulletedList.Count - 1)
                     {
-                        tempBulletedString += "• " + tempBulletedList[i];
+                        tempBulletedString += "- " + tempBulletedList[i];
                     }
                     else
                     {
-                        tempBulletedString += "• " + tempBulletedList[i] + Environment.NewLine;
+                        tempBulletedString += "- " + tempBulletedList[i] + Environment.NewLine;
                     }
                 }
 
@@ -360,7 +210,7 @@ namespace AhoyBrowser
                 TempSlickFrameBuilder = Environment.NewLine + TempOriginalSelection + Environment.NewLine;
                 for (int i = 0; i < TempFrameLength; i++)
                 {
-                    TempFrameSide += "─";
+                    TempFrameSide += "-";
                 }
                 TempSlickFrameBuilder += TempFrameSide;
 

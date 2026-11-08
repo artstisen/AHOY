@@ -2,7 +2,6 @@
 
 
                        Quick Guide
-                ───────────═X═───────────
 
 
 CREATE A NEW ENTRY:
@@ -27,9 +26,9 @@ Preceding titles of pinned entries the following attributes may appear:
 "EX Title..." (Entry is marked for Export)
 "+> Title..." (Entry belongs to one or more categories)
 "01 + Tit..." (Entry is category and can be expanded)
-"01 ┌ Title..." (Category: Click to expand/collapse)
-"   └┐ Title.." (Entry in category)
-"    └ Title.." (Entry in category)
+"01- Title..." (Category: Click to expand/collapse)
+"   | Title..." (Entry in category)
+"   \ Title..." (Last entry in category)
 Please note that the category examples above applies when using the default "Style 1". Other styles may produce a different result.
 
 
@@ -39,7 +38,7 @@ Categories can be used to organize entries within the Pinned list and as a taggi
 
 FIND ENTRIES:
 Press CTRL+F to focus the search field. AHOY! will try to deliver a primary search result matching your query. If no matches are found, a fuzzy search will commence to deliver a secondary result, matching elements of the original search query. Use the F-Keys (or mouse) to select between the top 10 found entries. Right click entries in search results to mark them for export.
-TIP: Pinned entries will appear with the symbol "╤" in search results.
+TIP: Pinned entries will appear with the symbol "*>" in search results.
 TIP: Use the Up/Down arrow keys on your keyboard when standing in the search field to recall previous search queries.
 TIP: Broaden your search by adding the wildcard character "*" to the end of your "query*" (this option is unavailable when using Live Search).
 INFO: Search results are sorted by last edited date while entries in the Pinned List are ordered by user priority.
@@ -79,7 +78,6 @@ AHOY! will enter sleep mode (lock the user interface) after 60 minutes of inacti
 
 
                         GLOSSARY
-                ───────────═X═───────────
 
 
 POOL:
@@ -169,61 +167,6 @@ STYLE EDITOR (COLOR THEMES):
 Choose among several Color Theme presets using the Style Editor found in the View Menu (clicking the "More..." button in the Color Theme selector will reveal the Style Editor) and Context Menu in the Pinned List via "Define Colors...". Design custom Color Themes and and use the Import/Export function to share your Color Themes with other users. You can also open the Style Editor via command prompt (CTRL+ALT+A) by typing the command "style".
 
 
-CHECKLIST TEMPLATE:
-Checklist templates enables you to measure progress on a given project via simple tags in your text. This feature will replace the title of the enabled Entry with a dynamic progress bar. The "pending", "inprog" and "done" tags represent tasks that are pending, in progress or done, to which the progress bar will react. The template is invoked on every save/autosave.
-Add as many tasks (using "pending" tags) as needed for your project (there is no tag-count limit). Modify the open/closed tags and bar to your liking. Pin your entry to the Pinned List to display your progress at all times.
-
-Insert the Checklist Template from the Context Menu (Right click -> Insert -> Checklist Template) or press CTRL+ALT+P, or use the command "check" from the command prompt (CTRL+ALT+A).
-TIP: You can use Paragraph Dividers to insert open/closed tags by shortcut.
-
-Select presets 1-9 to style your progress bar using predefined presets. Preset zero (0) will allow you to customize your progress bar using the template tags. Selecting a preset value higher than zero will override the custom tag settings.
-
-PRESET TABLE:
-
-Preset 0 = Custom (using tag-values)
-Preset 1 =     ▓▓▓▓▓▓▓▓▓▓▓▓░░░░░░░░░░░░ 50%  (calculated %)
-Preset 2 =  0% ▓▓▓▓▓▓▓▓▓▓▓▓░░░░░░░░░░░░ 50%  (calculated %)
-Preset 3 =  0% ▓▓▓▓▓▓▓▓▓▓▓▓░░░░░░░░░░░░ 50%  (calculated %)
-Preset 4 = 50% ▓▓▓▓▓▓▓▓▓▓▓▓░░░░░░░░░░░░      (calculated %)
-Preset 5 =  0% ▌▌▌▌▌▌▌▌▌▌▌▌____________ 50%  (calculated %)
-Preset 6 =     ▌▌▌▌▌▌▌▌▌▌▌▌             50%  (calculated %)
-Preset 7 =  0% ▓▓▓▓▓▓▓▓▓▓▓▓░░░░░░░░░░░░ 100% (fixed min/max %)
-Preset 8 =   - ▓▓▓▓▓▓▓▓▓▓▓▓░░░░░░░░░░░░ +    (fixed indicators)
-Preset 9 =     ▓▓▓▓▓▓▓▓▓▓▓▓░░░░░░░░░░░░      (plain)
-NOTE: Selecting a preset value above 9 will default to preset 1. Selecting zero (0) will enable custom formatting.
-
-Tags:
-   1    2  3   4             5              6
-┌──┴──┐┌┴┐┌┴┐┌─┴─┐┌──────────┴───────────┐┌─┴─┐
-Project!0% X ▓▓▓▓▓░░░░░░░░░░░░░░░░░░░░░░░░ 17%!
-             └──────────────┬────────────┘
-                            7
-
-1)  [title:Project] ..... Title (Upper/lowercase letters, spaces and symbols).
-2)  [left:| & ] ......... (Max 4 chars) Percentage sign (%) will display a calculated percentage value. The "&" symbol will insert the static value of "0%".
-3)  [label:X] ........... Text label to be inserted before the progress bar (Optional).
-4)  [char:▓] ............ The main bar indicator.
-5)  [fill:░] ............ The fill character (can remain blank).
-6)  [right: %!] ......... (Max 4 chars) Percentage sign (%) will display a calculated percentage value. The "&" symbol will insert the static value of "100%".
-7)  [width:25] .......... Bar width. Default value: 24 (Select a value between 10 and 50).
-8)  [preset:1] .......... Progress bar preset. Select between 9 presets or select 0 to enable the custom style tags above.
-9)  [open:pending] ...... Customize the tag for incomplete tasks (Case sensitive).
-10) [mark:inprog] ....... Define Bookmark tag (see below for details).
-11) [closed:done] ....... Customize the tag for completed tasks (Case sensitive).
-12) [tag:--] ............ Customize tag braces (punctuation).
-13) -pending- ........... Task incomplete (Create as many tags as you like).
-14) -inprog- ............ Task in progress (Caret will jump to this tag upon Entry selection).
-15) -done- .............. Task completed (Change "pending" or "inprog" to "done").
-
-Both the -pending- and -inprog- tags are considered open tags when parsing the template. The [tplprog] tag is required to enable the entire template. The [tplmark] tag is required to enable the Bookmark Template (used with the -inprog- tag).
-NOTE: The template will default to standard values for if non-valid characters are inserted into tags.
-TIP: When using presets and default open/closed tags, the template setup can be reduced to the [tplprog] tag for a simplified setup.
-
-TIP: The Bookmark template (CTRL+SHIFT+B) will work on its own without the checklist template, if adding the following template tags:
-Insert in top of document: [tplmark][mark:here][tag:--] (Change the "here" text to fit your purpose).
-Insert in text: -here- <- Caret will jump to this tag in your text upon Entry selection.
-
-
 LOG:
 AHOY! keeps an event log with the last 2500 changes made to the Pool. The Log can be accessed from the Tools menu using your AHOY! password. The Log can be cleared using Command Input (see section below).
 NOTE: The AHOY! event log is local only and for user requested diagnostics/debugging purposes. The log is stored in the encrypted Pool file.
@@ -250,7 +193,6 @@ TIP: You can remove the window border via the View menu -> Layout Mode -> Window
 
 
                     USEFUL SHORTCUTS
-                ───────────═X═───────────
 
 
 CTRL+ALT+Q ........ Help (Quick Guide)
@@ -283,8 +225,6 @@ CTRL+SHIFT+DEL .... Remove color from pinned entry
 CTRL+R ............ Lock (write-protect) selected entry
 CTRL+N ............ Create a new entry
 CTRL+SHIFT+N ...... Create a new entry (pinned)
-CTRL+ALT+P ........ Insert Checklist Template
-CTRL+SHIFT+B ...... Insert Bookmark Template
 CTRL+SHIFT+D ...... Duplicate Selection
 CTRL+L ............ Line Delete
 CTRL+ALT+SHIFT+E .. Mark entry for export
@@ -306,7 +246,6 @@ F11 ............... Toggle full screen mode
 
 
                          COMMANDS
-                ───────────═X═───────────
 
 
 COMMANDS - ATTENTION: Some commands will affect all entries in the Pool and should be used with caution. You'll find the Command Input dialog in the Edit menu or by keyboard shortcut CTRL+ALT+A.

@@ -98,27 +98,10 @@ namespace AhoyBrowser
         {
             return "Memo";
         }
-
-        public static string TextSymbolsCaption()
-        {
-            return "Text symbols and ANSI decorations etc.";
-        }
-
         public static string QuickGuideCaption()
         {
             return "Quick Guide";
         }
-
-        public static string EntryTemplateCaption()
-        {
-            return "Entry Template";
-        }
-
-        public static string ProgressBarCaption()
-        {
-            return "Checklist";
-        }
-
         public static string AboutCaption()
         {
             return "About";
@@ -504,21 +487,18 @@ namespace AhoyBrowser
         static string tempSwitchPoolMessage;
         public static string SwitchPoolQuestion()
         {
-            tempSwitchPoolMessage = "▄▄▄▄▄           ▄▄▄▄▄\n";
-            tempSwitchPoolMessage += "▀▄▄▄▀  Switch   ▀▄▄▄▀\n";
-            tempSwitchPoolMessage += "█ 1 █ ◄ ■ ■ ■ ► █ 2 █\n";
-            tempSwitchPoolMessage += "▀▄▄▄▀   Pool?   ▀▄▄▄▀";
+            tempSwitchPoolMessage = "Switch Pool?\n\nPool 1  <-->  Pool 2";
             return tempSwitchPoolMessage;
         }
 
         public static string WelcomeNewProfileOrLoadMessage()
         {
-            return "Welcome to AHOY!" + Environment.NewLine + TextTransform.GetRepeatedCharacter(29, "─") + Environment.NewLine + "Create a new profile or load an existing Pool\nor Backup. Please select an option...";
+            return "Welcome to AHOY!" + Environment.NewLine + TextTransform.GetRepeatedCharacter(29, "-") + Environment.NewLine + "Create a new profile or load an existing Pool\nor Backup. Please select an option...";
         }
 
         public static string RemoteBackupMessage()
         {
-            return "Set a remote backup directory?" + Environment.NewLine + TextTransform.GetRepeatedCharacter(30, "─") + Environment.NewLine +
+            return "Set a remote backup directory?" + Environment.NewLine + TextTransform.GetRepeatedCharacter(30, "-") + Environment.NewLine +
                 "Select a synchronized folder for cloud/network/drive backup...\n\n-Or skip for now and set later in the\nFile menu when needed.";
         }
 
@@ -763,21 +743,6 @@ namespace AhoyBrowser
         {
             return "Sleep interval changed";
         }
-        public static string EntryTemplateAlreadyActiveMessage(string type)
-        {
-            return type + " already active on this Entry";
-        }
-
-        public static string ChecklistInsertionMessage()
-        {
-            return "The Checklist Template will replace the current Entry title with template specific content...\nContinue?";
-        }
-
-        public static string InsertionFailedMessage(string template)
-        {
-            return "The editor must have focus on a valid Entry to insert the " + template + " Template";
-        }
-
 
         public static string EnterPasswordMessage()
         {

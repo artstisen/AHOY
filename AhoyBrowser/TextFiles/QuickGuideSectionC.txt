@@ -2,7 +2,6 @@
 
 
                       SHELL COMMANDS
-                ───────────═X═───────────
 
 The following processes may be invoked (if available on the current system) with arguments where applicable from within the AHOY! environment using Command Input (CTRL+ALT+A).
 
@@ -63,7 +62,7 @@ home ............ Open C:\Documents and Settings\{username}\
 %APPDATA% ....... C:\Users\{username}\AppData\Roaming\
 %WINDIR% ........ C:\Windows
 
-♦ Note regarding the "hosts" file:
+* Note regarding the "hosts" file:
 The hosts file is located under
 "%WinDir%\System32\Drivers\Etc" and
 should be opened with a text editor
@@ -72,12 +71,12 @@ Comment: "#"
 Local URL rewrite: "125.33.34.25 iso.org
 www.iso.org"
 
-♦ Note regarding regedit:
+* Note regarding regedit:
 View, edit and add environment keys under
 "HKEY_LOCAL_MACHINE/SOFTWARE/Microsoft/Windows/
 CurrentVersion/App Paths"
 
-♦ Note regarding telnet:
+* Note regarding telnet:
 To install Telnet open the Control Panel and click Programs. Under Programs and Features click "Turn Windows features on or off" (requires Admin permission). In the dialog box, select the Telnet Client check box. The installation might take several minutes.
 NOTE: If you're using Windows Server 2008 R2, you should use Server Manager to install telnet. Check Windows Help (F1) for more information.
 

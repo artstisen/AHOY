@@ -32,7 +32,7 @@
         private System.Windows.Forms.ToolStripSeparator toolStripMenuItem4;
         private System.Windows.Forms.ToolStripSeparator toolStripMenuItem5;
         private System.Windows.Forms.Timer timerGlobal;
-        private System.Windows.Forms.Label lbInterfaceLocked;
+        private AhoyBrowser.PixelArtLabel lbInterfaceLocked;
         private System.Windows.Forms.ToolStripMenuItem saveEntryToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem findAllToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem editToolStripMenuItem;
@@ -82,15 +82,6 @@
         private System.Windows.Forms.ToolStripSeparator toolStripMenuItem17;
         private System.Windows.Forms.ToolStripMenuItem clearFormattingToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem adornSelectionToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem slickFrameToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem slickFrameAndCapsToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem embossedFrameToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem embossedFrameCapsToolStripMenuItem;
-        private System.Windows.Forms.ToolStripSeparator toolStripMenuItem19;
-        private System.Windows.Forms.ToolStripMenuItem slickTabToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem slickTabCapsToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem embossedTabToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem embossedTabCapsToolStripMenuItem;
         private System.Windows.Forms.ToolStripSeparator toolStripMenuItem18;
         private System.Windows.Forms.ToolStripMenuItem bulletLineToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem bulletLineCapsToolStripMenuItem;
@@ -99,7 +90,6 @@
         private System.Windows.Forms.ToolStripMenuItem bulletIndentCapsToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem underlineToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem underlineCapsToolStripMenuItem;
-        private System.Windows.Forms.ToolStripSeparator toolStripMenuItem21;
         private System.Windows.Forms.Button btnHoldB;
         private System.Windows.Forms.ToolStripMenuItem deleteLineToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem holdEntry2ToolStripMenuItem;
@@ -384,7 +374,6 @@
         //private System.Windows.Forms.ToolStripMenuItem checkForUpdatesToolStripMenuItem;
         //private System.Windows.Forms.ToolStripSeparator toolStripMenuItem75;
         private System.Windows.Forms.ToolStripMenuItem insertToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem checklistTemplateToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem dateTimeToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem insertParagraphDividerToolStripMenuItem1;
         private System.Windows.Forms.ToolStripMenuItem customColorToolStripMenuItem1;
@@ -420,12 +409,10 @@
         private System.Windows.Forms.ToolStripMenuItem sample19ToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem sample20ToolStripMenuItem;
         private System.Windows.Forms.ToolStripSeparator toolStripMenuItem78;
-        private System.Windows.Forms.ToolStripMenuItem labyrinthToolStripMenuItem;
         private System.Windows.Forms.ToolStripSeparator toolStripMenuItem79;
         private System.Windows.Forms.ToolStripMenuItem newPinnedEntryToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem newPinnedEntryToolStripMenuItem1;
         private System.Windows.Forms.ToolStripSeparator toolStripMenuItem80;
-        private System.Windows.Forms.ToolStripMenuItem bookmarkTemplateToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem showClockToolStripMenuItem;
         private System.Windows.Forms.ToolStripSeparator toolStripMenuItem60;
         private System.Windows.Forms.ToolStripMenuItem sortToolStripMenuItem;
@@ -598,8 +585,6 @@
             this.toolStripMenuItem30 = new System.Windows.Forms.ToolStripSeparator();
             this.insertToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.dateTimeToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.checklistTemplateToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.bookmarkTemplateToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.insertParagraphDividerToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
             this.replaceToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.undoEverythingToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -627,16 +612,6 @@
             this.toolStripMenuItem18 = new System.Windows.Forms.ToolStripSeparator();
             this.bulletLineToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.bulletLineCapsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.toolStripMenuItem21 = new System.Windows.Forms.ToolStripSeparator();
-            this.slickFrameToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.slickFrameAndCapsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.embossedFrameToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.embossedFrameCapsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.toolStripMenuItem19 = new System.Windows.Forms.ToolStripSeparator();
-            this.slickTabToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.slickTabCapsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.embossedTabToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.embossedTabCapsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripMenuItem13 = new System.Windows.Forms.ToolStripSeparator();
             this.bookmarkToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.replaceBookmarkToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -872,7 +847,6 @@
             this.homeScreenToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.layoutAToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.layoutBToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.labyrinthToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripMenuItem79 = new System.Windows.Forms.ToolStripSeparator();
             this.layoutCToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.setDisplayTextToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -890,7 +864,7 @@
             this.lbStatus = new System.Windows.Forms.ToolStripStatusLabel();
             this.lbStatus2 = new System.Windows.Forms.ToolStripStatusLabel();
             this.timerGlobal = new System.Windows.Forms.Timer(this.components);
-            this.lbInterfaceLocked = new System.Windows.Forms.Label();
+            this.lbInterfaceLocked = new AhoyBrowser.PixelArtLabel();
             this.timerRefocusContentSearch = new System.Windows.Forms.Timer(this.components);
             this.toolTip1 = new System.Windows.Forms.ToolTip(this.components);
             this.pnlSpawnSticky = new System.Windows.Forms.Panel();
@@ -2258,8 +2232,6 @@
             // 
             this.insertToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.dateTimeToolStripMenuItem,
-            this.checklistTemplateToolStripMenuItem,
-            this.bookmarkTemplateToolStripMenuItem,
             this.insertParagraphDividerToolStripMenuItem1});
             this.insertToolStripMenuItem.Name = "insertToolStripMenuItem";
             this.insertToolStripMenuItem.Size = new System.Drawing.Size(281, 22);
@@ -2273,22 +2245,6 @@
             this.dateTimeToolStripMenuItem.Size = new System.Drawing.Size(252, 22);
             this.dateTimeToolStripMenuItem.Text = "&Timestamp";
             this.dateTimeToolStripMenuItem.Click += new System.EventHandler(this.insertDateToolStripMenuItem_Click);
-            // 
-            // checklistTemplateToolStripMenuItem
-            // 
-            this.checklistTemplateToolStripMenuItem.Name = "checklistTemplateToolStripMenuItem";
-            this.checklistTemplateToolStripMenuItem.ShortcutKeyDisplayString = "Ctrl+Alt+P";
-            this.checklistTemplateToolStripMenuItem.Size = new System.Drawing.Size(252, 22);
-            this.checklistTemplateToolStripMenuItem.Text = "&Checklist Template";
-            this.checklistTemplateToolStripMenuItem.Click += new System.EventHandler(this.checklistTemplateToolStripMenuItem_Click);
-            // 
-            // bookmarkTemplateToolStripMenuItem
-            // 
-            this.bookmarkTemplateToolStripMenuItem.Name = "bookmarkTemplateToolStripMenuItem";
-            this.bookmarkTemplateToolStripMenuItem.ShortcutKeyDisplayString = "Ctrl+Shift+B";
-            this.bookmarkTemplateToolStripMenuItem.Size = new System.Drawing.Size(252, 22);
-            this.bookmarkTemplateToolStripMenuItem.Text = "&Bookmark Template";
-            this.bookmarkTemplateToolStripMenuItem.Click += new System.EventHandler(this.bookmarkTemplateToolStripMenuItem_Click);
             // 
             // insertParagraphDividerToolStripMenuItem1
             // 
@@ -2433,17 +2389,7 @@
             this.bulletIndentCapsToolStripMenuItem,
             this.toolStripMenuItem18,
             this.bulletLineToolStripMenuItem,
-            this.bulletLineCapsToolStripMenuItem,
-            this.toolStripMenuItem21,
-            this.slickFrameToolStripMenuItem,
-            this.slickFrameAndCapsToolStripMenuItem,
-            this.embossedFrameToolStripMenuItem,
-            this.embossedFrameCapsToolStripMenuItem,
-            this.toolStripMenuItem19,
-            this.slickTabToolStripMenuItem,
-            this.slickTabCapsToolStripMenuItem,
-            this.embossedTabToolStripMenuItem,
-            this.embossedTabCapsToolStripMenuItem});
+            this.bulletLineCapsToolStripMenuItem});
             this.adornSelectionToolStripMenuItem.Name = "adornSelectionToolStripMenuItem";
             this.adornSelectionToolStripMenuItem.Size = new System.Drawing.Size(281, 22);
             this.adornSelectionToolStripMenuItem.Tag = "bold";
@@ -2500,72 +2446,6 @@
             this.bulletLineCapsToolStripMenuItem.Size = new System.Drawing.Size(193, 22);
             this.bulletLineCapsToolStripMenuItem.Text = "Bullet Line Caps";
             this.bulletLineCapsToolStripMenuItem.Click += new System.EventHandler(this.bulletLineCapsToolStripMenuItem_Click);
-            // 
-            // toolStripMenuItem21
-            // 
-            this.toolStripMenuItem21.Name = "toolStripMenuItem21";
-            this.toolStripMenuItem21.Size = new System.Drawing.Size(190, 6);
-            // 
-            // slickFrameToolStripMenuItem
-            // 
-            this.slickFrameToolStripMenuItem.Name = "slickFrameToolStripMenuItem";
-            this.slickFrameToolStripMenuItem.Size = new System.Drawing.Size(193, 22);
-            this.slickFrameToolStripMenuItem.Text = "Slick Frame";
-            this.slickFrameToolStripMenuItem.Click += new System.EventHandler(this.slickFrameToolStripMenuItem_Click);
-            // 
-            // slickFrameAndCapsToolStripMenuItem
-            // 
-            this.slickFrameAndCapsToolStripMenuItem.Name = "slickFrameAndCapsToolStripMenuItem";
-            this.slickFrameAndCapsToolStripMenuItem.Size = new System.Drawing.Size(193, 22);
-            this.slickFrameAndCapsToolStripMenuItem.Text = "Slick Frame Caps";
-            this.slickFrameAndCapsToolStripMenuItem.Click += new System.EventHandler(this.slickFrameAndCapsToolStripMenuItem_Click);
-            // 
-            // embossedFrameToolStripMenuItem
-            // 
-            this.embossedFrameToolStripMenuItem.Name = "embossedFrameToolStripMenuItem";
-            this.embossedFrameToolStripMenuItem.Size = new System.Drawing.Size(193, 22);
-            this.embossedFrameToolStripMenuItem.Text = "Embossed Frame";
-            this.embossedFrameToolStripMenuItem.Click += new System.EventHandler(this.embossedFrameToolStripMenuItem_Click);
-            // 
-            // embossedFrameCapsToolStripMenuItem
-            // 
-            this.embossedFrameCapsToolStripMenuItem.Name = "embossedFrameCapsToolStripMenuItem";
-            this.embossedFrameCapsToolStripMenuItem.Size = new System.Drawing.Size(193, 22);
-            this.embossedFrameCapsToolStripMenuItem.Text = "Embossed Frame Caps";
-            this.embossedFrameCapsToolStripMenuItem.Click += new System.EventHandler(this.embossedFrameCapsToolStripMenuItem_Click);
-            // 
-            // toolStripMenuItem19
-            // 
-            this.toolStripMenuItem19.Name = "toolStripMenuItem19";
-            this.toolStripMenuItem19.Size = new System.Drawing.Size(190, 6);
-            // 
-            // slickTabToolStripMenuItem
-            // 
-            this.slickTabToolStripMenuItem.Name = "slickTabToolStripMenuItem";
-            this.slickTabToolStripMenuItem.Size = new System.Drawing.Size(193, 22);
-            this.slickTabToolStripMenuItem.Text = "Slick Tab";
-            this.slickTabToolStripMenuItem.Click += new System.EventHandler(this.slickTabToolStripMenuItem_Click);
-            // 
-            // slickTabCapsToolStripMenuItem
-            // 
-            this.slickTabCapsToolStripMenuItem.Name = "slickTabCapsToolStripMenuItem";
-            this.slickTabCapsToolStripMenuItem.Size = new System.Drawing.Size(193, 22);
-            this.slickTabCapsToolStripMenuItem.Text = "Slick Tab Caps";
-            this.slickTabCapsToolStripMenuItem.Click += new System.EventHandler(this.slickTabCapsToolStripMenuItem_Click);
-            // 
-            // embossedTabToolStripMenuItem
-            // 
-            this.embossedTabToolStripMenuItem.Name = "embossedTabToolStripMenuItem";
-            this.embossedTabToolStripMenuItem.Size = new System.Drawing.Size(193, 22);
-            this.embossedTabToolStripMenuItem.Text = "Embossed Tab";
-            this.embossedTabToolStripMenuItem.Click += new System.EventHandler(this.embossedTabToolStripMenuItem_Click);
-            // 
-            // embossedTabCapsToolStripMenuItem
-            // 
-            this.embossedTabCapsToolStripMenuItem.Name = "embossedTabCapsToolStripMenuItem";
-            this.embossedTabCapsToolStripMenuItem.Size = new System.Drawing.Size(193, 22);
-            this.embossedTabCapsToolStripMenuItem.Text = "Embossed Tab Caps";
-            this.embossedTabCapsToolStripMenuItem.Click += new System.EventHandler(this.embossedTabCapsToolStripMenuItem_Click);
             // 
             // toolStripMenuItem13
             // 
@@ -4451,7 +4331,6 @@
             this.homeScreenToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.layoutAToolStripMenuItem,
             this.layoutBToolStripMenuItem,
-            this.labyrinthToolStripMenuItem,
             this.toolStripMenuItem79,
             this.layoutCToolStripMenuItem});
             this.homeScreenToolStripMenuItem.Name = "homeScreenToolStripMenuItem";
@@ -4462,22 +4341,15 @@
             // 
             this.layoutAToolStripMenuItem.Name = "layoutAToolStripMenuItem";
             this.layoutAToolStripMenuItem.Size = new System.Drawing.Size(140, 22);
-            this.layoutAToolStripMenuItem.Text = "&ANSI Logo";
+            this.layoutAToolStripMenuItem.Text = "&Small Logo";
             this.layoutAToolStripMenuItem.Click += new System.EventHandler(this.layoutAANSIToolStripMenuItem_Click);
             // 
             // layoutBToolStripMenuItem
             // 
             this.layoutBToolStripMenuItem.Name = "layoutBToolStripMenuItem";
             this.layoutBToolStripMenuItem.Size = new System.Drawing.Size(140, 22);
-            this.layoutBToolStripMenuItem.Text = "&ASCII Logo";
+            this.layoutBToolStripMenuItem.Text = "&Large Logo";
             this.layoutBToolStripMenuItem.Click += new System.EventHandler(this.layoutBASCIIToolStripMenuItem_Click);
-            // 
-            // labyrinthToolStripMenuItem
-            // 
-            this.labyrinthToolStripMenuItem.Name = "labyrinthToolStripMenuItem";
-            this.labyrinthToolStripMenuItem.Size = new System.Drawing.Size(140, 22);
-            this.labyrinthToolStripMenuItem.Text = "&Labyrinth";
-            this.labyrinthToolStripMenuItem.Click += new System.EventHandler(this.labyrinthToolStripMenuItem_Click);
             // 
             // toolStripMenuItem79
             // 

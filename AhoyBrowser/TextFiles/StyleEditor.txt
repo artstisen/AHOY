@@ -1,7 +1,4 @@
-﻿ 
- ┌─────────────────────────────╖
- │ Welcome to the Style Editor ║
- ╘══════════════════════v1.04══╝
+﻿Welcome to the Style Editor
 
 Change color theme, opacity and background texture. Or mix and match colors to create your own style...
 Export custom color themes and import color theme- or settings-files.
