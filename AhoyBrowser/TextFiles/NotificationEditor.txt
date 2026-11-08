@@ -1,0 +1,21 @@
+﻿Notification Editor
+
+Notifications are reminders set on individual Entries.
+
+1. Click the Notification button (or press CTRL+ALT+N) to open the Notification Preview.
+   (You can either create a new Entry or select an existing Entry to set your Notification on).
+
+2. In the Notification Editor: Type a Notification text (Message). Message content is persisted on inactive Notifications.
+
+3. Set the date and time for when to be notified, click the "INACTIVE (OFF)" button and close the Editor by clicking the "Submit" button. The Notification Editor will pop-up at the set date and time to remind you of the event.
+   If you are using repeated notifications the state button will light up if repeating an alert on the current day. Click the repeat button to select between modes of repetition. It is possible to postpone/snooze a repeated alert. This will not affect next/future repeated alerts, only the current raised alert.
+
+TIP: ● Right click the notification icon in the Main Editor to list all active Notifications.
+     ● Snooze a raised Notification by clicking the Snooze button. Right click the Snooze button to change snooze interval (in minutes).
+     ● Caret position is saved to enable line-specific focus for verbose message content.
+     ● Use the "Call-Up" button to call-up the associated entry in the Main Editor. Currently selected entries that are unassociated with the active Notification will be autosaved upon Call-Up.
+
+NOTE: ● Notifications utilize an independent text message memory that won't affect the associated Entry.
+      ● Only one notification window is raised at a time. Additional notifications will be queued up, waiting for the current Notification window to be resolved.
+      ● Notifications are raised even when AHOY! is locked/sleeping, but will only be raised when the AHOY! software is running.
+      ● Notification alerts will not be raised when the Magic Screen Blocker is active.

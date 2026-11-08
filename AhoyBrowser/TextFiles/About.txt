@@ -1,0 +1,12 @@
+﻿
+This application was written in C# by LBS
+https://github.com/artstisen/AHOY
+
+Pssst: You might want to consider my latest AHOY!-like project, Marbles!
+-a lightweight cross-platform text mode application for taking notes with encryption in any terminal on Windows and Linux:
+https://github.com/artstisen/marbles
+  
+NOTE: Dictionaries available to the AHOY! Spell Checker
+are dependent on the languages installed on your system.
+Please consult the language settings in your OS to
+add additional languages.

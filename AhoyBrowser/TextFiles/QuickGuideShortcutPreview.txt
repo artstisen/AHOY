@@ -1,0 +1,9 @@
+﻿      CTRL+N ............ New
+      CTRL+SHIFT+N ...... New Pinned
+      CTRL+I ............ Pin/Unpin
+      CTRL+F ............ Search
+      CTRL+ALT+F ........ Search Content
+      ESC ............... Close
+      ESC x 2 ........... Clear Clipboard
+
+      CTRL+ALT+Q ........ Quick Guide

@@ -1,0 +1,15 @@
+﻿<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<settings>
+  <setting>
+    <theme>10</theme>
+    <!-- Button bitmap 0-2 -->
+    <btnbovr>1</btnbovr>
+    <opacity>0,9</opacity>
+    <texture>0</texture>
+    <prism>False</prism>
+    <!--Display text cycle -->
+    <qgcycle>0</qgcycle>
+    <custt><![CDATA[Blue Plastic]]></custt>
+    <custc><![CDATA[#0074E0;#0084FF;#FFFFFF;#FFFFFF;#FFFFFF;#0074E0;#FFFFFF;#006CD1;#FFFFFF;#006CD1;#0061BC;#0084FF;#003C73;#14509B;#237887;#2882A5;#FF7CA7;#FF9AC5;#FFB8E3;#FFD6FF;#FFFFFF;#FFFFFF;#FFFFFF;#FFFFFF;#FFFFFF;#FFFFFF;#0074E0;#0074E0;#FF9C00;#0084FF;#FFFFFF;]]></custc>
+  </setting>
+</settings>

@@ -1,0 +1,439 @@
+﻿
+
+
+                       Quick Guide
+                ───────────═X═───────────
+
+
+CREATE A NEW ENTRY:
+Click the New button in the upper right corner (CTRL+N). Write a title in the dialog, click the OK button and add your text content. Click the Pin button to pin your entry onto the Pinned List. Click the Close button to close and hide the entry from view. Click the Zzz button to lock the AHOY! user interface.
+
+
+THE ESCAPE BUTTON (ON YOUR KEYBOARD):
+Pressing the ESCAPE (ESC) button will close the current entry, and clear your clipboard when pressing it twice. The Escape button will also toggle visibility of the Pinned List.
+
+
+REVIEW HISTORY:
+You might find the History button above the Pinned List a great way to navigate between current entries. Click the History button or press CTRL+H to show a history of the latest created and edited entries, sorted by date modified.
+
+
+THE PINNED ENTRIES LIST:
+Arrange pinned entries using the arrow buttons below the Pinned List. You can also use keyboard shortcuts CTRL+J and CTRL+K to move pinned entries up and down the Pinned List. Right click your mouse on the Pinned List to change colors etc. Custom colors are independent of the chosen color theme and will be persisted on theme change.
+
+Preceding titles of pinned entries the following attributes may appear:
+"01 Title..." (Line number)
+"N► Title..." (Entry has Active Notification)
+"I► Title..." (Entry has Inactive Notification)
+"H1 Title..." (Entry is held by Hold Button 1)
+"H2 Title..." (Entry is held by Hold Button 2)
+"H► Title..." (Held with Active/Inactive Notification)
+"EX Title..." (Entry is marked for Export)
+"+> Title..." (Entry belongs to one or more categories)
+"01 + Tit..." (Entry is category and can be expanded)
+"01 ┌ Title..." (Category: Click to expand/collapse)
+"   └┐ Title.." (Entry in category)
+"    └ Title.." (Entry in category)
+Please note that the category examples above applies when using the default "Style 1". Other styles may produce a different result.
+
+
+CATEGORIES:
+Categories can be used to organize entries within the Pinned list and as a tagging option for search results. Right click an entry in the pinned list or search result and select "New Category". Right click other entries in the pinned list or search result and select "Add to Category". Related entries are sorted A-Z in the pinned list. The current expanded/collapsed state and any of the 8 styles is remembered for each category. If an entry is related to several categories, edit the category you wish to remove it from. You can always jump to an entry's category or the current editing category by right clicking and selecting the category name from the context menu. Setting colors on the selected category in the pinned list will enable you to colorize all the related entries as well. It is also possible to export an entire category by marking the category for export. Deleting an entry marked as category will not affect its related entries. Categories can also be managed via command input (see command reference for details). Use the Color Gradient option to distribute the current selected category color across the entire category as gradient.
+
+
+FIND ENTRIES:
+Press CTRL+F to focus the search field. AHOY! will try to deliver a primary search result matching your query. If no matches are found, a fuzzy search will commence to deliver a secondary result, matching elements of the original search query. Use the F-Keys (or mouse) to select between the top 10 found entries. Right click entries in search results to mark them for export.
+TIP: Pinned entries will appear with the symbol "╤" in search results.
+TIP: Use the Up/Down arrow keys on your keyboard when standing in the search field to recall previous search queries.
+TIP: Broaden your search by adding the wildcard character "*" to the end of your "query*" (this option is unavailable when using Live Search).
+INFO: Search results are sorted by last edited date while entries in the Pinned List are ordered by user priority.
+
+
+LIVE SEARCH:
+The live search option (enabled by default) will trigger with two or more characters in the search field. Live search is limited to using the primary search algorithm described above. You can always press Enter on your keyboard, or click the search button to activate the full search algorithm with primary and secondary search results. Results are sorted by changed date.
+
+
+TITLE PRIORITY SEARCH:
+Search results matching Entry titles are shown first (in the top of the results list). Results are sorted by changed date.
+
+
+AUTO-SEARCH:
+When selecting an Entry from the search results AHOY! will highlight text content matching your query.
+
+
+NAVIGATION BUTTONS:
+Use the arrow buttons in the upper left corner to navigate between recently viewed entries. You can also use keyboard shortcuts ALT+Left arrow and Alt+Right arrow to navigate between entries.
+
+
+HOLD BUTTONS:
+Use the Hold buttons to temporarily remember and recall an entry. Clear a Hold button by right-clicking it or by going to the Edit menu and select "Clear Hold Buttons".
+
+
+CONTEXT MENU:
+Right click your mouse in any of the editors to open the Context menu.
+
+
+FIND CONTENT:
+You can search through text in the Content field using the search box above the text editor or by pressing CTRL+ALT+F.
+Press ENTER on your keyboard during content search to highlight and jump between search results.
+
+
+INTERFACE AUTO-LOCK:
+AHOY! will enter sleep mode (lock the user interface) after 60 minutes of inactivity. Consult the Options menu to change intervals.
+
+
+
+                        GLOSSARY
+                ───────────═X═───────────
+
+
+POOL:
+The Pool is the encrypted file repository used by AHOY! to store entries on your computer. The Pool can contain a virtually unlimited number of entries, only limited by available disk space. 
+It is possible to load a Pool from a different directory by selecting "Open Pool Or Backup" from the File Menu, or by shortcut CTRL+O. Separate backup files will be created for the loaded Pool in its respective directory. AHOY! will remember the last selected Pool and use it as its current working directory when starting AHOY!
+With the "Switch Pool" option (found in the File -> Advanced Menu) It is possible to switch between two separate Pools by keyboard shortcut (CTRL+ALT+O), as long as the default directory is used. A secondary Pool with new login credentials will be created when a switch is initiated for the first time. Each Pool is maintained with separate sets of application settings and backup files.
+NOTE: The option "Switch Pool" and the automated "Backup Recovery" features are only available when using AHOY's default data directory. AHOY's default (primary) data directory is located in %AppData%\Ahoy.
+TIP: Using the option "Load Default Pool" from the File -> Advanced menu will always try to load the default Pool.
+
+
+ENTRY:
+Each entry (or text document) in AHOY! consists of an entry title, text content and optional notification settings.
+An Entry can be created, pinned, bookmarked, locked, saved, edited and deleted.
+
+
+AUTOSAVE ENTRY:
+The Autosave option is enabled by default. It can be toggled On and Off in the Options menu.
+
+
+AUTOSAVE POOL:
+The Pool is saved automatically when changes are detected while the user is inactive for 60 seconds or more, with retries every 10 seconds hereafter (Autosave is ensured every 60 minutes if the previous rules fall short). Changes are measured by direct edits and by checking total character count of all input fields in all editors, and across all Entries.
+Closing AHOY! will save the current Entry and Pool, if any changes are present.
+
+
+AUTOMATIC BACKUP:
+Local backup is always enabled. *Remote backup to an alternate file-path must be enabled from the File menu.
+Local and Remote backups are done every 30 minutes if the Pool has changes or when the Pool has completed 16 save cycles via Autosave or 7 save cycles in manual save mode. This will ensure that backups are no more than 30 minutes old. Backups are saved in turn as "A" and "B" files, to ensure that at least one of the two files are intact (if one was saved in an incomplete state during soft- or hardware failure).
+*) Remote Backup: Set a remote backup location (must be a low latency media like a Hard-drive, USB memory stick or network location etc.) from the File menu using the "Set Backup Directory" option, to secure backups to a specific/synchronized folder.
+
+
+BACKUP RECOVERY (MANUAL AND AUTOMATIC):
+Automated backup recovery is only available when using the default Pool. When using a Pool from a different directory, choose "Open Pool Or Backup" (CTRL+O) from the File Menu, to perform a manual backup recovery. 
+NOTE: Check the time stamp (Date modified) on files to select the latest backup if preferable.
+To perform an automated backup recovery from the primary Pool directory select "Backup Recovery" from the File -> Advanced Menu (AHOY! will try to load the file "A-Backup" first and proceed with "B-Backup" if the first recovery process fails). You can also select "Open Pool/Backup" in the File Menu and navigate to the Pool file you wish to load.
+Manual Backup to portable devices: Backup your data to another medium, either by selecting the "Copy Pool to Clipboard" option and pasting the file onto any medium of choice. Or you can select "Save Pool Copy As.." in the File Menu and navigate to the location where you wish to save your Pool copy.
+
+
+GLOBAL UNDO:
+Will undo last Pool operation (Entry deletion, duplication, import, pinned/color reset/sorting, Backup Recovery etc.).
+How it works: Every time a critical edit is performed a clone of the entire pool is made. The global undo will load the last cloned pool back into the original pool upon global undo. A global undo cannot be undone.
+
+
+SPELL CHECKER:
+The AHOY! Spell Checker currently supports English (UK), English (US), German (DE), French (FR), Spanish (ES) and is dependent on the dictionaries installed with the .NET Framework. All five languages should be available if you have the .NET Framework 4.5 or higher installed.
+
+
+MEMO:
+A practical Memo Pad (will be hidden if display mode is set to "Basic") as supplement to the individual Entries, for quick notes or collecting text snippets from within Entries. The Memo Pad is saved automatically. Right clicking inside the Memo Pad will call up a context menu with editing options.
+
+
+STICKY:
+Stickies are reminders you can place on your desktop. Sticky size, position and content is persisted on exit. Sticky content is saved to the AHOY! Pool with encryption. Click the Sticky icon in the Top Menu or press CTRL+SHIFT+I to create a new Sticky. Right click the Sticky icon to hide all Stickies (or press CTRL+SHIFT+H). There can be a maximum of 32 Sticky notes. Consult the Tools menu for more Sticky options.
+NOTE: Hover your mouse cursor over buttons in AHOY! to display ToolTips.
+
+
+NOTIFICATIONS:
+Notifications are reminders set on individual Entries: You can either create a new Entry or select an existing Entry to set your Notification with.
+Entries can have Active and Inactive Notifications. Notification text content is included when searching the Pool for Entries (both Active and Inactive Notifications are included when searching).
+Select an Entry and click the Notification button (or press CTRL+ALT+N) to open the Notification Preview Dialog. Create a new Entry or edit the currently selected Entry: Type a Notification text (Message) and set the date and time. A Notification will be raised at the set date and time to remind you of the current event. Snooze a raised Notification by clicking the Snooze button. Right click the Snooze button to change snooze interval (in minutes).
+To learn more about Notifications click the Help icon ("?") inside the Notification Editor.
+NOTE: Notification alerts will not be raised when the Magic Screen Blocker is active.
+
+
+HOME SCREEN:
+Text shown in the Content field upon startup and when closing an Entry, when pressing the ESC button or when selecting Clear Displays from the Options menu.
+When setting your own (Custom) Home Screen, a copy of the text content from the current selected Entry will be used as the new Home Screen text. Select Set Home Screen repeatedly to update the Home Screen with any changes made to your Entry.
+
+
+PLOP EDITOR:
+Use the PLOP Editor to work in an Entry not currently selected in the main editor. The PLOP Editor is used to add or "PLOP" text content into a specific/linked Entry while working with other entries simultaneously. The PLOP Editor can be used side-by-side with the Typewriter emulator.
+1) With the PLOP Editor closed: Select the Entry you want to associate with the PLOP Editor.
+2) Open the PLOP Editor (Press CTRL+E). The PLOP Editor is now linked to the selected entry.
+3) Remain in the selected Entry or select other entries to work with -the PLOP Editor will add text (by pressing ESC or by clicking the PLOP! button) into the associated Entry, regardless of the Entry currently selected in the main editor.
+TIP: Recall PLOP text by clicking the Undo button or by pressing CTRL+Z (PLOP has 1000 Undo/Redo states).
+NOTE: To change associated entry: Click the "Linked" button to unlink PLOP. Close the PLOP Editor (By pressing ESC or by clicking the Close button) and repeat the steps above.
+PLOP Shortcuts:
+ESC ............... PLOP content to Entry/Close PLOP Editor
+ALT+Left/Right .... Cycle back and fourth between fields
+F6  ............... View/Disconnect PLOP Link
+F7  ............... Toggle PLOP as Top Most on Desktop
+F8  ............... Call-Up linked Entry
+CTRL+/,/./- ....... Insert Paragraph Dividers
+CTRL+N ............ Create new Entry
+CTRL+E ............ Focus Main Editor
+CTRL+F ............ Focus Search in Main Editor
+CTRL+I ............ Pin/Unpin current Entry (Main Editor)
+CTRL+ALT+Q ........ Show Quick Guide
+CTRL+ALT+A ........ Open Command Prompt
+
+
+UTILITY EDITOR:
+A separate text editor useful for working in parallel with the main editor. The Utility Editor is not tied to a specific Entry, instead it uses four Memory Banks (Temp, A, B and C) to store its content, from which it is possible to transfer text to any selected Entry.
+The Utility Editor will persist Memory Banks A, B and C (Autosave feature), including Window Size, Location and Opacity. As with normal Entries the Memory Banks are stored within the encrypted Pool. Content in the Temp Memory Bank will be discarded when AHOY! is closed.
+Press ALT+Left/Right to cycle back and fourth between Memory Banks. The Utility Editor can be placed anywhere on the screen and above the AHOY! window. Using the Opacity setting (found in the Menu) the Editor can serve as an overlay while working on multiple documents.
+It is possible to create New Entries, edit and add content to existing Entries from the Utility Editor.
+Useful shortcuts from within the Utility Editor:
+CTRL+N ............ Create new Entry
+CTRL+E ............ Focus Main Editor
+
+
+PARAGRAPH DIVIDERS:
+Paragraph Dividers are text-vignettes inserted to mark the beginning/end of a text block etc. Paragraph Dividers are inserted in AHOY! Text Editors by pressing a set of predefined keyboard shortcuts (CTRL+ +/,/./-). Use empty lines to add space above and below the inserted Paragraph Divider. Create custom sized Tab indents, Email templates, Text-Snippets, ANSI-Art, your favorite quotes etc.
+Use Tags to insert Timestamps and position the caret for text selections.
+
+
+PASSWORD GENERATOR AND PASSWORD TESTER:
+Use the Password Generator to create a range of password types, including strong passwords. It's also possible to generate UUID's (Universally unique identifier) with the Password Generator.
+Use the help function inside the Password Generator to learn more about the Password Tester and how to create a strong password.
+
+
+PASSWORD RECOVERY:
+You can reset your password from the Change Password menu option found in the Options menu, using your old password or recovery answer.
+
+
+LOGIN DIALOG:
+The login dialog will allow three login attempts before exiting AHOY! (Restart AHOY! to retry). With two login attempts the password recovery option will appear. Type your secret answer to reset your password. You can also reset your password from the Change Password menu option found in the Options menu.
+
+
+IMPORT/EXPORT:
+Entries can be marked for Export from the File Menu and Context Menu in the Pinned List (or by shortcut CTRL+ALT+SHIFT+E). Marked Entries becomes part of a temporary export collection that may be exported from the File Menu. Exported entries may be edited in external editors and imported back into AHOY!.
+IMPORTANT: Exported Entries are not encrypted and may be read by anyone who opens the exported file.
+NOTE: The export collection is a temporary Entry labeling and not persisted on application exit.
+
+
+STYLE EDITOR (COLOR THEMES):
+Choose among several Color Theme presets using the Style Editor found in the View Menu (clicking the "More..." button in the Color Theme selector will reveal the Style Editor) and Context Menu in the Pinned List via "Define Colors...". Design custom Color Themes and and use the Import/Export function to share your Color Themes with other users. You can also open the Style Editor via command prompt (CTRL+ALT+A) by typing the command "style".
+
+
+EFFECTS (PRISM EFFECT)
+The Prism effect is inspired by classic computing of the 80's. A color-shifting effect that looks best on a darker color theme. The Prism effect is visible on the pinned animation, home screen, interface lock screen etc. Toggle the effect from the View Menu or by command input ("prism").
+
+
+CHECKLIST TEMPLATE:
+Checklist templates enables you to measure progress on a given project via simple tags in your text. This feature will replace the title of the enabled Entry with a dynamic progress bar. The "pending", "inprog" and "done" tags represent tasks that are pending, in progress or done, to which the progress bar will react. The template is invoked on every save/autosave.
+Add as many tasks (using "pending" tags) as needed for your project (there is no tag-count limit). Modify the open/closed tags and bar to your liking. Pin your entry to the Pinned List to display your progress at all times.
+
+Insert the Checklist Template from the Context Menu (Right click -> Insert -> Checklist Template) or press CTRL+ALT+P, or use the command "check" from the command prompt (CTRL+ALT+A).
+TIP: You can use Paragraph Dividers to insert open/closed tags by shortcut.
+
+Select presets 1-9 to style your progress bar using predefined presets. Preset zero (0) will allow you to customize your progress bar using the template tags. Selecting a preset value higher than zero will override the custom tag settings.
+
+PRESET TABLE:
+
+Preset 0 = Custom (using tag-values)
+Preset 1 =     ▓▓▓▓▓▓▓▓▓▓▓▓░░░░░░░░░░░░ 50%  (calculated %)
+Preset 2 =  0% ▓▓▓▓▓▓▓▓▓▓▓▓░░░░░░░░░░░░ 50%  (calculated %)
+Preset 3 =  0% ▓▓▓▓▓▓▓▓▓▓▓▓░░░░░░░░░░░░ 50%  (calculated %)
+Preset 4 = 50% ▓▓▓▓▓▓▓▓▓▓▓▓░░░░░░░░░░░░      (calculated %)
+Preset 5 =  0% ▌▌▌▌▌▌▌▌▌▌▌▌____________ 50%  (calculated %)
+Preset 6 =     ▌▌▌▌▌▌▌▌▌▌▌▌             50%  (calculated %)
+Preset 7 =  0% ▓▓▓▓▓▓▓▓▓▓▓▓░░░░░░░░░░░░ 100% (fixed min/max %)
+Preset 8 =   - ▓▓▓▓▓▓▓▓▓▓▓▓░░░░░░░░░░░░ +    (fixed indicators)
+Preset 9 =     ▓▓▓▓▓▓▓▓▓▓▓▓░░░░░░░░░░░░      (plain)
+NOTE: Selecting a preset value above 9 will default to preset 1. Selecting zero (0) will enable custom formatting.
+
+Tags:
+   1    2  3   4             5              6
+┌──┴──┐┌┴┐┌┴┐┌─┴─┐┌──────────┴───────────┐┌─┴─┐
+Project!0% X ▓▓▓▓▓░░░░░░░░░░░░░░░░░░░░░░░░ 17%!
+             └──────────────┬────────────┘
+                            7
+
+1)  [title:Project] ..... Title (Upper/lowercase letters, spaces and symbols).
+2)  [left:| & ] ......... (Max 4 chars) Percentage sign (%) will display a calculated percentage value. The "&" symbol will insert the static value of "0%".
+3)  [label:X] ........... Text label to be inserted before the progress bar (Optional).
+4)  [char:▓] ............ The main bar indicator.
+5)  [fill:░] ............ The fill character (can remain blank).
+6)  [right: %!] ......... (Max 4 chars) Percentage sign (%) will display a calculated percentage value. The "&" symbol will insert the static value of "100%".
+7)  [width:25] .......... Bar width. Default value: 24 (Select a value between 10 and 50).
+8)  [preset:1] .......... Progress bar preset. Select between 9 presets or select 0 to enable the custom style tags above.
+9)  [open:pending] ...... Customize the tag for incomplete tasks (Case sensitive).
+10) [mark:inprog] ....... Define Bookmark tag (see below for details).
+11) [closed:done] ....... Customize the tag for completed tasks (Case sensitive).
+12) [tag:--] ............ Customize tag braces (punctuation).
+13) -pending- ........... Task incomplete (Create as many tags as you like).
+14) -inprog- ............ Task in progress (Caret will jump to this tag upon Entry selection).
+15) -done- .............. Task completed (Change "pending" or "inprog" to "done").
+
+Both the -pending- and -inprog- tags are considered open tags when parsing the template. The [tplprog] tag is required to enable the entire template. The [tplmark] tag is required to enable the Bookmark Template (used with the -inprog- tag).
+NOTE: The template will default to standard values for if non-valid characters are inserted into tags.
+TIP: When using presets and default open/closed tags, the template setup can be reduced to the [tplprog] tag for a simplified setup.
+
+TIP: The Bookmark template (CTRL+SHIFT+B) will work on its own without the checklist template, if adding the following template tags:
+Insert in top of document: [tplmark][mark:here][tag:--] (Change the "here" text to fit your purpose).
+Insert in text: -here- <- Caret will jump to this tag in your text upon Entry selection.
+
+
+MAGIC SCREEN BLOCKER (DISABLED BY DEFAULT):
+The Magic Screen Blocker (found in the Options menu) is a password protected screen locking gimmick that will lock multiple screens at once while being completely transparent (invisible). Unauthorized users interacting with the seemingly unlocked computer (clicking with the mouse or typing on the keyboard) will be confronted with animated GIF overlays (up to 24 GIF's in total). Use the Interval setting (Options menu) to set an interval for automatically activating the Magic Screen Blocker.
+IMPORTANT: To enter or exit the Magic Screen Blocker press CTRL+ALT+ENTER on your keyboard. You will be prompted to enter your AHOY! password to exit the Screen Blocker.
+NOTE: The Magic Screen Blocker is disabled by default to prevent accidental usage, and must be enabled by command: CTRL+ALT+A (type "blocker" to enable/disable the Magic Screen Blocker).
+NOTE: Notification alerts will not be raised when the Magic Screen Blocker is active.
+TIP: The Magic Screen Blocker can be invoked when standing in the Main window, PLOP and Utility Editor, Log Monitor and from any of the Sticky notes.
+
+
+TYPEWRITER:
+The AHOY! Typewriter is a distraction-free writing tool inspired by mechanical and electromechanical typewriters. Once you press Enter ("Carriage Return") the line is "printed on paper" and can't be edited. This encourages the user to think differently about the writing process and provides an interesting exercise.
+It is possible though to delete a full line, one at the time by pressing CTRL + BACKSPACE, if a rewrite is necessary.
+Further editing (including Undo/Redo operations) can always be completed from within the Entry editor by pressing ESC to Exit the Typewriter.
+The Typewriter operates on the currently selected Entry and will continuously transfer any changes to the associated Entry.
+Typewriter settings are stored in the AHOY! settings file and can be reset by pressing F9 when inside the Typewriter (or by selecting "Clear All Settings" from the AHOY! Options Menu).
+Keyboard shortcuts and definitions are found on the Instruction Card (Menu) accessible through the Typewriter interface.
+
+
+TYPERMAX:
+Train your fingers on the keyboard with the touch typing game Typermax. Typermax includes a training mode, statistics (Typing speed/WPM, accuracy, +/- hits and penalty), a progressive level system with no cap, a mix of static and randomly generated phrases and a persisted high score. With an internal dictionary containing over 60.000 English words there is plenty of game-time for even the most skilled typist.
+
+
+RANDOM NUMBERS:
+The random numbers generator will generate from one to multiple random values. Min Value between 0 and 999. Max Value must be higher than Min Value and max 1000. Dice Count from 0 to 100.
+
+
+ROMAN NUMERALS:
+The roman numerals converter will convert numbers and alphabetic characters to roman numerals: First all content is split (by whitespace) into a list of character groups. Then each group is tested to see if it is a number. Numbers are directly converted to roman numerals (highest possible number is 3999). Alphabetic characters are first converted to numerals  (A=1, B=2 etc. See table below) and then converted to roman numerals. All letters are treated as capitalized eg. it makes no difference if input is upper- or lowercase. Comma, period, semicolon and hyphen characters etc. are bypassed and posted directly as output.
+
+
+ANSI EDITOR:
+Create ANSI and ASCII text-art using the ANSI Editor. ANSI Edit is a simple ANSI/ASCII Art editor created and used as a utility during development of AHOY!. Copy your artwork manually from the editor into AHOY! or any preferred editor. It is possible to run multiple instances of ANSI Edit. Instructions are found within the ANSI Edit window Help menu.
+
+
+LOG:
+AHOY! keeps an event log with the last 2500 changes made to the Pool. The Log can be accessed from the Tools menu using your AHOY! password. The Log can be cleared using Command Input (see section below).
+NOTE: The AHOY! event log is local only and for user requested diagnostics/debugging purposes. The log is stored in the encrypted Pool file.
+
+
+LOG MONITOR:
+The log monitor is a live monitor showing the latest 256 events in AHOY!. The Log Monitor is invoked by command "mon" from the command input dialog (see COMMANDS section below).
+TIP: Use CTRL+Mousewheel to zoom text in the Log Monitor.
+
+
+ADDITIONAL OPTIONS (OPTIONS MENU):
+New Pinned by Click: Clicking an empty space in the pinned list will create a new pinned Entry.
+Hide Pinned by Click: Clicking the Home Screen will toggle pinned list visibility.
+Auto-Add Blank Lines: Will add 15 blank lines to a new Entry.
+
+
+KEYBOARD CONTROL (VIEW MENU)
+To move and resize editors (Main editor, PLOP/UE and Stickies) using keyboard shortcuts, enable the feature from the View menu -> Keyboard Control.
+Keyboard shortcuts:
+Move by Keyboard: ALT+SHIFT+UP/DOWN/LEFT/RIGHT (Arrow keys)
+Resize by Keyboard: CTRL+ALT+SHIFT+UP/DOWN/LEFT/RIGHT (Arrow keys)
+Enable CAPSLOCK to move and resize faster.
+TIP: You can remove the window border via the View menu -> Layout Mode -> Window Border.
+
+
+
+                    USEFUL SHORTCUTS
+                ───────────═X═───────────
+
+
+CTRL+ALT+Q ........ Help (Quick Guide)
+CTRL+H ............ Show history of the latest 100 changes
+CTRL+F ............ Search the Pool for entries (Title,
+                    Content and Notification text)
+F1 to F10 ......... Select entries in search results
+CTRL+ALT+F ........ Search the content of a selected entry
+CTRL+ALT+SHIFT+F .. Find and replace
+ESC ............... Jump out of content search into content
+ESC ............... Close entry and clear displays
+ESC x 2 ........... Hide entry and pinned items while
+                    clearing the clipboard
+CTRL+I ............ Pin selected entry to the Pinned List
+                    (Also available in the New Entry
+                    Title Dialog)
+ALT+LEFT/RIGHT .... Navigate backward and forward between
+                    recently viewed entries
+CTRL+TAB .......... Cycle between entries on Hold (Hold
+                    buttons A and B)
+ALT+T ............. Select title field
+ALT+C ............. Select content field
+CTRL+SHIFT+I ...... New Sticky/Show all Stickies
+CTRL+SHIFT+H ...... Hide all Stickies
+CTRL+G ............ Select pinned entry by number
+CTRL+J ............ Move pinned entry up
+CTRL+K ............ Move pinned entry down
+CTRL+SHIFT+1-9 .... Colorize pinned entry
+CTRL+SHIFT+DEL .... Remove color from pinned entry
+CTRL+R ............ Lock (write-protect) selected entry
+CTRL+N ............ Create a new entry/Also from PLOP/UE
+CTRL+SHIFT+N ...... Create a new entry (pinned)
+CTRL+ALT+P ........ Insert Checklist Template
+CTRL+SHIFT+B ...... Insert Bookmark Template
+CTRL+SHIFT+D ...... Duplicate Selection
+CTRL+L ............ Line Delete
+CTRL+ALT+SHIFT+E .. Mark entry for export
+ALT+I ............. Show entry information
+CTRL+ALT+I ........ Open event log
+CTRL+D ............ Delete the selected entry
+CTRL+O ............ Load Pool or Backup
+F5 ................ Load Pool or Backup (From Splash/Login dialog)
+CTRL+E ............ Open PLOP Editor/Return to Main Editor
+ALT+LEFT/RIGHT .... Cycle back and fourth between fields
+CTRL+ALT+G ........ Open Spell Checker
+CTRL+SHIFT+G ...... Open empty Spell Checker
+CTRL+ALT+X ........ Password generator and tester
+CTRL+ALT+E ........ Open the Utility Editor (CTRL+E: return to Main Editor)
+ALT+LEFT/RIGHT .... Cycle back and fourth between Memory
+                    Banks in the Utility Editor
+CTRL+SHIFT+C ...... Copy text selection with special chars
+CTRL+SHIFT+X ...... Cut text selection with special chars
+CTRL+ALT+T ........ Start the AHOY! Typewriter
+CTRL+SHIFT+S ...... Save Entry As Text Document (.txt/UTF-8)
+CTRL+ALT+C ........ Message encryption
+CTRL+ALT+A ........ Command prompt
+CTRL+ALT+W ........ Calculator
+CTRL+ALT+M ........ Magic Screen Blocker
+CTRL+ALT+L ........ Interface lock/Sleep
+F11 ............... Toggle full screen mode
+
+
+
+                        CALCULATOR
+                ───────────═X═───────────
+
+
+Keyboard shortcut: CTRL+ALT+W
+The AHOY! Calculator uses comma (",") as decimal mark (European standard). Using a dot (period) will be ignored.
+Type your calculation and press ENTER or Click the "GO" button.
+Copy the result to clipboard by clicking the result display.
+Press ESC to clear the result (2 x ESC to close Calculator)
+Press Up/Down keys to recall previous input.
+HINT: You may type commands like "help" to display help or "cls" to clear the result. The "copy" command will copy the result and the "exit" command will close the Calculator window.
+
+NOTE: Use the help function inside the Calculator window to gain more information.
+NOTE: The Calculator shares preferences with the calculator in the Command Prompt.
+
+
+
+                         COMMANDS
+                ───────────═X═───────────
+
+
+CALCULATOR (Command prompt version):
+Order of operations (/,*,-,+) and parenthesis rule. Use CTRL+ALT+A to open the command prompt.
+The AHOY! Calculator uses comma (",") as decimal mark (European standard). Using a dot (period) will be ignored. Math expressions are typed directly into the command prompt:
+
+Example 1:
+     Input:  2+2
+     Output: 2+2 = 4
+
+Example 2 (Calculation on result):
+     Input:  200-((200/100)*20)+500*(3,66/2)
+     Output: 200-((200/100)*20)+500*(3,66/2) = 1075
+     Input:  *2
+     Output: 1075*2 = 2150
+
+NOTE: To include the previous result in a new calculation
+      just type the operator you wish to use on the result
+      eg. "/,*,-,+" and add your right-hand expression:
+      "+ 5". Result: 1075 + 5 = 1080
+
+
+COMMANDS - ATTENTION: Some commands will affect all entries in the Pool and should be used with caution. You'll find the Command Input dialog in the Edit menu or by keyboard shortcut CTRL+ALT+A.

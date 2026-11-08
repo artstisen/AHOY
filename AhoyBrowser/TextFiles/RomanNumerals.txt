@@ -1,0 +1,37 @@
+﻿Roman Numerals v1.02 by LBS
+
+How this application works:
+First all content is split (by whitespace) into a list of character groups. Then each group is tested to see if it is a number. Numbers are directly converted to roman numerals (highest possible number is 3999). Alphabetic characters are first converted to numerals  (A=1, B=2 etc. See table below) and then converted to roman numerals.
+All letters are treated as capitalized eg. it makes no difference if input is upper- or lowercase. Comma, period, semicolon and hyphen characters etc. are bypassed and posted directly.
+
+12345678911111111122222222
+|||||||||01234567890123456
+ABCDEFGHIJKLMNOPQRSTUVWXYZ
+
+Roman Numeral basics:
+I = 1
+V = 5
+X = 10
+L = 50
+C = 100
+D = 500
+M = 1000
+
+1 = I
+2 = II
+3 = III
+4 = IV
+5 = V
+6 = VI
+7 = VII
+8 = VIII
+9 = IX
+10 = X
+
+"1910" is shown on Admiralty Arch, London, as MDCCCCX rather than MCMX.
+The numeral "I" can be placed before V and X to make 4 units (IV) and 9 units (IX) respectively.
+X can be placed before L and C to make 40 (XL) and 90 (XC) respectively.
+C can be placed before D and M to make 400 (CD) and 900 (CM) according to the same pattern.
+An example using the above rules would be 1904: this is composed of 1 (one thousand), 9 (nine hundreds),
+0 (zero tens), and 4 (four units). To write the Roman numeral, each of the non-zero digits should be treated
+separately. Thus 1,000 = M, 900 = CM, and 4 = IV. Therefore, 1904 is MCMIV.

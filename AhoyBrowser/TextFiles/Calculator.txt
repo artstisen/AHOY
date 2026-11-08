@@ -1,0 +1,63 @@
+﻿CALCULATOR (Keyboard shortcut: CTRL+ALT+W)
+
+* Type your calculation and press ENTER or Click the "GO" button.
+* Copy the result to clipboard by clicking the result display.
+* Press ESC to clear the result (2 x ESC to close Calculator)
+* Press Up/Down keys to recall previous input.
+
+Order of operations (/,*,-,+) and parenthesis rule.
+The AHOY! Calculator uses comma (",") as decimal mark (European standard). Using a dot (period) will be ignored. Math expressions are typed directly into the prompt and executed by pressing ENTER.
+
+Example 1:
+     Input:  2+2
+     Output: 2+2 = 4
+
+Example 2 (Calculation on result):
+     Input:  200-((200/100)*20)+500*(3,66/2)
+     Output: 200-((200/100)*20)+500*(3,66/2) = 1075
+     Input:  *2
+     Output: 1075*2 = 2150
+
+NOTE: To include the previous result in a new calculation
+      just type the operator you wish to use on the result
+      eg. "/,*,-,+" and add your right-hand expression:
+      "+ 5". Result: 1075 + 5 = 1080
+
+HINT: You may type commands like "help" to display help or "cls" to clear the result. The "copy" command will copy the result and the "exit" command will close the Calculator window.
+
+Useful formulas:
+----------------
+Calculate percentage (150 out of 600)
+150/600*100 = 25% 
+(current / maximum * 100 = percentage)
+
+Add percentage (200 plus 25,3% of value)
+200+(200/100*25,3) = 250,6
+
+Subtract percentage (600 minus 20% of value)
+600-(600/100*20) = 480
+
+Get value of percentage (25% of 10)
+(10/100)*25 = 2,5 
+
+Extract percentage: How many percent is left from the original value (890) after subtraction (600):
+100-((600/890)*100) = 32%
+And how many percent were subtracted:
+(600/890)*100 = 67%
+
+Basic VAT calculations:
+----------------
+Add 25% VAT to amount (100):
+100*1,25 = 125
+
+Subtract VAT from amount (125):
+125/1,25 = 100
+Or 500*0,8 = 100
+Why 0,8? Because 1/1,25 = 0.8
+
+Get VAT from amount (125):
+125*0,2 = 25
+
+Convert amount (100) to other currency:
+100/0,74 = 135,13
+(0,74 is the exchange rate)

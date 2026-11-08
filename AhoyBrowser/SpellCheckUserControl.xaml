@@ -1,0 +1,18 @@
+﻿<UserControl x:Class="AhoyBrowser.SpellCheckUserControl"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="AhoyBrowser" 
+             mc:Ignorable="d" 
+             d:DesignHeight="500" d:DesignWidth="760">
+    <Grid>
+        <TextBox Name="tbSpellChecker" HorizontalAlignment="Left" Height="500" TextWrapping="Wrap" VerticalAlignment="Top" Width="640" SpellCheck.IsEnabled="True" Language="en-GB" FontFamily="Courier New" FontSize="16" AcceptsReturn="True" HorizontalScrollBarVisibility="Visible" VerticalScrollBarVisibility="Visible" BorderThickness="0" KeyDown="tbSpellChecker_KeyDown" CommandManager.PreviewExecuted="textBox_PreviewExecuted" >
+        </TextBox>
+        <RadioButton Name="rbEnglishGB" Content="English UK" HorizontalAlignment="Left" Margin="657,9,0,0" VerticalAlignment="Top" Width="93" IsChecked="True" Checked="rbEnglishGB_Checked"/>
+        <RadioButton Name="rbEnglishUS" Content="English US" HorizontalAlignment="Left" Margin="657,30,0,0" VerticalAlignment="Top" Width="93" Checked="rbEnglishUS_Checked"/>
+        <RadioButton Name="rbGermanDE" Content="German DE" HorizontalAlignment="Left" Margin="657,51,0,0" VerticalAlignment="Top" Width="93"  Checked="rbGermanDE_Checked"/>
+        <RadioButton x:Name="rbFrenchFR" Content="French FR" HorizontalAlignment="Left" Margin="657,72,0,0" VerticalAlignment="Top" Width="93"  Checked="rbFrenchFR_Checked"/>
+        <RadioButton x:Name="rbSpanishES" Content="Spanish ES" HorizontalAlignment="Left" Margin="657,93,0,0" VerticalAlignment="Top" Width="93"  Checked="rbSpanishES_Checked"/>
+    </Grid>
+</UserControl>

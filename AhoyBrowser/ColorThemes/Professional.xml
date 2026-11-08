@@ -1,0 +1,15 @@
+﻿<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<settings>
+  <setting>
+    <theme>15</theme>
+    <!-- Button bitmap 0-2 -->
+    <btnbovr>2</btnbovr>
+    <opacity>0,9</opacity>
+    <texture>0</texture>
+    <prism>False</prism>
+    <!--Display text cycle -->
+    <qgcycle>0</qgcycle>
+    <custt><![CDATA[Professional]]></custt>
+    <custc><![CDATA[#212121;#080C15;#8E8E8E;#008A8A;#008A8A;#141414;#FF7E00;#383838;#929292;#0F0F0F;#323232;#5A5A5A;#241200;#4C1700;#391C00;#012000;#002323;#10151F;#130024;#250017;#FF0000;#FF4E00;#FFAF00;#02FF00;#00FFFF;#00C9FF;#8600FF;#B1006D;#FF7E00;#141414;#00FFFF;]]></custc>
+  </setting>
+</settings>

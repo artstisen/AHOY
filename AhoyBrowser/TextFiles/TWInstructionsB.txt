@@ -1,0 +1,42 @@
+﻿┌────────────────────────────────────────────────┐
+│ INSTRUCTION CARD                 Page 2/4  [X] │
+│ ---------------------------------------------- │
+│                                                │
+│                                                │
+│            *** GETTING STARTED ***             │
+│                                                │
+│ 1) Resize the application window to a vertical │
+│    rectangular format, to mimic a sheet of     │
+│    paper (Alt. rotate your monitor into        │
+│    vertical/portrait orientation).             │
+│                                                │
+│ 2) Use one of the 7 Typewriter Presets (found  │
+│    on page 4) to match your writing style, or  │
+│    proceed to step 3 for manual configuration. │
+│                                                │
+│ 3) Set the Left Margin (LM) by pressing F1/F2  │
+│    and Characters Per Line (CPL) using keys    │
+│    F5 and F6. The Margin Bell defaults to 6    │
+│    characters before End Of Line (EOL) and can │
+│    be adjusted by pressing CTRL+I. Adjust the  │
+│    font size by pressing F8.                   │
+│                                                │
+│    Check Page 3 on this Instruction Card for   │
+│    additional settings.                        │
+│                                                │
+│                 *** NOTES ***                  │
+│                                                │
+│  Press and hold CTRL to display the Tab Ruler. │
+│  The Tab Ruler will increase/decrease in size  │
+│  with the current Left Margin (LM) setting.    │
+│                                                │
+│  Save your work for use in other applications  │
+│  by selecting "Save As Text Document" from the │
+│  AHOY! File Menu. This will save the content   │
+│  of the current Entry as a .txt file in        │
+│  Unicode format (UTF-8).                       │
+│                                                │
+│                                                │
+│                                                │
+│                Press Arrow Keys to flip page ->│
+└────────────────────────────────────────────────┘

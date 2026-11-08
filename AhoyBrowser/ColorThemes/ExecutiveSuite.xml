@@ -1,0 +1,15 @@
+﻿<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<settings>
+  <setting>
+    <theme>7</theme>
+    <!-- Button bitmap 0-2 -->
+    <btnbovr>2</btnbovr>
+    <opacity>0,9</opacity>
+    <texture>0</texture>
+    <prism>False</prism>
+    <!--Display text cycle -->
+    <qgcycle>0</qgcycle>
+    <custt><![CDATA[Executive Suite]]></custt>
+    <custc><![CDATA[#10151F;#080C15;#F0DC96;#F0DC96;#F0DC96;#080C15;#F0DC96;#19212F;#F0DC96;#19212F;#2A3548;#00286A;#F0DC96;#D48850;#C15F48;#A2757E;#962E00;#49002D;#00286A;#1C2D26;#080C15;#080C15;#080C15;#080C15;#F0DC96;#F0DC96;#F0DC96;#F0DC96;#F0DC96;#1D2025;#F0DC96;]]></custc>
+  </setting>
+</settings>

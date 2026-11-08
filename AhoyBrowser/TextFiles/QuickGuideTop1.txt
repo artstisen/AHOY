@@ -1,0 +1,8 @@
+﻿version    plname
+00:00 ABC 00 ABC 0000 W00
+
+
+       █  █ █  █  █ █ █   Autosave .......... asave
+      █ █ █ █ █ █ ███ █   Pool .............. prw
+      ███ ███ █ █  █      Local Backup ...... lbak
+      █ █ █ █  █  █   █   Remote Backup ..... rbak

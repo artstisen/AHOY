@@ -1,0 +1,96 @@
+﻿
+
+
+                      SHELL COMMANDS
+                ───────────═X═───────────
+
+The following processes may be invoked (if available on the current system) with arguments where applicable from within the AHOY! environment using Command Input (CTRL+ALT+A).
+
+admin ........... Administrative tools
+regedit ......... Registration database
+perfmon ......... Performance monitor
+eventvwr ........ Event viewer
+services.msc .... Windows services snapin
+lusrmgr.msc ..... Local Users and Groups Manager
+dsa.msc ......... Active Directory Users and Computers
+cmd ............. Command prompt, tracert (IP/URL)
+                  ipconfig (/all /release /renew /flushdns)
+                  netstat (-a (active ports/IPs))
+                  nslookup (blank/IP, set q=mx + domain)
+                  tasklist (list & kill tasks)
+                  change user (/install /execute)
+                  msg * ["message"], shutdown /r /t etc.
+telnet .......... Start Telnet Client, if installed
+powershell ...... Windows PowerShell ("help commands")
+msconfig ........ Configuration tool
+msinfo32 ........ Information tool
+winver .......... Windows OS version
+mmc ............. Management Console, Add/Remove snap-ins
+                  (Menu: File -> Add/Remove Snap-in to add
+                  IIS Manager etc.)
+mmc devmgmt.msc . Open Device Manager
+control ......... Control panel
+charmap ......... Character map, find special characters
+dxdiag .......... DirectX diagnostics tool. Determine the
+                  installed DirectX version
+mstsc ........... Remote desktop/RDP
+ncpa.cpl ........ Open network connections control panel
+sqlwb ........... SQL Server Management Studio
+ssmsee.exe ...... SQL Server Management Studio Express
+devenv .......... Visual Studio
+devenv /nosplash  Visual Studio (no splash)
+calc ............ Open calculator
+explorer ........ Open window (windows explorer)
+appdata ......... Open file repository for current roaming
+                  user
+msedge .......... MS Edge (browser)
+firefox ......... Firefox (browser)
+chrome .......... Chrome (browser)
+winword ......... Word/office
+wmplayer ........ Media player
+mspaint ......... Paint
+documents or doc  Open My Documents folder
+music ........... Open My Music folder
+video ........... Open My Videos folder
+pictures or img . Open My Pictures folder
+desktop ......... Open Desktop folder
+fonts ........... Open Fonts
+home ............ Open C:\Documents and Settings\{username}\
+                  (Same as %HOMEPATH%)
+
+%HOMEPATH% ...... C:\Documents and Settings\{username}\
+%PROGRAMFILES% .. C:\Program Files\
+%APPDATA% ....... C:\Users\{username}\AppData\Roaming\
+%WINDIR% ........ C:\Windows
+
+♦ Note regarding the "hosts" file:
+The hosts file is located under
+"%WinDir%\System32\Drivers\Etc" and
+should be opened with a text editor
+in Administrators mode.
+Comment: "#"
+Local URL rewrite: "125.33.34.25 iso.org
+www.iso.org"
+
+♦ Note regarding regedit:
+View, edit and add environment keys under
+"HKEY_LOCAL_MACHINE/SOFTWARE/Microsoft/Windows/
+CurrentVersion/App Paths"
+
+♦ Note regarding telnet:
+To install Telnet open the Control Panel and click Programs. Under Programs and Features click "Turn Windows features on or off" (requires Admin permission). In the dialog box, select the Telnet Client check box. The installation might take several minutes.
+NOTE: If you're using Windows Server 2008 R2, you should use Server Manager to install telnet. Check Windows Help (F1) for more information.
+
+Args example: ... chrome -incognito www.iso.org
+                  (open chrome in private window while
+                  navigating to the URL specified)
+Args example: ... explorer C:\Program Files\
+                  (open a new window using the
+                  environment path supplied)
+Args example: ... notepad++.exe --help
+                  (open Notepad++ displaying available
+                  command line switches)
+Args example: ... wmplayer "C:\Users\{username}\Music
+                  \Track1.mp3"
+                  (Play an mp3 file at the supplied location
+                  using Windows Media Player)

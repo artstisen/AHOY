@@ -1,0 +1,42 @@
+﻿┌────────────────────────────────────────────────┐
+│ INSTRUCTION CARD                 Page 1/4  [X] │
+│ ---------------------------------------------- │
+│[replacethis]│
+│                                                │
+│             *** INTRODUCTION ***               │
+│                                                │
+│ The AHOY! Typewriter is a distraction-free     │
+│ writing tool inspired by mechanical and        │
+│ electromechanical typewriters. Once you press  │
+│ Enter ("Carriage Return") the line is "printed │
+│ on paper" and can't be edited (entire lines    │
+│ may be deleted). This encourages the user to   │
+│ think differently about the writing process    │
+│ and provides an interesting exercise.          │
+│                                                │
+│              *** REVIEW MODE ***               │
+│                                                │
+│ Press F11 to review your work and use the      │
+│ Arrow or PageUp/Down Keys to scroll the page.  │
+│ Press and hold CTRL during review to advance   │
+│ the page faster when pressing the navigation   │
+│ keys. Press F11 or ESC to Exit Review.         │
+│                                                │
+│                *** ARCHIVE ***                 │
+│                                                │
+│ The AHOY! Typewriter operates on the currently │
+│ selected Entry and continuously transfer any   │
+│ changes to the associated Entry. Your work     │
+│ is saved automatically if using the default    │
+│ "Autosave" setting in AHOY!.                   │
+│                                                │
+│           *** TABLE OF CONTENTS ***            │
+│                                                │
+│ Page 1 -------------- Introduction (this page) │
+│ Page 2 ----------------------- Getting started │
+│ Page 3 ------------------------------ Settings │
+│ Page 4 -------------------- Typewriter Presets │
+│                                                │
+│                                                │
+│                Press Arrow Keys to flip page ->│
+└────────────────────────────────────────────────┘

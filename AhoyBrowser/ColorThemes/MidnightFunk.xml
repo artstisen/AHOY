@@ -1,0 +1,15 @@
+﻿<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<settings>
+  <setting>
+    <theme>14</theme>
+    <!-- Button bitmap 0-2 -->
+    <btnbovr>2</btnbovr>
+    <opacity>0,9</opacity>
+    <texture>0</texture>
+    <prism>False</prism>
+    <!--Display text cycle -->
+    <qgcycle>0</qgcycle>
+    <custt><![CDATA[Midnight Funk]]></custt>
+    <custc><![CDATA[#10151F;#0F0F0F;#066060;#00FFAF;#00FFAF;#0F0F0F;#00FFAF;#080C15;#00FFAF;#000000;#004730;#00BB80;#0046BA;#860000;#5700A5;#FF4E00;#DC9700;#76754F;#007B54;#02FF00;#FFFFFF;#FFFFFF;#FFFFFF;#FFFFFF;#FFFFFF;#F0DC96;#00E29B;#012D00;#00FFAF;#0F0F0F;#00FFAF;]]></custc>
+  </setting>
+</settings>

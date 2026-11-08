@@ -1,0 +1,24 @@
+﻿PLOP Editor v1.10
+
+The PLOP Editor is used to add or "PLOP" text content into a specific entry, while working in other entries simultaneously.
+
+1) With the PLOP Editor closed: Select the Entry you want to link to the PLOP Editor.
+2) Open the PLOP Editor (Press CTRL+E). The PLOP Editor is now linked to the selected Entry.
+3) Remain in the selected Entry or select other entries in the main editor. The PLOP Editor will add text (by pressing ESC or by clicking the PLOP! button) into the associated Entry, regardless of the Entry currently selected in the main editor.
+
+TIP: Recall PLOP text by clicking the Undo button or by pressing CTRL+Z (PLOP has 1000 Undo/Redo states).
+NOTE: To change associated entry: Click the Linked button to unlink the PLOP Editor and repeat the steps above.
+
+Keyboard shortcuts:
+ESC ............... PLOP content to Entry/Close PLOP Editor
+ALT+Left/Right .... Cycle back and fourth between fields
+F6  ............... View/Disconnect PLOP Link
+F7  ............... Toggle PLOP as Top Most on Desktop
+F8  ............... Call-Up linked Entry
+CTRL+/,/./- ....... Insert Paragraph Dividers
+CTRL+N ............ Create new Entry
+CTRL+E ............ Focus Main Editor
+CTRL+F ............ Focus Search in Main Editor
+CTRL+I ............ Pin/Unpin current Entry (Main Editor)
+CTRL+ALT+Q ........ Show Quick Guide
+CTRL+ALT+A ........ Open Command Prompt

@@ -1,0 +1,8 @@
+﻿
+*** About Tags ***
+
+Use the Selection and ISO Date/Time tags to create dividers that act when inserted. The Selection tag will place the caret in its place while the ISO Date/Time tag will display the current date and time.
+
+Use the links to insert tags or write them manually.
+
+Use the preset up/down buttons to load different examples. Several of the included presets uses both the Selection and ISO Date/Time tags.

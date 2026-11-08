@@ -1,0 +1,42 @@
+﻿┌────────────────────────────────────────────────┐
+│ INSTRUCTION CARD                 Page 3/4  [X] │
+│ ---------------------------------------------- │
+│                                                │
+│ Use the following key-combinations to operate  │
+│ the Typewriter and adjust settings:            │
+│                                                │
+│ ENTER* ----- Carriage Return (Write Line/Feed) │
+│  *CTRL+ENTER -------------------- 2x Line Feed │
+│ CTRL+BACKSPACE ------------------- Line Delete │
+│                                                │
+│ F1/F2 ------------------- Left Margin -/+ (LM) │
+│ F5/F6 ------- Adjust Characters Per Line (CPL) │
+│ CTRL+I -------------------- Adjust Margin Bell │
+│ F8 -------------------------- Adjust Font Size │
+│                                                │
+│ F11/ESC* ------------------ Review Mode ON/OFF │
+│  *Use Arrow Keys, PageUp/Down and CTRL+Up/Down │
+│   to scroll page under Review (2x/10x Scroll)  │
+│  *CTRL+R ------------------------ Reset Scroll │
+│                                                │
+│ CTRL+M ---------------------- Tab-Ruler ON/OFF │
+│ CTRL+Y -------------------- Auto-Scroll ON/OFF │
+│ F3/F4, PageUp/Down* ------- Adjust Page Scroll │
+│  *CTRL+F3/F4 ---------------------- 10x Scroll │
+│ CTRL+D -------------------- Delete Lock ON/OFF │
+│ CTRL+G -------------- Basket Auto-Align ON/OFF │
+│ CTRL+L* ------------------- Basket Lock ON/OFF │
+│  *Position Type Basket using Arrow Keys (↑↓←→) │
+│  *CTRL+Arrow Keys (↑↓←→) ------------ 5x Speed │
+│ F7 --------- Show/Hide Instruction Card (Menu) │
+│ CTRL+K ---------------------- Auto-Menu ON/OFF │
+│ F9 ----------------- Reset Typewriter Settings │
+│ CTRL+1-7 ------------------ Typewriter Presets │
+│ CTRL+J/CTRL+H ----- Change Style (Color Theme) │
+│ F10 -------------------- Set Logo Display Text │
+│ ESCAPE/ESC ------------ Exit Review/Typewriter │
+│ CTRL+P --------------------------------- Print │
+│     *** IF IN DOUBT PRESS F9 TO RESET ***      │
+│                                                │
+│                Press Arrow Keys to flip page ->│
+└────────────────────────────────────────────────┘
