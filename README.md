@@ -2,6 +2,12 @@
 
 **Encrypted notes for Windows.** AHOY! keeps all your notes in one password-encrypted file (AES-256-GCM), the *Pool*, with fast search, a pinned list with colors and categories, sticky notes on the desktop and automatic backups.
 
+## Project status
+
+AHOY! is in **maintenance mode**. My focus is now on [Marbles](https://github.com/artstisen/marbles) and [Blyant](https://blyant-editor.com/), so AHOY! gets bug fixes but no new features.
+
+You are welcome to fork AHOY! and build on it: it is MIT licensed, so you can change and share your own version. Bug reports are welcome under [Issues](../../issues). See [CONTRIBUTING.md](CONTRIBUTING.md).
+
 ## Related projects
 
 - **[Marbles](https://github.com/artstisen/marbles)** is the cross-platform, modal terminal successor to AHOY!: encrypted notes in the terminal on Windows, Linux and macOS. Your AHOY! notes can be moved to it with *File -> Export to Marbles*.
