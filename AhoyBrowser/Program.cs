@@ -13,6 +13,29 @@ namespace AhoyBrowser
         [STAThread]
         static void Main(string[] args)
         {
+            string dataDirectory = GetDataDirectoryArgument(args);
+            if (dataDirectory != null)
+            {
+                Directory.CreateDirectory(dataDirectory);
+                IO.DataRootOverride = Path.GetFullPath(dataDirectory);
+            }
+
+            // Report unexpected errors instead of closing silently
+            CrashReporter.Install();
+
+            try
+            {
+                Run(dataDirectory);
+            }
+            catch (Exception ex)
+            {
+                // Errors before/after the message loop (e.g. while creating the main window)
+                CrashReporter.Report(ex, canContinue: false);
+            }
+        }
+
+        private static void Run(string dataDirectory)
+        {
             // Initialize the application (before any window is created)
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
@@ -20,13 +43,6 @@ namespace AhoyBrowser
             // AutoScaleDimensions 6x13). .NET Core+ defaults to Segoe UI 9pt, which makes every form
             // auto-scale ~15% and pushes manually positioned controls out of place.
             Application.SetDefaultFont(new System.Drawing.Font("Microsoft Sans Serif", 8.25F));
-
-            string dataDirectory = GetDataDirectoryArgument(args);
-            if (dataDirectory != null)
-            {
-                Directory.CreateDirectory(dataDirectory);
-                IO.DataRootOverride = Path.GetFullPath(dataDirectory);
-            }
 
             // Prevent Ahoy from running more than one instance (per data folder)
             string mutexName = "ahoymutexid";
@@ -40,8 +56,12 @@ namespace AhoyBrowser
 
             if (!result)
             {
-                AhoySimpleMessageBox msg = new AhoySimpleMessageBox("Another instance of AHOY! is already running", MessageText.AhoyCaption(), false);
-                msg.ShowDialog();
+                // Already running: bring it (or the dialog it is waiting on) to the front
+                if (!SingleInstance.ActivateRunningInstance())
+                {
+                    MessageBox.Show("AHOY! is already running.\n\nIf you can't see it, check the taskbar or close Ahoy.exe in Task Manager and start it again.",
+                        MessageText.AhoyCaption(), MessageBoxButtons.OK, MessageBoxIcon.Information);
+                }
                 return;
             }
 

@@ -4747,6 +4747,7 @@ namespace AhoyBrowser
             Retry: // Goto statement
                 AhoyAnswerMessageBox msg0 = new AhoyAnswerMessageBox(MessageText.WelcomeNewProfileOrLoadMessage(), MessageText.WelcomeCaption(), true, false);
                 msg0.TopMost = true;
+                msg0.ShowInTaskbar = true; // The main window isn't shown yet: give the first-run dialog a taskbar button
                 // Set custom text
                 msg0.SetCustomButtonText("Exit", "New", "Load", "Welcome", "Profile", "Pool (Select File)", "Application (ESC)", 2);
                 msg0.ShowDialog();
