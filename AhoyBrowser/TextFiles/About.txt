@@ -1,5 +1,8 @@
 ﻿
-This application was written in C# by LBS.
+AHOY! is free, open-source software (MIT license),
+created by Lars Brandt Stisen. Version 2.0 was
+modernized with the help of AI-assisted (agentic)
+development tools.
 
 NOTE: Dictionaries available to the AHOY! Spell Checker
 are dependent on the languages installed on your system.
