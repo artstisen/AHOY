@@ -331,12 +331,6 @@ namespace AhoyBrowser
             btnDownD.BackColor = AhoyColors.CurrentColorTheme()[7];
             btnDownD.ForeColor = AhoyColors.CurrentColorTheme()[8];
 
-            btnAnsiEdit.FlatStyle = FlatStyle.Flat;
-            btnAnsiEdit.FlatAppearance.BorderColor = AhoyColors.CurrentColorTheme()[9];
-            btnAnsiEdit.FlatAppearance.MouseOverBackColor = AhoyColors.CurrentColorTheme()[10];
-            btnAnsiEdit.FlatAppearance.MouseDownBackColor = AhoyColors.CurrentColorTheme()[11];
-            btnAnsiEdit.BackColor = AhoyColors.CurrentColorTheme()[7];
-            btnAnsiEdit.ForeColor = AhoyColors.CurrentColorTheme()[8];
 
             this.BackColor = AhoyColors.CurrentColorTheme()[0];
             toolTip1.BackColor = AhoyColors.CurrentColorTheme()[1];
@@ -400,39 +394,33 @@ namespace AhoyBrowser
             tbDeviderD.BackColor = AhoyColors.CurrentColorTheme()[29];
             tbDeviderD.ForeColor = AhoyColors.CurrentColorTheme()[30];
 
-            btnSymbolsPicker.FlatStyle = FlatStyle.Flat;
             btnSaveAndClose.FlatStyle = FlatStyle.Flat;
             btnCancel.FlatStyle = FlatStyle.Flat;
             btnClearAll.FlatStyle = FlatStyle.Flat;
             btnResetAll.FlatStyle = FlatStyle.Flat;
 
-            btnSymbolsPicker.FlatAppearance.BorderColor = AhoyColors.CurrentColorTheme()[9];
 
             btnSaveAndClose.FlatAppearance.BorderColor = AhoyColors.CurrentColorTheme()[9];
             btnCancel.FlatAppearance.BorderColor = AhoyColors.CurrentColorTheme()[9];
             btnClearAll.FlatAppearance.BorderColor = AhoyColors.CurrentColorTheme()[9];
             btnResetAll.FlatAppearance.BorderColor = AhoyColors.CurrentColorTheme()[9];
 
-            btnSymbolsPicker.FlatAppearance.MouseOverBackColor = AhoyColors.CurrentColorTheme()[10];
             btnSaveAndClose.FlatAppearance.MouseOverBackColor = AhoyColors.CurrentColorTheme()[10];
             btnCancel.FlatAppearance.MouseOverBackColor = AhoyColors.CurrentColorTheme()[10];
             btnResetAll.FlatAppearance.MouseOverBackColor = AhoyColors.CurrentColorTheme()[10];
             btnClearAll.FlatAppearance.MouseOverBackColor = AhoyColors.CurrentColorTheme()[10];
 
-            btnSymbolsPicker.FlatAppearance.MouseDownBackColor = AhoyColors.CurrentColorTheme()[11];
             btnSaveAndClose.FlatAppearance.MouseDownBackColor = AhoyColors.CurrentColorTheme()[11];
             btnCancel.FlatAppearance.MouseDownBackColor = AhoyColors.CurrentColorTheme()[11];
             btnResetAll.FlatAppearance.MouseDownBackColor = AhoyColors.CurrentColorTheme()[11];
             btnClearAll.FlatAppearance.MouseDownBackColor = AhoyColors.CurrentColorTheme()[11];
 
-            btnSymbolsPicker.BackColor = AhoyColors.CurrentColorTheme()[7];
 
             btnSaveAndClose.BackColor = AhoyColors.CurrentColorTheme()[7];
             btnCancel.BackColor = AhoyColors.CurrentColorTheme()[7];
             btnClearAll.BackColor = AhoyColors.CurrentColorTheme()[7];
             btnResetAll.BackColor = AhoyColors.CurrentColorTheme()[7];
 
-            btnSymbolsPicker.ForeColor = AhoyColors.CurrentColorTheme()[8];
 
             btnSaveAndClose.ForeColor = AhoyColors.CurrentColorTheme()[8];
             btnCancel.ForeColor = AhoyColors.CurrentColorTheme()[8];
@@ -447,23 +435,6 @@ namespace AhoyBrowser
             picHelp.BackColor = Color.Transparent;
             picHelp.BackgroundImage = ButtonBitmaps.HelpButtonHighlight();
             picHelp.BackgroundImageLayout = ImageLayout.Center;
-        }
-        #endregion
-
-        #region Display symbols list
-        private void btnSymbolsPicker_Click(object sender, EventArgs e)
-        {
-            DisplayTextSymbolsInMessageBox();
-        }
-
-        // Display a selection of text symbols to play with
-        private string tempSymbolsText = "";
-        private void DisplayTextSymbolsInMessageBox()
-        {
-            tempSymbolsText = IO.SymbolsTextReader();
-            AhoyInfoMessageBox messageBox = new AhoyInfoMessageBox(tempSymbolsText, MessageText.TextSymbolsCaption(), false, false, this.Opacity);
-            messageBox.TopMost = true;
-            messageBox.Show();
         }
         #endregion
 
@@ -841,41 +812,6 @@ namespace AhoyBrowser
         }
 
 
-        #endregion
-
-        #region AnsiEdit
-        private void btnAnsiEdit_Click(object sender, EventArgs e)
-        {
-            if (!MainForm.InterfaceLock)
-            {
-                RunAnsiEdit();
-            }
-        }
-
-        private void RunAnsiEdit()
-        {
-            if (!MainForm.AttachedEditorOpen)
-            {
-                try
-                {
-                    MainForm.AttachedEditorOpen = true;
-                    MainForm.KeepAwake();
-                    Log.AnsiEditor();
-                    AnsiEditForm ansiEditor = new AnsiEditForm(this.Opacity);
-                    ansiEditor.Location = this.Location;
-                    ansiEditor.Show();
-                }
-                catch
-                {
-                    AhoySimpleMessageBox ansiEditMessage = new AhoySimpleMessageBox("Unable to run ANSI Edit", MessageText.AnsiEditCaption(), false);
-                    ansiEditMessage.ShowDialog();
-                }
-                finally
-                {
-                    MainForm.AttachedEditorOpen = false;
-                }
-            }
-        }
         #endregion
 
         #region Insert replacement tags

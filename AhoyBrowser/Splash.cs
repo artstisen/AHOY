@@ -15,7 +15,6 @@ namespace AhoyBrowser
         internal static bool KeyWasPressed { get; set; }
         internal static int TimerCounter { get; set; }
         internal static string AhoyVersionNumber { get; set; }
-        internal static string AhoyTruncatedVersionNumber { get; set; }
         public Splash()
         {
             InitializeComponent();
@@ -39,8 +38,7 @@ namespace AhoyBrowser
             lbVersion.Font = Design.SplashFont();
             lbVersion.TextAlign = ContentAlignment.MiddleLeft;
             lbVersion.ForeColor = AhoyColors.CurrentColorTheme()[2];
-            AhoyTruncatedVersionNumber = asm.GetName().Version.Major.ToString() + asm.GetName().Version.Minor.ToString() + asm.GetName().Version.Build.ToString() + asm.GetName().Version.Revision.ToString();
-            AhoyVersionNumber = "v" + asm.GetName().Version.Major + "." + asm.GetName().Version.Minor + "." + asm.GetName().Version.Build + "." + asm.GetName().Version.Revision;
+            AhoyVersionNumber = "v" + asm.GetName().Version.ToString(3); // major.minor.patch
             lbVersion.Text = AhoyVersionNumber + TextTransform.GetBlankSpace(5) + "F5: Load" + TextTransform.GetBlankSpace(3) + "F6: Read-Only" + TextTransform.GetBlankSpace(3) + "F7: Demo";
         }
 

@@ -95,12 +95,7 @@ namespace AhoyBrowser
 
         private void Sticky_KeyDown(object sender, KeyEventArgs e)
         {
-            if (e.KeyData == (Keys.Control | Keys.Alt | Keys.Enter)) // Multiple shortcut keypress
-            {
-                MainForm.StartMagicBlockerPerRemote(); // Start magic blocker
-                e.Handled = true;
-            }
-            else if (e.KeyData == (Keys.Control | Keys.D))
+            if (e.KeyData == (Keys.Control | Keys.D))
             {
                 CloseAndDelete();
             }

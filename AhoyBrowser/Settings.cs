@@ -15,17 +15,11 @@
         internal const int DefaultButtonBitmapOverride = 0;
         internal const string DefaultCustomColors = "%NOCOLOR";
         internal const string DefaultThemeTitle = "";
-        internal const bool DefaultPlopDirection = true;
         internal const bool DefaultListFontWeight = false;
         internal const bool DefaultEnforceScrollbars = false;
-        internal const bool DefaultMicroCalculator = false;
         internal const int DefaultDisplayTextCycle = 0;
         internal const bool DefaultTitleTabToContent = true;
         internal const bool DefaultInsertNewLines = false;
-        internal const bool DefaultUEBlankLines = false;
-        internal const bool DefaultUETrimWhitespace = true;
-        internal const bool DefaultUEPlopESCtoClose = false;
-        internal const bool DefaultNotificationScrollToCaret = false;
         internal const bool DefaultShowClock = false;
         internal bool LoadSuccess { get; set; }
         internal string LoadMessage { get; set; }
@@ -53,8 +47,6 @@
         public bool DetectURLs { get; set; }
         public string HoldButtonAID { get; set; }
         public string HoldButtonBID { get; set; }
-        public int SnoozeInterval { get; set; }
-        public bool PersistNotificationPreview { get; set; }
         public bool ShowWPMCounter { get; set; }
         public int SelectedPasswordStyle { get; set; }
         public bool AutoSaveEntryChanges { get; set; }
@@ -63,60 +55,15 @@
         public bool AutoSearch { get; set; }
         public bool CurrentListFontWeight { get; set; }
         public bool EnforceScrollbars { get; set; }
-        public bool MicroCalculatorMain { get; set; }
-        public bool MicroCalculatorUE { get; set; }
         public int DisplayTextCycle { get; set; }
         public bool TitleTabToContent { get; set; }
         public bool InsertNewLines { get; set; }
-        public bool PlopESCtoClose { get; set; }
         public string BackupLocation { get; set; }
-        public bool NotificationScrollToCaret { get; set; }
         public bool ShowClock { get; set; }
-
-        // Typewriter
-        public int TypeWriterFontSize { get; set; }
-        public int TypeWriterLineCount { get; set; }
-        public int TypeWriterCPLIndex { get; set; }
-        public int TypeWriterBellMargin { get; set; }
-        public int TypeWriterLeftMargin { get; set; }
-        public bool TypeWriterDelLock { get; set; }
-        public string TypeWriterLogo { get; set; }
-        public int TypeWriterBasketX { get; set; }
-        public int TypeWriterBasketY { get; set; }
-        public bool TypeWriterAutoBasket { get; set; }
-        public bool TypeWriterAutoMenu { get; set; }
-        public bool TypeWriterTabRuler { get; set; }
-        public int TypeWriterColorTheme { get; set; }
-        public bool TypeWriterPageAutoScroll { get; set; }
-
-
-        // Utility/PLOP Editor
-        public bool UEOpen { get; set; }
-        public bool UEMaximized { get; set; }
-        public int UEWidth { get; set; }
-        public int UEHeight { get; set; }
-        public int UEPositionX { get; set; }
-        public int UEPositionY { get; set; }
-        public double UEOpacity { get; set; }
-        public int UEVersionSelection { get; set; }
-        public bool UETopMost { get; set; }
-        public bool UEPlopDirection { get; set; }
-        public bool UEBlankLines { get; set; }
-        public bool UETrimWhitespace { get; set; }
 
         // Custom colors
         public string CustomColors { get; set; }
         public string ThemeTitle { get; set; }
-
-        // Screen blocker
-        public bool ScreenBlocker { get; set; }
-        public const bool DefaultScreenBlockerState = false;
-        public int ScreenBlockerIndex { get; set; }
-        public const int DefaultScreenBlockerIndex = 0; // = OFF
-
-        // Prism effect
-        public bool PrismEffect { get; set; }
-        public const bool DefaultPrismEffect = false;
 
         // Search
         public bool TitlePrioritySearch { get; set; }
@@ -176,8 +123,6 @@
             DetectURLs = DefaultDetectURLs;
             HoldButtonAID = "";
             HoldButtonBID = "";
-            SnoozeInterval = 1;
-            PersistNotificationPreview = false;
             ShowWPMCounter = false;
             SelectedPasswordStyle = DefaultPasswordStyle;
             AutoSaveEntryChanges = DefaultAutoSaveEntryChanges;
@@ -186,57 +131,16 @@
             AutoSearch = DefaultAutoSearch;
             CurrentListFontWeight = DefaultListFontWeight;
             EnforceScrollbars = DefaultEnforceScrollbars;
-            MicroCalculatorMain = DefaultMicroCalculator;
-            MicroCalculatorUE = DefaultMicroCalculator;
             DisplayTextCycle = DefaultDisplayTextCycle;
             TitleTabToContent = DefaultTitleTabToContent;
             InsertNewLines = DefaultInsertNewLines;
-            PlopESCtoClose = DefaultUEPlopESCtoClose;
             BackupLocation = "";
-            NotificationScrollToCaret = DefaultNotificationScrollToCaret;
             ShowClock = DefaultShowClock;
             EnableFormBorder = DefaultEnableFormBorder;
-
-            // Utility/PLOP Editor Default Settings
-            UEOpen = false;
-            UEMaximized = false;
-            UEWidth = DetachedEditor.UEDefaultWidth;
-            UEHeight = DetachedEditor.UEDefaultHeight;
-            UEPositionX = DetachedEditor.GetParentLocationXWithOffset();
-            UEPositionY = DetachedEditor.GetParentLocationYWithOffset();
-            UEOpacity = DetachedEditor.UEDefaultOpacity;
-            UEVersionSelection = DetachedEditor.UEDefaultBank;
-            UETopMost = DetachedEditor.UEDefaultTopMost;
-            UEPlopDirection = DefaultPlopDirection;
-            UEBlankLines = DefaultUEBlankLines;
-            UETrimWhitespace = DefaultUETrimWhitespace;
-
-            // TypeWriter default settings
-            TypeWriterFontSize = TypeWriter.DefaultFontSize;
-            TypeWriterLineCount = TypeWriter.DefaultLineCount;
-            TypeWriterCPLIndex = TypeWriter.DefaultCPLIndex;
-            TypeWriterBellMargin = TypeWriter.DefaultBellMargin;
-            TypeWriterLeftMargin = TypeWriter.DefaultLeftMargin;
-            TypeWriterDelLock = TypeWriter.DefaultDelLock;
-            TypeWriterLogo = TypeWriter.DefaultLogo;
-            TypeWriterBasketX = TypeWriter.DefaultTypeBasketX;
-            TypeWriterBasketY = TypeWriter.DefaultTypeBasketY;
-            TypeWriterAutoBasket = TypeWriter.DefaultAutoBasket;
-            TypeWriterAutoMenu = TypeWriter.DefaultAutoMenu;
-            TypeWriterTabRuler = TypeWriter.DefaultTabRuler;
-            TypeWriterColorTheme = TypeWriter.DefaultColorTheme;
-            TypeWriterPageAutoScroll = TypeWriter.DefaultPageAutoScroll;
 
             // Custom colors
             CustomColors = DefaultCustomColors;
             ThemeTitle = DefaultThemeTitle;
-
-            // Screen blocker
-            ScreenBlocker = DefaultScreenBlockerState;
-            ScreenBlockerIndex = DefaultScreenBlockerIndex;
-
-            // Prism effect
-            PrismEffect = DefaultPrismEffect;
 
             // Search
             TitlePrioritySearch = DefaultTitlePrioritySearch;

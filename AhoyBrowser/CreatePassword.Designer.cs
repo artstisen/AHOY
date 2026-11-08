@@ -36,10 +36,8 @@
             this.tbPassword2 = new System.Windows.Forms.TextBox();
             this.label2 = new System.Windows.Forms.Label();
             this.lbErrorMessage = new System.Windows.Forms.Label();
-            this.label4 = new System.Windows.Forms.Label();
-            this.tbAnswer = new System.Windows.Forms.TextBox();
-            this.label3 = new System.Windows.Forms.Label();
-            this.tbQuestion = new System.Windows.Forms.TextBox();
+            this.lbWarning = new System.Windows.Forms.Label();
+            this.cbUnderstand = new System.Windows.Forms.CheckBox();
             this.lbMessage = new System.Windows.Forms.Label();
             this.lbEscapeText = new System.Windows.Forms.Label();
             this.lbStrength = new System.Windows.Forms.Label();
@@ -58,7 +56,7 @@
             this.btnSave.Cursor = System.Windows.Forms.Cursors.Default;
             this.btnSave.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
             this.btnSave.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(142)))), ((int)(((byte)(142)))), ((int)(((byte)(142)))));
-            this.btnSave.Location = new System.Drawing.Point(257, 255);
+            this.btnSave.Location = new System.Drawing.Point(257, 282);
             this.btnSave.Name = "btnSave";
             this.btnSave.Size = new System.Drawing.Size(75, 23);
             this.btnSave.TabIndex = 4;
@@ -120,56 +118,29 @@
             // lbErrorMessage
             // 
             this.lbErrorMessage.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(175)))), ((int)(((byte)(0)))));
-            this.lbErrorMessage.Location = new System.Drawing.Point(34, 255);
+            this.lbErrorMessage.Location = new System.Drawing.Point(34, 282);
             this.lbErrorMessage.Name = "lbErrorMessage";
             this.lbErrorMessage.Size = new System.Drawing.Size(217, 23);
             this.lbErrorMessage.TabIndex = 7;
             // 
-            // label4
+            // lbWarning
             // 
-            this.label4.AutoSize = true;
-            this.label4.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(142)))), ((int)(((byte)(142)))), ((int)(((byte)(142)))));
-            this.label4.Location = new System.Drawing.Point(34, 201);
-            this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(13, 13);
-            this.label4.TabIndex = 11;
-            this.label4.Text = "--";
+            this.lbWarning.AutoSize = false;
+            this.lbWarning.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(142)))), ((int)(((byte)(142)))), ((int)(((byte)(142)))));
+            this.lbWarning.Location = new System.Drawing.Point(34, 165);
+            this.lbWarning.Name = "lbWarning";
+            this.lbWarning.Size = new System.Drawing.Size(298, 82);
+            this.lbWarning.TabIndex = 9;
+            this.lbWarning.Text = "--";
             // 
-            // tbAnswer
+            // cbUnderstand
             // 
-            this.tbAnswer.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(50)))), ((int)(((byte)(50)))), ((int)(((byte)(50)))));
-            this.tbAnswer.BorderStyle = System.Windows.Forms.BorderStyle.None;
-            this.tbAnswer.Font = new System.Drawing.Font("Courier New", 12F, System.Drawing.FontStyle.Bold);
-            this.tbAnswer.ForeColor = System.Drawing.Color.Gainsboro;
-            this.tbAnswer.Location = new System.Drawing.Point(37, 217);
-            this.tbAnswer.MaxLength = 24;
-            this.tbAnswer.Name = "tbAnswer";
-            this.tbAnswer.Size = new System.Drawing.Size(295, 19);
-            this.tbAnswer.TabIndex = 3;
-            this.tbAnswer.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.tbPassword1_KeyPress);
-            // 
-            // label3
-            // 
-            this.label3.AutoSize = true;
-            this.label3.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(142)))), ((int)(((byte)(142)))), ((int)(((byte)(142)))));
-            this.label3.Location = new System.Drawing.Point(34, 160);
-            this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(13, 13);
-            this.label3.TabIndex = 9;
-            this.label3.Text = "--";
-            // 
-            // tbQuestion
-            // 
-            this.tbQuestion.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(50)))), ((int)(((byte)(50)))), ((int)(((byte)(50)))));
-            this.tbQuestion.BorderStyle = System.Windows.Forms.BorderStyle.None;
-            this.tbQuestion.Font = new System.Drawing.Font("Courier New", 12F, System.Drawing.FontStyle.Bold);
-            this.tbQuestion.ForeColor = System.Drawing.Color.Gainsboro;
-            this.tbQuestion.Location = new System.Drawing.Point(37, 176);
-            this.tbQuestion.MaxLength = 24;
-            this.tbQuestion.Name = "tbQuestion";
-            this.tbQuestion.Size = new System.Drawing.Size(295, 19);
-            this.tbQuestion.TabIndex = 2;
-            this.tbQuestion.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.tbPassword1_KeyPress);
+            this.cbUnderstand.Location = new System.Drawing.Point(37, 252);
+            this.cbUnderstand.Name = "cbUnderstand";
+            this.cbUnderstand.Size = new System.Drawing.Size(295, 22);
+            this.cbUnderstand.TabIndex = 3;
+            this.cbUnderstand.Text = "I understand: a forgotten password cannot be recovered";
+            this.cbUnderstand.UseVisualStyleBackColor = true;
             // 
             // lbMessage
             // 
@@ -251,16 +222,14 @@
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(40)))), ((int)(((byte)(40)))), ((int)(((byte)(40)))));
-            this.ClientSize = new System.Drawing.Size(374, 311);
+            this.ClientSize = new System.Drawing.Size(374, 325);
             this.ControlBox = false;
             this.Controls.Add(this.picHelp);
             this.Controls.Add(this.lbStrength);
             this.Controls.Add(this.lbEscapeText);
             this.Controls.Add(this.lbMessage);
-            this.Controls.Add(this.label4);
-            this.Controls.Add(this.tbAnswer);
-            this.Controls.Add(this.label3);
-            this.Controls.Add(this.tbQuestion);
+            this.Controls.Add(this.cbUnderstand);
+            this.Controls.Add(this.lbWarning);
             this.Controls.Add(this.lbErrorMessage);
             this.Controls.Add(this.label2);
             this.Controls.Add(this.tbPassword2);
@@ -291,10 +260,8 @@
         private System.Windows.Forms.TextBox tbPassword2;
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.Label lbErrorMessage;
-        private System.Windows.Forms.Label label4;
-        private System.Windows.Forms.TextBox tbAnswer;
-        private System.Windows.Forms.Label label3;
-        private System.Windows.Forms.TextBox tbQuestion;
+        private System.Windows.Forms.Label lbWarning;
+        private System.Windows.Forms.CheckBox cbUnderstand;
         private System.Windows.Forms.Label lbMessage;
         private AhoyContextMenuStrip contextMenuBasic;
         private System.Windows.Forms.ToolStripMenuItem cutToolStripMenuItem;

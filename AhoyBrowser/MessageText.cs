@@ -15,17 +15,6 @@ namespace AhoyBrowser
         {
             return "Spell Check";
         }
-
-        public static string CheckForUpdatesCaption()
-        {
-            return "Update";
-        }
-
-        public static string ScreenBlockerkCaption()
-        {
-            return "Screen Blocker";
-        }
-
         public static string PasswordGeneratorCaption()
         {
             return "Password Generator";
@@ -105,12 +94,6 @@ namespace AhoyBrowser
         {
             return "Print";
         }
-
-        public static string PrismCaption()
-        {
-            return "Prism Effect";
-        }
-
         public static string MemoCaption()
         {
             return "Memo";
@@ -260,12 +243,6 @@ namespace AhoyBrowser
         {
             return "AHOY! Cypher";
         }
-
-        public static string NotificationCaption()
-        {
-            return "Notification";
-        }
-
         public static string CopyCaption()
         {
             return "Copy";
@@ -300,12 +277,6 @@ namespace AhoyBrowser
         {
             return "Modify";
         }
-
-        public static string SnoozeCaption()
-        {
-            return "Snooze";
-        }
-
         public static string DateTimeCaption()
         {
             return "Date/Time";
@@ -315,12 +286,6 @@ namespace AhoyBrowser
         {
             return "Size and Location";
         }
-
-        public static string CanvasCaption()
-        {
-            return "Canvas";
-        }
-
         public static string CommandsCaption()
         {
             return "Command Input";
@@ -390,18 +355,6 @@ namespace AhoyBrowser
         {
             return "Color Theme";
         }
-
-
-        public static string PlopEditorCaption()
-        {
-            return "PLOP";
-        }
-
-        public static string PlopEditorAttentionCaption()
-        {
-            return "PLOP Editor";
-        }
-
         public static string AlternateBackupCaption()
         {
             return "Remote Backup";
@@ -421,12 +374,6 @@ namespace AhoyBrowser
         {
             return "Paragraph Dividers";
         }
-
-        public static string AnsiEditCaption()
-        {
-            return "ANSI Edit";
-        }
-
         public static string AhoyCaption()
         {
             return "AHOY!";
@@ -436,22 +383,6 @@ namespace AhoyBrowser
         {
             return "Powered by AHOY!";
         }
-
-        public static string UtilityEditorCaption()
-        {
-            return "Utility Editor";
-        }
-
-        public static string TypeWriterCaption()
-        {
-            return "Typewriter";
-        }
-
-        public static string TypermaxCaption()
-        {
-            return "Typermax";
-        }
-
         public static string StickyCaption()
         {
             return "Sticky";
@@ -542,12 +473,6 @@ namespace AhoyBrowser
         {
             return "*** ATTENTION ***\nDelete Entry:\n\"" + title.Trim() + "\"?";
         }
-
-        public static string RemovePlopLinkQuestion(string title)
-        {
-            return "*** ATTENTION ***\nDisconnect PLOP link to \"" + title.Trim() + "\"?";
-        }
-
         public static string DeleteEntryConfirmation(string title)
         {
             return "*** PLEASE CONFIRM ***\nDelete Entry:\n\"" + title.Trim() + "\"?";
@@ -652,16 +577,10 @@ namespace AhoyBrowser
             return "*** ATTENTION ***\nInitiate backup recovery?";
         }
 
-        public static string UpdateFoundMessage()
-        {
-            return "*** New update available ***\n\nVisit the download page?\n(AHOY! will save and exit to release the application for update)";
-        }
-
-
         // MESSAGES
         public static string AboutVersion()
         {
-            return AhoyCaption() + " " + Splash.AhoyVersionNumber + " (" + MainForm.ReleaseDate + ")" + Environment.NewLine +
+            return AhoyCaption() + " " + Splash.AhoyVersionNumber + Environment.NewLine +
                 IO.AdditionalAboutInformationTextReader() + Environment.NewLine + Environment.NewLine +
                 IO.SoftwareLicenseTextReader();
         }
@@ -683,12 +602,6 @@ namespace AhoyBrowser
                 return protectedMessage + " OFF";
             }
         }
-
-        public static string NotificationInformation(string title, string timestamp)
-        {
-            return "NOTIFICATION DETAILS\nEntry: \"" + title.Trim() + "\"\n" + timestamp;
-        }
-
         public static string PoolSavedMessage()
         {
             return "Pool saved to disk";
@@ -738,57 +651,10 @@ namespace AhoyBrowser
         {
             return "Please select an Entry to enable write protection";
         }
-
-        public static string SelectEntryToTypeWriteMessage()
-        {
-            return "Please select or create a new Entry\nto use the Typewriter";
-        }
-
-        public static string SubmitContentTypeWriteMessage()
-        {
-            return "There is unsubmitted text in the Type Basket...\nSubmit before closing Typewriter?";
-        }
-
-        public static string LineStopTypeWriterMessage()
-        {
-            return "Line Stop";
-        }
-
-        public static string LockedTypeWriterMessage()
-        {
-            return "Locked...";
-        }
-
-        public static string LockedByAutoScrollTypeWriterMessage()
-        {
-            return "Locked by Auto-Scroll";
-        }
-
-        public static string NotificationAlreadyOpenMessage()
-        {
-            return "The Notification Editor is already open";
-        }
-
         public static string AlreadyOpenMessage()
         {
             return "The Editor is already open";
         }
-
-        public static string SelectEntryToOpenPlopEditorMessage()
-        {
-            return "Please select an Entry before using the\nPLOP Editor";
-        }
-
-        public static string UtilityEditorAlreadyOpenMessage()
-        {
-            return "Please close the Utility Editor to use the PLOP Editor";
-        }
-
-        public static string PlopEditorAlreadyOpenMessage()
-        {
-            return "Please close the PLOP Editor to use the Utility Editor";
-        }
-
         public static string SelectPinnedEntryToContinueMessage()
         {
             return "Please select a pinned Entry to proceed";
@@ -828,17 +694,6 @@ namespace AhoyBrowser
         {
             return "No stickies found";
         }
-
-        public static string EmptyNotificationSearchMessage()
-        {
-            return "No active notifications found";
-        }
-
-        public static string EmptyInactiveNotificationSearchMessage()
-        {
-            return "No inactive notifications found";
-        }
-
         public static string EndOfSearchMessage()
         {
             return "End of search";
@@ -908,17 +763,6 @@ namespace AhoyBrowser
         {
             return "Sleep interval changed";
         }
-
-        public static string ScreenBlockerEnabledMessage()
-        {
-            return "*** Screen Blocker enabled ***\n\nATTENTION: The Magic Screen Blocker will lock the entire screen area while retaining transparency. Press CTRL+ALT+ENTER to activate or exit the Screen Blocker...";
-        }
-
-        public static string ScreenBlockerDisabledMessage()
-        {
-            return "Screen Blocker disabled";
-        }
-
         public static string EntryTemplateAlreadyActiveMessage(string type)
         {
             return type + " already active on this Entry";
@@ -944,27 +788,10 @@ namespace AhoyBrowser
         {
             return "No connection/request failed\n(Check Log for details)";
         }
-
-        public static string NoUpdatesMessage()
-        {
-            return "Your version is up-to-date";
-        }
-
         public static string LoadingMessage()
         {
             return "Loading...";
         }
-
-        public static string ContactingServerMessage()
-        {
-            return "Checking...";
-        }
-
-        public static string PrismMessage()
-        {
-            return "The Prism effect is inspired by classic computing of the 80's. A color-shifting effect that looks best on a darker color theme...";
-        }
-
 
         // TITLES
         public static string ChangeSleepIntervalTitle()
@@ -1058,5 +885,49 @@ namespace AhoyBrowser
         }
         #endregion
 
+        #region POOL UPGRADE (Ahoy 1.x -> 2.0)
+        public static string UpgradeCaption()
+        {
+            return "Security Upgrade";
+        }
+
+        public static string UpgradeEnterOldPasswordMessage()
+        {
+            return "This Pool was saved by an older version of Ahoy.\nEnter your current password to upgrade it.";
+        }
+
+        public static string UpgradeCreatePasswordMessage()
+        {
+            return "Your notes will now be encrypted with your password. Please create a new password.";
+        }
+
+        public static string UpgradeCancelledMessage()
+        {
+            return "The upgrade was cancelled. Your Pool has not been changed.\n\nAhoy will ask again the next time it opens this Pool.";
+        }
+
+        public static string UpgradeFailedMessage()
+        {
+            return "The upgraded Pool could not be saved or verified.\n\nNothing has been deleted. Please check that the Pool directory is writable and try again.";
+        }
+
+        public static string UpgradeCompletedMessage()
+        {
+            return "Upgrade completed.\n\nYour Pool and its backups are now encrypted with " + Crypto.PoolFile.AlgorithmDescription +
+                   " using your new password.\n\nRemember: if you forget the password, your notes cannot be recovered.";
+        }
+
+        public static string UpgradeDeleteLegacyFilesQuestion(System.Collections.Generic.List<string> files)
+        {
+            const int maxShown = 8;
+            string list = string.Join("\n", files.GetRange(0, Math.Min(maxShown, files.Count)));
+            if (files.Count > maxShown)
+            {
+                list += "\n... and " + (files.Count - maxShown) + " more";
+            }
+            return "These older copies of your Pool are still in the old format, which anyone with a copy of an older Ahoy version can read:\n\n" +
+                   list + "\n\nDelete them now?\n\n(Copies elsewhere, e.g. in cloud sync history or the Recycle Bin, are not affected.)";
+        }
+        #endregion
     }
 }

@@ -670,22 +670,6 @@ namespace AhoyBrowser
         }
 
 
-        public static bool GetCurrentThemePrismEffect(int index)
-        {
-            if (ThemeCollection == null)
-            {
-                InitializeThemeCollection();
-            }
-
-            if (index < ThemeCollection.Count)
-            {
-                return ThemeCollection[index].PrismEffect;
-            }
-            else
-            {
-                return false;
-            }
-        }
 
         // Load all color themes into memory (Called by the SetTheme method below)
         public static void InitializeThemeCollection()
@@ -705,20 +689,40 @@ namespace AhoyBrowser
             }
         }
 
-        // ATTENTION: DO NOT CHANGE (BUT ADD) THEME COLOR INDEXES AS OF 02-08-2017, AS THEY ARE
-        // ACTED UPON IN THE CODE ELSEWHERE, DEPENDING ON SELECTED THEME:
-        /*
-          Style picker: GetQuickGuideCycle()
-          C:\Users\Jiffy\Documents\Ahoy Projects\Ahoy Notekeeper 1.3.1.12\AhoyBrowser\MainForm.cs(705):            if (AhoyColors.ColorTheme == 5) // Terminal
-          C:\Users\Workshop\Documents\Visual Studio 2017\Projects\Ahoy Notekeeper 1.3.1.28\AhoyBrowser\AhoyColors.cs(513):         *  C:\Users\Jiffy\Documents\Ahoy Projects\Ahoy Notekeeper 1.3.1.12\AhoyBrowser\InputPrompt.cs(201):                    if (AhoyColors.ColorTheme == 1 || AhoyColors.ColorTheme == 2)
-          C:\Users\Workshop\Documents\Visual Studio 2017\Projects\Ahoy Notekeeper 1.3.1.28\AhoyBrowser\AhoyColors.cs(515):            C:\Users\Jiffy\Documents\Ahoy Projects\Ahoy Notekeeper 1.3.1.12\AhoyBrowser\Password.cs(82):            if (AhoyColors.ColorTheme == 1 || AhoyColors.ColorTheme == 2)
-          C:\Users\Workshop\Documents\Visual Studio 2017\Projects\Ahoy Notekeeper 1.3.1.28\AhoyBrowser\CreatePassword.cs(65):            if (AhoyColors.ColorTheme == 1 || AhoyColors.ColorTheme == 2)
-          C:\Users\Workshop\Documents\Visual Studio 2017\Projects\Ahoy Notekeeper 1.3.1.28\AhoyBrowser\DetachedEditor.cs(2414):                if (AhoyColors.ColorTheme == 1 || AhoyColors.ColorTheme == 2)
-          C:\Users\Workshop\Documents\Visual Studio 2017\Projects\Ahoy Notekeeper 1.3.1.28\AhoyBrowser\InputPrompt.cs(206):                    if (AhoyColors.ColorTheme == 1 || AhoyColors.ColorTheme == 2)
-          C:\Users\Workshop\Documents\Visual Studio 2017\Projects\Ahoy Notekeeper 1.3.1.28\AhoyBrowser\MainForm.cs(6034):                if (AhoyColors.ColorTheme == 1 || AhoyColors.ColorTheme == 2)
-          C:\Users\Workshop\Documents\Visual Studio 2017\Projects\Ahoy Notekeeper 1.3.1.28\AhoyBrowser\Password.cs(81):            if (AhoyColors.ColorTheme == 1 || AhoyColors.ColorTheme == 2)
-         */
-        internal const int ThemeCount = 19; // Zero indexed
+        // Built-in color themes (index = value saved in Settings.xml as <colortheme>)
+        internal const int ThemeDark = 0;
+        internal const int ThemeLight = 1;
+        internal const int ThemeBlue = 2;
+        internal const int ThemeCount = 2; // Zero indexed (highest index)
+
+        // Ahoy 1.x had 20 themes, saved as <theme>. Keep the three that still exist, map light
+        // themes to Light and everything else to Dark.
+        internal static int MapLegacyThemeIndex(int legacyIndex)
+        {
+            switch (legacyIndex)
+            {
+                case 1:  // Text Editor
+                case 2:  // Gadget
+                    return ThemeLight;
+                case 10: // Blue Plastic
+                case 15: // Age of Kings
+                    return ThemeBlue;
+                default:
+                    return ThemeDark;
+            }
+        }
+
+        internal static bool IsLightTheme()
+        {
+            return ColorTheme == ThemeLight;
+        }
+
+        // Error/attention text: the highlight color is hard to read on the light theme
+        internal static Color ErrorTextColor()
+        {
+            return IsLightTheme() ? CurrentColorTheme()[4] : CurrentColorTheme()[6];
+        }
+
         private static Settings ThemeSettingsObject;
         private static void SetTheme(int index)
         {

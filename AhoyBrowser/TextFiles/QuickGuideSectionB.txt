@@ -22,11 +22,8 @@ Arrange pinned entries using the arrow buttons below the Pinned List. You can al
 
 Preceding titles of pinned entries the following attributes may appear:
 "01 Title..." (Line number)
-"N► Title..." (Entry has Active Notification)
-"I► Title..." (Entry has Inactive Notification)
 "H1 Title..." (Entry is held by Hold Button 1)
 "H2 Title..." (Entry is held by Hold Button 2)
-"H► Title..." (Held with Active/Inactive Notification)
 "EX Title..." (Entry is marked for Export)
 "+> Title..." (Entry belongs to one or more categories)
 "01 + Tit..." (Entry is category and can be expanded)
@@ -81,7 +78,6 @@ INTERFACE AUTO-LOCK:
 AHOY! will enter sleep mode (lock the user interface) after 60 minutes of inactivity. Consult the Options menu to change intervals.
 
 
-
                         GLOSSARY
                 ───────────═X═───────────
 
@@ -95,7 +91,7 @@ TIP: Using the option "Load Default Pool" from the File -> Advanced menu will al
 
 
 ENTRY:
-Each entry (or text document) in AHOY! consists of an entry title, text content and optional notification settings.
+Each entry (or text document) in AHOY! consists of an entry title and text content.
 An Entry can be created, pinned, bookmarked, locked, saved, edited and deleted.
 
 
@@ -139,49 +135,9 @@ Stickies are reminders you can place on your desktop. Sticky size, position and 
 NOTE: Hover your mouse cursor over buttons in AHOY! to display ToolTips.
 
 
-NOTIFICATIONS:
-Notifications are reminders set on individual Entries: You can either create a new Entry or select an existing Entry to set your Notification with.
-Entries can have Active and Inactive Notifications. Notification text content is included when searching the Pool for Entries (both Active and Inactive Notifications are included when searching).
-Select an Entry and click the Notification button (or press CTRL+ALT+N) to open the Notification Preview Dialog. Create a new Entry or edit the currently selected Entry: Type a Notification text (Message) and set the date and time. A Notification will be raised at the set date and time to remind you of the current event. Snooze a raised Notification by clicking the Snooze button. Right click the Snooze button to change snooze interval (in minutes).
-To learn more about Notifications click the Help icon ("?") inside the Notification Editor.
-NOTE: Notification alerts will not be raised when the Magic Screen Blocker is active.
-
-
 HOME SCREEN:
 Text shown in the Content field upon startup and when closing an Entry, when pressing the ESC button or when selecting Clear Displays from the Options menu.
 When setting your own (Custom) Home Screen, a copy of the text content from the current selected Entry will be used as the new Home Screen text. Select Set Home Screen repeatedly to update the Home Screen with any changes made to your Entry.
-
-
-PLOP EDITOR:
-Use the PLOP Editor to work in an Entry not currently selected in the main editor. The PLOP Editor is used to add or "PLOP" text content into a specific/linked Entry while working with other entries simultaneously. The PLOP Editor can be used side-by-side with the Typewriter emulator.
-1) With the PLOP Editor closed: Select the Entry you want to associate with the PLOP Editor.
-2) Open the PLOP Editor (Press CTRL+E). The PLOP Editor is now linked to the selected entry.
-3) Remain in the selected Entry or select other entries to work with -the PLOP Editor will add text (by pressing ESC or by clicking the PLOP! button) into the associated Entry, regardless of the Entry currently selected in the main editor.
-TIP: Recall PLOP text by clicking the Undo button or by pressing CTRL+Z (PLOP has 1000 Undo/Redo states).
-NOTE: To change associated entry: Click the "Linked" button to unlink PLOP. Close the PLOP Editor (By pressing ESC or by clicking the Close button) and repeat the steps above.
-PLOP Shortcuts:
-ESC ............... PLOP content to Entry/Close PLOP Editor
-ALT+Left/Right .... Cycle back and fourth between fields
-F6  ............... View/Disconnect PLOP Link
-F7  ............... Toggle PLOP as Top Most on Desktop
-F8  ............... Call-Up linked Entry
-CTRL+/,/./- ....... Insert Paragraph Dividers
-CTRL+N ............ Create new Entry
-CTRL+E ............ Focus Main Editor
-CTRL+F ............ Focus Search in Main Editor
-CTRL+I ............ Pin/Unpin current Entry (Main Editor)
-CTRL+ALT+Q ........ Show Quick Guide
-CTRL+ALT+A ........ Open Command Prompt
-
-
-UTILITY EDITOR:
-A separate text editor useful for working in parallel with the main editor. The Utility Editor is not tied to a specific Entry, instead it uses four Memory Banks (Temp, A, B and C) to store its content, from which it is possible to transfer text to any selected Entry.
-The Utility Editor will persist Memory Banks A, B and C (Autosave feature), including Window Size, Location and Opacity. As with normal Entries the Memory Banks are stored within the encrypted Pool. Content in the Temp Memory Bank will be discarded when AHOY! is closed.
-Press ALT+Left/Right to cycle back and fourth between Memory Banks. The Utility Editor can be placed anywhere on the screen and above the AHOY! window. Using the Opacity setting (found in the Menu) the Editor can serve as an overlay while working on multiple documents.
-It is possible to create New Entries, edit and add content to existing Entries from the Utility Editor.
-Useful shortcuts from within the Utility Editor:
-CTRL+N ............ Create new Entry
-CTRL+E ............ Focus Main Editor
 
 
 PARAGRAPH DIVIDERS:
@@ -194,12 +150,13 @@ Use the Password Generator to create a range of password types, including strong
 Use the help function inside the Password Generator to learn more about the Password Tester and how to create a strong password.
 
 
-PASSWORD RECOVERY:
-You can reset your password from the Change Password menu option found in the Options menu, using your old password or recovery answer.
-
-
 LOGIN DIALOG:
-The login dialog will allow three login attempts before exiting AHOY! (Restart AHOY! to retry). With two login attempts the password recovery option will appear. Type your secret answer to reset your password. You can also reset your password from the Change Password menu option found in the Options menu.
+The login dialog will allow three login attempts before exiting AHOY! (Restart AHOY! to retry).
+
+
+PASSWORD AND ENCRYPTION:
+Your Pool is encrypted with AES-256-GCM. The encryption key is derived from your password (PBKDF2-HMAC-SHA256, 600,000 iterations); the password itself is never stored. Change the password from the Options menu (Change Password); you will be asked for the current password first.
+IMPORTANT: There is no way to reset or recover a forgotten password. Without the password the Pool cannot be decrypted, not even by the developer. Backups are encrypted with the same password.
 
 
 IMPORT/EXPORT:
@@ -210,10 +167,6 @@ NOTE: The export collection is a temporary Entry labeling and not persisted on a
 
 STYLE EDITOR (COLOR THEMES):
 Choose among several Color Theme presets using the Style Editor found in the View Menu (clicking the "More..." button in the Color Theme selector will reveal the Style Editor) and Context Menu in the Pinned List via "Define Colors...". Design custom Color Themes and and use the Import/Export function to share your Color Themes with other users. You can also open the Style Editor via command prompt (CTRL+ALT+A) by typing the command "style".
-
-
-EFFECTS (PRISM EFFECT)
-The Prism effect is inspired by classic computing of the 80's. A color-shifting effect that looks best on a darker color theme. The Prism effect is visible on the pinned animation, home screen, interface lock screen etc. Toggle the effect from the View Menu or by command input ("prism").
 
 
 CHECKLIST TEMPLATE:
@@ -271,39 +224,6 @@ Insert in top of document: [tplmark][mark:here][tag:--] (Change the "here" text 
 Insert in text: -here- <- Caret will jump to this tag in your text upon Entry selection.
 
 
-MAGIC SCREEN BLOCKER (DISABLED BY DEFAULT):
-The Magic Screen Blocker (found in the Options menu) is a password protected screen locking gimmick that will lock multiple screens at once while being completely transparent (invisible). Unauthorized users interacting with the seemingly unlocked computer (clicking with the mouse or typing on the keyboard) will be confronted with animated GIF overlays (up to 24 GIF's in total). Use the Interval setting (Options menu) to set an interval for automatically activating the Magic Screen Blocker.
-IMPORTANT: To enter or exit the Magic Screen Blocker press CTRL+ALT+ENTER on your keyboard. You will be prompted to enter your AHOY! password to exit the Screen Blocker.
-NOTE: The Magic Screen Blocker is disabled by default to prevent accidental usage, and must be enabled by command: CTRL+ALT+A (type "blocker" to enable/disable the Magic Screen Blocker).
-NOTE: Notification alerts will not be raised when the Magic Screen Blocker is active.
-TIP: The Magic Screen Blocker can be invoked when standing in the Main window, PLOP and Utility Editor, Log Monitor and from any of the Sticky notes.
-
-
-TYPEWRITER:
-The AHOY! Typewriter is a distraction-free writing tool inspired by mechanical and electromechanical typewriters. Once you press Enter ("Carriage Return") the line is "printed on paper" and can't be edited. This encourages the user to think differently about the writing process and provides an interesting exercise.
-It is possible though to delete a full line, one at the time by pressing CTRL + BACKSPACE, if a rewrite is necessary.
-Further editing (including Undo/Redo operations) can always be completed from within the Entry editor by pressing ESC to Exit the Typewriter.
-The Typewriter operates on the currently selected Entry and will continuously transfer any changes to the associated Entry.
-Typewriter settings are stored in the AHOY! settings file and can be reset by pressing F9 when inside the Typewriter (or by selecting "Clear All Settings" from the AHOY! Options Menu).
-Keyboard shortcuts and definitions are found on the Instruction Card (Menu) accessible through the Typewriter interface.
-
-
-TYPERMAX:
-Train your fingers on the keyboard with the touch typing game Typermax. Typermax includes a training mode, statistics (Typing speed/WPM, accuracy, +/- hits and penalty), a progressive level system with no cap, a mix of static and randomly generated phrases and a persisted high score. With an internal dictionary containing over 60.000 English words there is plenty of game-time for even the most skilled typist.
-
-
-RANDOM NUMBERS:
-The random numbers generator will generate from one to multiple random values. Min Value between 0 and 999. Max Value must be higher than Min Value and max 1000. Dice Count from 0 to 100.
-
-
-ROMAN NUMERALS:
-The roman numerals converter will convert numbers and alphabetic characters to roman numerals: First all content is split (by whitespace) into a list of character groups. Then each group is tested to see if it is a number. Numbers are directly converted to roman numerals (highest possible number is 3999). Alphabetic characters are first converted to numerals  (A=1, B=2 etc. See table below) and then converted to roman numerals. All letters are treated as capitalized eg. it makes no difference if input is upper- or lowercase. Comma, period, semicolon and hyphen characters etc. are bypassed and posted directly as output.
-
-
-ANSI EDITOR:
-Create ANSI and ASCII text-art using the ANSI Editor. ANSI Edit is a simple ANSI/ASCII Art editor created and used as a utility during development of AHOY!. Copy your artwork manually from the editor into AHOY! or any preferred editor. It is possible to run multiple instances of ANSI Edit. Instructions are found within the ANSI Edit window Help menu.
-
-
 LOG:
 AHOY! keeps an event log with the last 2500 changes made to the Pool. The Log can be accessed from the Tools menu using your AHOY! password. The Log can be cleared using Command Input (see section below).
 NOTE: The AHOY! event log is local only and for user requested diagnostics/debugging purposes. The log is stored in the encrypted Pool file.
@@ -321,13 +241,12 @@ Auto-Add Blank Lines: Will add 15 blank lines to a new Entry.
 
 
 KEYBOARD CONTROL (VIEW MENU)
-To move and resize editors (Main editor, PLOP/UE and Stickies) using keyboard shortcuts, enable the feature from the View menu -> Keyboard Control.
+To move and resize editors (Main editor and Stickies) using keyboard shortcuts, enable the feature from the View menu -> Keyboard Control.
 Keyboard shortcuts:
 Move by Keyboard: ALT+SHIFT+UP/DOWN/LEFT/RIGHT (Arrow keys)
 Resize by Keyboard: CTRL+ALT+SHIFT+UP/DOWN/LEFT/RIGHT (Arrow keys)
 Enable CAPSLOCK to move and resize faster.
 TIP: You can remove the window border via the View menu -> Layout Mode -> Window Border.
-
 
 
                     USEFUL SHORTCUTS
@@ -336,8 +255,8 @@ TIP: You can remove the window border via the View menu -> Layout Mode -> Window
 
 CTRL+ALT+Q ........ Help (Quick Guide)
 CTRL+H ............ Show history of the latest 100 changes
-CTRL+F ............ Search the Pool for entries (Title,
-                    Content and Notification text)
+CTRL+F ............ Search the Pool for entries (Title
+                    and Content)
 F1 to F10 ......... Select entries in search results
 CTRL+ALT+F ........ Search the content of a selected entry
 CTRL+ALT+SHIFT+F .. Find and replace
@@ -362,7 +281,7 @@ CTRL+K ............ Move pinned entry down
 CTRL+SHIFT+1-9 .... Colorize pinned entry
 CTRL+SHIFT+DEL .... Remove color from pinned entry
 CTRL+R ............ Lock (write-protect) selected entry
-CTRL+N ............ Create a new entry/Also from PLOP/UE
+CTRL+N ............ Create a new entry
 CTRL+SHIFT+N ...... Create a new entry (pinned)
 CTRL+ALT+P ........ Insert Checklist Template
 CTRL+SHIFT+B ...... Insert Bookmark Template
@@ -374,66 +293,20 @@ CTRL+ALT+I ........ Open event log
 CTRL+D ............ Delete the selected entry
 CTRL+O ............ Load Pool or Backup
 F5 ................ Load Pool or Backup (From Splash/Login dialog)
-CTRL+E ............ Open PLOP Editor/Return to Main Editor
-ALT+LEFT/RIGHT .... Cycle back and fourth between fields
 CTRL+ALT+G ........ Open Spell Checker
 CTRL+SHIFT+G ...... Open empty Spell Checker
 CTRL+ALT+X ........ Password generator and tester
-CTRL+ALT+E ........ Open the Utility Editor (CTRL+E: return to Main Editor)
-ALT+LEFT/RIGHT .... Cycle back and fourth between Memory
-                    Banks in the Utility Editor
 CTRL+SHIFT+C ...... Copy text selection with special chars
 CTRL+SHIFT+X ...... Cut text selection with special chars
-CTRL+ALT+T ........ Start the AHOY! Typewriter
 CTRL+SHIFT+S ...... Save Entry As Text Document (.txt/UTF-8)
 CTRL+ALT+C ........ Message encryption
 CTRL+ALT+A ........ Command prompt
-CTRL+ALT+W ........ Calculator
-CTRL+ALT+M ........ Magic Screen Blocker
 CTRL+ALT+L ........ Interface lock/Sleep
 F11 ............... Toggle full screen mode
 
 
-
-                        CALCULATOR
-                ───────────═X═───────────
-
-
-Keyboard shortcut: CTRL+ALT+W
-The AHOY! Calculator uses comma (",") as decimal mark (European standard). Using a dot (period) will be ignored.
-Type your calculation and press ENTER or Click the "GO" button.
-Copy the result to clipboard by clicking the result display.
-Press ESC to clear the result (2 x ESC to close Calculator)
-Press Up/Down keys to recall previous input.
-HINT: You may type commands like "help" to display help or "cls" to clear the result. The "copy" command will copy the result and the "exit" command will close the Calculator window.
-
-NOTE: Use the help function inside the Calculator window to gain more information.
-NOTE: The Calculator shares preferences with the calculator in the Command Prompt.
-
-
-
                          COMMANDS
                 ───────────═X═───────────
-
-
-CALCULATOR (Command prompt version):
-Order of operations (/,*,-,+) and parenthesis rule. Use CTRL+ALT+A to open the command prompt.
-The AHOY! Calculator uses comma (",") as decimal mark (European standard). Using a dot (period) will be ignored. Math expressions are typed directly into the command prompt:
-
-Example 1:
-     Input:  2+2
-     Output: 2+2 = 4
-
-Example 2 (Calculation on result):
-     Input:  200-((200/100)*20)+500*(3,66/2)
-     Output: 200-((200/100)*20)+500*(3,66/2) = 1075
-     Input:  *2
-     Output: 1075*2 = 2150
-
-NOTE: To include the previous result in a new calculation
-      just type the operator you wish to use on the result
-      eg. "/,*,-,+" and add your right-hand expression:
-      "+ 5". Result: 1075 + 5 = 1080
 
 
 COMMANDS - ATTENTION: Some commands will affect all entries in the Pool and should be used with caution. You'll find the Command Input dialog in the Edit menu or by keyboard shortcut CTRL+ALT+A.

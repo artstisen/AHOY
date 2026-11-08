@@ -233,20 +233,6 @@ namespace AhoyBrowser
             // Entry content
             return new Font(GetFontName(), 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
         }
-
-        public static Font NotificationPreviewFieldFont()
-        {
-            // Entry content
-            return new Font(GetFontName(), 9F, FontStyle.Regular, GraphicsUnit.Point, 0);
-        }
-
-
-        public static Font NotificationEditorDateTimeDisplay()
-        {
-            // Date Time display
-            return new Font(GetFontName(), 27.75F, FontStyle.Bold, GraphicsUnit.Point, 0);
-        }
-
         public static Font FieldFont(int Zoom)
         {
             // Fields
@@ -338,13 +324,6 @@ namespace AhoyBrowser
             // Messagebox large font
             return new Font(GetFontName(), 10F, FontStyle.Regular, GraphicsUnit.Point, 0);
         }
-
-        public static Font TypermaxFieldFont()
-        {
-            // Entry title
-            return new Font(GetFontName(), 14F, FontStyle.Regular, GraphicsUnit.Point, 0);
-        }
-
         public static Font StyleEditorXXSSmallFont()
         {
             // Messagebox small font

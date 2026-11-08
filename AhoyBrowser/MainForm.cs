@@ -1,4 +1,5 @@
 ﻿using System;
+using AhoyBrowser.Crypto;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Drawing;
@@ -13,10 +14,8 @@ namespace AhoyBrowser
     public partial class MainForm : Form
     {
         #region VARIABLES
-        internal static Welcome Auth { get; set; }
-        internal string AuthQuestion { get; set; }
-        internal string AuthAnswer { get; set; }
-        internal string AuthPassword { get; set; }
+        // Key derived from the user's password (PBKDF2); the password itself is never kept
+        private PoolKey CurrentKey { get; set; }
         internal const int MaxPasswordLength = 64;
         internal static bool InterfaceLock { get; set; }
         private static bool ShowPinAndMemoAnimation { get; set; }
@@ -81,33 +80,9 @@ namespace AhoyBrowser
         
 
         // Utility/PLOP Editor
-        internal static string CurrentContentForUtilityEditor { get; set; }
-        internal static int CurrentCaretPositionForUtilityEditor { get; set; }
-        internal static string UEContentA { get; set; }
-        internal static int UECaretPositionA { get; set; }
-        internal static string UEContentB { get; set; }
-        internal static int UECaretPositionB { get; set; }
-        internal static string UEContentC { get; set; }
-        internal static int UECaretPositionC { get; set; }
-        internal static string UEContentD { get; set; }
-        internal static int UECaretPositionD { get; set; }
-        public static bool UtilityEditorIsOpen { get; set; }
-        public static FormWindowState UEWindowState { get; set; }
-        public static int UEWidth { get; set; }
-        public static int UEHeight { get; set; }
-        public static int UERestoreBoundsWidth { get; set; }
-        public static int UERestoreBoundsHeight { get; set; }
-        public static int UEPositionX { get; set; }
-        public static int UEPositionY { get; set; }
-        public static double UEOpacity { get; set; }
-        public static int UEVersionSelection { get; set; }
-        private static bool RefreshFormForUEOpacityCompensation { get; set; }
-        private static bool AutoOpenUtilityEditor { get; set; }
         internal static bool StyleEditorHasChanges { get; set; }
         internal static int CurrentLocationX { get; set; }
         internal static int CurrentLocationY { get; set; }
-        internal static string PlopContent { get; set; }
-        internal static bool SubmitPlopContent { get; set; }
         internal static bool NewEntryFromUE { get; set; }
 
         internal static bool SearchFromUE { get; set; }
@@ -116,23 +91,8 @@ namespace AhoyBrowser
         internal static bool OpenQuickGuideFromUE { get; set; }
 
         internal static bool ActivateMainForm { get; set; }
-        internal static string PlopPersistedContent { get; set; }
-        internal static string PlopUtilityContent { get; set; }
-        internal static string PlopLinkedID { get; set; }
-        internal static bool PlopCallUpEntry { get; set; }
-        internal static bool PlopTopMost { get; set; }
-        internal static bool PlopDirection { get; set; }
-        internal static bool UEBlankLines { get; set; }
-        internal static bool UETrimWhitespace { get; set; }
-        internal static bool UEESCtoClose { get; set; }
 
         // Notifications
-        internal static bool NotificationEditorSet { get; set; }
-        internal static bool NotificationCallUpEntry { get; set; }
-        private static bool NotificationsEnabled { get; set; }
-        internal static bool NotificationEditorOpen { get; set; }
-        internal static bool NotificationRaised { get; set; }
-        private static int NotificationSecondsCounter { get; set; }
         private static bool EntrySelectionInProgress { get; set; }
         private bool EntrySavedByDialog { get; set; }
         internal static int SelectedPasswordStyle { get; set; }
@@ -146,7 +106,6 @@ namespace AhoyBrowser
         internal static int MasterCloseStickiesCode { get; set; }
         private const string Srv = "debug";
         private static bool SpawnCommandPrompt { get; set; }
-        internal static bool NotificationScrollToCaret { get; set; }
 
         // Default and minimum window size
         internal const int WindowsDefaultWidth = 1050;
@@ -161,8 +120,6 @@ namespace AhoyBrowser
         internal static int SelectedTexture { get; set; }
         internal static int SelectedTexturePreview { get; set; }
         private static int RuntimeAutoBackupSeconds { get; set; }
-        private static int NotificationPanelAutoCloseCounter { get; set; }
-        private static bool PersistNotificationPanel { get; set; }
         private int SearchBoxResultCycleIndex { get; set; }
 
         // Backup parameters
@@ -188,31 +145,10 @@ namespace AhoyBrowser
         private bool PDEditorOpen { get; set; }
 
         // TypeWriter
-        private static bool TypeWriterEnabled { get; set; }
-        private static bool SpawnTypeWriter { get; set; }
-        internal static bool ExitTypeWriter { get; set; }
-        public static bool SubmitTypeWriterContent { get; set; }
-        internal static int TypeWriterFontSize { get; set; }
-        internal static int TypeWriterLineCount { get; set; }
-        internal static int TypeWriterCPLIndex { get; set; }
-        internal static int TypeWriterBellMargin { get; set; }
-        internal static int TypeWriterLeftMargin { get; set; }
-        internal static bool TypeWriterDelLock { get; set; }
-        internal static string TypeWriterLogo { get; set; }
-        internal static int TypeWriterBasketX { get; set; }
-        internal static int TypeWriterBasketY { get; set; }
-        internal static bool TypeWriterAutoMenu { get; set; }
-        internal static bool TypeWriterTabRuler { get; set; }
-        internal static int TypeWriterColorTheme { get; set; }
-        internal static bool TypeWriterAutoBasket { get; set; }
-        internal static bool TypeWriterPageAutoScroll { get; set; }
 
         // Typermax
-        private static int TypermaxHighScore { get; set; }
 
         // MicroCalculator
-        public static bool ShowMicroCalcMain { get; set; }
-        public static bool ShowMicroCalcUE { get; set; }
 
         // DisplayText cycle
         public static int DisplayTextCycle { get; set; }
@@ -227,18 +163,13 @@ namespace AhoyBrowser
         private static Timer AutosaveBlinkerTimer { get; set; }
 
         // Screen blocker
-        private static bool ScreenBlockerEnabled { get; set; }
-        private static bool InvokeScreenBlockerPerRemote { get; set; }
-        internal static bool ScreenBlockerIsActive { get; set; }
 
         // Global settings blocker
         private bool AllowSavingSettings { get; set; }
 
         // Prism Effect
-        internal static bool PrismEffect { get; set; }
 
         // Random numbers
-        private bool RandomNumbersOpen { get; set; }
 
         // Clock
         private bool ShowClock { get; set; }
@@ -270,7 +201,6 @@ namespace AhoyBrowser
 
         // --------------------------------------------------------
         // Release date and time (timestamp) / timestamp (seconds omitted, like this "202208081401")
-        internal const string ReleaseDate = "202208082004";
         // --------------------------------------------------------
 
         #endregion
@@ -316,18 +246,13 @@ namespace AhoyBrowser
             CanUndoSort = false;
 
             // Calculator
-            microCalculator1.SetVersion(0);
-            microCalculator1.HideControl(true);
 
             // Initialize commands
             CommandInput.InitializeCommands();
 
             // Prism effect
-            PrismEffect = Settings.DefaultPrismEffect;
-            ResolvePrismEffectMenuItem();
 
             // Random numbers
-            RandomNumbersOpen = false;
 
             // Clock
             ShowClock = Settings.DefaultShowClock;
@@ -343,35 +268,15 @@ namespace AhoyBrowser
             MasterCloseStickies = false;
             MasterCloseStickiesCode = 0;
             SpawnCommandPrompt = false;
-            NotificationScrollToCaret = Settings.DefaultNotificationScrollToCaret;
             // Set initial readonly mode to false = Read/Write permission
             OverrideToSetWriteProtection = false;
             TogglePoolReadOnly(true, false, false);
             SetIndicatorLabel("READ-ONLY", "", false);
             lbReadOnlyIndicator.Click += LbReadOnlyIndicator_Click;
             // TypeWriter
-            TypeWriterEnabled = false;
-            SpawnTypeWriter = false;
-            ExitTypeWriter = false;
-            SubmitTypeWriterContent = false;
             DisplayTextCycle = Settings.DefaultDisplayTextCycle;
-            TypeWriterFontSize = TypeWriter.DefaultFontSize;
-            TypeWriterLineCount = TypeWriter.DefaultLineCount;
-            TypeWriterCPLIndex = TypeWriter.DefaultCPLIndex;
-            TypeWriterBellMargin = TypeWriter.DefaultBellMargin;
-            TypeWriterLeftMargin = TypeWriter.DefaultLeftMargin;
-            TypeWriterLogo = TypeWriter.DefaultLogo;
-            TypeWriterDelLock = TypeWriter.DefaultDelLock;
-            TypeWriterBasketX = TypeWriter.DefaultTypeBasketX;
-            TypeWriterBasketY = TypeWriter.DefaultTypeBasketY;
-            TypeWriterAutoMenu = TypeWriter.DefaultAutoMenu;
-            TypeWriterTabRuler = TypeWriter.DefaultTabRuler;
-            TypeWriterColorTheme = TypeWriter.DefaultColorTheme;
-            TypeWriterAutoBasket = TypeWriter.DefaultAutoBasket;
-            TypeWriterPageAutoScroll = TypeWriter.DefaultPageAutoScroll;
             HideLoadingPanel();
             // Typermax
-            TypermaxHighScore = 0;
             // Use primary, secondary and demo Pool
             IO.UseDemoPool = false;
             IO.UseSecondaryPool = false; // Use primary
@@ -429,29 +334,15 @@ namespace AhoyBrowser
             CustomDisplayText = "";
             ForceDefaultDisplayText = false;
             AnimationsEnabled = true;
-            RefreshFormForUEOpacityCompensation = false;
-            AutoOpenUtilityEditor = false;
             StoredClipboardString = "";
             SelectedTexture = 0;
             StyleEditorHasChanges = false;
-            PlopContent = "";
-            PlopUtilityContent = "";
-            PlopPersistedContent = "";
-            PlopLinkedID = "";
-            SubmitPlopContent = false;
             NewEntryFromUE = false;
             SearchFromUE = false;
             TogglePinFromUE = false;
             OpenPoolFromUE = false;
             OpenQuickGuideFromUE = false;
             ActivateMainForm = false;
-            PlopTopMost = false;
-            PlopCallUpEntry = false;
-            NotificationCallUpEntry = false;
-            NotificationsEnabled = false;
-            NotificationEditorOpen = false;
-            NotificationRaised = false;
-            ResetNotificationCounter();
 
             // Initialize dynamic controls
             InitializeAnimationLabel();
@@ -496,13 +387,6 @@ namespace AhoyBrowser
             listBoxPinned.ItemHeight = 18;
 
             // Setup Notification Preview Selector
-            pnlNotificationSelector.Visible = false;
-            lbNotificationPreview.Font = Design.NotificationPreviewFieldFont();
-            lbNotificationTitle.Font = Design.NotificationPreviewFieldFont();
-            lbNotificationTimeStamp.Font = Design.NotificationPreviewFieldFont();
-            cbPersistDialog.Checked = false;
-            NotificationPanelAutoCloseCounter = 0;
-            PersistNotificationPanel = false;
             SearchBoxResultCycleIndex = 0;
 
             // Set text color on current zoom selections
@@ -517,7 +401,6 @@ namespace AhoyBrowser
             LoggedInOnce = false;
             Entries = new List<Entry>();
             EntriesMirror = new List<Entry>();
-            Auth = new Welcome();
             PoolHasChanges = false;
             SettingsHasChanges = false;
             InitializeStickies();
@@ -528,29 +411,12 @@ namespace AhoyBrowser
             ReturnToEditorAfterSleep = false;
             ListsActUponMouseMovement = true;
             lbMaintenance.Visible = false;
-            UtilityEditorIsOpen = false;
-            UEContentA = "";
-            UECaretPositionA = 0;
-            UEContentB = "";
-            UECaretPositionB = 0;
-            UEContentC = "";
-            UECaretPositionC = 0;
-            UEContentD = "";
-            UECaretPositionD = 0;
-            CurrentCaretPositionForUtilityEditor = 0;
-            PlopDirection = Settings.DefaultPlopDirection;
-            UEBlankLines = Settings.DefaultUEBlankLines;
-            UETrimWhitespace = Settings.DefaultUETrimWhitespace;
-            RestoreUtilityEditorView();
 
             // Set default menuitem text
             openToolStripMenuItem.Text = "&Open Pool Or Backup";
             readOnlyToolStripMenuItem.Text = "Read-Only";
 
             // Set button background images
-            btnNotification.Text = "";
-            btnNotification.BackgroundImage = Properties.Resources.notify;
-            btnNotification.BackgroundImageLayout = ImageLayout.Center;
             btnPinnedUp.Text = "";
             btnPinnedUp.BackgroundImage = Properties.Resources.up;
             btnPinnedUp.BackgroundImageLayout = ImageLayout.Center;
@@ -593,12 +459,6 @@ namespace AhoyBrowser
             btnSleep.BackgroundImage = Properties.Resources.sleep;
             btnSleep.BackgroundImageLayout = ImageLayout.Center;
             btnSleep.Text = "";
-            btnCycleNotificationsBackwards.Text = "";
-            btnCycleNotificationsBackwards.BackgroundImage = Properties.Resources.up;
-            btnCycleNotificationsBackwards.BackgroundImageLayout = ImageLayout.Center;
-            btnCycleNotificationsForwards.Text = "";
-            btnCycleNotificationsForwards.BackgroundImage = Properties.Resources.up;
-            btnCycleNotificationsForwards.BackgroundImageLayout = ImageLayout.Center;
 
             // Setup custom checkbox buttons
             cbPinned.CheckedText = ""; // No text
@@ -620,27 +480,8 @@ namespace AhoyBrowser
             cbBookmark.BackgroundImageLayout = ImageLayout.Center;
             cbBookmark.Checked = false;
 
-            // Setup custom pinned checkbox for preview dialog
-            cbPersistDialog.CheckedBackgroundImage = null;
-            cbPersistDialog.CheckedText = null;
-            cbPersistDialog.CheckedTextColor = Color.Empty;
-            cbPersistDialog.Cursor = Cursors.Default;
-            cbPersistDialog.FlatStyle = FlatStyle.Flat;
-            toolTip1.SetToolTip(this.cbPersistDialog, "Persist Preview Dialog (Toggle Auto-Close On/Off)");
-            cbPersistDialog.CheckedText = ""; // No text
-            cbPersistDialog.UnCheckedText = ""; // No text
-            cbPersistDialog.BackgroundImageLayout = ImageLayout.Center;
-            cbPersistDialog.CheckedBackgroundImage = Properties.Resources.pinned;
-            cbPersistDialog.UnCheckedBackgroundImage = Properties.Resources.unpinned;
-            // Set Checked state to display images
-            cbPersistDialog.Checked = false;
-            cbPersistDialog.FlatAppearance.BorderColor = AhoyColors.CurrentColorTheme()[9];
-            cbPersistDialog.BackColor = AhoyColors.CurrentColorTheme()[7];
 
             // Typewriter "button" (it's a panel)
-            pnlSpawnTypeWriter.BackgroundImage = Properties.Resources.typewriter1;
-            pnlSpawnTypeWriter.BackgroundImageLayout = ImageLayout.Center;
-            pnlSpawnTypeWriter.BringToFront();
 
             // Sticky "button" (it's a panel)
             pnlSpawnSticky.BackgroundImage = Properties.Resources.sticky1;
@@ -709,21 +550,12 @@ namespace AhoyBrowser
             // Accept Custom Tabs
             tbContent.AcceptsTab = true;
             tbMemoField.AcceptsTab = true;
-            ShowMicroCalcMain = Settings.DefaultMicroCalculator;
-            ShowMicroCalcUE = Settings.DefaultMicroCalculator;
 
             // Screen Blocker
-            ResetScreenBlockerCounter();
-            ResetScreenBlockerInterval();
-            InvokeScreenBlockerPerRemote = false;
-            ScreenBlockerIsActive = false;
             // Click to keep awake
             tbSearch.MouseClick += KeepAwake_Click;
             tbSearchInContent.MouseClick += KeepAwake_Click;
             tbTitle.MouseClick += KeepAwake_Click;
-            this.Activated += KeepAwake_ScreenBlocker;
-            this.MouseEnter += KeepAwake_ScreenBlocker;
-            this.MouseLeave += KeepAwake_ScreenBlocker;
 
 
             // New pinned by click
@@ -769,14 +601,6 @@ namespace AhoyBrowser
             KeepAwake();
         }
 
-        // Used to postpone screen blocker only
-        private void KeepAwake_ScreenBlocker(object sender, EventArgs e)
-        {
-            if (ScreenBlockerEnabled)
-            {
-                KeepAwake();
-            }
-        }
 
         // Navigate back and forward using the mouse (side back/forward buttons)
         private void LbHomeScreen_MouseDown(object sender, MouseEventArgs e)
@@ -908,9 +732,6 @@ namespace AhoyBrowser
 
         private void SetupHelpPictureBox()
         {
-            picHelp.BackColor = Color.Transparent;
-            picHelp.BackgroundImage = ButtonBitmaps.HelpButtonHighlight();
-            picHelp.BackgroundImageLayout = ImageLayout.Center;
         }
 
         #region COLOR THEME
@@ -919,11 +740,9 @@ namespace AhoyBrowser
             // Index 0 Forms background
             this.BackColor = AhoyColors.CurrentColorTheme()[0];
             // Index 0 Notification Selector background
-            pnlNotificationSelector.BackColor = AhoyColors.CurrentColorTheme()[0];
             SetupHelpPictureBox();
 
             // Setup spawn typewriter "button" (it's a panel)
-            pnlSpawnTypeWriter.BackColor = AhoyColors.CurrentColorTheme()[7];
 
             // Setup spawn Sticky "button" (it's a panel)
             pnlSpawnSticky.BackColor = AhoyColors.CurrentColorTheme()[7];
@@ -952,10 +771,6 @@ namespace AhoyBrowser
             listBoxSearchResult.BackColor = AhoyColors.CurrentColorTheme()[1];
             listBoxPinned.BackColor = AhoyColors.CurrentColorTheme()[1];
 
-            lbNotificationPreview.BackColor = AhoyColors.CurrentColorTheme()[1];
-            lbNotificationTitle.BackColor = AhoyColors.CurrentColorTheme()[1];
-            lbNotificationTimeStamp.BackColor = AhoyColors.CurrentColorTheme()[1];
-            pnlNotificationPreviewTitleBack.BackColor = AhoyColors.CurrentColorTheme()[1];
 
             // Index 2 Label text color
             lbSearch.ForeColor = AhoyColors.CurrentColorTheme()[2];
@@ -966,16 +781,12 @@ namespace AhoyBrowser
             lbInterfaceLocked.ForeColor = AhoyColors.CurrentColorTheme()[2];
             lbMaintenance.BackColor = AhoyColors.CurrentColorTheme()[6];
             lbMaintenance.ForeColor = AhoyColors.CurrentColorTheme()[1];
-            lbNotification.ForeColor = AhoyColors.CurrentColorTheme()[2];
-            lbNotificationTitle.ForeColor = AhoyColors.CurrentColorTheme()[2];
-            lbNotificationTimeStamp.ForeColor = AhoyColors.CurrentColorTheme()[2];
 
             // Index 3 TextBox text color
             toolTip1.ForeColor = AhoyColors.CurrentColorTheme()[30];
             tbTitle.ForeColor = AhoyColors.CurrentColorTheme()[30];
             tbContent.ForeColor = AhoyColors.CurrentColorTheme()[30];
             tbMemoField.ForeColor = AhoyColors.CurrentColorTheme()[30];
-            lbNotificationPreview.ForeColor = AhoyColors.CurrentColorTheme()[30];
 
             // Index 4 Listbox Pinned text color
             listBoxPinned.ForeColor = AhoyColors.CurrentColorTheme()[4];
@@ -992,15 +803,8 @@ namespace AhoyBrowser
             ListBoxSearchResultForeColor = new SolidBrush(AhoyColors.CurrentColorTheme()[6]);
             ListBoxPinnedHighlightColor = AhoyColors.CurrentColorTheme()[6];
 
-            // Status 2 label according to theme
-            if (AhoyColors.ColorTheme == 5) // Terminal
-            {
-                lbStatus2.ForeColor = AhoyColors.CurrentColorTheme()[6];
-            }
-            else
-            {
-                lbStatus2.ForeColor = AhoyColors.CurrentColorTheme()[8];
-            }
+            // Status 2 label
+            lbStatus2.ForeColor = AhoyColors.CurrentColorTheme()[8];
 
             // Index 7 Button background
             btnBack.BackColor = AhoyColors.CurrentColorTheme()[7];
@@ -1011,7 +815,6 @@ namespace AhoyBrowser
             btnPinnedBottom.BackColor = AhoyColors.CurrentColorTheme()[7];
             btnSearch.BackColor = AhoyColors.CurrentColorTheme()[7];
             btnClear.BackColor = AhoyColors.CurrentColorTheme()[7];
-            btnNotification.BackColor = AhoyColors.CurrentColorTheme()[7];
             btnHistory.BackColor = AhoyColors.CurrentColorTheme()[7];
             btnSearchInContent.BackColor = AhoyColors.CurrentColorTheme()[7];
             btnNew.BackColor = AhoyColors.CurrentColorTheme()[7];
@@ -1019,7 +822,6 @@ namespace AhoyBrowser
             cbProtect.BackColor = AhoyColors.CurrentColorTheme()[7];
             cbPinned.BackColor = AhoyColors.CurrentColorTheme()[7];
             cbBookmark.BackColor = AhoyColors.CurrentColorTheme()[7];
-            cbPersistDialog.BackColor = AhoyColors.CurrentColorTheme()[7];
             btnHoldA.BackColor = AhoyColors.CurrentColorTheme()[7];
             btnHoldB.BackColor = AhoyColors.CurrentColorTheme()[7];
             btnSave.BackColor = AhoyColors.CurrentColorTheme()[7];
@@ -1030,15 +832,6 @@ namespace AhoyBrowser
             btnTogglePinned.BackColor = AhoyColors.CurrentColorTheme()[7];
             menuStrip1.BackColor = AhoyColors.CurrentColorTheme()[7]; // Menu top background
             statusStrip1.BackColor = AhoyColors.CurrentColorTheme()[7];
-            btnOpenNotification.BackColor = AhoyColors.CurrentColorTheme()[7];
-            btnNewNotification.BackColor = AhoyColors.CurrentColorTheme()[7];
-            btnListActiveNotifications.BackColor = AhoyColors.CurrentColorTheme()[7];
-            btnListPassiveNotifications.BackColor = AhoyColors.CurrentColorTheme()[7];
-            btnCloseNotificationSelector.BackColor = AhoyColors.CurrentColorTheme()[7];
-            btnDisableNotificationFromPreview.BackColor = AhoyColors.CurrentColorTheme()[7];
-            btnCycleNotificationsBackwards.BackColor = AhoyColors.CurrentColorTheme()[7];
-            btnCycleNotificationsForwards.BackColor = AhoyColors.CurrentColorTheme()[7];
-            btnDeleteNotification.BackColor = AhoyColors.CurrentColorTheme()[7];
             btnExport.BackColor = AhoyColors.CurrentColorTheme()[7];
             btnClearExportMarks.BackColor = AhoyColors.CurrentColorTheme()[7];
 
@@ -1051,7 +844,6 @@ namespace AhoyBrowser
             btnPinnedBottom.ForeColor = AhoyColors.CurrentColorTheme()[8];
             btnSearch.ForeColor = AhoyColors.CurrentColorTheme()[8];
             btnClear.ForeColor = AhoyColors.CurrentColorTheme()[8];
-            btnNotification.ForeColor = AhoyColors.CurrentColorTheme()[8];
             btnHistory.ForeColor = AhoyColors.CurrentColorTheme()[8];
             btnSearchInContent.ForeColor = AhoyColors.CurrentColorTheme()[8];
             btnNew.ForeColor = AhoyColors.CurrentColorTheme()[8];
@@ -1059,7 +851,6 @@ namespace AhoyBrowser
             cbProtect.ForeColor = AhoyColors.CurrentColorTheme()[8];
             cbPinned.ForeColor = AhoyColors.CurrentColorTheme()[8];
             cbBookmark.ForeColor = AhoyColors.CurrentColorTheme()[8];
-            cbPersistDialog.ForeColor = AhoyColors.CurrentColorTheme()[8];
             btnHoldA.ForeColor = AhoyColors.CurrentColorTheme()[8];
             btnHoldB.ForeColor = AhoyColors.CurrentColorTheme()[8];
             btnSave.ForeColor = AhoyColors.CurrentColorTheme()[8];
@@ -1069,15 +860,6 @@ namespace AhoyBrowser
             btnToggleMemo.ForeColor = AhoyColors.CurrentColorTheme()[8];
             btnTogglePinned.ForeColor = AhoyColors.CurrentColorTheme()[8];
             lbStatus.ForeColor = AhoyColors.CurrentColorTheme()[8];
-            btnOpenNotification.ForeColor = AhoyColors.CurrentColorTheme()[8];
-            btnNewNotification.ForeColor = AhoyColors.CurrentColorTheme()[8];
-            btnListActiveNotifications.ForeColor = AhoyColors.CurrentColorTheme()[8];
-            btnListPassiveNotifications.ForeColor = AhoyColors.CurrentColorTheme()[8];
-            btnCloseNotificationSelector.ForeColor = AhoyColors.CurrentColorTheme()[8];
-            btnDisableNotificationFromPreview.ForeColor = AhoyColors.CurrentColorTheme()[8];
-            btnCycleNotificationsBackwards.ForeColor = AhoyColors.CurrentColorTheme()[8];
-            btnCycleNotificationsForwards.ForeColor = AhoyColors.CurrentColorTheme()[8];
-            btnDeleteNotification.ForeColor = AhoyColors.CurrentColorTheme()[8];
             btnExport.ForeColor = AhoyColors.CurrentColorTheme()[8];
             btnClearExportMarks.ForeColor = AhoyColors.CurrentColorTheme()[8];
 
@@ -1091,7 +873,6 @@ namespace AhoyBrowser
             btnPinnedBottom.FlatAppearance.BorderColor = AhoyColors.CurrentColorTheme()[9];
             btnSearch.FlatAppearance.BorderColor = AhoyColors.CurrentColorTheme()[9];
             btnClear.FlatAppearance.BorderColor = AhoyColors.CurrentColorTheme()[9];
-            btnNotification.FlatAppearance.BorderColor = AhoyColors.CurrentColorTheme()[9];
             btnHistory.FlatAppearance.BorderColor = AhoyColors.CurrentColorTheme()[9];
             btnSearchInContent.FlatAppearance.BorderColor = AhoyColors.CurrentColorTheme()[9];
             btnNew.FlatAppearance.BorderColor = AhoyColors.CurrentColorTheme()[9];
@@ -1099,7 +880,6 @@ namespace AhoyBrowser
             cbProtect.FlatAppearance.BorderColor = AhoyColors.CurrentColorTheme()[9];
             cbPinned.FlatAppearance.BorderColor = AhoyColors.CurrentColorTheme()[9];
             cbBookmark.FlatAppearance.BorderColor = AhoyColors.CurrentColorTheme()[9];
-            cbPersistDialog.FlatAppearance.BorderColor = AhoyColors.CurrentColorTheme()[9];
             btnHoldA.FlatAppearance.BorderColor = AhoyColors.CurrentColorTheme()[9];
             btnHoldB.FlatAppearance.BorderColor = AhoyColors.CurrentColorTheme()[9];
             btnSave.FlatAppearance.BorderColor = AhoyColors.CurrentColorTheme()[9];
@@ -1108,15 +888,6 @@ namespace AhoyBrowser
             btnTogglePinAndMemo.FlatAppearance.BorderColor = AhoyColors.CurrentColorTheme()[9];
             btnToggleMemo.FlatAppearance.BorderColor = AhoyColors.CurrentColorTheme()[9];
             btnTogglePinned.FlatAppearance.BorderColor = AhoyColors.CurrentColorTheme()[9];
-            btnOpenNotification.FlatAppearance.BorderColor = AhoyColors.CurrentColorTheme()[9];
-            btnNewNotification.FlatAppearance.BorderColor = AhoyColors.CurrentColorTheme()[9];
-            btnListActiveNotifications.FlatAppearance.BorderColor = AhoyColors.CurrentColorTheme()[9];
-            btnListPassiveNotifications.FlatAppearance.BorderColor = AhoyColors.CurrentColorTheme()[9];
-            btnCloseNotificationSelector.FlatAppearance.BorderColor = AhoyColors.CurrentColorTheme()[9];
-            btnDisableNotificationFromPreview.FlatAppearance.BorderColor = AhoyColors.CurrentColorTheme()[9];
-            btnCycleNotificationsBackwards.FlatAppearance.BorderColor = AhoyColors.CurrentColorTheme()[9];
-            btnCycleNotificationsForwards.FlatAppearance.BorderColor = AhoyColors.CurrentColorTheme()[9];
-            btnDeleteNotification.FlatAppearance.BorderColor = AhoyColors.CurrentColorTheme()[9];
             btnExport.FlatAppearance.BorderColor = AhoyColors.CurrentColorTheme()[9];
             btnClearExportMarks.FlatAppearance.BorderColor = AhoyColors.CurrentColorTheme()[9];
 
@@ -1129,7 +900,6 @@ namespace AhoyBrowser
             btnPinnedBottom.FlatAppearance.MouseOverBackColor = AhoyColors.CurrentColorTheme()[10];
             btnSearch.FlatAppearance.MouseOverBackColor = AhoyColors.CurrentColorTheme()[10];
             btnClear.FlatAppearance.MouseOverBackColor = AhoyColors.CurrentColorTheme()[10];
-            btnNotification.FlatAppearance.MouseOverBackColor = AhoyColors.CurrentColorTheme()[10];
             btnHistory.FlatAppearance.MouseOverBackColor = AhoyColors.CurrentColorTheme()[10];
             btnSearchInContent.FlatAppearance.MouseOverBackColor = AhoyColors.CurrentColorTheme()[10];
             btnNew.FlatAppearance.MouseOverBackColor = AhoyColors.CurrentColorTheme()[10];
@@ -1137,7 +907,6 @@ namespace AhoyBrowser
             cbProtect.FlatAppearance.MouseOverBackColor = AhoyColors.CurrentColorTheme()[10];
             cbPinned.FlatAppearance.MouseOverBackColor = AhoyColors.CurrentColorTheme()[10];
             cbBookmark.FlatAppearance.MouseOverBackColor = AhoyColors.CurrentColorTheme()[10];
-            cbPersistDialog.FlatAppearance.MouseOverBackColor = AhoyColors.CurrentColorTheme()[10];
             btnHoldA.FlatAppearance.MouseOverBackColor = AhoyColors.CurrentColorTheme()[10];
             btnHoldB.FlatAppearance.MouseOverBackColor = AhoyColors.CurrentColorTheme()[10];
             btnSave.FlatAppearance.MouseOverBackColor = AhoyColors.CurrentColorTheme()[10];
@@ -1146,15 +915,6 @@ namespace AhoyBrowser
             btnTogglePinAndMemo.FlatAppearance.MouseOverBackColor = AhoyColors.CurrentColorTheme()[10];
             btnToggleMemo.FlatAppearance.MouseOverBackColor = AhoyColors.CurrentColorTheme()[10];
             btnTogglePinned.FlatAppearance.MouseOverBackColor = AhoyColors.CurrentColorTheme()[10];
-            btnOpenNotification.FlatAppearance.MouseOverBackColor = AhoyColors.CurrentColorTheme()[10];
-            btnNewNotification.FlatAppearance.MouseOverBackColor = AhoyColors.CurrentColorTheme()[10];
-            btnListActiveNotifications.FlatAppearance.MouseOverBackColor = AhoyColors.CurrentColorTheme()[10];
-            btnListPassiveNotifications.FlatAppearance.MouseOverBackColor = AhoyColors.CurrentColorTheme()[10];
-            btnCloseNotificationSelector.FlatAppearance.MouseOverBackColor = AhoyColors.CurrentColorTheme()[10];
-            btnDisableNotificationFromPreview.FlatAppearance.MouseOverBackColor = AhoyColors.CurrentColorTheme()[10];
-            btnCycleNotificationsBackwards.FlatAppearance.MouseOverBackColor = AhoyColors.CurrentColorTheme()[10];
-            btnCycleNotificationsForwards.FlatAppearance.MouseOverBackColor = AhoyColors.CurrentColorTheme()[10];
-            btnDeleteNotification.FlatAppearance.MouseOverBackColor = AhoyColors.CurrentColorTheme()[10];
             btnExport.FlatAppearance.MouseOverBackColor = AhoyColors.CurrentColorTheme()[10];
             btnClearExportMarks.FlatAppearance.MouseOverBackColor = AhoyColors.CurrentColorTheme()[10];
 
@@ -1167,7 +927,6 @@ namespace AhoyBrowser
             btnPinnedBottom.FlatAppearance.MouseDownBackColor = AhoyColors.CurrentColorTheme()[11];
             btnSearch.FlatAppearance.MouseDownBackColor = AhoyColors.CurrentColorTheme()[11];
             btnClear.FlatAppearance.MouseDownBackColor = AhoyColors.CurrentColorTheme()[11];
-            btnNotification.FlatAppearance.MouseDownBackColor = AhoyColors.CurrentColorTheme()[11];
             btnHistory.FlatAppearance.MouseDownBackColor = AhoyColors.CurrentColorTheme()[11];
             btnSearchInContent.FlatAppearance.MouseDownBackColor = AhoyColors.CurrentColorTheme()[11];
             btnNew.FlatAppearance.MouseDownBackColor = AhoyColors.CurrentColorTheme()[11];
@@ -1175,7 +934,6 @@ namespace AhoyBrowser
             cbProtect.FlatAppearance.MouseDownBackColor = AhoyColors.CurrentColorTheme()[11];
             cbPinned.FlatAppearance.MouseDownBackColor = AhoyColors.CurrentColorTheme()[11];
             cbBookmark.FlatAppearance.MouseDownBackColor = AhoyColors.CurrentColorTheme()[11];
-            cbPersistDialog.FlatAppearance.MouseDownBackColor = AhoyColors.CurrentColorTheme()[11];
             btnHoldA.FlatAppearance.MouseDownBackColor = AhoyColors.CurrentColorTheme()[11];
             btnHoldB.FlatAppearance.MouseDownBackColor = AhoyColors.CurrentColorTheme()[11];
             btnSave.FlatAppearance.MouseDownBackColor = AhoyColors.CurrentColorTheme()[11];
@@ -1184,15 +942,6 @@ namespace AhoyBrowser
             btnTogglePinAndMemo.FlatAppearance.MouseDownBackColor = AhoyColors.CurrentColorTheme()[11];
             btnToggleMemo.FlatAppearance.MouseDownBackColor = AhoyColors.CurrentColorTheme()[11];
             btnTogglePinned.FlatAppearance.MouseDownBackColor = AhoyColors.CurrentColorTheme()[11];
-            btnOpenNotification.FlatAppearance.MouseDownBackColor = AhoyColors.CurrentColorTheme()[11];
-            btnNewNotification.FlatAppearance.MouseDownBackColor = AhoyColors.CurrentColorTheme()[11];
-            btnListActiveNotifications.FlatAppearance.MouseDownBackColor = AhoyColors.CurrentColorTheme()[11];
-            btnListPassiveNotifications.FlatAppearance.MouseDownBackColor = AhoyColors.CurrentColorTheme()[11];
-            btnCloseNotificationSelector.FlatAppearance.MouseDownBackColor = AhoyColors.CurrentColorTheme()[11];
-            btnDisableNotificationFromPreview.FlatAppearance.MouseDownBackColor = AhoyColors.CurrentColorTheme()[11];
-            btnCycleNotificationsBackwards.FlatAppearance.MouseDownBackColor = AhoyColors.CurrentColorTheme()[11];
-            btnCycleNotificationsForwards.FlatAppearance.MouseDownBackColor = AhoyColors.CurrentColorTheme()[11];
-            btnDeleteNotification.FlatAppearance.MouseDownBackColor = AhoyColors.CurrentColorTheme()[11];
             btnExport.FlatAppearance.MouseDownBackColor = AhoyColors.CurrentColorTheme()[11];
             btnClearExportMarks.FlatAppearance.MouseDownBackColor = AhoyColors.CurrentColorTheme()[11];
 
@@ -1238,7 +987,6 @@ namespace AhoyBrowser
             menuStrip1.Refresh();
 
             // Update utility editor
-            ResolveUtilityEditorThemeAndFont();
             SetButtonBitmaps();
 
             // Update Log Monitor
@@ -1257,7 +1005,6 @@ namespace AhoyBrowser
             }
 
             // Update Micro Calculator
-            microCalculator1.SetColorTheme();
 
             // Resolve hold buttons
             ResolveHoldButtons();
@@ -1281,7 +1028,6 @@ namespace AhoyBrowser
             btnBack.BackgroundImage = ButtonBitmaps.Left();
             btnForward.BackgroundImage = ButtonBitmaps.Right();
             btnClear.BackgroundImage = ButtonBitmaps.Clear(false);
-            btnNotification.BackgroundImage = ButtonBitmaps.Notification(NotificationsEnabled);
             btnTogglePinned.BackgroundImage = ButtonBitmaps.Pinlist();
             btnToggleMemo.BackgroundImage = ButtonBitmaps.Memo();
             btnTogglePinAndMemo.BackgroundImage = ButtonBitmaps.Sleep();
@@ -1292,14 +1038,8 @@ namespace AhoyBrowser
             cbProtect.UnCheckedBackgroundImage = ButtonBitmaps.Unlocked();
             cbBookmark.CheckedBackgroundImage = ButtonBitmaps.BookmarkSet();
             cbBookmark.UnCheckedBackgroundImage = ButtonBitmaps.NoBookmark();
-            cbPersistDialog.CheckedBackgroundImage = ButtonBitmaps.Pinned();
-            cbPersistDialog.UnCheckedBackgroundImage = ButtonBitmaps.Unpinned();
-            btnCycleNotificationsBackwards.BackgroundImage = ButtonBitmaps.Up();
-            btnCycleNotificationsForwards.BackgroundImage = ButtonBitmaps.Down();
-            pnlSpawnTypeWriter.BackgroundImage = ButtonBitmaps.TypeWriter();
             pnlSpawnSticky.BackgroundImage = ButtonBitmaps.Sticky(false);
             pnlShowAllStickies.BackgroundImage = ButtonBitmaps.ShiningEye(false);
-            picCalculator.BackgroundImage = ButtonBitmaps.Plus();
             btnClearExportMarks.BackgroundImage = ButtonBitmaps.Clear(false);
 
             // Update buttons
@@ -1311,84 +1051,11 @@ namespace AhoyBrowser
             ResolvePinnedNavigationButtons();
             ResolvePinButton();
             ResolveWriteProtectedButton();
-            ResolveNotificationButtons();
         }
 
-        private bool CurrentEntryHasActiveNotification()
-        {
-            if (CurrentEntryNotNullOrDummy())
-            {
-                if (!string.IsNullOrEmpty(CurrentEntry.NotificationTimeStamp) || !string.IsNullOrEmpty(CurrentEntry.NotificationRepeat))
-                {
-                    return true;
-                }
-                else
-                {
-                    return false;
-                }
-            }
-            else
-            {
-                return false;
-            }
-        }
 
-        private bool CurrentEntryHasInactiveNotification()
-        {
-            if (CurrentEntryNotNullOrDummy())
-            {
-                if (!string.IsNullOrEmpty(CurrentEntry.NotificationText) && string.IsNullOrEmpty(CurrentEntry.NotificationTimeStamp))
-                {
-                    return true;
-                }
-                else
-                {
-                    return false;
-                }
-            }
-            else
-            {
-                return false;
-            }
-        }
 
-        private bool CurrentEntryHasRepeatedNotification()
-        {
-            if (CurrentEntryNotNullOrDummy())
-            {
-                if (!string.IsNullOrEmpty(CurrentEntry.NotificationRepeat))
-                {
-                    return true;
-                }
-                else
-                {
-                    return false;
-                }
-            }
-            else
-            {
-                return false;
-            }
-        }
 
-        private bool CurrentEntryHasNoNotification()
-        {
-            if (CurrentEntryNotNullOrDummy())
-            {
-                if (string.IsNullOrEmpty(CurrentEntry.NotificationTimeStamp) && string.IsNullOrEmpty(CurrentEntry.NotificationText))
-                {
-                    return true;
-                }
-                else
-                {
-                    return false;
-                }
-            }
-            else
-            {
-                return false;
-            }
-        }
 
         private bool NoEntrySelected()
         {
@@ -1403,41 +1070,7 @@ namespace AhoyBrowser
         }
 
 
-        private string tempNotificationTitle;
-        private void SetNotificationPreviewTitleText()
-        {
-            tempNotificationTitle = GetCurrentEntryTitle();
 
-            if (!string.IsNullOrEmpty(tempNotificationTitle))
-            {
-                if (tempNotificationTitle.Length >= 30)
-                {
-                    tempNotificationTitle = tempNotificationTitle.Substring(0, 29) + "...";
-                }
-
-                lbNotificationTitle.Text = tempNotificationTitle;
-            }
-        }
-
-        private string tempNotificationTimestamp;
-        private void SetNotificationPreviewTimestamp()
-        {
-            try
-            {
-                tempNotificationTimestamp = GetCurrentEntryNotificationTimestamp();
-                if (!string.IsNullOrEmpty(tempNotificationTimestamp))
-                {
-                    lbNotificationTimeStamp.Text =
-                        IO.FormatAsISODate(Convert.ToDateTime(tempNotificationTimestamp)) + TextTransform.GetBlankSpace(3) +
-                        IO.FormatAsISOTime(Convert.ToDateTime(tempNotificationTimestamp), false) + " " +
-                        "[" + GetWeekdayFormatted(Convert.ToDateTime(tempNotificationTimestamp)) + "]" + GetCurrentEntryNotificationRepeat();
-                }
-            }
-            catch
-            {
-                lbNotificationTimeStamp.Text = "N/A";
-            }
-        }
 
         private string GetWeekdayFormatted(DateTime notificationDateTime)
         {
@@ -1467,21 +1100,6 @@ namespace AhoyBrowser
             }
         }
 
-        private string tempNotificationPreviewText;
-        private void SetNotificationPreviewText()
-        {
-            tempNotificationPreviewText = GetCurrentEntryNotificationText();
-
-            if (!string.IsNullOrEmpty(tempNotificationPreviewText))
-            {
-                if (tempNotificationPreviewText.Length >= 200)
-                {
-                    tempNotificationPreviewText = tempNotificationPreviewText.Substring(0, 199) + "...";
-                }
-
-                lbNotificationPreview.Text = tempNotificationPreviewText;
-            }
-        }
 
 
 
@@ -1497,212 +1115,12 @@ namespace AhoyBrowser
             }
         }
 
-        private string GetCurrentEntryNotificationTimestamp()
-        {
-            if (CurrentEntryNotNullOrDummy())
-            {
-                if (!string.IsNullOrEmpty(CurrentEntry.NotificationTimeStamp))
-                {
-                    return CurrentEntry.NotificationTimeStamp;
-                }
-                else if (!string.IsNullOrEmpty(CurrentEntry.NotificationRepeat))
-                {
-                    return Notification.GetRepeatData(CurrentEntry.NotificationRepeat, 2);
-                }
-                else
-                {
-                    return "";
-                }
-            }
-            else
-            {
-                return "";
-            }
-        }
-
-        private string GetCurrentEntryNotificationRepeat()
-        {
-            if (CurrentEntryNotNullOrDummy())
-            {
-                if (!string.IsNullOrEmpty(CurrentEntry.NotificationRepeat))
-                {
-                    if (Notification.IsWeekly(CurrentEntry.NotificationRepeat))
-                    {
-                        return (" RW"); // blank space on purpose
-                    }
-                    else
-                    {
-                        if (Notification.GetRepeatData(CurrentEntry.NotificationRepeat, 1) != "0")
-                        {
-                            return (" RD+");// blank space on purpose
-                        }
-                        else
-                        {
-                            return (" RD");// blank space on purpose
-
-                        }
-                    }
-                }
-                else
-                {
-                    return "";
-                }
-            }
-            else
-            {
-                return "";
-            }
-        }
-
-        private string GetCurrentEntryNotificationText()
-        {
-            if (CurrentEntryNotNullOrDummy())
-            {
-                return CurrentEntry.NotificationText.Trim();
-            }
-            else
-            {
-                return "";
-            }
-        }
-
-        private bool NotificationPreviewSelectorVisible()
-        {
-            if (pnlNotificationSelector.Visible)
-            {
-                return true;
-            }
-            else
-            {
-                return false;
-            }
-        }
-
-        private void ResolveNotificationButtons()
-        {
-            lbNotificationTitle.Text = "";
-            lbNotificationTimeStamp.Text = "";
-            lbNotificationPreview.Text = "";
-            // Refresh visuals
-            cbPersistDialog.ResolveDisplay();
-
-            // Count active and inactive notifications for the preview dialog
-            if (NotificationPreviewSelectorVisible())
-            {
-                btnListActiveNotifications.Text = "Active (" + CountTotalActiveNotifications() + ")";
-                btnListPassiveNotifications.Text = "Inactive (" + CountTotalInactiveNotifications() + ")";
-            }
-
-            if (CurrentEntryHasActiveNotification() || CurrentEntryHasRepeatedNotification())
-            {
-                // Timestamp available
-                btnNotification.BackgroundImage = ButtonBitmaps.NotificationHighlight();
-                notificationToolStripMenuItem.Checked = true;
-                if (NotificationPreviewSelectorVisible())
-                {
-                    lbNotificationTimeStamp.ForeColor = AhoyColors.CurrentColorTheme()[6];
-                    btnDisableNotificationFromPreview.ForeColor = AhoyColors.CurrentColorTheme()[4];
-                    btnOpenNotification.ForeColor = AhoyColors.CurrentColorTheme()[6];
-                    btnOpenNotification.Text = "Edit Selected";
-                    toolTip1.SetToolTip(this.btnOpenNotification, btnOpenNotification.Text);
-                    btnDisableNotificationFromPreview.Visible = true;
-                    btnDisableNotificationFromPreview.Text = "Deactivate";
-                    toolTip1.SetToolTip(this.btnDisableNotificationFromPreview, "Make Notification Inactive");
-                    btnNewNotification.Visible = true;
-                    btnDeleteNotification.Visible = true;
-                    SetNotificationPreviewTitleText();
-                    SetNotificationPreviewTimestamp();
-                    SetNotificationPreviewText();
-                }
-            }
-            else if (CurrentEntryHasInactiveNotification())
-            {
-                // Text but no timestamp available
-                btnNotification.BackgroundImage = ButtonBitmaps.Notification(NotificationsEnabled);
-                notificationToolStripMenuItem.Checked = false;
-                if (NotificationPreviewSelectorVisible())
-                {
-                    lbNotificationTimeStamp.Text = "*** INACTIVE ***";
-                    lbNotificationTimeStamp.ForeColor = AhoyColors.CurrentColorTheme()[4];
-                    btnDisableNotificationFromPreview.ForeColor = AhoyColors.CurrentColorTheme()[4];
-                    btnOpenNotification.ForeColor = AhoyColors.CurrentColorTheme()[4];
-                    btnOpenNotification.Text = "Edit Selected";
-                    toolTip1.SetToolTip(this.btnOpenNotification, btnOpenNotification.Text);
-                    btnDisableNotificationFromPreview.Visible = true;
-                    btnDisableNotificationFromPreview.Text = "Clear";
-                    toolTip1.SetToolTip(this.btnDisableNotificationFromPreview, "Clear Notification Message");
-                    btnNewNotification.Visible = true;
-                    btnDeleteNotification.Visible = true;
-                    SetNotificationPreviewTitleText();
-                    SetNotificationPreviewTimestamp();
-                    SetNotificationPreviewText();
-                }
-            }
-            else if (CurrentEntryHasNoNotification())
-            {
-                // No text or timestamp available
-                btnNotification.BackgroundImage = ButtonBitmaps.Notification(NotificationsEnabled);
-                notificationToolStripMenuItem.Checked = false;
-                if (NotificationPreviewSelectorVisible())
-                {
-                    lbNotificationTimeStamp.ForeColor = AhoyColors.CurrentColorTheme()[4];
-                    lbNotificationTimeStamp.Text = "*** NOT SET ***";
-                    btnDisableNotificationFromPreview.ForeColor = AhoyColors.CurrentColorTheme()[8];
-                    btnOpenNotification.ForeColor = AhoyColors.CurrentColorTheme()[8];
-                    btnOpenNotification.Text = "Set Selected";
-                    toolTip1.SetToolTip(this.btnOpenNotification, btnOpenNotification.Text);
-                    btnDisableNotificationFromPreview.Visible = false;
-                    toolTip1.SetToolTip(this.btnDisableNotificationFromPreview, "Toggle Notification State");
-                    btnNewNotification.Visible = true;
-                    btnDeleteNotification.Visible = false;
-                    SetNotificationPreviewTitleText();
-                    SetNotificationPreviewTimestamp();
-                    SetNotificationPreviewText();
-                }
-            }
-            else if (NoEntrySelected())
-            {
-                SetNotificationSelectorButtonsDefault();
-            }
-            else
-            {
-                SetNotificationSelectorButtonsDefault();
-            }
-        }
-
-        // If nothing was selected
-        private void SetNotificationSelectorButtonsDefault()
-        {
-            btnNotification.BackgroundImage = ButtonBitmaps.Notification(NotificationsEnabled);
-            notificationToolStripMenuItem.Checked = false;
-            if (NotificationPreviewSelectorVisible())
-            {
-                lbNotificationTimeStamp.ForeColor = AhoyColors.CurrentColorTheme()[4];
-                SetNotificationSelectorHelpText();
-                btnDisableNotificationFromPreview.ForeColor = AhoyColors.CurrentColorTheme()[8];
-                btnOpenNotification.ForeColor = AhoyColors.CurrentColorTheme()[8];
-                btnOpenNotification.Text = "New";
-                toolTip1.SetToolTip(this.btnOpenNotification, btnOpenNotification.Text);
-                btnDisableNotificationFromPreview.Visible = false;
-                toolTip1.SetToolTip(this.btnDisableNotificationFromPreview, "Toggle Notification State");
-                btnNewNotification.Visible = false;
-                btnDeleteNotification.Visible = false;
-            }
-        }
 
 
-        private void picHelp_Click(object sender, EventArgs e)
-        {
-            PostponeClosingNotificationSelectorPanel();
-            SetNotificationSelectorHelpText();
-        }
 
-        private void SetNotificationSelectorHelpText()
-        {
-            lbNotificationTitle.Text = "";
-            lbNotificationTimeStamp.Text = "Ready";
-            lbNotificationPreview.Text = "AHOY there!\n\nNotifications are entries with a set date and message. Notifications will pop up on the selected date and time to notify you about an event. Please consult the documentation and help feature inside the Notification Editor for more information on how to use notifications.";
-        }
+
+
+
 
         private void ResolvePinButton()
         {
@@ -1744,7 +1162,6 @@ namespace AhoyBrowser
         {
             SelectedTexture = Settings.DefaultTexture;
             ResolveTexture();
-            ResolveUtilityEditorThemeAndFont();
 
             if (saveChanges)
             {
@@ -1764,8 +1181,6 @@ namespace AhoyBrowser
             this.BackgroundImage = GetTexture(SelectedTexture);
 
             // Set Notification Selector panel
-            pnlNotificationSelector.BackgroundImageLayout = ImageLayout.Tile;
-            pnlNotificationSelector.BackgroundImage = GetTexture(SelectedTexture);
 
             // Set labels to transparent
             lbInterfaceLocked.BackColor = Color.Transparent;
@@ -1774,7 +1189,6 @@ namespace AhoyBrowser
             lbPinned.BackColor = Color.Transparent;
             lbTitle.BackColor = Color.Transparent;
             lbContentSearch.BackColor = Color.Transparent;
-            lbNotification.BackColor = Color.Transparent;
         }
 
         internal static bool IsTextureEnabled()
@@ -1865,8 +1279,6 @@ namespace AhoyBrowser
             MaskInterface(false);
 
             // Set default location for the Utility Editor
-            UEPositionX = this.Location.X;
-            UEPositionY = this.Location.Y;
 
             // Load Settings here to fetch open/save file paths
             LoadSettings();
@@ -1914,7 +1326,6 @@ namespace AhoyBrowser
             if (LoggedInOnce) // Only continue if login was successfull
             {
                 // Check notifications
-                PoolHasNotifications();
 
                 // Dont save twice
                 SettingsHasChanges = false;
@@ -1978,7 +1389,6 @@ namespace AhoyBrowser
                 // Screen Blocker
                 if (e.KeyData == (Keys.Control | Keys.Alt | Keys.Enter)) // Multiple shortcut keypress
                 {
-                    StartMagicBlocker();
                     e.Handled = true;
                 }
                 else if (e.KeyData == (Keys.Control | Keys.Alt | Keys.P)) // Multiple shortcut keypress
@@ -2168,8 +1578,6 @@ namespace AhoyBrowser
         {
             try
             {
-                DetachedEditor.ParentLocationX = this.Location.X;
-                DetachedEditor.ParentLocationY = this.Location.Y;
             }
             catch
             {
@@ -2637,7 +2045,6 @@ namespace AhoyBrowser
         {
 
             // Persist notification preview
-            PostponeClosingNotificationSelectorPanel();
 
             // Return if selected item is null
             if (((ListBox)sender).SelectedItem == null)
@@ -2802,7 +2209,6 @@ namespace AhoyBrowser
             if (EntryExist(ID))
             {
                 // Persist notification preview
-                PostponeClosingNotificationSelectorPanel();
 
                 // Reset WPM Counter
                 ResetWPMValues();
@@ -3067,13 +2473,11 @@ namespace AhoyBrowser
                         for (int i = 0; i < Entries.Count; i++)
                         {
                             if (Entries[i].Created.Contains(".") ||
-                                Entries[i].Changed.Contains(".") ||
-                                Entries[i].NotificationTimeStamp.Contains("."))
+                                Entries[i].Changed.Contains("."))
                             {
                                 tempCount += 1;
                                 Entries[i].Created = Entries[i].Created.Replace(".", ":");
                                 Entries[i].Changed = Entries[i].Changed.Replace(".", ":");
-                                Entries[i].NotificationTimeStamp = Entries[i].NotificationTimeStamp.Replace(".", ":");
                             }
                         }
                     }
@@ -3185,7 +2589,6 @@ namespace AhoyBrowser
                                 cbBookmark.Checked = false;
                                 listBoxSearchResult.Items.Clear();
                                 PopulatePinList();
-                                TransferDataToPlopForced();
                                 tbSearch.Focus();
 
                                 // Update live search
@@ -3209,7 +2612,6 @@ namespace AhoyBrowser
                 }
 
                 // Resolve status
-                PoolHasNotifications();
             }
         }
 
@@ -3227,7 +2629,6 @@ namespace AhoyBrowser
         private bool tempNewEntryPinned;
         private static bool NewEntryCreationCancelled;
         private const string NewEntryCaption = "New Entry";
-        private const string NotificationCaption = "Notification";
         private static string NewEntryOptionalText = "";
         private static bool EnablePinning;
         private void CreateNewEntry(string optionalContentText, bool useOptionalText, string optionalTitleText, bool useOptionalTitle, bool isNotification, bool pin)
@@ -3239,10 +2640,6 @@ namespace AhoyBrowser
             if (useOptionalTitle)
             {
                 NewEntryOptionalText = optionalTitleText;
-            }
-            else if (isNotification)
-            {
-                NewEntryOptionalText = NotificationCaption;
             }
             else
             {
@@ -3318,10 +2715,6 @@ namespace AhoyBrowser
                     CurrentEntry.ID = Guid.NewGuid().ToString();
                     CurrentEntry.Created = IO.GetIsoDateTimeNow();
                     CurrentEntry.Changed = IO.GetIsoDateTimeNow();
-                    CurrentEntry.NotificationTimeStamp = "";
-                    CurrentEntry.NotificationText = "";
-                    CurrentEntry.NotificationCaretPosition = 0;
-                    CurrentEntry.NotificationRepeat = "";
                     CurrentEntry.Title = "";
                     CurrentEntry.Content = "";
                     CurrentEntry.Pin = false; // Will be set through the cbPinned box further down
@@ -3597,7 +2990,6 @@ namespace AhoyBrowser
                 PopulatePinList();
                 // Resolve title field colors
                 RefreshTitleColor();
-                TransferDataToPlopForced();
                 AhoySimpleMessageBox msg = new AhoySimpleMessageBox("Colors reset", MessageText.AttentionCaption(), false);
                 msg.ShowDialog();
             }
@@ -4108,13 +3500,6 @@ namespace AhoyBrowser
                     if (!CurrentEntry.Protected)
                     {
                         // Submit to PLOP Editor if open and has same ID linked as currently selected
-                        if (UtilityEditorIsOpen && utilityEditor != null && utilityEditor.IsPlopEditor)
-                        {
-                            if (CurrentEntry.ID == utilityEditor.PlopLinkedID)
-                            {
-                                utilityEditor.SubmitNewOriginalLinkedPlupContent(tbContent.Text);
-                            }
-                        }
 
                         // Set has changes to true
                         CurrentEntryHasChanges();
@@ -4146,7 +3531,6 @@ namespace AhoyBrowser
             }
 
             UpdateWPMValues(); // Show WPM counter
-            ReadyContentForUtilityEditor();
         }
 
         // General button blinker
@@ -4211,21 +3595,6 @@ namespace AhoyBrowser
             }
         }
 
-        // Make content available for utility editor
-        private void ReadyContentForUtilityEditor()
-        {
-            if (CurrentEntryNotNullOrDummy())
-            {
-                // Save content for utility editor
-                CurrentContentForUtilityEditor = tbContent.Text;
-                CurrentCaretPositionForUtilityEditor = tbContent.SelectionStart;
-            }
-            else
-            {
-                CurrentContentForUtilityEditor = "";
-                CurrentCaretPositionForUtilityEditor = 0;
-            }
-        }
 
         private void tbTitle_TextChanged(object sender, EventArgs e)
         {
@@ -4239,13 +3608,6 @@ namespace AhoyBrowser
                     if (!CurrentEntry.Protected)
                     {
                         // Submit to PLOP Editor if open and has same ID linked as currently selected
-                        if (UtilityEditorIsOpen && utilityEditor != null && utilityEditor.IsPlopEditor)
-                        {
-                            if (CurrentEntry.ID == utilityEditor.PlopLinkedID)
-                            {
-                                utilityEditor.SubmitNewOriginalLinkedPlupTitle(tbTitle.Text);
-                            }
-                        }
 
                         // Set has changes to true
                         CurrentEntryHasChanges();
@@ -4818,10 +4180,6 @@ namespace AhoyBrowser
                             entry.Title = CurrentEntry.Title;
                             entry.Content = CurrentEntry.Content;
                             entry.Changed = CurrentEntry.Changed;
-                            entry.NotificationTimeStamp = CurrentEntry.NotificationTimeStamp;
-                            entry.NotificationRepeat = CurrentEntry.NotificationRepeat;  // 01-03-2020
-                            entry.NotificationText = CurrentEntry.NotificationText;
-                            entry.NotificationCaretPosition = CurrentEntry.NotificationCaretPosition;
                             entry.Pin = CurrentEntry.Pin;
                             // Not set ranking here (entry.Rank = CurrentEntry.Rank;), this is handled in the SubmitPinnedRanking() method // 19-03-2020
                             entry.PresetColor = CurrentEntry.PresetColor;
@@ -4980,10 +4338,6 @@ namespace AhoyBrowser
                 try
                 {
                     // Close Utility Editor
-                    if (UtilityEditorIsOpen && utilityEditor != null)
-                    {
-                        utilityEditor.SubmitDataAndCloseForm(true);
-                    }
 
                     // Reset everything before loading
                     ClearDisplays(false);
@@ -5023,9 +4377,6 @@ namespace AhoyBrowser
         // Reset variables before loading
         private void ResetInternalVariablesForLoad()
         {
-            AuthQuestion = "";
-            AuthAnswer = "";
-            AuthPassword = "";
             AccessGranted = false;
             IO.UseDemoPool = false;
         }
@@ -5077,12 +4428,6 @@ namespace AhoyBrowser
                     }
 
                     // Close Utility Editor
-                    if (UtilityEditorIsOpen && utilityEditor != null)
-                    {
-                        utilityEditor.SubmitDataAndCloseForm(true);
-                        ClearUtilityEditorContent();
-                        ClearPlopUtilityContent();
-                    }
 
                     // Exit fullscreen
                     if (IsFullScreen)
@@ -5116,7 +4461,6 @@ namespace AhoyBrowser
                 }
 
                 // Resolve status
-                PoolHasNotifications();
             }
         }
 
@@ -5124,13 +4468,6 @@ namespace AhoyBrowser
         private void ClearAllEntriesFromMemory(bool clearCustomFilePath)
         {
             // Close typermax
-            if (TypermaxRunning)
-            {
-                if (tpMax != null)
-                {
-                    tpMax.Close();
-                }
-            }
             // Close all Stickies
             CloseAllStickiesAndClearMemory();
             // This will prohibit saving the pool because access will be denied
@@ -5141,22 +4478,17 @@ namespace AhoyBrowser
             Entries.Clear();
             EntriesMirror.Clear();
             // Clear PLOP
-            ClearPlopIDAndDirection();
-            ClearPlopUtilityContent();
-            ClearAdditionalPlopSettings();
             // Clear custom file path
             if (clearCustomFilePath)
             {
                 IO.ClearCustomFilePath(false);
             }
             // Clear Utility Editor
-            ClearUtilityEditorContent();
             // Reset Paragraph Dividers
             ResetParagraphDividers();
             // Clear Log
             Log.ClearLog();
             // Clear typermax highscore
-            SetTypermaxHighScore(0);
             // Clear Hold buttons
             ClearHoldButtons();
             // Clear all internal lists
@@ -5202,7 +4534,6 @@ namespace AhoyBrowser
             PoolHasChanges = true;
         }
 
-        UEData tempUEData;
         private void SavePool(bool showDialog, bool saveWithBackup, bool saveFilePath, string filePath)
         {
             if ((PoolHasChanges && !PoolIsReadOnly) || OverrideToSetWriteProtection)
@@ -5210,23 +4541,12 @@ namespace AhoyBrowser
                 OverrideToSetWriteProtection = false;
                 PoolSaveWithFileDialogSuccess = false;
                 PoolHasChanges = false;
-                // Collect Utility/PLOP Editor Data
-                tempUEData = new UEData();
-                tempUEData.UETextA = UEContentA;
-                tempUEData.UECaretPositionA = UECaretPositionA;
-                tempUEData.UETextB = UEContentB;
-                tempUEData.UECaretPositionB = UECaretPositionB;
-                tempUEData.UETextC = UEContentC;
-                tempUEData.UECaretPositionC = UECaretPositionC;
-                tempUEData.PlopLinkedID = PlopLinkedID;
-                tempUEData.PlopMainText = PlopPersistedContent;
-                tempUEData.PlopUtilityText = PlopUtilityContent;
 
                 Log.LogSavePool(saveWithBackup);
                 LockedForWritingToDisk = true;
                 try
                 {
-                    if (IO.SaveEntries(Entries, StickySettingsList, Log.GetLogAsSaveData(), HoldEntryAID, HoldEntryBID, tbMemoField.Text, MemoCaretPosition, tempUEData, CustomDisplayText, Auth, AuthQuestion, AuthAnswer, AuthPassword, saveWithBackup, CypherKey, TypermaxHighScore, saveFilePath, filePath, PoolIsReadOnly, DividerAString, DividerBString, DividerCString, DividerDString, Dump))
+                    if (IO.SaveEntries(Entries, StickySettingsList, Log.GetLogAsSaveData(), HoldEntryAID, HoldEntryBID, tbMemoField.Text, MemoCaretPosition, CustomDisplayText, CurrentKey, saveWithBackup, CypherKey, saveFilePath, filePath, PoolIsReadOnly, DividerAString, DividerBString, DividerCString, DividerDString, Dump))
                     {
                         if (showDialog)
                         {
@@ -5260,29 +4580,22 @@ namespace AhoyBrowser
                 SetStatusText("*** UNABLE TO SAVE CHANGES: POOL WRITE-PROTECTED *** ");
             }
         }
-
         private Load PerformPoolLoad(bool openFilePath, string filePath)
         {
-            Load loadedObject;
-            loadedObject = IO.LoadEntries(Entries, Auth, false, false, openFilePath, filePath);
-            return loadedObject;
+            return IO.LoadEntries(Entries, UnlockPool, false, false, openFilePath, filePath);
         }
-
         // Will try to load both backup A and B
         private Load PerformPoolBackupLoad()
         {
-
-            Load loadedObject;
             // Try to load Backup "A"
-            loadedObject = IO.LoadEntries(Entries, Auth, true, true, false, "");
-            // If failed try to load Backup "B"
-            if (!loadedObject.LoadSuccess)
+            Load loadedObject = IO.LoadEntries(Entries, UnlockPool, true, true, false, "");
+            // If failed (but not because the user cancelled the password prompt) try to load Backup "B"
+            if (!loadedObject.LoadSuccess && !loadedObject.UnlockCancelled && !loadedObject.OpenOtherPoolRequested)
             {
-                loadedObject = IO.LoadEntries(Entries, Auth, true, false, false, "");
+                loadedObject = IO.LoadEntries(Entries, UnlockPool, true, false, false, "");
             }
             return loadedObject;
         }
-
         // Count all text data in the pool
         private int tempPoolTotalCharacterCount;
         private int GetPoolTotalCharacterCount()
@@ -5304,46 +4617,12 @@ namespace AhoyBrowser
                             tempPoolTotalCharacterCount += e.Title.Length;
                         }
 
-                        if (e.NotificationText != null && e.NotificationText.Length > 0)
-                        {
-                            tempPoolTotalCharacterCount += e.NotificationText.Length;
-                        }
                     }
                 }
 
                 if (tbMemoField != null && tbMemoField.Text.Length > 0)
                 {
                     tempPoolTotalCharacterCount += tbMemoField.Text.Length;
-                }
-
-                if (PlopContent != null && PlopContent.Length > 0)
-                {
-                    tempPoolTotalCharacterCount += PlopContent.Length;
-                }
-
-                if (PlopPersistedContent != null && PlopPersistedContent.Length > 0)
-                {
-                    tempPoolTotalCharacterCount += PlopPersistedContent.Length;
-                }
-
-                if (PlopUtilityContent != null && PlopUtilityContent.Length > 0)
-                {
-                    tempPoolTotalCharacterCount += PlopUtilityContent.Length;
-                }
-
-                if (UEContentA != null && UEContentA.Length > 0)
-                {
-                    tempPoolTotalCharacterCount += UEContentA.Length;
-                }
-
-                if (UEContentB != null && UEContentB.Length > 0)
-                {
-                    tempPoolTotalCharacterCount += UEContentB.Length;
-                }
-
-                if (UEContentC != null && UEContentC.Length > 0)
-                {
-                    tempPoolTotalCharacterCount += UEContentC.Length;
                 }
 
                 if (DividerAString != null && DividerAString.Length > 0)
@@ -5422,18 +4701,41 @@ namespace AhoyBrowser
             MasterCloseStickies = false;
             MasterCloseStickiesCode = 0;
         }
-
+        // Set when the last LoadPool did not unlock/upgrade the pool (wrong password, cancelled)
+        private bool LastPoolUnlockCancelled { get; set; }
 
         private void LoadPool(bool openFilePath, string filePath)
         {
             Related.ClearMark();
             ShowAnimation();
             PoolLoadFromFileDialogSuccess = false;
+            LastPoolUnlockCancelled = false;
             Log.LogPreloadStatus("Loading Pool");
             Load loadedObject = PerformPoolLoad(openFilePath, filePath);
-            AuthQuestion = loadedObject.AuthAuthQuestion;
-            AuthAnswer = loadedObject.AuthAnswer;
-            AuthPassword = loadedObject.AuthPassword;
+
+            // F5/CTRL+O in the password dialog: open another pool instead
+            if (loadedObject.OpenOtherPoolRequested)
+            {
+                LoadPoolFromFileDialog();
+                if (!AccessGranted && !LoggedInOnce)
+                {
+                    Application.Exit();
+                }
+                return;
+            }
+
+            // Wrong password or cancelled. Never continue to "create a new pool" from here:
+            // that would overwrite the file that could not be unlocked.
+            if (loadedObject.UnlockCancelled)
+            {
+                LastPoolUnlockCancelled = true;
+                if (!LoggedInOnce)
+                {
+                    Application.Exit();
+                }
+                return;
+            }
+
             TogglePoolReadOnly(true, loadedObject.WriteProtected, false);
             this.Text = GetFormTitle();
 
@@ -5442,7 +4744,6 @@ namespace AhoyBrowser
             {
                 Log.LogPreloadStatus("No Pool found");
                 Log.LogPreloadStatus("Posting selection dialog");
-
             Retry: // Goto statement
                 AhoyAnswerMessageBox msg0 = new AhoyAnswerMessageBox(MessageText.WelcomeNewProfileOrLoadMessage(), MessageText.WelcomeCaption(), true, false);
                 msg0.TopMost = true;
@@ -5460,10 +4761,24 @@ namespace AhoyBrowser
                 // If new profile is selected
                 if (msg0.Accepted)
                 {
+                    // Never replace a Pool file that exists but could not be opened
+                    if (IO.DoesPoolExist())
+                    {
+                        AhoySimpleMessageBox exists = new AhoySimpleMessageBox(MessageText.ErrorMessage(loadedObject.LoadMessage) + "\n\nA Pool file already exists here and will not be overwritten. Move or rename it to create a new Pool.", MessageText.AttentionCaption(), false);
+                        exists.TopMost = true;
+                        exists.ShowDialog();
+                        goto Retry;
+                    }
+
+                    // The password is the encryption key, so it must exist before the first save
+                    if (!AskForNewPoolPassword(MessageText.CreatePasswordTitle(), MessageText.WelcomeCaption()))
+                    {
+                        goto Retry;
+                    }
+
                     // Grant temporary access to allow saving
                     AccessGranted = true;
-                    // Try to create a new pool so there is something
-                    // for the next steps to validate
+                    // Create the new (empty) pool so there is something for the next steps to validate
                     SetPoolHasChanges();
                     SavePool(false, false, false, "");
                     // Revoke access to return to normal
@@ -5493,112 +4808,33 @@ namespace AhoyBrowser
                 }
             }
 
-            // If no password was selected prompt the user to create a new one
-            if (string.IsNullOrEmpty(AuthPassword))
+            if (loadedObject.LoadSuccess)
             {
-                Log.LogPreloadStatus("Set credentials");
-                CreatePassword(MessageText.PasswordCreatedMessage(), MessageText.CreatePasswordTitle(), MessageText.WelcomeCaption());
-            }
+                ApplyLoadedPool(loadedObject);
 
-            if (loadedObject != null && loadedObject.LoadSuccess)
-            {
-                // Indicate success
+                // Ahoy 1.x pool: upgrade to the password-based format before anything else
+                if (loadedObject.IsLegacyFormat && !UpgradeLegacyPool(loadedObject))
+                {
+                    // Not upgraded: forget what was read; nothing has been written
+                    ClearAllEntriesFromMemory(true);
+                    SetCurrentKey(null);
+                    AccessGranted = false;
+                    LastPoolUnlockCancelled = true;
+                    if (!LoggedInOnce)
+                    {
+                        Application.Exit();
+                    }
+                    return;
+                }
+
+                // Indicate success (the password was verified while decrypting)
                 PoolLoadFromFileDialogSuccess = true;
-
-                // Load entries
-                Entries.Clear();
-                foreach (Entry entry in loadedObject.Entries)
-                {
-                    Entries.Add(entry);
-                }
-
-                // Load stickies
-                StickySettingsList.Clear();
-                foreach (StickySettings s in loadedObject.Stickies)
-                {
-                    StickySettingsList.Add(s);
-                }
-
-                // Set Backup list
-                CopyPoolToMirror();
-
-                // Load log
-                Log.SetLogFromSaveData(loadedObject.LogText);
-                // Load Hold ID's
-                HoldEntryAID = loadedObject.HoldEntryAID;
-                HoldEntryBID = loadedObject.HoldEntryBID;
-                ResolveHoldButtons(); // Resolve buttons
-
-                // Set Memo Text (without saving pool)
-                MemoTextChangeRegisterChanges = false;
-                tbMemoField.Text = loadedObject.MemoText;
-                MemoCaretPosition = loadedObject.MemoCaretPosition;
-                FocusMemoField();
-
-                // Set Utility/PLOP Editor
-                UEContentA = loadedObject.UETextA;
-                UECaretPositionA = loadedObject.UECaretPositionA;
-                UEContentB = loadedObject.UETextB;
-                UECaretPositionB = loadedObject.UECaretPositionB;
-                UEContentC = loadedObject.UETextC;
-                UECaretPositionC = loadedObject.UECaretPositionC;
-                PlopLinkedID = loadedObject.PlopLinkedID;
-                PlopPersistedContent = loadedObject.PlopMainText;
-                PlopUtilityContent = loadedObject.PlopUtilityText;
-
-                // Paragraph Dividers
-                SetParagraphDividersFromLoad(loadedObject);
-
-                // Set Cypher key
-                CypherKey = loadedObject.CypherKey;
-
-                // Set Typermax highscore
-                TypermaxHighScore = loadedObject.TypermaxHighScore;
-
-                // Custom Home Screen Display Text
-                CustomDisplayText = loadedObject.DisplayText;
-
-                // Remote Backup Path (now placed in settings instead)
-                // (Transfers old backup path in pool to settings)
-                // Will be deleted on next pool save
-                if (loadedObject.AlternateBackupPath.Length > 0)
-                {
-                    Log.LogLegacyBackupPathUpdate();
-                    AlternateBackupPath = loadedObject.AlternateBackupPath;
-                    AlternateBackupPathStringIsSet(); // Update menu item with check/uncheck
-                    // Validate remote backup path
-                    AlternateBackupPathValid(true);
-                    // Fix settings saving path
-                    SettingsHasChanges = true;
-                    SaveSettings();
-                }
-
-                // Get total char count for backup rutine
-                ProcessPoolSizeForBackupRutine();
-
-                // Prompt for password
-                if (IO.UsingCustomFilePath())
-                {
-                    PromptForPassword(MessageText.WelcomeCaption(), MessageText.WelcomeMessage(), AuthPassword, IO.GetCustomFileName());
-                }
-                else
-                {
-                    PromptForPassword(MessageText.WelcomeCaption(), MessageText.WelcomeMessage(), AuthPassword, "");
-                }
-
-
-                if (!AccessGranted)
-                {
-                    Application.Exit();
-                }
-                else
-                {
-                    LoggedInOnce = true; // Will enable alerts to show during sleep but not before loggin in
-                    PopulatePinList();
-                    SetDefaultText();
-                    SpawnSticky(false, false, 0, 0, false);
-                    tbSearch.Focus();
-                }
+                AccessGranted = true;
+                LoggedInOnce = true; // Will enable alerts to show during sleep but not before loggin in
+                PopulatePinList();
+                SetDefaultText();
+                SpawnSticky(false, false, 0, 0, false);
+                tbSearch.Focus();
             }
             else if (loadedObject.Entries.Count == 0)
             {
@@ -5618,6 +4854,66 @@ namespace AhoyBrowser
             TestSessionID();
         }
 
+        // Move the data of a loaded pool into the form
+        private void ApplyLoadedPool(Load loadedObject)
+        {
+            // Load entries
+            Entries.Clear();
+            foreach (Entry entry in loadedObject.Entries)
+            {
+                Entries.Add(entry);
+            }
+
+            // Load stickies
+            StickySettingsList.Clear();
+            foreach (StickySettings s in loadedObject.Stickies)
+            {
+                StickySettingsList.Add(s);
+            }
+
+            // Set Backup list
+            CopyPoolToMirror();
+
+            // Load log
+            Log.SetLogFromSaveData(loadedObject.LogText);
+            // Load Hold ID's
+            HoldEntryAID = loadedObject.HoldEntryAID;
+            HoldEntryBID = loadedObject.HoldEntryBID;
+            ResolveHoldButtons(); // Resolve buttons
+
+            // Set Memo Text (without saving pool)
+            MemoTextChangeRegisterChanges = false;
+            tbMemoField.Text = loadedObject.MemoText;
+            MemoCaretPosition = loadedObject.MemoCaretPosition;
+            FocusMemoField();
+
+            // Paragraph Dividers
+            SetParagraphDividersFromLoad(loadedObject);
+
+            // Set Cypher key
+            CypherKey = loadedObject.CypherKey;
+
+            // Custom Home Screen Display Text
+            CustomDisplayText = loadedObject.DisplayText;
+
+            // Remote Backup Path (now placed in settings instead)
+            // (Transfers old backup path in pool to settings)
+            // Will be deleted on next pool save
+            if (loadedObject.AlternateBackupPath.Length > 0)
+            {
+                Log.LogLegacyBackupPathUpdate();
+                AlternateBackupPath = loadedObject.AlternateBackupPath;
+                AlternateBackupPathStringIsSet(); // Update menu item with check/uncheck
+                // Validate remote backup path
+                AlternateBackupPathValid(true);
+                // Fix settings saving path
+                SettingsHasChanges = true;
+                SaveSettings();
+            }
+
+            // Get total char count for backup rutine
+            ProcessPoolSizeForBackupRutine();
+        }
         private void SetParagraphDividersFromLoad(Load loadedObject)
         {
             if (!string.IsNullOrEmpty(loadedObject.DividerAString))
@@ -5674,9 +4970,6 @@ namespace AhoyBrowser
 
             Log.LogLoadPool();
             Load loadedObject = PerformPoolBackupLoad();
-            AuthQuestion = loadedObject.AuthAuthQuestion;
-            AuthAnswer = loadedObject.AuthAnswer;
-            AuthPassword = loadedObject.AuthPassword;
 
             // If loading backup failed
             if (!loadedObject.LoadSuccess)
@@ -5687,87 +4980,23 @@ namespace AhoyBrowser
                 return;
             }
 
-            if (loadedObject != null && loadedObject.LoadSuccess)
+            // A backup from Ahoy 1.x is simply re-saved with the current password
+            ApplyLoadedPool(loadedObject);
+            if (loadedObject.IsLegacyFormat)
             {
-                // Load entries
-                Entries.Clear();
-                foreach (Entry entry in loadedObject.Entries)
-                {
-                    Entries.Add(entry);
-                }
+                SetPoolHasChanges();
+                SavePool(false, false, false, "");
+            }
 
-                // Set Backup list
-                CopyPoolToMirror();
-
-                // Load log
-                Log.SetLogFromSaveData(loadedObject.LogText);
-                // Load Hold ID's
-                HoldEntryAID = loadedObject.HoldEntryAID;
-                HoldEntryBID = loadedObject.HoldEntryBID;
-                ResolveHoldButtons(); // Resolve buttons
-
-                // Set Memo Text (without saving pool)
-                MemoTextChangeRegisterChanges = false;
-                tbMemoField.Text = loadedObject.MemoText;
-                MemoCaretPosition = loadedObject.MemoCaretPosition;
-                FocusMemoField();
-
-                // Set Utility/PLOP Editor
-                UEContentA = loadedObject.UETextA;
-                UECaretPositionA = loadedObject.UECaretPositionA;
-                UEContentB = loadedObject.UETextB;
-                UECaretPositionB = loadedObject.UECaretPositionB;
-                UEContentC = loadedObject.UETextC;
-                UECaretPositionC = loadedObject.UECaretPositionC;
-                PlopLinkedID = loadedObject.PlopLinkedID;
-                PlopPersistedContent = loadedObject.PlopMainText;
-                PlopUtilityContent = loadedObject.PlopUtilityText;
-
-                // Paragraph Dividers
-                SetParagraphDividersFromLoad(loadedObject);
-
-                // Set Cypher key
-                CypherKey = loadedObject.CypherKey;
-
-                // Set Typermax highscore
-                TypermaxHighScore = loadedObject.TypermaxHighScore;
-
-                // Set Display Text
-                CustomDisplayText = loadedObject.DisplayText;
-
-                // Remote Backup Path (now placed in settings instead)
-                // Will be deleted on next pool save
-                if (loadedObject.AlternateBackupPath.Length > 0)
-                {
-                    Log.LogLegacyBackupPathUpdate();
-                    AlternateBackupPath = loadedObject.AlternateBackupPath;
-                    AlternateBackupPathStringIsSet(); // Update menu item with check/uncheck
-                    // Validate remote backup path
-                    AlternateBackupPathValid(true);
-                    // Fix settings saving path
-                    SettingsHasChanges = true;
-                    SaveSettings();
-                }
-
-                // Get total char count for backup rutine
-                ProcessPoolSizeForBackupRutine();
-
-                PromptForPassword(MessageText.WelcomeCaption(), MessageText.WelcomeMessage(), AuthPassword, "");
-
-                if (!AccessGranted)
-                {
-                    Application.Exit();
-                }
-                else
-                {
-                    LoggedInOnce = true; // Will enable alerts to show during sleep but not before loggin in
-                    PopulatePinList();
-                    SetDefaultText();
-                    SpawnSticky(false, false, 0, 0, false);
-                    AhoySimpleMessageBox msg = new AhoySimpleMessageBox(MessageText.BackupRecoveryCompletedMessage(), MessageText.BackupRecoveryCaption(), false);
-                    msg.ShowDialog();
-                    tbSearch.Focus();
-                }
+            if (loadedObject.LoadSuccess)
+            {
+                LoggedInOnce = true; // Will enable alerts to show during sleep but not before loggin in
+                PopulatePinList();
+                SetDefaultText();
+                SpawnSticky(false, false, 0, 0, false);
+                AhoySimpleMessageBox msg = new AhoySimpleMessageBox(MessageText.BackupRecoveryCompletedMessage(), MessageText.BackupRecoveryCaption(), false);
+                msg.ShowDialog();
+                tbSearch.Focus();
             }
             else if (loadedObject.Entries.Count == 0)
             {
@@ -5865,10 +5094,6 @@ namespace AhoyBrowser
                 ResolveDetectURLsCheckedMenuItem();
 
                 // Notification settings
-                SnoozeInterval = settingsObject.SnoozeInterval;
-                cbPersistDialog.Checked = settingsObject.PersistNotificationPreview;
-                PersistNotificationPanel = cbPersistDialog.Checked;
-                NotificationScrollToCaret = settingsObject.NotificationScrollToCaret;
 
                 // Set lists autohide
                 AutoHidePinnedAndMemo = settingsObject.ListsAutoHide;
@@ -5910,35 +5135,12 @@ namespace AhoyBrowser
                 UpdateAutoSearchVisuals();
 
                 // MicroCalculator
-                ShowMicroCalcMain = settingsObject.MicroCalculatorMain;
-                ShowMicroCalcUE = settingsObject.MicroCalculatorUE;
-                ToggleMicroCalculator(ShowMicroCalcMain);
 
                 // Typewriter
-                TypeWriterFontSize = settingsObject.TypeWriterFontSize;
-                TypeWriterLineCount = settingsObject.TypeWriterLineCount;
-                TypeWriterCPLIndex = settingsObject.TypeWriterCPLIndex;
-                TypeWriterBellMargin = settingsObject.TypeWriterBellMargin;
-                TypeWriterLeftMargin = settingsObject.TypeWriterLeftMargin;
-                TypeWriterDelLock = settingsObject.TypeWriterDelLock;
-                TypeWriterLogo = settingsObject.TypeWriterLogo;
-                TypeWriterBasketX = settingsObject.TypeWriterBasketX;
-                TypeWriterBasketY = settingsObject.TypeWriterBasketY;
-                TypeWriterAutoMenu = settingsObject.TypeWriterAutoMenu;
-                TypeWriterTabRuler = settingsObject.TypeWriterTabRuler;
-                TypeWriterColorTheme = settingsObject.TypeWriterColorTheme;
-                TypeWriterAutoBasket = settingsObject.TypeWriterAutoBasket;
-                TypeWriterPageAutoScroll = settingsObject.TypeWriterPageAutoScroll;
 
                 // Screen Blocker
-                SetScreenBlockerInterval(settingsObject.ScreenBlockerIndex, false);
-                ScreenBlockerEnabled = settingsObject.ScreenBlocker;
-                ResolveScreenBlockerMenu();
 
                 // Prism effect
-                PrismEffect = settingsObject.PrismEffect;
-                ResolvePrismEffectMenuItem();
-                ResolvePrismEffect();
 
                 // Search
                 TitlePrioritySearch = settingsObject.TitlePrioritySearch;
@@ -6007,25 +5209,6 @@ namespace AhoyBrowser
                 }
 
                 // Set Utility Editor
-                UEWidth = settingsObject.UEWidth;
-                UEHeight = settingsObject.UEHeight;
-                UEPositionX = settingsObject.UEPositionX;
-                UEPositionY = settingsObject.UEPositionY;
-                UEOpacity = settingsObject.UEOpacity;
-                UEVersionSelection = settingsObject.UEVersionSelection;
-                PlopTopMost = settingsObject.UETopMost;
-                PlopDirection = settingsObject.UEPlopDirection;
-                UEBlankLines = settingsObject.UEBlankLines;
-                UETrimWhitespace = settingsObject.UETrimWhitespace;
-                UEESCtoClose = settingsObject.PlopESCtoClose;
-                if (settingsObject.UEMaximized)
-                {
-                    UEWindowState = FormWindowState.Maximized;
-                }
-                else
-                {
-                    UEWindowState = FormWindowState.Normal;
-                }
 
                 // Ensure that form is inside visible screen area
                 if (!IsOnScreen(this))
@@ -6035,14 +5218,6 @@ namespace AhoyBrowser
                 }
 
                 // Open Utility Editor
-                if (settingsObject.UEOpen)
-                {
-                    AutoOpenUtilityEditor = true;
-                }
-                else
-                {
-                    AutoOpenUtilityEditor = false;
-                }
             }
             else
             {
@@ -6171,33 +5346,6 @@ namespace AhoyBrowser
                 }
 
                 // Utility/PLOP editor
-                if (UtilityEditorIsOpen && utilityEditor != null)
-                {
-                    settingsObject.UEOpen = UtilityEditorIsOpen;
-                }
-                settingsObject.UEOpacity = UEOpacity;
-                settingsObject.UEVersionSelection = UEVersionSelection;
-                settingsObject.UETopMost = PlopTopMost;
-                settingsObject.UEPlopDirection = PlopDirection;
-                settingsObject.UEBlankLines = UEBlankLines;
-                settingsObject.UETrimWhitespace = UETrimWhitespace;
-                settingsObject.PlopESCtoClose = UEESCtoClose;
-                if (UEWindowState == FormWindowState.Normal)
-                {
-                    settingsObject.UEWidth = UEWidth;
-                    settingsObject.UEHeight = UEHeight;
-                    settingsObject.UEPositionX = UEPositionX;
-                    settingsObject.UEPositionY = UEPositionY;
-                }
-                else if (UEWindowState == FormWindowState.Maximized)
-                {
-                    settingsObject.UEMaximized = true;
-                }
-                else
-                {
-                    settingsObject.UEWidth = UERestoreBoundsWidth;
-                    settingsObject.UEHeight = UERestoreBoundsHeight;
-                }
 
                 // Save color theme
                 settingsObject.ColorTheme = AhoyColors.ColorTheme;
@@ -6223,30 +5371,13 @@ namespace AhoyBrowser
                 settingsObject.SpellCheckerLanguage = SpellCheckerLanguage;
                 settingsObject.InternetBrowser = SelectedInternetBrowser;
                 settingsObject.DetectURLs = DetectURLs;
-                settingsObject.SnoozeInterval = SnoozeInterval;
-                settingsObject.PersistNotificationPreview = cbPersistDialog.Checked;
                 settingsObject.ShowWPMCounter = ShowWPMCounter;
                 settingsObject.SelectedPasswordStyle = SelectedPasswordStyle;
                 settingsObject.AutoSaveEntryChanges = AutoSaveEntryChanges;
                 settingsObject.OpenFileDialogPath = OpenFilePath;
                 settingsObject.SaveFileDialogPath = SaveFilePath;
                 settingsObject.AutoSearch = AutoSearch;
-                settingsObject.TypeWriterFontSize = TypeWriterFontSize;
-                settingsObject.TypeWriterLineCount = TypeWriterLineCount;
-                settingsObject.TypeWriterCPLIndex = TypeWriterCPLIndex;
-                settingsObject.TypeWriterBellMargin = TypeWriterBellMargin;
-                settingsObject.TypeWriterLeftMargin = TypeWriterLeftMargin;
-                settingsObject.TypeWriterDelLock = TypeWriterDelLock;
-                settingsObject.TypeWriterLogo = TypeWriterLogo;
-                settingsObject.TypeWriterBasketX = TypeWriterBasketX;
-                settingsObject.TypeWriterBasketY = TypeWriterBasketY;
-                settingsObject.TypeWriterAutoMenu = TypeWriterAutoMenu;
-                settingsObject.TypeWriterTabRuler = TypeWriterTabRuler;
-                settingsObject.TypeWriterColorTheme = TypeWriterColorTheme;
-                settingsObject.TypeWriterAutoBasket = TypeWriterAutoBasket;
-                settingsObject.TypeWriterPageAutoScroll = TypeWriterPageAutoScroll;
                 settingsObject.DisplayTextCycle = DisplayTextCycle;
-                settingsObject.NotificationScrollToCaret = NotificationScrollToCaret;
                 settingsObject.ShowClock = ShowClock;
                 settingsObject.TitlePrioritySearch = TitlePrioritySearch;
                 settingsObject.LiveSearch = LiveSearch;
@@ -6258,15 +5389,10 @@ namespace AhoyBrowser
                 settingsObject.BackupLocation = AlternateBackupPath;
 
                 // MicroCalculator
-                settingsObject.MicroCalculatorMain = ShowMicroCalcMain;
-                settingsObject.MicroCalculatorUE = ShowMicroCalcUE;
 
                 // Screen Blocker
-                settingsObject.ScreenBlockerIndex = ScreenBlockerIndex;
-                settingsObject.ScreenBlocker = ScreenBlockerEnabled;
 
                 // Prism effect
-                settingsObject.PrismEffect = PrismEffect;
 
                 // Keyboard Control
                 settingsObject.MoveByKeyboard = MoveByKeyboard;
@@ -6292,135 +5418,377 @@ namespace AhoyBrowser
 
         #endregion
 
-        #region PASSWORD
-        private void PromptForPassword(string displayCaption, string optionalWelcomeMessage, string authPassword, string optionalTitleString)
+        #region General helpers
+
+
+        private static bool ForceSavingSettings = false;
+
+        public static void ForceSaveSettings()
         {
-            // Ask for password
-            Password passwordDialog = new Password(MessageText.EnterPasswordCaption(), displayCaption, optionalWelcomeMessage, authPassword, AuthQuestion, AuthAnswer, true, true, this.Opacity, true);
-            passwordDialog.TopMost = true;
-            // Set title specific string
-            if (!string.IsNullOrEmpty(optionalTitleString))
+            SettingsHasChanges = true;
+            ForceSavingSettings = true;
+        }
+
+
+        internal static void PrepareTexturePreview()
+        {
+            SelectedTexturePreview = SelectedTexture;
+        }
+
+
+        private static bool RefreshFormRequested { get; set; }
+        internal static void RefreshForm()
+        {
+            RefreshFormRequested = true;
+        }
+
+
+        private static bool RemoteStyleEditor;
+        internal static void OpenStyleEditorPerRemote()
+        {
+            RemoteStyleEditor = true;
+        }
+
+
+        private void CheckForStyleEditorActions()
+        {
+            if (StyleEditorHasChanges)
             {
-                if (optionalTitleString.Length > 25)
-                {
-                    optionalTitleString = optionalTitleString.Substring(0, 24) + "...";
-                }
-                passwordDialog.Text = displayCaption + TextTransform.GetBlankSpace(3) + optionalTitleString;
+                // Update color and texture
+                SetColorTheme(true);
+                ResolveTexture();
+                ResubmitFormOpacity();
+                RefreshDummyText();
+                ResolveHomeScreenSelectionMenu();
+                // Update variables
+                StyleEditorHasChanges = false;
+                SettingsHasChanges = true;
+                SaveSettings();
+                Log.StyleUpdated();
             }
+        }
+
+
+        internal static bool EntriesExist()
+        {
+            if (Entries != null && Entries.Count > 0)
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        }
+
+
+        private void ResetSearchResultSelectionIndex()
+        {
+            KeepAwake();
+            SearchBoxResultCycleIndex = 0;
+        }
+
+
+        private void SetSearchResultSelectionIndex(int index)
+        {
+            KeepAwake();
+            SearchBoxResultCycleIndex = index;
+        }
+
+
+        private void HideLoadingPanel()
+        {
+            if (pnlLoading.Visible)
+            {
+                pnlLoading.Visible = false;
+                pnlLoading.SendToBack();
+            }
+        }
+        #endregion
+
+        #region PASSWORD
+        // Check a password against the key of the open pool
+        private bool VerifyPassword(string password)
+        {
+            return CurrentKey != null && CurrentKey.Verify(password);
+        }
+
+        private void SetCurrentKey(PoolKey key)
+        {
+            if (!ReferenceEquals(CurrentKey, key))
+            {
+                CurrentKey?.Dispose();
+            }
+            CurrentKey = key;
+        }
+
+        // Ask for the password to unlock the interface (e.g. after sleep)
+        private void PromptForPassword(string displayCaption, string optionalWelcomeMessage, string optionalTitleString)
+        {
+            Password passwordDialog = new Password(MessageText.EnterPasswordCaption(), displayCaption, optionalWelcomeMessage, VerifyPassword, true, this.Opacity, true);
+            passwordDialog.TopMost = true;
+            passwordDialog.Text = GetPasswordDialogTitle(displayCaption, optionalTitleString);
             passwordDialog.ShowDialog();
             AccessGranted = passwordDialog.AccessGranted;
 
-            // If CTRL was pressed
+            // If F5/CTRL+O was pressed
             if (passwordDialog.LoadCommandActivated)
             {
                 LoadPoolFromFileDialog();
             }
-            else
+        }
+
+        private static string GetPasswordDialogTitle(string displayCaption, string optionalTitleString)
+        {
+            if (string.IsNullOrEmpty(optionalTitleString))
             {
-                // If password was reset during login save pool with new password
-                if (passwordDialog.PasswordRestored)
-                {
-                    UpdateLoginCredentials(passwordDialog);
-                }
+                return displayCaption;
             }
+            if (optionalTitleString.Length > 25)
+            {
+                optionalTitleString = optionalTitleString.Substring(0, 24) + "...";
+            }
+            return displayCaption + TextTransform.GetBlankSpace(3) + optionalTitleString;
         }
 
         // Ask user for password to verify before continuing
-        private static bool tempUserGranted;
-        private bool SimplePromptForPassword(string displayCaption, string optionalWelcomeMessage, string authPassword, bool enableKeyCommands)
+        private bool SimplePromptForPassword(string displayCaption, string optionalWelcomeMessage, bool enableKeyCommands)
         {
-            tempUserGranted = false;
-
-            // Ask for password
-            Password passwordDialog = new Password(MessageText.EnterPasswordCaption(), displayCaption, optionalWelcomeMessage, authPassword, AuthQuestion, AuthAnswer, true, false, this.Opacity, enableKeyCommands);
+            Password passwordDialog = new Password(MessageText.EnterPasswordCaption(), displayCaption, optionalWelcomeMessage, VerifyPassword, true, this.Opacity, enableKeyCommands);
             passwordDialog.TopMost = true;
             passwordDialog.ShowDialog();
-            tempUserGranted = passwordDialog.AccessGranted;
 
-            // If CTRL was pressed
+            // If F5/CTRL+O was pressed
             if (passwordDialog.LoadCommandActivated)
             {
                 LoadPoolFromFileDialog();
                 return false;
             }
-            else
-            {
-                return tempUserGranted;
-            }
+            return passwordDialog.AccessGranted;
         }
 
-        private void CreatePassword(string completedMessage, string welcomeMessage, string formCaption)
+        /// <summary>
+        /// Called by IO.LoadEntries for an encrypted pool: derive the key from the user's password
+        /// (or reuse the key of the open pool) and return the decrypted XML, or null.
+        /// </summary>
+        private string UnlockPool(byte[] encryptedPool, Load loadObject)
+        {
+            if (!PoolFile.TryReadHeader(encryptedPool, out byte[] salt, out int iterations))
+            {
+                loadObject.LoadMessage = "Unsupported or damaged Pool file.";
+                return null;
+            }
+
+            // Same pool (or one of its backups) as the one already unlocked: no need to ask again
+            if (CurrentKey != null && CurrentKey.Matches(salt, iterations) &&
+                PoolFile.TryDecrypt(encryptedPool, CurrentKey, out string sameKeyXml))
+            {
+                return sameKeyXml;
+            }
+
+            string decryptedXml = null;
+            PoolKey unlockedKey = null;
+            bool TryPassword(string password)
+            {
+                PoolKey candidate = PoolKey.Derive(password, salt, iterations);
+                if (PoolFile.TryDecrypt(encryptedPool, candidate, out string xml))
+                {
+                    decryptedXml = xml;
+                    unlockedKey = candidate;
+                    return true;
+                }
+                candidate.Dispose();
+                return false;
+            }
+
+            Password passwordDialog = new Password(MessageText.EnterPasswordCaption(), MessageText.WelcomeCaption(), MessageText.WelcomeMessage(), TryPassword, true, this.Opacity, true);
+            passwordDialog.TopMost = true;
+            passwordDialog.Text = GetPasswordDialogTitle(MessageText.WelcomeCaption(), IO.UsingCustomFilePath() ? IO.GetCustomFileName() : "");
+            passwordDialog.ShowDialog();
+
+            if (passwordDialog.LoadCommandActivated)
+            {
+                loadObject.OpenOtherPoolRequested = true;
+                loadObject.LoadMessage = "Open another Pool";
+                unlockedKey?.Dispose();
+                return null;
+            }
+
+            if (!passwordDialog.AccessGranted || decryptedXml == null)
+            {
+                loadObject.UnlockCancelled = true;
+                loadObject.LoadMessage = "The Pool was not unlocked (wrong password or damaged file).";
+                unlockedKey?.Dispose();
+                return null;
+            }
+
+            SetCurrentKey(unlockedKey);
+            AccessGranted = true;
+            return decryptedXml;
+        }
+
+        /// <summary>
+        /// Ask for a new password and make it the pool key. Returns false if the user cancelled.
+        /// The pool is NOT saved here.
+        /// </summary>
+        private bool AskForNewPoolPassword(string welcomeMessage, string formCaption)
         {
             CreatePassword createPassword = new CreatePassword(welcomeMessage, formCaption);
             createPassword.TopMost = true;
             createPassword.ShowDialog();
 
-            // Exit if dialog was dissmissed by the user
-            // (when closing it in task manager or by right clicking and closing in the taskbar)
-            if (string.IsNullOrEmpty(createPassword.AuthPassword) && !LoggedInOnce)
+            if (string.IsNullOrEmpty(createPassword.AuthPassword))
             {
-                Application.Exit();
+                return false;
             }
 
+            Cursor previousCursor = Cursor.Current;
+            Cursor.Current = Cursors.WaitCursor;
             try
             {
-
-                if (createPassword.AuthPassword.Length > 0 && createPassword.AuthQuestion.Length > 0 && createPassword.AuthAnswer.Length > 0)
-                {
-                    // Assign values
-                    AuthPassword = createPassword.AuthPassword;
-                    AuthQuestion = createPassword.AuthQuestion;
-                    AuthAnswer = createPassword.AuthAnswer;
-
-                    // Save changes to the Pool
-                    SetPoolHasChanges();
-                    SavePool(false, false, false, "");
-                    AhoySimpleMessageBox messageBox = new AhoySimpleMessageBox(completedMessage, MessageText.PasswordCaption(), false);
-                    messageBox.TopMost = true;
-                    messageBox.ShowDialog();
-                }
-                else
-                {
-                    AhoySimpleMessageBox messageBox = new AhoySimpleMessageBox("Password change incomplete:\nUsing previous values...", MessageText.PasswordCaption(), false);
-                    messageBox.TopMost = true;
-                    messageBox.ShowDialog();
-                }
+                SetCurrentKey(PoolKey.CreateNew(createPassword.AuthPassword));
             }
-            catch
+            finally
             {
-                AhoySimpleMessageBox messageBox = new AhoySimpleMessageBox("Error processing request", MessageText.ErrorCaption(), false);
+                Cursor.Current = previousCursor;
+            }
+            Log.LogCreatePassword();
+            return true;
+        }
+
+        // Change the password of the open pool (re-encrypts the pool with a new salt and key)
+        private void ChangePoolPassword(string completedMessage, string welcomeMessage, string formCaption)
+        {
+            PoolKey previousKey = CurrentKey;
+            CreatePassword createPassword = new CreatePassword(welcomeMessage, formCaption);
+            createPassword.TopMost = true;
+            createPassword.ShowDialog();
+
+            if (string.IsNullOrEmpty(createPassword.AuthPassword))
+            {
+                AhoySimpleMessageBox cancelled = new AhoySimpleMessageBox("Password not changed:\nUsing previous password...", MessageText.PasswordCaption(), false);
+                cancelled.TopMost = true;
+                cancelled.ShowDialog();
+                return;
+            }
+
+            CurrentKey = PoolKey.CreateNew(createPassword.AuthPassword);
+            SetPoolHasChanges();
+            SavePool(false, true, false, "");
+
+            if (IO.VerifySavedPool(CurrentKey))
+            {
+                previousKey?.Dispose();
+                Log.LogCreatePassword();
+                AhoySimpleMessageBox messageBox = new AhoySimpleMessageBox(completedMessage, MessageText.PasswordCaption(), false);
                 messageBox.TopMost = true;
                 messageBox.ShowDialog();
             }
-
+            else
+            {
+                // Saving failed: keep using the old key so the pool on disk stays readable
+                CurrentKey.Dispose();
+                CurrentKey = previousKey;
+                AhoySimpleMessageBox messageBox = new AhoySimpleMessageBox("Unable to save the Pool with the new password.\nThe previous password is still in use.", MessageText.ErrorCaption(), false);
+                messageBox.TopMost = true;
+                messageBox.ShowDialog();
+            }
         }
 
-        private void UpdateLoginCredentials(Password dialog)
+        /// <summary>
+        /// First start after updating from Ahoy 1.x: the pool was read with the old built-in key.
+        /// Confirm the old password, have the user create a new one (with a clear warning that it
+        /// cannot be recovered), save in the new format, verify it, and offer to delete old copies.
+        /// Returns false if the user cancelled; the old file is then left untouched.
+        /// </summary>
+        private bool UpgradeLegacyPool(Load loadedObject)
         {
-            AuthQuestion = dialog.AuthQuestion;
-            AuthAnswer = dialog.AuthAnswer;
-            AuthPassword = dialog.AuthPassword;
+            Log.LogPreloadStatus("Legacy Pool format detected");
 
-            // Save changes
+            // 1. Confirm it is the owner (Ahoy 1.x stored the password inside the pool)
+            if (!string.IsNullOrEmpty(loadedObject.LegacyPassword))
+            {
+                Password oldPasswordDialog = new Password(MessageText.EnterPasswordCaption(), MessageText.UpgradeCaption(), MessageText.UpgradeEnterOldPasswordMessage(),
+                    password => string.Equals(password, loadedObject.LegacyPassword, StringComparison.Ordinal), true, this.Opacity, false);
+                oldPasswordDialog.TopMost = true;
+                oldPasswordDialog.ShowDialog();
+                if (!oldPasswordDialog.AccessGranted)
+                {
+                    return false;
+                }
+            }
+
+            // 2. New password, with the encryption notice and no-recovery warning
+            if (!AskForNewPoolPassword(MessageText.UpgradeCreatePasswordMessage(), MessageText.UpgradeCaption()))
+            {
+                AhoySimpleMessageBox notUpgraded = new AhoySimpleMessageBox(MessageText.UpgradeCancelledMessage(), MessageText.UpgradeCaption(), false);
+                notUpgraded.TopMost = true;
+                notUpgraded.ShowDialog();
+                return false;
+            }
+
+            // 3. Save in the new format (pool + backups) and read it back to be sure
+            AccessGranted = true;
             SetPoolHasChanges();
-            SavePool(false, false, false, "");
+            SavePool(false, true, false, "");
+            if (!IO.VerifySavedPool(CurrentKey))
+            {
+                AhoySimpleMessageBox failed = new AhoySimpleMessageBox(MessageText.UpgradeFailedMessage(), MessageText.ErrorCaption(), false);
+                failed.TopMost = true;
+                failed.ShowDialog();
+                return false;
+            }
+            Log.LogPreloadStatus("Pool upgraded to " + PoolFile.AlgorithmDescription);
+
+            // 4. Old-format copies (backups) are readable by anyone with Ahoy 1.x: offer to delete them
+            OfferToDeleteLegacyFiles();
+
+            AhoySimpleMessageBox done = new AhoySimpleMessageBox(MessageText.UpgradeCompletedMessage(), MessageText.UpgradeCaption(), false);
+            done.TopMost = true;
+            done.ShowDialog();
+            return true;
         }
 
+        private void OfferToDeleteLegacyFiles()
+        {
+            List<string> legacyFiles = IO.FindLegacyPoolFiles();
+            if (legacyFiles.Count == 0)
+            {
+                return;
+            }
 
+            AhoyAnswerMessageBox question = new AhoyAnswerMessageBox(MessageText.UpgradeDeleteLegacyFilesQuestion(legacyFiles), MessageText.UpgradeCaption(), false, false);
+            question.TopMost = true;
+            question.ShowDialog();
+            if (!question.Accepted)
+            {
+                return;
+            }
+
+            List<string> notDeleted = new List<string>();
+            foreach (string file in legacyFiles)
+            {
+                try
+                {
+                    File.Delete(file);
+                }
+                catch
+                {
+                    notDeleted.Add(file);
+                }
+            }
+
+            if (notDeleted.Count > 0)
+            {
+                AhoySimpleMessageBox msg = new AhoySimpleMessageBox("These files could not be deleted:\n\n" + string.Join("\n", notDeleted), MessageText.UpgradeCaption(), false);
+                msg.TopMost = true;
+                msg.ShowDialog();
+            }
+        }
         #endregion
 
         #region INTERFACE
         // Display a selection of text symbols to play with
-        private string tempSymbolsText = "";
-        private void DisplayTextSymbolsInMessageBox()
-        {
-            tempSymbolsText = IO.SymbolsTextReader();
-            AhoyInfoMessageBox messageBox = new AhoyInfoMessageBox(tempSymbolsText, MessageText.TextSymbolsCaption(), false, false, this.Opacity);
-            messageBox.MaximumSize = new Size(messageBox.Width, 900); // Make resizable in height, up to 900px;
-            messageBox.TopMost = true;
-            messageBox.Show();
-        }
-
         private void SelectDummyTextVersion(int index)
         {
             // Cycle between guides
@@ -6665,7 +6033,7 @@ namespace AhoyBrowser
         {
             if (!CurrentEntryIsDummy() && tbContent.Text.Length > 0)
             {
-                if (SimplePromptForPassword(MessageText.DisplayTextCaption(), MessageText.ConfirmDisplayTextTitle(), AuthPassword, false))
+                if (SimplePromptForPassword(MessageText.DisplayTextCaption(), MessageText.ConfirmDisplayTextTitle(), false))
                 {
                     Log.LogHomeScreenTextChanged();
                     CustomDisplayText = tbContent.Text;
@@ -6779,7 +6147,7 @@ namespace AhoyBrowser
 
         private string GetIsoWeekNumber()
         {
-            return "W" + IsoWeekNumber.GetISO8601WeekNumber(DateTime.Now).ToString("00");
+            return "W" + ISOWeek.GetWeekOfYear(DateTime.Now).ToString("00");
         }
 
         private string GetMonthName()
@@ -6892,7 +6260,6 @@ namespace AhoyBrowser
             UpdateHoldButtons();
 
             // Hide Notification Selector
-            HideNotificationSelector(false);
 
             // Activate lists functionality
             ListsActUponMouseMovement = true;
@@ -6937,7 +6304,6 @@ namespace AhoyBrowser
             RefreshTitleColor();
 
             // Update Notification Button
-            ResolveNotificationButtons();
 
             // Collapse search results
             //CollapseList();
@@ -6982,14 +6348,8 @@ namespace AhoyBrowser
             }
 
             // Hide Utility editor
-            if (UtilityEditorIsOpen && utilityEditor != null)
-            {
-                utilityEditor.Enabled = false;
-                utilityEditor.Visible = false;
-            }
 
             // Hide notification selector
-            HideNotificationSelector(false);
 
             // Hide Stickies
             EnableMasterCloseStickies();
@@ -7055,7 +6415,6 @@ namespace AhoyBrowser
             holdEntryToolStripMenuItem.Enabled = visible;
             holdEntry2ToolStripMenuItem.Enabled = visible;
             clearHoldButtonsToolStripMenuItem.Enabled = visible;
-            textSymbolsAndDecorationsToolStripMenuItem.Enabled = visible;
             btnBack.Enabled = visible;
             btnForward.Enabled = visible;
             goBackToolStripMenuItem.Enabled = visible;
@@ -7085,10 +6444,6 @@ namespace AhoyBrowser
             autoSearchToolStripMenuItem.Enabled = visible;
             toggleDemoModeToolStripMenuItem.Enabled = visible;
             paragraphDividersToolStripMenuItem.Enabled = visible;
-            typeWriterToolStripMenuItem.Enabled = visible;
-            openANSIEditorToolStripMenuItem.Enabled = visible;
-            romanNumeralsToolStripMenuItem.Enabled = visible;
-            typermaxGameToolStripMenuItem.Enabled = visible;
             fontToolStripMenuItem.Enabled = visible;
             markForExportToolStripMenuItem.Enabled = visible;
             importExportToolStripMenuItem.Enabled = visible;
@@ -7117,12 +6472,10 @@ namespace AhoyBrowser
             setAlternateBackupToolStripMenuItem.Enabled = visible;
             openAlternateRepositoryToolStripMenuItem.Enabled = visible;
             clearAlternateBackupToolStripMenuItem.Enabled = visible;
-            plopEditorToolStripMenuItem.Enabled = visible;
             pinToolStripMenuItem.Enabled = visible;
             protectToolStripMenuItem.Enabled = visible;
             saveAsTextDocumentToolStripMenuItem.Enabled = visible;
             wordAndWPMCounterToolStripMenuItem.Enabled = visible;
-            prismEffectToolStripMenuItem.Enabled = visible;
             newPinnedEntryToolStripMenuItem.Enabled = visible;
             titlePrioritySearchToolStripMenuItem.Enabled = visible;
             liveSearchToolStripMenuItem.Enabled = visible;
@@ -7131,10 +6484,6 @@ namespace AhoyBrowser
             // General above ^^
 
             // Hide/show Typewriter icon
-            pnlSpawnTypeWriter.Enabled = visible;
-            pnlSpawnTypeWriter.Visible = visible;
-            typeWriterToolStripMenuItem.Enabled = visible;
-            typeWriterToolStripMenuItem.Visible = visible;
             // Hide/show Sticky icons (New sticky and bring to front icon)
             pnlSpawnSticky.Enabled = visible;
             pnlSpawnSticky.Visible = visible;
@@ -7147,7 +6496,6 @@ namespace AhoyBrowser
 
 
             // Enable/disable Screen Blocker menu item
-            ResolveScreenBlockerMenu();
 
             // Enable the exit full screen option while locked to enable quick
             // exit of full screen mode
@@ -7172,11 +6520,11 @@ namespace AhoyBrowser
                 // Take password to unlock interface
                 if (IO.UsingCustomFilePath())
                 {
-                    PromptForPassword(MessageText.WelcomeCaption(), "", AuthPassword, IO.GetCustomFileName());
+                    PromptForPassword(MessageText.WelcomeCaption(), "", IO.GetCustomFileName());
                 }
                 else
                 {
-                    PromptForPassword(MessageText.WelcomeCaption(), "", AuthPassword, "");
+                    PromptForPassword(MessageText.WelcomeCaption(), "", "");
                 }
 
                 if (AccessGranted)
@@ -7184,11 +6532,6 @@ namespace AhoyBrowser
                     Log.LogWakeup();
 
                     // Show Utility editor
-                    if (UtilityEditorIsOpen && utilityEditor != null)
-                    {
-                        utilityEditor.Enabled = true;
-                        utilityEditor.Visible = true;
-                    }
 
                     // Show Stickies
                     ShowStickies();
@@ -7382,8 +6725,8 @@ namespace AhoyBrowser
                         {
                             SearchSuccess = false;
                             SearchedHitCount = 0;
-                            // Construct searchable content (from title, content and notification text), trimmed with lowercasing
-                            tempCombinedText = entry.Content.Trim().ToLower() + " " + entry.NotificationText.Trim().ToLower();
+                            // Construct searchable content, trimmed with lowercasing
+                            tempCombinedText = entry.Content.Trim().ToLower();
 
                             // If hit count reaches number of search strings it is a match
                             foreach (string s in SearchedHitTargetArr)
@@ -7417,8 +6760,8 @@ namespace AhoyBrowser
                     {
                         SearchSuccess = false;
                         SearchedHitCount = 0;
-                        // Construct searchable content (from title, content and notification text), trimmed with lowercasing
-                        tempCombinedText = entry.Title.Trim().ToLower() + " " + entry.Content.Trim().ToLower() + " " + entry.NotificationText.Trim().ToLower();
+                        // Construct searchable content, trimmed with lowercasing
+                        tempCombinedText = entry.Title.Trim().ToLower() + " " + entry.Content.Trim().ToLower();
 
                         // If hit count reaches number of search strings it is a match
                         foreach (string s in SearchedHitTargetArr)
@@ -7850,104 +7193,7 @@ namespace AhoyBrowser
             tbSearch.Focus();
         }
 
-        private List<Entry> NotificationSearchCollection { get; set; }
-        private void FindActiveNotifications(bool showMessageIfZeroNotifications)
-        {
-            SetDefaultStatusText();
-            ResetSearchResultSelectionIndex();
-            NotificationSearchCollection = new List<Entry>();
-            foreach (Entry entry in Entries)
-            {
-                if (!string.IsNullOrEmpty(entry.NotificationTimeStamp) || !string.IsNullOrEmpty(entry.NotificationRepeat))
-                {
-                    NotificationSearchCollection.Add(Notification.CloneForNotificationSorting(entry));
-                }
-            }
 
-            // Continue if entries exist
-            if (NotificationSearchCollection != null && NotificationSearchCollection.Count > 0)
-            {
-                Log.LogSearch("(Notifications)", false, false);
-                listBoxSearchResult.Items.Clear();
-                // Sort list to display the latest notifications first
-                try
-                {
-                    NotificationSearchCollection.Sort(delegate (Entry x, Entry y) { return DateTime.Compare(Convert.ToDateTime(x.NotificationTimeStamp), Convert.ToDateTime(y.NotificationTimeStamp)); });
-                }
-                catch
-                {
-                    // Log sorting error due to DateTime issues
-                    Log.LogGeneralError("Sorting list failed");
-                }
-                // Truncate the HistorySearchCollection to contain the 100 latest changes
-                if (NotificationSearchCollection.Count > 100)
-                {
-                    NotificationSearchCollection.RemoveRange(99, NotificationSearchCollection.Count - 100);
-                }
-
-                PopulateSearchListBox(listBoxSearchResult, NotificationSearchCollection);
-            }
-            else
-            {
-                if (showMessageIfZeroNotifications)
-                {
-                    AhoySimpleMessageBox msg = new AhoySimpleMessageBox(MessageText.EmptyNotificationSearchMessage(), MessageText.SearchCaption(), false);
-                    msg.ShowDialog();
-                }
-            }
-
-            tbSearch.Clear();
-            tbSearch.Focus();
-        }
-
-        private void FindPassiveNotifications(bool showMessageIfZeroNotifications)
-        {
-            SetDefaultStatusText();
-            ResetSearchResultSelectionIndex();
-            NotificationSearchCollection = new List<Entry>();
-            foreach (Entry entry in Entries)
-            {
-                if ((string.IsNullOrEmpty(entry.NotificationTimeStamp) && string.IsNullOrEmpty(entry.NotificationRepeat)) && !string.IsNullOrEmpty(entry.NotificationText))
-                {
-                    NotificationSearchCollection.Add(entry);
-                }
-            }
-
-            // Continue if entries exist
-            if (NotificationSearchCollection != null && NotificationSearchCollection.Count > 0)
-            {
-                Log.LogSearch("(Notifications)", false, false);
-                listBoxSearchResult.Items.Clear();
-                // Sort list to display the latest notifications first
-                try
-                {
-                    NotificationSearchCollection.Sort(delegate (Entry x, Entry y) { return DateTime.Compare(Convert.ToDateTime(y.Changed), Convert.ToDateTime(x.Changed)); });
-                }
-                catch
-                {
-                    // Log sorting error due to DateTime issues
-                    Log.LogGeneralError("Sorting list failed");
-                }
-                // Truncate the HistorySearchCollection to contain the 100 latest changes
-                if (NotificationSearchCollection.Count > 100)
-                {
-                    NotificationSearchCollection.RemoveRange(99, NotificationSearchCollection.Count - 100);
-                }
-
-                PopulateSearchListBox(listBoxSearchResult, NotificationSearchCollection);
-            }
-            else
-            {
-                if (showMessageIfZeroNotifications)
-                {
-                    AhoySimpleMessageBox msg = new AhoySimpleMessageBox(MessageText.EmptyInactiveNotificationSearchMessage(), MessageText.SearchCaption(), false);
-                    msg.ShowDialog();
-                }
-            }
-
-            tbSearch.Clear();
-            tbSearch.Focus();
-        }
 
         // Select search result by F-keys
         private void SelectSearchResultByShortcut(KeyEventArgs e)
@@ -8045,14 +7291,7 @@ namespace AhoyBrowser
         {
             if (searchCount > 0)
             {
-                if (AhoyColors.ColorTheme == 1 || AhoyColors.ColorTheme == 2)
-                {
-                    lbContentSearch.ForeColor = AhoyColors.CurrentColorTheme()[4];
-                }
-                else
-                {
-                    lbContentSearch.ForeColor = AhoyColors.CurrentColorTheme()[6];
-                }
+                lbContentSearch.ForeColor = AhoyColors.ErrorTextColor();
             }
 
             // Display the "Next" text if there is more than one result
@@ -8506,17 +7745,6 @@ namespace AhoyBrowser
                     SelectPinned(SelectPinnedUserInput - 1);
 
                     // Utility Editor section
-                    if (transferToUtilityEditor)
-                    {
-                        if (UtilityEditorIsOpen && utilityEditor != null)
-                        {
-                            if (CurrentEntryNotNullOrDummy())
-                            {
-                                utilityEditor.SetText(CurrentEntry.Content, CurrentEntry.CaretPosition);
-                                utilityEditor.BringToFront();
-                            }
-                        }
-                    }
                 }
             }
         }
@@ -8570,8 +7798,6 @@ namespace AhoyBrowser
                     AboutInformation += tempInfoFileName + " " + TextTransform.CalculateSpacesFromStringToGivenLengthReturnChar(tempInfoFileName, 25, ".") + " " + IO.GetCurrentPoolFileNameForDisplay(false) + Environment.NewLine;
                     AboutInformation += tempInfoEntryCount + " " + TextTransform.CalculateSpacesFromStringToGivenLengthReturnChar(tempInfoEntryCount, 25, ".") + " " + Entries.Count.ToString() + Environment.NewLine;
                     AboutInformation += tempInfoStickyCount + " " + TextTransform.CalculateSpacesFromStringToGivenLengthReturnChar(tempInfoStickyCount, 25, ".") + " " + StickySettingsList.Count.ToString() + Environment.NewLine;
-                    AboutInformation += tempInfoAnotifications + " " + TextTransform.CalculateSpacesFromStringToGivenLengthReturnChar(tempInfoAnotifications, 25, ".") + " " + CountTotalActiveNotifications().ToString() + System.Environment.NewLine;
-                    AboutInformation += tempInfoInotifications + " " + TextTransform.CalculateSpacesFromStringToGivenLengthReturnChar(tempInfoInotifications, 25, ".") + " " + CountTotalInactiveNotifications().ToString() + System.Environment.NewLine;
                     AboutInformation += tempInfoTotalChars + " " + TextTransform.CalculateSpacesFromStringToGivenLengthReturnChar(tempInfoTotalChars, 25, ".") + " " + GetPoolTotalCharacterCount().ToString() + Environment.NewLine;
                     AboutInformation += "(Includes all editors, Stickies and Paragraph Dividers)" + Environment.NewLine;
                     AboutInformation += tempInfoLogEntries + " " + TextTransform.CalculateSpacesFromStringToGivenLengthReturnChar(tempInfoLogEntries, 25, ".") + " " + Log.GetLogEntriesCountAsString() + Environment.NewLine;
@@ -8674,41 +7900,25 @@ namespace AhoyBrowser
         {
             AhoyAnswerMessageBox ahoyAnswerMessageBox = new AhoyAnswerMessageBox(MessageText.CreatePasswordQuestion(), MessageText.PasswordCaption(), false, false);
             ahoyAnswerMessageBox.ShowDialog();
-
-            if (ahoyAnswerMessageBox.Accepted)
+            if (!ahoyAnswerMessageBox.Accepted)
             {
-                // Perform load and login
-                AccessGranted = false;
-                Password passwordDialog = new Password(MessageText.EnterOldPasswordTitle(), MessageText.PasswordCaption(), "", AuthPassword, AuthQuestion, AuthAnswer, true, true, this.Opacity, false);
-                passwordDialog.TopMost = true;
-                passwordDialog.ShowDialog();
-
-                // If password was reset during login save pool with new password
-                if (passwordDialog.PasswordRestored)
-                {
-                    UpdateLoginCredentials(passwordDialog);
-                }
-                else
-                {
-                    if (passwordDialog.AccessGranted)
-                    {
-                        AccessGranted = true;
-                        CreatePassword(MessageText.PasswordCreatedMessage(), MessageText.CreatePasswordTitle(), MessageText.NewPasswordCaption());
-                    }
-                    else
-                    {
-                        // Continue as normal
-                        AccessGranted = true;
-                        AhoySimpleMessageBox messageBox = new AhoySimpleMessageBox(MessageText.NewPasswordFailedMessage(), MessageText.PasswordCaption(), false);
-                        messageBox.ShowDialog();
-                    }
-                }
+                return;
             }
-        }
 
-        private void textSymbolsAndDecorationsToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            DisplayTextSymbolsInMessageBox();
+            // Confirm the current password first
+            Password passwordDialog = new Password(MessageText.EnterOldPasswordTitle(), MessageText.PasswordCaption(), "", VerifyPassword, true, this.Opacity, false);
+            passwordDialog.TopMost = true;
+            passwordDialog.ShowDialog();
+
+            if (passwordDialog.AccessGranted)
+            {
+                ChangePoolPassword(MessageText.PasswordCreatedMessage(), MessageText.CreatePasswordTitle(), MessageText.NewPasswordCaption());
+            }
+            else
+            {
+                AhoySimpleMessageBox messageBox = new AhoySimpleMessageBox(MessageText.NewPasswordFailedMessage(), MessageText.PasswordCaption(), false);
+                messageBox.ShowDialog();
+            }
         }
 
         // Load the welcometext in the content window
@@ -8773,103 +7983,11 @@ namespace AhoyBrowser
             NavigateForward();
         }
 
-        private void calculatorToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            ToggleMicroCalculator();
-        }
-
         private void commandInputToolStripMenuItem_Click(object sender, EventArgs e)
         {
             OpenCommandPrompt();
         }
 
-
-        #region Open/Close/Set Marquee
-        //private static MarqueeWindow marqueeWindow;
-        //private void OpenMarqueeWindow(string message)
-        //{
-        //    // Place in try/catch until further testing is done
-        //    try
-        //    {
-        //        if (marqueeWindow == null)
-        //        {
-        //            marqueeWindow = new MarqueeWindow();
-        //            UpdateMarqueeVisuals();
-        //            marqueeWindow.Show();
-        //        }
-
-        //        if (!marqueeWindow.Visible)
-        //        {
-        //            UpdateMarqueeVisuals();
-        //            marqueeWindow.Visible = true;
-        //        }
-        //        marqueeWindow.SetMessage(message);
-        //        // Return focus to MainForm
-        //        this.Focus();
-        //    }
-        //    catch
-        //    {
-        //        // Do nothing for now
-        //    }
-        //}
-
-        //private void UpdateMarqueeVisuals()
-        //{
-        //    // Place in try/catch until further testing is done
-        //    try
-        //    {
-        //        if (marqueeWindow != null)
-        //        {
-        //            marqueeWindow.SetFontAndColors(Design.ContentFieldFont(), AhoyColors.CurrentColorTheme()[3], AhoyColors.CurrentColorTheme()[1], AhoyColors.CurrentColorTheme()[3], AhoyColors.CurrentColorTheme()[1], this.Opacity);
-        //        }
-        //    }
-        //    catch
-        //    {
-        //        // Do nothing for now
-        //    }
-        //}
-
-        //private void CloseMarqueeWindow()
-        //{
-        //    // Place in try/catch until further testing is done
-        //    try
-        //    {
-        //        if (marqueeWindow != null)
-        //        {
-        //            if (marqueeWindow.Visible)
-        //            {
-        //                marqueeWindow.StopSequence();
-        //                marqueeWindow.Visible = false;
-        //            }
-        //        }
-        //        // Return focus to MainForm
-        //        this.Focus();
-        //    }
-        //    catch
-        //    {
-        //        // Do nothing for now
-        //    }
-        //}
-
-        //private void PostToMarQuee(string message)
-        //{
-        //    // Place in try/catch until further testing is done
-        //    try
-        //    {
-        //        if (message.Length > 0)
-        //        {
-        //            if (Regex.IsMatch(message, @"^reminder\s"))
-        //            {
-        //                OpenMarqueeWindow(message.Substring(8, message.Length - 8));
-        //            }
-        //        }
-        //    }
-        //    catch
-        //    {
-        //        // Do nothing for now
-        //    }
-        //}
-        #endregion
 
         #region Command specific methods added with version 1.3.2.1
         private void ClearScreen()
@@ -8897,7 +8015,7 @@ namespace AhoyBrowser
                 }
                 else
                 {
-                    if (SimplePromptForPassword(MessageText.PoolInfoCaption(), MessageText.EnterPasswordMessage(), AuthPassword, false))
+                    if (SimplePromptForPassword(MessageText.PoolInfoCaption(), MessageText.EnterPasswordMessage(), false))
                     {
                         SaveBackupForUndo();
                         ClearScreen();
@@ -8954,7 +8072,6 @@ namespace AhoyBrowser
                 cbBookmark.Checked = false;
                 listBoxSearchResult.Items.Clear();
                 PopulatePinList();
-                TransferDataToPlopForced();
                 tbSearch.Focus();
                 AhoySimpleMessageBox msg = new AhoySimpleMessageBox("Undo complete", MessageText.PoolCaption(), false);
                 msg.ShowDialog();
@@ -9099,7 +8216,6 @@ namespace AhoyBrowser
                 Log.LogPoolStatus("Locked Entries unlocked (All)");
                 AhoySimpleMessageBox msg = new AhoySimpleMessageBox("Entries unlocked", MessageText.PoolCaption(), false);
                 msg.ShowDialog();
-                TransferDataToPLOP();
             }
             else
             {
@@ -9110,7 +8226,7 @@ namespace AhoyBrowser
 
         private void ResetLog()
         {
-            if (SimplePromptForPassword(MessageText.ShowLogCaption(), MessageText.EnterPasswordMessage(), AuthPassword, false))
+            if (SimplePromptForPassword(MessageText.ShowLogCaption(), MessageText.EnterPasswordMessage(), false))
             {
                 Log.ClearLog();
                 AhoySimpleMessageBox msg = new AhoySimpleMessageBox("Log cleared", MessageText.ShowLogCaption(), false);
@@ -9248,29 +8364,14 @@ namespace AhoyBrowser
                         case "relg":
                             SetRelatedGradient(false);
                             break;
-                        case "p":
-                            OpenPlopEditor();
-                            break;
-                        case "ue":
-                            ShowUtilityEditor(true);
-                            break;
                         case "sticky":
                             SpawnSticky(true, false, 0, 0, false);
                             break;
                         case "x":
                             generatePasswordToolStripMenuItem_Click(this, null);
                             break;
-                        case "calc":
-                            ToggleMicroCalculator();
-                            break;
                         case "kb":
                             ToggleKeyboardControl();
-                            break;
-                        case "type":
-                            SpawnTypeWriterControl();
-                            break;
-                        case "game":
-                            StartTyperMax();
                             break;
                         case "op":
                             OpenPoolRepository(false);
@@ -9302,17 +8403,8 @@ namespace AhoyBrowser
                         case "mon":
                             ToggleLogMonitor();
                             break;
-                        case "rand":
-                            OpenRandomNumbers();
-                            break;
                         case "debug":
                             ToggleLogMonitor();
-                            break;
-                        case "prism":
-                            prismEffectToolStripMenuItem_Click(this, null);
-                            break;
-                        case "blocker":
-                            ToggleScreenBlocker();
                             break;
                         // case "update":
                         //     CheckForUpdates(0, false); // Standard check
@@ -9638,35 +8730,8 @@ namespace AhoyBrowser
                         case "snippet":
                             OpenSelectionInNewWindow();
                             break;
-                        case "plop":
-                            OpenPlopEditor();
-                            break;
-                        case "ue":
-                            ShowUtilityEditor(true);
-                            break;
-                        case "toue":
-                            SetEntryContentToUtilityEditor();
-                            break;
-                        case "appue":
-                            AppendEntryContentToUtilityEditor();
-                            break;
-                        case "appsel":
-                            AddSelectionToUtilityEditor();
-                            break;
                         case "mon":
                             ToggleLogMonitor();
-                            break;
-                        case "rand":
-                            OpenRandomNumbers();
-                            break;
-                        case "roman":
-                            romanNumeralsToolStripMenuItem_Click(this, null);
-                            break;
-                        case "ansi":
-                            RunAnsiEdit();
-                            break;
-                        case "ascii":
-                            RunAnsiEdit();
                             break;
                         case "pass":
                             string tempPassword = PasswordGenerator.GeneratePassword(20);
@@ -9683,15 +8748,6 @@ namespace AhoyBrowser
                             AhoySearchMessageBox msgMoreChars = new AhoySearchMessageBox(TextTransform.GetPrintableChars(), MessageText.CharsCaption(), false, false, this.Opacity);
                             msgMoreChars.Show();
                             msgMoreChars.BringToFront();
-                            break;
-                        case "typewriter":
-                            SpawnTypeWriterControl();
-                            break;
-                        case "typermax":
-                            StartTyperMax();
-                            break;
-                        case "typermax.reset":
-                            ResetTypermaxHighScore();
                             break;
                         // case "dcheck":
                         //     CheckForUpdates(1, true); // Low version test
@@ -9721,7 +8777,6 @@ namespace AhoyBrowser
                             SelectDummyTextVersion(0);
                             ActivateWordAndWPMCounter();
                             AutoSaveEntryChanges = Settings.DefaultAutoSaveEntryChanges;
-                            ResetTypeWriterSettings();
                             EnableKeyboardControl();
                             ToggleLogMonitor();
                             break;
@@ -9730,54 +8785,6 @@ namespace AhoyBrowser
                             break;
                         case "list":
                             ListThemeColors();
-                            break;
-                    }
-                }// NOTIFICATION COMMANDS
-                else if (CommandInput.CommandValidated && CommandInput.SelectedCommandType == CommandInput.CommandType.NotificationCommand)
-                {
-                    switch (CommandInput.CommandString)
-                    {
-                        case "set":
-                            if (CurrentEntryNotNullOrDummy())
-                            {
-                                OpenNotificationEditor(false);
-                            }
-                            break;
-                        case "count":
-                            CheckNotificationCount();
-                            break;
-                        case "info":
-                            CheckNotificationDetails();
-                            break;
-                        case "5":
-                            AddNotificationMinutes(5);
-                            break;
-                        case "10":
-                            AddNotificationMinutes(10);
-                            break;
-                        case "15":
-                            AddNotificationMinutes(15);
-                            break;
-                        case "20":
-                            AddNotificationMinutes(20);
-                            break;
-                        case "30":
-                            AddNotificationMinutes(30);
-                            break;
-                        case "push":
-                            SetCurrentEntryNotification(DateTime.Now.AddMinutes(5d), "");
-                            break;
-                        case "push10":
-                            SetCurrentEntryNotification(DateTime.Now.AddMinutes(10d), "");
-                            break;
-                        case "push30":
-                            SetCurrentEntryNotification(DateTime.Now.AddMinutes(30d), "");
-                            break;
-                        case "remove":
-                            RemoveCurrentEntryNotification();
-                            break;
-                        case "clear":
-                            RemoveAllEntryNotifications();
                             break;
                     }
                 }// STICKY COMMANDS
@@ -9829,8 +8836,7 @@ namespace AhoyBrowser
         private void ShowDateTime()
         {
             AhoySimpleMessageBox msg = new AhoySimpleMessageBox(IO.GetIsoDateTimeNow() +
-                "\n" + AnsiCalendar.GetCalendar(DateTime.Now, false) +
-                "\n\n(ISO Weeknumber: " + IsoWeekNumber.GetISO8601WeekNumber(DateTime.Now).ToString("00") + ")", MessageText.DateTimeCaption(), false);
+                "\n\n(ISO Weeknumber: " + ISOWeek.GetWeekOfYear(DateTime.Now).ToString("00") + ")", MessageText.DateTimeCaption(), false);
             msg.TopMost = true;
             msg.SetMicroFont();
             msg.ShowDialog();
@@ -10119,7 +9125,6 @@ namespace AhoyBrowser
             }
 
             ResolveFieldsZoomIndicator(FieldsFontSize);
-            ResolveUtilityEditorThemeAndFont();
 
             // Update stickies
             if (invokeStickyCycle)
@@ -10137,15 +9142,6 @@ namespace AhoyBrowser
             RefreshHomeScreenLabel();
         }
 
-        private void ResolveUtilityEditorThemeAndFont()
-        {
-            if (utilityEditor != null && UtilityEditorIsOpen)
-            {
-                // Update colors, textures and font size
-                utilityEditor.SetColorTheme();
-                utilityEditor.ResolveTexture();
-            }
-        }
 
         private void ResolveFieldsZoomIndicator(int zoom)
         {
@@ -10392,7 +9388,6 @@ namespace AhoyBrowser
 
             SetNorrmalScreen(false);
             SetDefaultWindowSizeAndLocation();
-            RestoreUtilityEditorView();
 
             // Restore field and list text size
             zoom2ToolStripMenuItem1_Click(this, null);
@@ -10411,9 +9406,6 @@ namespace AhoyBrowser
             AhoyColors.ResetAllCustomColors();
 
             // MicroCalculator
-            ShowMicroCalcMain = Settings.DefaultMicroCalculator;
-            ShowMicroCalcUE = Settings.DefaultMicroCalculator;
-            ToggleMicroCalculator(ShowMicroCalcMain);
 
             // DisplayText cycle
             DisplayTextCycle = Settings.DefaultDisplayTextCycle;
@@ -10426,12 +9418,8 @@ namespace AhoyBrowser
             SetFormOpacity(Settings.DefaultOpacity, false);
 
             // Reset screen blocker interval
-            ResetScreenBlockerInterval();
 
             // Prism effect
-            PrismEffect = Settings.DefaultPrismEffect;
-            ResolvePrismEffectMenuItem();
-            ResolvePrismEffect();
 
             // Clock
             ShowClock = Settings.DefaultShowClock;
@@ -10500,9 +9488,6 @@ namespace AhoyBrowser
             ResolveDefaultBrowserCheckedMenuItems();
             // Snooze Interval
             SnoozeInterval = Settings.DefaultSnoozeInterval;
-            cbPersistDialog.Checked = false;
-            PersistNotificationPanel = false;
-            NotificationScrollToCaret = Settings.DefaultNotificationScrollToCaret;
             // Reset spell checker language
             SpellCheckerLanguage = 1;
             // Reset password generator selection
@@ -10515,7 +9500,6 @@ namespace AhoyBrowser
             // Clear Hold Buttons
             ClearHoldButtons();
             // Clear PLOP ID
-            ClearPlopIDAndDirection(); //ClearPlopUtilityContent(); // Do not clear PLOP content
             // Clear Cypher key
             CypherKey = "";
             // Clear saved dialog paths
@@ -10524,15 +9508,8 @@ namespace AhoyBrowser
             // Reset WPM state
             ResetWordAndWPMCounter();
             // Reset Typewriter
-            ResetTypeWriterSettings();
             // Reset Screen Blocker
-            ScreenBlockerEnabled = Settings.DefaultScreenBlockerState;
-            ResolveScreenBlockerMenu();
-            ResetScreenBlockerInterval();
             // Prism effect
-            PrismEffect = Settings.DefaultPrismEffect;
-            ResolvePrismEffectMenuItem();
-            ResolvePrismEffect();
             // Title priority search
             TitlePrioritySearch = Settings.DefaultTitlePrioritySearch;
             ResolveTitlePrioritySearchMenuItem();
@@ -10563,23 +9540,6 @@ namespace AhoyBrowser
             Log.LogResetSettingsChanged();
         }
 
-        private void ResetTypeWriterSettings()
-        {
-            TypeWriterFontSize = TypeWriter.DefaultFontSize;
-            TypeWriterLineCount = TypeWriter.DefaultLineCount;
-            TypeWriterCPLIndex = TypeWriter.DefaultCPLIndex;
-            TypeWriterBellMargin = TypeWriter.DefaultBellMargin;
-            TypeWriterLeftMargin = TypeWriter.DefaultLeftMargin;
-            TypeWriterDelLock = TypeWriter.DefaultDelLock;
-            TypeWriterLogo = TypeWriter.DefaultLogo;
-            TypeWriterBasketX = TypeWriter.DefaultTypeBasketX;
-            TypeWriterBasketY = TypeWriter.DefaultTypeBasketY;
-            TypeWriterAutoMenu = TypeWriter.DefaultAutoMenu;
-            TypeWriterTabRuler = TypeWriter.DefaultTabRuler;
-            TypeWriterColorTheme = TypeWriter.DefaultColorTheme;
-            TypeWriterAutoBasket = TypeWriter.DefaultAutoBasket;
-            TypeWriterPageAutoScroll = TypeWriter.DefaultPageAutoScroll;
-        }
 
         private void ClearMemoField()
         {
@@ -10617,7 +9577,7 @@ namespace AhoyBrowser
 
         private void DisplayLogWithPassword()
         {
-            if (SimplePromptForPassword(MessageText.ShowLogCaption(), MessageText.LogAccessTitle(), AuthPassword, false))
+            if (SimplePromptForPassword(MessageText.ShowLogCaption(), MessageText.LogAccessTitle(), false))
             {
                 DisplayLog();
             }
@@ -10700,7 +9660,7 @@ namespace AhoyBrowser
             // Require password if interval is set to never
             if (index == 6)
             {
-                if (SimplePromptForPassword(MessageText.SleepIntervalCaption(), MessageText.ChangeSleepIntervalTitle(), AuthPassword, false))
+                if (SimplePromptForPassword(MessageText.SleepIntervalCaption(), MessageText.ChangeSleepIntervalTitle(), false))
                 {
                     SetSleepInterval(index, true);
                     AhoySimpleMessageBox msg = new AhoySimpleMessageBox(MessageText.SleepIntervalChangedMessage(), MessageText.SleepIntervalCaption(), false);
@@ -11081,7 +10041,6 @@ namespace AhoyBrowser
                 // Inform about changes
                 CurrentEntryHasChanges();
                 SaveCurrentEntry(false);
-                TransferDataToPLOP();
                 tbContent.Focus();
             }
             else if (CurrentEntryIsDummy())
@@ -12121,11 +11080,7 @@ namespace AhoyBrowser
                     }
                     else
                     {
-                        if (!string.IsNullOrEmpty(entry.NotificationTimeStamp))
-                        {
-                            tempSearchItemPrefix = "N►";
-                        }
-                        else if (entry.Pin)
+                        if (entry.Pin)
                         {
                             tempSearchItemPrefix = "╤";
                         }
@@ -12158,7 +11113,6 @@ namespace AhoyBrowser
             protectToolStripMenuItem.Checked = CurrentEntry.Protected;
             bookmarkEntryToolStripMenuItem.Checked = cbBookmark.Checked;
             UpdateHoldButtons();
-            ResolveNotificationButtons();
         }
 
 
@@ -12466,35 +11420,15 @@ namespace AhoyBrowser
                     }
                     else // Else draw normal prefixes
                     {
-                        // If entry is held by Hold button A and no Notifications is set
-                        if (PinnedList[i].ID == HoldEntryAID && (string.IsNullOrEmpty(PinnedList[i].NotificationTimeStamp) && string.IsNullOrEmpty(PinnedList[i].NotificationText)))
+                        // If entry is held by Hold button A
+                        if (PinnedList[i].ID == HoldEntryAID)
                         {
                             tempSearchItemPrefix = "H1";
                         }
-                        // If entry is held by Hold button B and no Notifications is set
-                        else if (PinnedList[i].ID == HoldEntryBID && (string.IsNullOrEmpty(PinnedList[i].NotificationTimeStamp) && string.IsNullOrEmpty(PinnedList[i].NotificationText)))
+                        // If entry is held by Hold button B
+                        else if (PinnedList[i].ID == HoldEntryBID)
                         {
                             tempSearchItemPrefix = "H2";
-                        }
-                        // If entry is held by Hold button A or B and active Notifications is set
-                        else if ((PinnedList[i].ID == HoldEntryAID || PinnedList[i].ID == HoldEntryBID) && !string.IsNullOrEmpty(PinnedList[i].NotificationTimeStamp))
-                        {
-                            tempSearchItemPrefix = "H►";
-                        }
-                        // If entry is held by Hold button A or B and inactive Notifications is set
-                        else if ((string.IsNullOrEmpty(PinnedList[i].NotificationTimeStamp) && !string.IsNullOrEmpty(PinnedList[i].NotificationText)) && (PinnedList[i].ID == HoldEntryAID || PinnedList[i].ID == HoldEntryBID))
-                        {
-                            tempSearchItemPrefix = "H►";
-                        }
-                        // If not entry is held and has notification set
-                        else if (!string.IsNullOrEmpty(PinnedList[i].NotificationTimeStamp))
-                        {
-                            tempSearchItemPrefix = "N►";
-                        }
-                        // If not entry is held and has inactive notification set
-                        else if (string.IsNullOrEmpty(PinnedList[i].NotificationTimeStamp) && !string.IsNullOrEmpty(PinnedList[i].NotificationText))
-                        {
-                            tempSearchItemPrefix = "I►";
                         }
                         else
                         {
@@ -13228,158 +12162,15 @@ namespace AhoyBrowser
             }
         }
 
-        // Called by the Notification Editor upon closing it
-        internal static void SubmitNotificationData(string entryID, string notificationText, string notificationTimeStamp, int notificationCaretPosition, bool scrollToCaret, string notificationRepeatData)
-        {
-            ResetNotificationCounter(); // Prevent notification editor from opening straight away overriding previous settings
-            NotificationEntryID = entryID;
-            NotificationEntryText = notificationText;
-            NotificationEntryTimeStamp = notificationTimeStamp;
-            NotificationEntryCaretPosition = notificationCaretPosition;
-            NotificationScrollToCaret = scrollToCaret;
-            NotificationEntryRepeat = notificationRepeatData;
-            NotificationEditorSet = true;
-        }
 
-        private void ClearNotificationVariables()
-        {
-            NotificationEntryID = "";
-            NotificationEntryText = "";
-            NotificationEntryTimeStamp = "";
-        }
 
-        private static string NotificationEntryID { get; set; }
-        private static string NotificationEntryText { get; set; }
-        private static string NotificationEntryTimeStamp { get; set; }
-        private static string NotificationEntryRepeat { get; set; }
-        private static int NotificationEntryCaretPosition { get; set; }
         private static bool tempPoolUpdated;
-        private void SubmitNotificationValues()
-        {
-            try
-            {
-                // Set notification if there is entries in pool
-                if (Entries != null && Entries.Count > 0 && !LockedForWritingToDisk)
-                {
-                    tempPoolUpdated = false;
-                    // If current entry is the same as the one mark for notification
-                    // add the values to the entry and save them back to the pool
-                    if (CurrentEntryNotNullOrDummy() && CurrentEntry.ID == NotificationEntryID)
-                    {
-                        if (string.IsNullOrEmpty(NotificationEntryTimeStamp) && string.IsNullOrEmpty(NotificationEntryRepeat))
-                        {
-                            Log.NotificationSet("Inactive");
-                            NotificationsEnabled = false;
-                        }
-                        else
-                        {
-                            if (!string.IsNullOrEmpty(NotificationEntryTimeStamp))
-                            {
-                                Log.NotificationSet("Standard (" + NotificationEditor.GetTruncatedTimestamp(NotificationEntryTimeStamp) + ")");
-                            }
 
-                            if (!string.IsNullOrEmpty(NotificationEntryRepeat))
-                            {
-                                Log.NotificationSet("Repeating (" + NotificationEntryRepeat + ")");
-                            }
-                            NotificationsEnabled = true;
-                        }
-                        CurrentEntry.NotificationText = NotificationEntryText;
-                        CurrentEntry.NotificationTimeStamp = NotificationEntryTimeStamp;
-                        CurrentEntry.NotificationCaretPosition = NotificationEntryCaretPosition;
-                        CurrentEntry.NotificationRepeat = NotificationEntryRepeat;
-                        // Force save
-                        CurrentEntryHasChanges();
-                        SaveCurrentEntry(false);
-                        // Update Pinned list and notification button
-                        PopulatePinListAndReselect();
-                        ResolveNotificationButtons();
-                    }
-                    else
-                    {
-                        // Else seek out the matching entry in the pool and update it
-                        for (int i = 0; i < Entries.Count; i++)
-                        {
-                            if (Entries[i].ID == NotificationEntryID)
-                            {
-                                Entries[i].NotificationText = NotificationEntryText;
-                                Entries[i].NotificationTimeStamp = NotificationEntryTimeStamp;
-                                Entries[i].NotificationCaretPosition = NotificationEntryCaretPosition;
-                                Entries[i].NotificationRepeat = NotificationEntryRepeat;
-                                tempPoolUpdated = true;
-                                if (string.IsNullOrEmpty(NotificationEntryTimeStamp) && string.IsNullOrEmpty(NotificationEntryRepeat))
-                                {
-                                    Log.NotificationSet("Inactive");
-                                    NotificationsEnabled = false;
-                                }
-                                else
-                                {
-                                    if (!string.IsNullOrEmpty(NotificationEntryTimeStamp))
-                                    {
-                                        Log.NotificationSet("Standard (" + NotificationEditor.GetTruncatedTimestamp(NotificationEntryTimeStamp) + ")");
-                                    }
-
-                                    if (!string.IsNullOrEmpty(NotificationEntryRepeat))
-                                    {
-                                        Log.NotificationSet("Repeating (" + NotificationEntryRepeat + ")");
-                                    }
-                                    NotificationsEnabled = true;
-                                }
-                                break;
-                            }
-                        }
-
-                        // Force save if pool was updated
-                        if (tempPoolUpdated)
-                        {
-                            SetPoolHasChanges();
-                            SavePool(false, false, false, "");
-                            // Update Pinned list
-                            PopulatePinList();
-                        }
-                    }
-                }
-                else
-                {
-                    if (Entries == null || Entries.Count == 0)
-                    {
-                        AhoySimpleMessageBox msg = new AhoySimpleMessageBox(MessageText.EmptySearchMessage(), MessageText.NotificationCaption(), false);
-                        msg.ShowDialog();
-                    }
-                    else
-                    {
-                        AhoySimpleMessageBox msg = new AhoySimpleMessageBox(MessageText.ErrorMessage(), MessageText.NotificationCaption(), false);
-                        msg.ShowDialog();
-                    }
-                }
-
-                // Clear local notification variables when done
-                ClearNotificationVariables();
-                // Check notifications to update status
-                PoolHasNotifications();
-
-            }
-            catch
-            {
-                AhoySimpleMessageBox msg = new AhoySimpleMessageBox(MessageText.ErrorMessage(), MessageText.NotificationCaption(), false);
-                msg.ShowDialog();
-            }
-        }
-
-        private static void ResetNotificationCounter()
-        {
-            NotificationSecondsCounter = 0;
-        }
 
         // Fast timer (where fast reaction times are needed)
         private void timerFastGlobal_Tick(object sender, EventArgs e)
         {
             // Check for notification editor updates
-            if (NotificationEditorSet)
-            {
-                NotificationEditorSet = false;
-                SubmitNotificationValues();
-            }
         }
 
         // LOCAL + REMOTE BACKUP RUTINE LOGIC
@@ -13420,157 +12211,14 @@ namespace AhoyBrowser
             SpawnCommandPrompt = true;
         }
 
-        /// <summary>
-        /// Reset interval and counter
-        /// </summary>
-        private void ResetScreenBlockerInterval()
-        {
-            ResetScreenBlockerCounter();
-            SetScreenBlockerInterval(Settings.DefaultScreenBlockerIndex, false);
-            Log.ScreenBlockerStaus("Reset");
-        }
 
-        private static void ResetScreenBlockerCounter()
-        {
-            ScreenBlockerCounter = 0;
-        }
 
-        /// <summary>
-        /// Set interval and resolve menu
-        /// </summary>
-        /// <param name="index"></param>
-        private void SetScreenBlockerInterval(int index, bool saveChanges)
-        {
-            ScreenBlockerIndex = index;
-            switch (ScreenBlockerIndex)
-            {
-                case 0:
-                    ScreenBlockerInterval = 0; // OFF (Never/Default)
-                    Log.ScreenBlockerStaus("Auto = OFF");
-                    break;
-                case 1:
-                    ScreenBlockerInterval = 30; // 30 sec
-                    Log.ScreenBlockerStaus("30 sec");
-                    break;
-                case 2:
-                    ScreenBlockerInterval = 60; // 1 min
-                    Log.ScreenBlockerStaus("1 min");
-                    break;
-                case 3:
-                    ScreenBlockerInterval = 120; // 2 min
-                    Log.ScreenBlockerStaus("2 min");
-                    break;
-                case 4:
-                    ScreenBlockerInterval = 180; // 3 min
-                    Log.ScreenBlockerStaus("3 min");
-                    break;
-                case 5:
-                    ScreenBlockerInterval = 240; // 4 min
-                    Log.ScreenBlockerStaus("4 min");
-                    break;
-                case 6:
-                    ScreenBlockerInterval = 300; // 5 min
-                    Log.ScreenBlockerStaus("5 min");
-                    break;
-                case 7:
-                    ScreenBlockerInterval = 600; // 10 min
-                    Log.ScreenBlockerStaus("10 min");
-                    break;
-                case 8:
-                    ScreenBlockerInterval = 900; // 15 min
-                    Log.ScreenBlockerStaus("15 min");
-                    break;
-                case 9:
-                    ScreenBlockerInterval = 1800; // 30 min
-                    Log.ScreenBlockerStaus("30 min");
-                    break;
-                case 10:
-                    ScreenBlockerInterval = 3600; // 60 min
-                    Log.ScreenBlockerStaus("60 min");
-                    break;
-                case 11:
-                    ScreenBlockerInterval = 7200; // 120 min
-                    Log.ScreenBlockerStaus("120 min");
-                    break;
-                default:
-                    ScreenBlockerInterval = 0; // OFF (Never/Default)
-                    break;
-            }
 
-            // Update interval menu
-            ResolveScreenBlockerIntervalMenu(ScreenBlockerIndex);
-
-            // Save settings
-            if (saveChanges)
-            {
-                SettingsHasChanges = true;
-            }
-        }
-
-        private void ResolveScreenBlockerIntervalMenu(int index)
-        {
-            // Set all to unchecked
-            neverToolStripMenuItem1.Checked = false; // 0
-            secToolStripMenuItem.Checked = false; // 30 sec
-            minToolStripMenuItem9.Checked = false; // 1 min
-            minToolStripMenuItem10.Checked = false; // 2 min
-            minToolStripMenuItem11.Checked = false; // 3 min
-            minToolStripMenuItem12.Checked = false; // 4 min
-            minToolStripMenuItem13.Checked = false; // 5 min
-            minToolStripMenuItem14.Checked = false; // 10 min
-            minToolStripMenuItem15.Checked = false; // 15 min
-            minToolStripMenuItem16.Checked = false; // 30 min
-            minToolStripMenuItem17.Checked = false; // 60 min
-
-            // Switch on interval
-            switch (index)
-            {
-                case 0:
-                    neverToolStripMenuItem1.Checked = true;
-                    break;
-                case 1:
-                    secToolStripMenuItem.Checked = true;
-                    break;
-                case 2:
-                    minToolStripMenuItem9.Checked = true;
-                    break;
-                case 3:
-                    minToolStripMenuItem10.Checked = true;
-                    break;
-                case 4:
-                    minToolStripMenuItem11.Checked = true;
-                    break;
-                case 5:
-                    minToolStripMenuItem12.Checked = true;
-                    break;
-                case 6:
-                    minToolStripMenuItem13.Checked = true;
-                    break;
-                case 7:
-                    minToolStripMenuItem14.Checked = true;
-                    break;
-                case 8:
-                    minToolStripMenuItem15.Checked = true;
-                    break;
-                case 9:
-                    minToolStripMenuItem16.Checked = true;
-                    break;
-                case 10:
-                    minToolStripMenuItem17.Checked = true;
-                    break;
-                default:
-                    neverToolStripMenuItem1.Checked = true;
-                    break;
-            }
-        }
 
         // The global timer handles the auto save and auto lock feature
         internal static int ActivitySecondsCounter { get; set; }
         internal static int ActivityAutoBackupCounter { get; set; }
         private int AutoSaveSecondsCounter { get; set; }
-        internal static int ScreenBlockerCounter = 0;
-        internal static int ScreenBlockerInterval { get; set; }
-        internal static int ScreenBlockerIndex { get; set; }
         private void timerGlobal_Tick(object sender, EventArgs e)
         {
             // Remove paused flag
@@ -13590,7 +12238,7 @@ namespace AhoyBrowser
             // }
 
             // Blink Indicator Label
-            if (PoolIsReadOnly || ScreenBlockerIsActive)
+            if (PoolIsReadOnly)
             {
                 lbReadOnlyIndicator.Visible = !lbReadOnlyIndicator.Visible;
             }
@@ -13604,42 +12252,11 @@ namespace AhoyBrowser
             }
 
             // Remove indicator if screen blocker text visible
-            if (!ScreenBlockerIsActive && lbReadOnlyIndicator.Text.Length > 0)
-            {
-                if (lbReadOnlyIndicator.Text == MagicBlocker.IndicatorLabelText)
-                {
-                    ResolveIndicatorLabel();
-                }
-            }
 
             // Screen Blocker per remote
-            if (!ScreenBlockerIsActive && InvokeScreenBlockerPerRemote)
-            {
-                InvokeScreenBlockerPerRemote = false;
-                StartMagicBlocker();
-            }
-            else if (InvokeScreenBlockerPerRemote) // Prevent it from opening twice to take latency remote calls into account
-            {
-                InvokeScreenBlockerPerRemote = false;
-            }
 
             // Screen Blocker auto invoke (only run the counter if screenblocker is enabled,
             // and only if the interface isnt locked and not already running an active blocker)
-            if (ScreenBlockerEnabled && (!InterfaceLock && !ScreenBlockerIsActive))
-            {
-                if (ScreenBlockerInterval >= 30) // < 30 = OFF. Only run the automatick blocker if interval is >= 30 seconds
-                {
-                    // Count and check according to interval setting
-                    // Counter is reset with user activity
-                    ScreenBlockerCounter += 1;
-                    if (ScreenBlockerCounter >= ScreenBlockerInterval)
-                    {
-                        // Reset counter and start screenblocker 
-                        ResetScreenBlockerCounter();
-                        StartMagicBlocker();
-                    }
-                }
-            }
 
             // Bring form to front
             if (RemoteStyleEditor)
@@ -13655,40 +12272,11 @@ namespace AhoyBrowser
             }
 
             // Typewriter control
-            if (SpawnTypeWriter)
-            {
-                if (!TypeWriterEnabled)
-                {
-                    HideLoadingPanel(); // Hide before showing typewriter
-                    ShowTypeWriter();
-                }
-            }
-            else if (ExitTypeWriter)
-            {
-                if (TypeWriterEnabled)
-                {
-                    HideTypeWriter();
-                }
-            }
 
             // Check for typewriter changes
-            if (SubmitTypeWriterContent)
-            {
-                SubmitTypeWriterContent = false;
-                SubmitFromTypeWriter();
-            }
 
 
             // Check for open notification selector preview panel
-            if (pnlNotificationSelector.Visible && !PersistNotificationPanel)
-            {
-                if (NotificationPanelAutoCloseCounter >= 7) // Close panel after 7 seconds
-                {
-                    NotificationPanelAutoCloseCounter = 0;
-                    HideNotificationSelector(false);
-                }
-                NotificationPanelAutoCloseCounter += 1;
-            }
 
             // LOCAL + REMOTE BACKUP RUTINE - when Pool has different
             // char count than last time it was loaded or checked.
@@ -13712,42 +12300,24 @@ namespace AhoyBrowser
                 // Add to counters every second
                 ActivitySecondsCounter += 1;
                 AutoSaveSecondsCounter += 1;
-                NotificationSecondsCounter += 1;
-            }
-            else
-            {
-                NotificationSecondsCounter += 1; // Operate notifications also when AHOY! is locked
             }
 
             // Check Utility, Style and Notification Editor Actions
             if (!InterfaceLock)
             {
-                CheckForUtilityEditorActions();
                 CheckForStyleEditorActions();
-                NotificationCallUp();
             }
 
-            // Check if Utility Editor has invocked a background refresh
-            if (RefreshFormForUEOpacityCompensation)
+            // A dialog asked for a background refresh (see RefreshForm)
+            if (RefreshFormRequested)
             {
-                RefreshFormForUEOpacityCompensation = false;
+                RefreshFormRequested = false;
                 this.Refresh();
             }
 
             // Check for Notifications every 15 seconds also when interface is locked
             // Will be disabled if pool has zero entries, and enabled the next time
             // a notification is set, to optimize performance.
-            if (LoggedInOnce && !LockedForWritingToDisk && NotificationSecondsCounter > 15)
-            {
-                if (NotificationsEnabled && PoolHasNotifications())
-                {
-                    CheckNotifications();
-                }
-                else
-                {
-                    ResetNotificationCounter();
-                }
-            }
 
 
             // Change color on save button if changes are found
@@ -13823,7 +12393,7 @@ namespace AhoyBrowser
 
             // Go to sleep if no user activity was registered within interval set by SleepInterval
             // plus save pool if it has changes
-            if (!InterfaceLock && !AttachedEditorOpen && !TypeWriterEnabled && !ScreenBlockerIsActive)
+            if (!InterfaceLock && !AttachedEditorOpen)
             {
                 if (ActivitySecondsCounter >= SleepIntervalSeconds && SleepIntervalSeconds < NeverSleepValue) // SleepInterval holds the value for when Ahoy should sleep
                 {
@@ -13847,7 +12417,7 @@ namespace AhoyBrowser
             // In verbose: If Ahoy is not sleeping while logged in, save every 1 minutes.
             // If pool has changes and there was no user activity for 10 seconds
             // after which point it will try to save every 10 seconds
-            if (AccessGranted && !InterfaceLock && !AttachedEditorOpen && !NotificationEditorOpen)
+            if (AccessGranted && !InterfaceLock && !AttachedEditorOpen)
             {
                 if (AutoSaveSecondsCounter >= 60 && ActivitySecondsCounter >= 10) // 60 seconds = 1 minute. 10 secods = Save-Retry...
                 {
@@ -13881,21 +12451,9 @@ namespace AhoyBrowser
             }
 
             // Open Utility/PLOP editor (set in LoadSettings method)
-            if (AutoOpenUtilityEditor)
-            {
-                AutoOpenUtilityEditor = false;
-                if (PlopLinkedID.Length > 0 && EntryExist(PlopLinkedID))
-                {
-                    OpenPlopEditor();
-                }
-                else
-                {
-                    ShowUtilityEditor(true);
-                }
-            }
 
             // Resolve New Entry button highlight
-            if (!InterfaceLock && !TypeWriterEnabled)
+            if (!InterfaceLock)
             {
                 ResolveNewEntryButton();
             }
@@ -13932,7 +12490,6 @@ namespace AhoyBrowser
         {
             ActivitySecondsCounter = 0;
             ActivityAutoBackupCounter = 0;
-            ResetScreenBlockerCounter();
             // TEST
             //Log.GeneralStatus("TEST");
         }
@@ -14265,46 +12822,6 @@ namespace AhoyBrowser
         #endregion
 
 
-        #region ANSI EDITOR (addition 27-09-2015)
-        private void openANSIEditorToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            if (!InterfaceLock)
-            {
-                RunAnsiEdit();
-            }
-        }
-
-        private void RunAnsiEdit()
-        {
-            if (!AttachedEditorOpen)
-            {
-                CenterCursor();
-                ShowAnimation();
-
-                try
-                {
-                    AttachedEditorOpen = true;
-                    KeepAwake();
-                    Log.AnsiEditor();
-                    AnsiEditForm ansiEditor = new AnsiEditForm(this.Opacity);
-                    ansiEditor.Location = this.Location;
-                    ansiEditor.Show();
-                    ansiEditor.TopMost = true;
-                    ansiEditor.BringToFront();
-                }
-                catch
-                {
-                    AhoySimpleMessageBox ansiEditMessage = new AhoySimpleMessageBox("Unable to run ANSI Edit", MessageText.AnsiEditCaption(), false);
-                    ansiEditMessage.ShowDialog();
-                }
-                finally
-                {
-                    AttachedEditorOpen = false;
-                }
-            }
-        }
-        #endregion
-
 
         #region SWITCH POOL (addition 27-09-2015)
         private void switchPoolToolStripMenuItem_Click(object sender, EventArgs e)
@@ -14484,8 +13001,6 @@ namespace AhoyBrowser
                     controlsForVisibilityChange.Add(btnToggleMemo);
                     controlsForVisibilityChange.Add(btnTogglePinned);
                     controlsForVisibilityChange.Add(pnlSpawnSticky);
-                    controlsForVisibilityChange.Add(pnlSpawnTypeWriter);
-                    controlsForVisibilityChange.Add(picCalculator);
                 }
                 else if (displayMode == 1)
                 {
@@ -14700,7 +13215,7 @@ namespace AhoyBrowser
         // Search
         private void ListBoxSearchResult_MouseMove(object sender, MouseEventArgs e)
         {
-            if (!tbSearchInContent.Focused && listBoxSearchResult.Items.Count > 0 && ListsActUponMouseMovement && !IsUtilityEditorIntersectingWithMainForm())
+            if (!tbSearchInContent.Focused && listBoxSearchResult.Items.Count > 0 && ListsActUponMouseMovement)
             {
                 listBoxSearchResult.Focus(); // Set focus to enable scrolling
                 ResetActivityUponMouseMovement();
@@ -14708,46 +13223,12 @@ namespace AhoyBrowser
         }
 
 
-        // Prevent pinnedlist from hiding the Utility Editor
-        // if the editor is covering some of the pinned list
-        // while the mouse is moved across the visible part 
-        // of the pinned list (this will activate the pinned
-        // list and make the utility editor dissapear)
-        private bool IsUtilityEditorIntersectingWithMainForm()
-        {
-            if (UtilityEditorIsOpen && utilityEditor != null)
-            {
-                // Check if editor has focus (to prevent it from disabling the list scrolling if hidden behind the lists)
-                if (utilityEditor.HasFocus())
-                {
-                    // listBoxPinned.Bounds will return the rectangle of the pinned list
-                    // relative to its parent control (the Splitter panel), so I will use
-                    // the MainForm instead: this.bounds.
-                    if (this.Bounds.IntersectsWith(utilityEditor.Bounds))
-                    {
-                        return true;
-                    }
-                    else
-                    {
-                        return false;
-                    }
-                }
-                else
-                {
-                    return false;
-                }
-            }
-            else
-            {
-                return false;
-            }
-        }
 
 
         // Search
         private void ListBoxPinned_MouseMove(object sender, MouseEventArgs e)
         {
-            if (!tbSearchInContent.Focused && listBoxPinned.Items.Count > 0 && ListsActUponMouseMovement && !IsUtilityEditorIntersectingWithMainForm())
+            if (!tbSearchInContent.Focused && listBoxPinned.Items.Count > 0 && ListsActUponMouseMovement)
             {
                 listBoxPinned.Focus(); // Set focus to enable scrolling (Do not keep awake here, to avoid never sleeping if the mouse is over the pinned list)
             }
@@ -14867,594 +13348,6 @@ namespace AhoyBrowser
         }
         #endregion
 
-
-        #region DETACHED UTILITY EDITOR (addition 13-07-2016)
-
-        private void openUtilityEditorToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            ShowUtilityEditor(true);
-        }
-
-        private void RestoreUtilityEditorView()
-        {
-            // Set default size and position
-            UEPositionX = this.Location.X + DetachedEditor.UEDefaultLocationXOffset;
-            UEPositionY = this.Location.Y + DetachedEditor.UEDefaultLocationYOffset;
-            UEHeight = DetachedEditor.UEDefaultHeight;
-            UEWidth = DetachedEditor.UEDefaultWidth;
-            UEOpacity = DetachedEditor.UEDefaultOpacity;
-
-            if (UtilityEditorIsOpen && utilityEditor != null)
-            {
-                utilityEditor.SetWindowPositionAndSize(UEPositionX, UEPositionY, UEWidth, UEHeight, UEWindowState, UEOpacity);
-            }
-        }
-
-        public static DetachedEditor utilityEditor;
-        private void ShowUtilityEditor(bool bringToFront)
-        {
-            if (!InterfaceLock)
-            {
-                if (!UtilityEditorIsOpen)
-                {
-                    Log.UtilityEditor();
-                    utilityEditor = new DetachedEditor(UEPositionX, UEPositionY, UEWidth, UEHeight, UEWindowState, UEOpacity, UEVersionSelection, DetectURLs, false, null, EnableFormBorder);
-                    utilityEditor.TopMost = false; // Topmost is false on this one
-                    utilityEditor.FormClosed += UtilityEditor_FormClosed;
-                    utilityEditor.FormClosing += UtilityEditor_FormClosing;
-                    utilityEditor.Show();
-                    UtilityEditorIsOpen = true;
-
-                    // Save MainForm dimensions
-                    utilityEditor.SetParentWindowLocationDefaults(this.Location.X, this.Location.Y, this.Width, this.Height);
-                    SettingsHasChanges = true;
-                }
-                else
-                {
-                    if (utilityEditor != null && utilityEditor.IsPlopEditor)
-                    {
-                        AhoySimpleMessageBox msg = new AhoySimpleMessageBox(MessageText.PlopEditorAlreadyOpenMessage(), MessageText.AttentionCaption(), false);
-                        msg.TopMost = true;
-                        msg.ShowDialog();
-                        RefreshForm();
-                    }
-                }
-
-                // Bring to front
-                if (bringToFront)
-                {
-                    FocusUtilityEditor();
-                }
-            }
-        }
-
-        private void ShowPlopEditor(bool bringToFront, Entry linkedEntry)
-        {
-            if (!InterfaceLock)
-            {
-                if (!UtilityEditorIsOpen)
-                {
-                    Log.UEEditor("PLOP: Open");
-                    utilityEditor = new DetachedEditor(UEPositionX, UEPositionY, UEWidth, UEHeight, UEWindowState, UEOpacity, UEVersionSelection, DetectURLs, true, linkedEntry, EnableFormBorder);
-                    utilityEditor.Show();
-                    UtilityEditorIsOpen = true;
-                    if (PlopTopMost)
-                    {
-                        utilityEditor.SetTopMost(PlopTopMost);
-                    }
-                    utilityEditor.FormClosed += UtilityEditor_FormClosed;
-                    utilityEditor.FormClosing += UtilityEditor_FormClosing;
-                    // Save MainForm dimensions
-                    utilityEditor.SetParentWindowLocationDefaults(this.Location.X, this.Location.Y, this.Width, this.Height);
-                    SettingsHasChanges = true;
-                    // Change linked status
-                    utilityEditor.SetPlopLink(IsPlopEditorLinked());
-                }
-                else
-                {
-                    if (utilityEditor != null && !utilityEditor.IsPlopEditor)
-                    {
-                        AhoySimpleMessageBox msg = new AhoySimpleMessageBox(MessageText.UtilityEditorAlreadyOpenMessage(), MessageText.AttentionCaption(), false);
-                        msg.TopMost = true;
-                        msg.ShowDialog();
-                        RefreshForm();
-                    }
-                }
-
-                // Bring to front
-                if (bringToFront)
-                {
-                    FocusUtilityEditor();
-                }
-            }
-        }
-
-
-        private void UtilityEditor_FormClosed(object sender, FormClosedEventArgs e)
-        {
-            UtilityEditorIsOpen = false;
-        }
-
-        private void UtilityEditor_FormClosing(object sender, FormClosingEventArgs e)
-        {
-            if (utilityEditor != null)
-            {
-                utilityEditor.SubmitTextVersionsToMainForm();
-            }
-
-            // Bring focus to main form
-            this.BringToFront();
-            tbContent.Focus();
-        }
-
-        // Will transfer content to utility editor without bringing it forward
-        private void SetEntryContentToUtilityEditor()
-        {
-            // Opend Utility Editor if closed
-            if (!UtilityEditorIsOpen || utilityEditor == null)
-            {
-                ShowUtilityEditor(true);
-            }
-
-            // Set Text
-            if (utilityEditor != null) utilityEditor.SetText(tbContent.Text, tbContent.SelectionStart);
-
-            // Persist focus on MainForm
-            this.BringToFront();
-            tbContent.Focus();
-        }
-
-
-        // Will transfer content to utility editor without bringing it forward
-        private void AppendEntryContentToUtilityEditor()
-        {
-            // Opend Utility Editor if closed
-            if (!UtilityEditorIsOpen || utilityEditor == null)
-            {
-                ShowUtilityEditor(false);
-            }
-
-            // Append Text
-            if (utilityEditor != null) utilityEditor.AppendText(tbContent.Text);
-
-            // Persist focus on MainForm
-            this.BringToFront();
-            tbContent.Focus();
-        }
-
-        // Append selected text to utility editor without bringing it forward
-        private string tempAddSelectionString;
-        private void AddSelectionToUtilityEditor()
-        {
-            // Get selection
-            tempAddSelectionString = tbContent.SelectedText;
-
-            // Opend Utility Editor if closed
-            if (!UtilityEditorIsOpen || utilityEditor == null)
-            {
-                ShowUtilityEditor(false);
-            }
-
-            // Append Selection
-            if (utilityEditor != null) utilityEditor.AppendText(tempAddSelectionString);
-
-            // Persist focus on MainForm
-            this.BringToFront();
-            tbContent.Focus();
-        }
-
-
-        private void FocusUtilityEditor()
-        {
-            if (utilityEditor != null && utilityEditor.Created)
-            {
-                if (utilityEditor.WindowState == FormWindowState.Minimized)
-                {
-                    utilityEditor.WindowState = FormWindowState.Normal;
-                }
-
-                utilityEditor.BringToFront();
-                utilityEditor.FocusContent();
-            }
-        }
-
-
-        public static void InvokeSaveSettings()
-        {
-            SettingsHasChanges = true;
-        }
-
-        public static void InvokeSavePool()
-        {
-            SetPoolHasChanges();
-        }
-
-        // Used by PLOP to save pool when unlinking
-
-        public static void ForceSavePool()
-        {
-            SetPoolHasChanges();
-            ForceBackup = true;
-        }
-
-
-        private static bool ForceSavingSettings = false;
-        public static void ForceSaveSettings()
-        {
-            SettingsHasChanges = true;
-            ForceSavingSettings = true;
-        }
-
-        internal static void PrepareTexturePreview()
-        {
-            SelectedTexturePreview = SelectedTexture;
-        }
-
-
-        private void transferToUtilityEditorToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            AppendEntryContentToUtilityEditor();
-        }
-
-        private void transferToUtilityEditorToolStripMenuItem1_Click(object sender, EventArgs e)
-        {
-            AppendEntryContentToUtilityEditor();
-        }
-
-        private void addSelectionToolStripMenuItem1_Click(object sender, EventArgs e)
-        {
-            AddSelectionToUtilityEditor();
-        }
-
-        private void addSelectionToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            AddSelectionToUtilityEditor();
-        }
-
-        internal static void RefreshForm()
-        {
-            RefreshFormForUEOpacityCompensation = true;
-        }
-
-        private static bool RemoteStyleEditor;
-        internal static void OpenStyleEditorPerRemote()
-        {
-            RemoteStyleEditor = true;
-        }
-
-        internal static bool IsEntrySelected()
-        {
-            if (CurrentEntryNotNullOrDummy())
-            {
-                return true;
-            }
-            else
-            {
-                return false;
-            }
-        }
-
-        internal static bool EntriesExist()
-        {
-            if (Entries != null && Entries.Count > 0)
-            {
-                return true;
-            }
-            else
-            {
-                return false;
-            }
-        }
-
-        internal static bool PinnedEntriesExist()
-        {
-            if (PinnedList != null && PinnedList.Count > 0)
-            {
-                return true;
-            }
-            else
-            {
-                return false;
-            }
-        }
-
-        private void CheckForStyleEditorActions()
-        {
-            if (StyleEditorHasChanges)
-            {
-                // Update color and texture
-                SetColorTheme(true);
-                ResolveTexture();
-                ResubmitFormOpacity();
-                SetPlopUEOpacity();
-                RefreshDummyText();
-                ResolveHomeScreenSelectionMenu();
-                ResolvePrismEffect();
-                ResolvePrismEffectMenuItem();
-                // Update variables
-                StyleEditorHasChanges = false;
-                SettingsHasChanges = true;
-                SaveSettings();
-                Log.StyleUpdated();
-            }
-        }
-
-        private void SetPlopUEOpacity()
-        {
-            try
-            {
-                if (utilityEditor != null)
-                {
-                    utilityEditor.SetOpacity(this.Opacity);
-                }
-            }
-            catch
-            {
-                // Do nothing
-            }
-        }
-
-
-        private bool IsPlopEditorLinked()
-        {
-            if (utilityEditor != null)
-            {
-                if (utilityEditor.IsPlopEditor)
-                {
-                    if (utilityEditor.PlopIsLinked)
-                    {
-                        return true;
-                    }
-                    else
-                    {
-                        return false;
-                    }
-                }
-            }
-            return false;
-        }
-
-        private string tempUtilityEditorTextContent;
-        private int tempUtilityEditorCaretPosition;
-        private void CheckForUtilityEditorActions()
-        {
-            // Handle Editor actions
-            if (UtilityEditorIsOpen && utilityEditor != null)
-            {
-                // PLOP EDITOR ---------------------------------------
-                if (utilityEditor.IsPlopEditor && PlopCallUpEntry)
-                {
-                    PlopCallUpEntry = false;
-                    if (IsPlopEditorLinked())
-                    {
-                        if (TypeWriterEnabled)
-                        {
-                            try
-                            {
-                                // Show Ahoy if minimized
-                                if (this.WindowState == FormWindowState.Minimized)
-                                {
-                                    this.WindowState = FormWindowState.Normal;
-                                }
-                                this.BringToFront();
-                            }
-                            catch
-                            {
-                                Log.LogWindowStateChangeError();
-                            }
-                        }
-                        else if (SaveCurrentEntry(false)) // Save current entry
-                        {
-                            SelectEntryByID(utilityEditor.PlopLinkedID, true, true);
-                            ResolveNavigationButtons();
-                            // Check if the entry is in the pinned list and highlight it
-                            if (CurrentEntry != null)
-                            {
-                                CheckListsAndHighlight(CurrentEntry.ID);
-                            }
-
-                            try
-                            {
-                                // Show Ahoy if minimized
-                                if (this.WindowState == FormWindowState.Minimized)
-                                {
-                                    this.WindowState = FormWindowState.Normal;
-                                }
-                            }
-                            catch
-                            {
-                                Log.LogWindowStateChangeError();
-                            }
-
-                            // Focus content
-                            if (PlopDirection)
-                            {
-                                tbContent.Focus();
-                                tbContent.Select(0, 0);
-                            }
-                            else
-                            {
-                                if (tbContent.Text.Length > 0)
-                                {
-                                    tbContent.Focus();
-                                    tbContent.Select(tbContent.Text.Length, 0);
-                                    tbContent.ScrollToCaret();
-                                }
-                            }
-                        }
-                    }
-                }
-                else if (NewEntryFromUE)
-                {
-                    NewEntryFromUE = false;
-                    CreateNewEntry("", false, "", false, false, false);
-                }
-                else if (SearchFromUE)
-                {
-                    SearchFromUE = false;
-                    tbSearch.Focus();
-                }
-                else if (TogglePinFromUE)
-                {
-                    TogglePinFromUE = false;
-                    ToggleEntryPinned();
-                    FocusUtilityEditor();
-                }
-                else if (OpenPoolFromUE)
-                {
-                    OpenPoolFromUE = false;
-                    LoadPoolFromFileDialog();
-                }
-                else if (OpenQuickGuideFromUE)
-                {
-                    OpenQuickGuideFromUE = false;
-                    DisplayQuickGuideInMessageBox();
-                }
-                else if (ActivateMainForm)
-                {
-                    ActivateMainForm = false;
-                    this.Activate();
-                    this.BringToFront();
-                    tbContent.Focus();
-                }
-                else if (utilityEditor.IsPlopEditor && SubmitPlopContent)
-                {
-                    SubmitPlopContent = false;
-                    if (IsPlopEditorLinked())
-                    {
-                        // Submit content to entry in pool list
-                        SubmitContentChangesToEntriesList(utilityEditor.PlopLinkedID, PlopContent, PlopDirection);
-
-                        // Update the current entry if it has same ID, to show the changes
-                        if (SubmitContentChangesSuccess)
-                        {
-                            if (CurrentEntryNotNullOrDummy())
-                            {
-                                if (CurrentEntry.ID == utilityEditor.PlopLinkedID)
-                                {
-                                    // Add text and update CurrentEntry
-                                    CurrentEntry.IgnoreTextChanged = true;
-                                    tbContent.SetText(PlopContent, false);
-                                    CurrentEntry.Content = tbContent.Text;
-                                    if (PlopDirection) // Set caret position depending on plop direction (top/bottom)
-                                    {
-                                        CurrentEntry.CaretPosition = 0;
-                                    }
-                                    else
-                                    {
-                                        CurrentEntry.CaretPosition = CurrentEntry.Content.Length - 1;
-                                        if (tbContent.Text.Length > 0)
-                                        {
-                                            tbContent.Focus();
-                                            tbContent.Select(tbContent.Text.Length, 0);
-                                            tbContent.ScrollToCaret();
-                                        }
-                                    }
-
-                                    CurrentEntry.IgnoreTextChanged = false;
-                                    // Force save
-                                    CurrentEntryHasChanges();
-                                    SaveCurrentEntry(false);
-                                }
-                            }
-                        }
-
-                        utilityEditor.BringToFront();
-                        utilityEditor.Focus();
-                        this.Refresh();
-                    }
-                    else
-                    {
-                        AhoySimpleMessageBox msg = new AhoySimpleMessageBox(MessageText.SelectEntryToContinueMessage(), MessageText.AttentionCaption(), false);
-                        msg.ShowDialog();
-                        RefreshForm();
-                    }
-                }
-                // Else if Utility editor ---------------------------------------------
-                else if (!utilityEditor.IsPlopEditor)
-                {
-                    // Fetch text from editor
-                    if (utilityEditor.VersionSelection == 1)
-                    {
-                        tempUtilityEditorTextContent = utilityEditor.VersionTextA;
-                        tempUtilityEditorCaretPosition = utilityEditor.CaretPositionA;
-                    }
-                    else if (utilityEditor.VersionSelection == 2)
-                    {
-                        tempUtilityEditorTextContent = utilityEditor.VersionTextB;
-                        tempUtilityEditorCaretPosition = utilityEditor.CaretPositionB;
-                    }
-                    else if (utilityEditor.VersionSelection == 3)
-                    {
-                        tempUtilityEditorTextContent = utilityEditor.VersionTextC;
-                        tempUtilityEditorCaretPosition = utilityEditor.CaretPositionC;
-                    }
-                    else if (utilityEditor.VersionSelection == 4)
-                    {
-                        tempUtilityEditorTextContent = utilityEditor.VersionTextD;
-                        tempUtilityEditorCaretPosition = utilityEditor.CaretPositionD;
-                    }
-
-                    // Check for commands
-                    if (utilityEditor.TransferToCurrentEntry) // Add to entry
-                    {
-                        utilityEditor.TransferToCurrentEntry = false;
-                        if (CurrentEntryNotNullOrDummy())
-                        {
-                            // Append text and update CurrentEntry
-                            tbContent.AppendText(tempUtilityEditorTextContent, 2, true);
-                            CurrentEntry.Content = tbContent.Text;
-                            CurrentEntry.CaretPosition = tbContent.SelectionStart;
-                            utilityEditor.BringToFront();
-                            utilityEditor.Focus();
-                            this.Refresh();
-                        }
-                    }
-                    else if (utilityEditor.ReplaceWithCurrentEntry) // Replace content
-                    {
-                        utilityEditor.ReplaceWithCurrentEntry = false;
-                        if (CurrentEntryNotNullOrDummy())
-                        {
-                            tbContent.SetText(tempUtilityEditorTextContent, false, true, tempUtilityEditorCaretPosition);
-                            CurrentEntry.Content = tbContent.Text;
-                            CurrentEntry.CaretPosition = tbContent.SelectionStart;
-                            utilityEditor.BringToFront();
-                            utilityEditor.Focus();
-                            this.Refresh();
-                        }
-                    }
-                    else if (utilityEditor.LoadPinnedEntry) // Load Pinned Entry
-                    {
-                        utilityEditor.LoadPinnedEntry = false;
-                        SelectPinnedByNumber(true);
-                    }
-                    else if (utilityEditor.TransferToNewEntry)  // Add to New Entry
-                    {
-                        utilityEditor.TransferToNewEntry = false;
-                        CreateNewEntry(tempUtilityEditorTextContent, true, string.Empty, false, false, false);
-                        SaveCurrentEntry(false);
-
-                        // Close utility editor if new entry creation
-                        // isn't cancelled in the process
-                        if (!NewEntryCreationCancelled)
-                        {
-                            utilityEditor.SetText("", 0);
-                            utilityEditor.BringToFront();
-                            utilityEditor.Focus();
-                            this.Refresh();
-                        }
-                        else
-                        {
-                            this.Refresh();
-                        }
-                    }
-                }
-            }
-        }
-
-
-
-        #endregion
 
         #region BACKGROUND TEXTURE (addition 25-07-2016)
         // Code moved to Style Editor 14-08-2016
@@ -15614,508 +13507,6 @@ namespace AhoyBrowser
 
         #endregion
 
-        #region Plop Editor (addition 25-10-2016)
-        private void plopEditorToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            OpenPlopEditor();
-        }
-
-        private void OpenPlopEditor()
-        {
-            if (PlopLinkedID.Length > 0 && EntryExist(PlopLinkedID))
-            {
-                ShowPlopEditor(true, GetEntryByID(PlopLinkedID));
-            }
-            else if (CurrentEntryNotNullOrDummy())
-            {
-                // Save PLOP ID
-                PlopLinkedID = CurrentEntry.ID;
-                // Open PLOP
-                ShowPlopEditor(true, CurrentEntry);
-                SetPoolHasChanges();
-                SavePool(false, false, false, ""); // Save pool to persist PLOP ID immediately
-            }
-            else
-            {
-                AhoySimpleMessageBox msg = new AhoySimpleMessageBox(MessageText.SelectEntryToOpenPlopEditorMessage(), MessageText.PlopEditorAttentionCaption(), false);
-                msg.ShowDialog();
-            }
-        }
-
-        private void ClearPlopIDAndDirection()
-        {
-            PlopLinkedID = "";
-            PlopDirection = Settings.DefaultPlopDirection;
-            ClearAdditionalPlopSettings();
-        }
-
-        private void ClearAdditionalPlopSettings()
-        {
-            UEBlankLines = Settings.DefaultUEBlankLines;
-            UETrimWhitespace = Settings.DefaultUETrimWhitespace;
-            UEESCtoClose = Settings.DefaultUEPlopESCtoClose;
-            PlopTopMost = DetachedEditor.UEDefaultTopMost;
-            if (UtilityEditorIsOpen && utilityEditor != null)
-            {
-                utilityEditor.ResetTopMost(); // TEST
-            }
-        }
-
-        private void ClearPlopUtilityContent()
-        {
-            PlopContent = "";
-            PlopPersistedContent = "";
-            PlopUtilityContent = "";
-            WPMCounter.ClearWPMCounter();
-        }
-
-        private void ClosePlopUe()
-        {
-            if (UtilityEditorIsOpen)
-            {
-                if (utilityEditor != null)
-                {
-                    utilityEditor.Close();
-                }
-            }
-        }
-
-        private void ClearUtilityEditorContent()
-        {
-            UEContentA = "";
-            UEContentB = "";
-            UEContentC = "";
-            UEContentD = "";
-            UECaretPositionA = 0;
-            UECaretPositionB = 0;
-            UECaretPositionC = 0;
-            UECaretPositionD = 0;
-            UEVersionSelection = DetachedEditor.UEDefaultBank;
-            WPMCounter.ClearWPMCounter();
-        }
-        #endregion
-
-
-        #region Notifications (addition 08-11-2016)
-
-
-        private void SummonNotificationEditor(bool showTitleAsMessage)
-        {
-            tbContent.Focus();
-            // Force save current entry to make it appear in the pool
-            SaveCurrentEntry(false);
-            // Open notifications editor
-            NotificationEditorOpen = true;
-            NotificationEditor notificationEditor = new NotificationEditor(CurrentEntry, DetectURLs, SnoozeInterval, showTitleAsMessage);
-            notificationEditor.FormClosing += NotificationEditor_FormClosing;
-            notificationEditor.StartPosition = FormStartPosition.CenterScreen;
-            notificationEditor.Show();
-        }
-
-        private void OpenNotificationEditor(bool createNewEntry)
-        {
-            if (!createNewEntry && !NotificationEditorOpen && CurrentEntryNotNullOrDummy())
-            {
-                SummonNotificationEditor(false);
-            }
-            else
-            {
-                // If already open
-                if (NotificationEditorOpen)
-                {
-                    AhoySimpleMessageBox msg = new AhoySimpleMessageBox(MessageText.NotificationAlreadyOpenMessage(), MessageText.NotificationCaption(), false);
-                    msg.TopMost = true;
-                    msg.ShowDialog();
-                    tbSearch.Focus();
-                }
-                else if (!NotificationEditorOpen) // Create new entry for Notification
-                {
-                    CreateNewEntry(string.Empty, false, string.Empty, false, true, false);
-                    if (!NewEntryCreationCancelled && CurrentEntryNotNullOrDummy())
-                    {
-                        SummonNotificationEditor(false);
-                    }
-                }
-            }
-        }
-
-        private Entry CurrentNotificationEntry;
-        private void CheckNotifications()
-        {
-            // Dont open notification dialog if screenblocker is active
-            if (ScreenBlockerIsActive)
-            {
-                return;
-            }
-
-            NotificationSecondsCounter = 0;
-            // Check each entry in the pool for notifications
-            if (Entries != null && Entries.Count > 0)
-            {
-                foreach (Entry entry in Entries)
-                {
-                    if (Notification.IsDue(entry.NotificationTimeStamp, false) || Notification.IsDue(entry.NotificationRepeat, true))
-                    {
-                        CurrentNotificationEntry = IO.CloneEntry(entry, false);
-                        RaiseNotificationAlert();
-                        return;
-                    }
-                }
-            }
-        }
-
-        // Raise a notification blinker timer if alert is present
-        // with a call-up button, to recall the entry in question
-        private void RaiseNotificationAlert()
-        {
-            if (!NotificationEditorOpen && CurrentNotificationEntry != null)
-            {
-                Log.NotificationSet("Raised (\"" + CurrentNotificationEntry.Title + "\")");
-                RaiseNotificationEditor(CurrentNotificationEntry);
-            }
-        }
-
-        // Show Notification editor: Called by the global timer
-        private void RaiseNotificationEditor(Entry notificationEntry)
-        {
-            if (!NotificationEditorOpen && notificationEntry != null)
-            {
-                // Open Notification Editor
-                NotificationEditorOpen = true;
-                // Show Ahoy if minimized
-                try
-                {
-                    if (this.WindowState == FormWindowState.Minimized)
-                    {
-                        this.WindowState = FormWindowState.Normal;
-                    }
-                    NotificationEditor notificationEditor = new NotificationEditor(notificationEntry, DetectURLs, SnoozeInterval, false);
-                    notificationEditor.FormClosing += NotificationEditor_FormClosing;
-                    notificationEditor.StartPosition = FormStartPosition.CenterScreen;
-                    notificationEditor.Show();
-                }
-                catch
-                {
-                    Log.LogWindowStateChangeError();
-                }
-            }
-        }
-
-        private void NotificationEditor_FormClosing(object sender, FormClosingEventArgs e)
-        {
-            // Mark Notification Editor as closed to allow it to reappear
-            NotificationEditorOpen = false;
-        }
-
-
-        // Set notification on current selected entry
-        private void SetCurrentEntryNotification(DateTime dateTimeValue, string notificationText)
-        {
-            if (CurrentEntryNotNullOrDummy())
-            {
-                if (dateTimeValue != null)
-                {
-                    CurrentEntry.NotificationTimeStamp = dateTimeValue.ToString(Notification.NotificationDateTimeFormat);
-                    if (notificationText.Length > 0)
-                    {
-                        CurrentEntry.NotificationText = notificationText;
-                    }
-                    CurrentEntryHasChanges();
-                    SubmitChangesToEntriesList();
-                    PopulatePinListAndReselect();
-                }
-            }
-            else
-            {
-                AhoySimpleMessageBox msg = new AhoySimpleMessageBox(MessageText.SelectEntryToContinueMessage(), MessageText.NotificationCaption(), false);
-                msg.ShowDialog();
-            }
-
-            // Resolve status
-            PoolHasNotifications();
-        }
-
-        private DateTime tempNewDateTimeValue;
-        private void AddNotificationMinutes(int minutes)
-        {
-            try
-            {
-                if (CurrentEntryNotNullOrDummy())
-                {
-                    if (minutes > 0)
-                    {
-                        // If notification is available add minutes
-                        if (CurrentEntry.NotificationTimeStamp.Length > 0)
-                        {
-                            tempNewDateTimeValue = Convert.ToDateTime(CurrentEntry.NotificationTimeStamp);
-                            tempNewDateTimeValue = tempNewDateTimeValue.AddMinutes(minutes);
-                        }
-                        else // Else add minutes to current dateTime...
-                        {
-                            tempNewDateTimeValue = DateTime.Now.AddMinutes(minutes);
-                        }
-
-                        CurrentEntry.NotificationTimeStamp = tempNewDateTimeValue.ToString(Notification.NotificationDateTimeFormat);
-                        CurrentEntryHasChanges();
-                        SubmitChangesToEntriesList();
-                        PopulatePinList();
-                    }
-                }
-                else
-                {
-                    AhoySimpleMessageBox msg = new AhoySimpleMessageBox(MessageText.SelectEntryToContinueMessage(), MessageText.NotificationCaption(), false);
-                    msg.ShowDialog();
-                }
-
-            }
-            catch
-            {
-                // Do nothing
-            }
-
-            // Resolve status
-            PoolHasNotifications();
-        }
-
-        // Remove notification from current selected entry
-        private void RemoveCurrentEntryNotification()
-        {
-            if (CurrentEntryNotNullOrDummy())
-            {
-                if (!string.IsNullOrEmpty(CurrentEntry.NotificationTimeStamp) || !string.IsNullOrEmpty(CurrentEntry.NotificationRepeat))
-                {
-                    CurrentEntry.NotificationTimeStamp = "";
-                    CurrentEntry.NotificationRepeat = "";
-                    CurrentEntry.NotificationText = "";
-                    CurrentEntry.NotificationCaretPosition = 0;
-                    CurrentEntryHasChanges();
-                    SubmitChangesToEntriesList();
-                    PopulatePinList();
-                }
-            }
-            else
-            {
-                AhoySimpleMessageBox msg = new AhoySimpleMessageBox(MessageText.SelectEntryToContinueMessage(), MessageText.NotificationCaption(), false);
-                msg.ShowDialog();
-            }
-
-            // Resolve status
-            PoolHasNotifications();
-        }
-
-        private void CheckNotificationDetails()
-        {
-            if (CurrentEntryNotNullOrDummy())
-            {
-                if (!string.IsNullOrEmpty(CurrentEntry.NotificationTimeStamp) || !string.IsNullOrEmpty(CurrentEntry.NotificationRepeat))
-                {
-                    string tempNotificationInfo = "";
-                    if (!string.IsNullOrEmpty(CurrentEntry.NotificationTimeStamp))
-                    {
-                        tempNotificationInfo = MessageText.NotificationInformation(CurrentEntry.Title, CurrentEntry.NotificationTimeStamp);
-                    }
-                    else
-                    {
-                        tempNotificationInfo = MessageText.NotificationInformation(CurrentEntry.Title, CurrentEntry.NotificationRepeat);
-                    }
-
-                    AhoySimpleMessageBox msg = new AhoySimpleMessageBox(tempNotificationInfo, MessageText.NotificationCaption(), false);
-                    msg.ShowDialog();
-                }
-            }
-            else
-            {
-                AhoySimpleMessageBox msg = new AhoySimpleMessageBox(MessageText.SelectEntryToContinueMessage(), MessageText.NotificationCaption(), false);
-                msg.ShowDialog();
-            }
-        }
-
-        private void CheckNotificationCount()
-        {
-            if (PoolHasNotifications())
-            {
-                AhoySimpleMessageBox msg;
-                if (CountTotalActiveNotifications() == 1)
-                {
-                    msg = new AhoySimpleMessageBox("There is currently " + CountTotalActiveNotifications() + " active Notification", MessageText.NotificationCaption(), false);
-                }
-                else
-                {
-                    msg = new AhoySimpleMessageBox("There are currently " + CountTotalActiveNotifications() + " active Notifications", MessageText.NotificationCaption(), false);
-                }
-
-                msg.ShowDialog();
-            }
-            else
-            {
-                AhoySimpleMessageBox msg = new AhoySimpleMessageBox(MessageText.EmptyNotificationSearchMessage(), MessageText.NotificationCaption(), false);
-                msg.ShowDialog();
-            }
-        }
-
-        private bool tempNotificationsRemoved;
-        private void RemoveAllEntryNotifications()
-        {
-            if (Entries != null && Entries.Count > 0)
-            {
-                tempNotificationsRemoved = false;
-                foreach (Entry entry in Entries)
-                {
-                    // Remove standard
-                    if (!string.IsNullOrEmpty(entry.NotificationTimeStamp))
-                    {
-                        entry.NotificationTimeStamp = "";
-                        entry.NotificationText = "";
-                        entry.NotificationCaretPosition = 0;
-                        tempNotificationsRemoved = true;
-                    }
-
-                    // Remove repeating
-                    if (!string.IsNullOrEmpty(entry.NotificationRepeat))
-                    {
-                        entry.NotificationRepeat = "";
-                        entry.NotificationText = "";
-                        entry.NotificationCaretPosition = 0;
-                        tempNotificationsRemoved = true;
-                    }
-                }
-
-                if (tempNotificationsRemoved)
-                {
-                    SetPoolHasChanges();
-                    PopulatePinList();
-                }
-            }
-
-            // Resolve status
-            PoolHasNotifications();
-        }
-
-        internal static string NotificationCallupID { get; set; }
-        private void NotificationCallUp()
-        {
-            if (NotificationCallUpEntry)
-            {
-                NotificationCallUpEntry = false;
-                if (TypeWriterEnabled)
-                {
-                    // Show Ahoy if minimized
-                    if (this.WindowState == FormWindowState.Minimized)
-                    {
-                        this.WindowState = FormWindowState.Normal;
-                    }
-                    this.BringToFront();
-                }
-                else if (SaveCurrentEntry(false) && !string.IsNullOrEmpty(NotificationCallupID) && EntryExist(NotificationCallupID)) // Save current entry
-                {
-                    // Select from ID
-                    SelectEntryByID(NotificationCallupID, true, true);
-                    NotificationCallupID = "";
-                    ResolveNavigationButtons();
-                    // Check if the entry is in the pinned list and highlight it
-                    if (CurrentEntry != null)
-                    {
-                        CheckListsAndHighlight(CurrentEntry.ID);
-                    }
-
-                    // Show Ahoy if minimized
-                    if (this.WindowState == FormWindowState.Minimized)
-                    {
-                        this.WindowState = FormWindowState.Normal;
-                    }
-
-                    // Focus content
-                    tbContent.Focus();
-                    tbContent.Select(0, 0);
-                }
-            }
-        }
-
-
-        private bool PoolHasNotifications()
-        {
-            // Check each entry in the pool for notifications
-            if (Entries != null && Entries.Count > 0)
-            {
-                foreach (Entry entry in Entries)
-                {
-                    if (!string.IsNullOrEmpty(entry.NotificationTimeStamp) || !string.IsNullOrEmpty(entry.NotificationRepeat))
-                    {
-                        NotificationsEnabled = true;
-                        ResolveNotificationButtons();
-                        return true;
-                    }
-                }
-            }
-            NotificationsEnabled = false;
-            ResolveNotificationButtons();
-            return false;
-        }
-
-        private int tempPoolActiveNotificationCounter;
-        private int CountTotalActiveNotifications()
-        {
-            tempPoolActiveNotificationCounter = 0;
-            // Check each entry in the pool for notifications
-            if (Entries != null && Entries.Count > 0)
-            {
-                foreach (Entry entry in Entries)
-                {
-                    if (!string.IsNullOrEmpty(entry.NotificationTimeStamp) || !string.IsNullOrEmpty(entry.NotificationRepeat))
-                    {
-                        tempPoolActiveNotificationCounter += 1;
-                    }
-                }
-            }
-            return tempPoolActiveNotificationCounter;
-        }
-
-        private int tempPoolInactiveNotificationCounter;
-        private int CountTotalInactiveNotifications()
-        {
-            tempPoolInactiveNotificationCounter = 0;
-            // Check each entry in the pool for notifications
-            if (Entries != null && Entries.Count > 0)
-            {
-                foreach (Entry entry in Entries)
-                {
-                    if ((string.IsNullOrEmpty(entry.NotificationTimeStamp) && string.IsNullOrEmpty(entry.NotificationRepeat)) && !string.IsNullOrEmpty(entry.NotificationText))
-                    {
-                        tempPoolInactiveNotificationCounter += 1;
-                    }
-                }
-            }
-            return tempPoolInactiveNotificationCounter;
-        }
-
-        // Open notification editor
-        private void notificationToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            ShowNotificationSelector();
-        }
-
-        // Open notification editor
-        private void btnNotification_Click(object sender, EventArgs e)
-        {
-            ShowNotificationSelector();
-        }
-
-
-        private void btnNotification_MouseDown(object sender, MouseEventArgs e)
-        {
-            // If right clicked list active notifications
-            if (e.Button == MouseButtons.Right)
-            {
-                ShowNotificationSelector();
-                btnListActiveNotifications_Click(this, null);
-            }
-        }
-
-        private void notificationsToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            FindActiveNotifications(true);
-        }
-        #endregion
 
         #region Generate Memorizable Passwords (addition 12-11-2016)
         private string tempClipboard;
@@ -16514,268 +13905,6 @@ namespace AhoyBrowser
 
         #endregion
 
-        #region NOTIFICATION PANEL (addition 22-01-2017)
-        private void btnCloseNotificationSelector_Click(object sender, EventArgs e)
-        {
-            HideNotificationSelector(true);
-        }
-
-        private void HideNotificationSelector(bool focusContent)
-        {
-            // Hide notification selector
-            if (pnlNotificationSelector.Visible)
-            {
-                pnlNotificationSelector.Visible = false;
-                RefreshForm();
-                if (focusContent)
-                {
-                    FocusContent();
-                }
-            }
-        }
-
-        private void ShowNotificationSelector()
-        {
-            KeepAwake();
-            // Show notification selector
-            if (!pnlNotificationSelector.Visible)
-            {
-                pnlNotificationSelector.Visible = true;
-                pnlNotificationSelector.BringToFront();
-                ResolveNotificationButtons();
-                btnOpenNotification.Focus();
-                StartNotificationAnimation();
-            }
-            else
-            {
-                HideNotificationSelector(false);
-            }
-        }
-
-        private void btnOpenNotification_Click(object sender, EventArgs e)
-        {
-            OpenNotificationEditor(false);
-        }
-
-        private void StartNotificationAnimation()
-        {
-            if (!timerNotificationAnimation.Enabled)
-            {
-                lbNotification.Text = "";
-                timerNotificationAnimation.Interval = 50;
-                timerNotificationAnimation.Enabled = true;
-            }
-        }
-
-        private int notificationAnimationCounter;
-        private string notificationAnimationString = "Notification Preview";
-        private void timerNotificationAnimation_Tick(object sender, EventArgs e)
-        {
-            if (notificationAnimationCounter == 0)
-            {
-                lbNotification.Text = "";
-            }
-
-            notificationAnimationCounter += 1;
-            if (notificationAnimationCounter >= notificationAnimationString.Length + 1)
-            {
-                notificationAnimationCounter = 0;
-                timerNotificationAnimation.Enabled = false;
-            }
-            else
-            {
-                lbNotification.Text += notificationAnimationString[notificationAnimationCounter - 1].ToString();
-            }
-
-        }
-
-        private void pnlNotificationSelector_MouseMove(object sender, MouseEventArgs e)
-        {
-            KeepAwake();
-            PostponeClosingNotificationSelectorPanel();
-        }
-
-        private void btnOpenNotification_Enter(object sender, EventArgs e)
-        {
-            KeepAwake();
-            PostponeClosingNotificationSelectorPanel();
-        }
-
-        private void PostponeClosingNotificationSelectorPanel()
-        {
-            if (NotificationPreviewSelectorVisible())
-            {
-                NotificationPanelAutoCloseCounter = 0;
-            }
-        }
-
-        private void btnNewNotification_Click(object sender, EventArgs e)
-        {
-            KeepAwake();
-            OpenNotificationEditor(true);
-        }
-
-        private void btnListActiveNotifications_Click(object sender, EventArgs e)
-        {
-            KeepAwake();
-            FindActiveNotifications(true);
-            SelectFirstSearchResult();
-        }
-
-        private void btnListPassiveNotifications_Click(object sender, EventArgs e)
-        {
-            KeepAwake();
-            FindPassiveNotifications(true);
-            SelectFirstSearchResult();
-        }
-
-        private void SelectFirstSearchResult()
-        {
-            if (SearchResultHasCount())
-            {
-                SelectSearchResult(0);
-            }
-        }
-
-        private void btnOpenNotification_KeyDown(object sender, KeyEventArgs e)
-        {
-            KeepAwake();
-            if (e.KeyCode == Keys.Escape && NotificationPreviewSelectorVisible())
-            {
-                HideNotificationSelector(true);
-                e.SuppressKeyPress = true;
-                e.Handled = true;
-            }
-            else
-            {
-                btn_KeyDown(this, e);
-            }
-        }
-
-        private void btnPersistDialog_Click(object sender, EventArgs e)
-        {
-            KeepAwake();
-            PersistNotificationPanel = cbPersistDialog.Checked;
-            SettingsHasChanges = true;
-        }
-
-        private void btnDisableNotificationFromPreview_Click(object sender, EventArgs e)
-        {
-            KeepAwake();
-            DisableSelectedNotification();
-        }
-
-        private void DisableSelectedNotification()
-        {
-            if (CurrentEntryHasActiveNotification())
-            {
-                AhoyAnswerMessageBox msg = new AhoyAnswerMessageBox("Deactivate selected Notification?", MessageText.NotificationCaption(), false, false);
-                msg.ShowDialog();
-
-                if (msg.Accepted)
-                {
-                    CurrentEntry.NotificationTimeStamp = "";
-                    CurrentEntry.NotificationRepeat = "";
-                    SubmitNotificationData(CurrentEntry.ID, CurrentEntry.NotificationText, CurrentEntry.NotificationTimeStamp, CurrentEntry.NotificationCaretPosition, NotificationScrollToCaret, CurrentEntry.NotificationRepeat);
-                }
-            }
-            else if (CurrentEntryHasInactiveNotification())
-            {
-                AhoyAnswerMessageBox msg = new AhoyAnswerMessageBox("Clear selected Notification?", MessageText.NotificationCaption(), false, false);
-                msg.ShowDialog();
-
-                if (msg.Accepted)
-                {
-                    CurrentEntry.NotificationText = "";
-                    SubmitNotificationData(CurrentEntry.ID, CurrentEntry.NotificationText, CurrentEntry.NotificationTimeStamp, CurrentEntry.NotificationCaretPosition, NotificationScrollToCaret, CurrentEntry.NotificationRepeat);
-                    // Force save entry
-                    CurrentEntryHasChanges();
-                    SaveCurrentEntry(false);
-                }
-            }
-        }
-
-        private void btnDeleteNotification_Click(object sender, EventArgs e)
-        {
-            KeepAwake();
-            if (CurrentEntryHasActiveNotification() || CurrentEntryHasInactiveNotification())
-            {
-                DeleteCurrentEntry();
-            }
-        }
-
-        private void ResetSearchResultSelectionIndex()
-        {
-            KeepAwake();
-            SearchBoxResultCycleIndex = 0;
-        }
-
-        private void SetSearchResultSelectionIndex(int index)
-        {
-            KeepAwake();
-            SearchBoxResultCycleIndex = index;
-        }
-
-        // Select previous notification
-        private void btnCycleNotificationsBackwards_Click(object sender, EventArgs e)
-        {
-            KeepAwake();
-            PostponeClosingNotificationSelectorPanel();
-            if (SearchResultHasCount())
-            {
-                if (SearchBoxResultCycleIndex > 0)
-                {
-                    SearchBoxResultCycleIndex -= 1;
-                }
-
-                SelectSearchResult(SearchBoxResultCycleIndex);
-            }
-        }
-
-        // Select next notification
-        private void btnCycleNotificationsForwards_Click(object sender, EventArgs e)
-        {
-            KeepAwake();
-            PostponeClosingNotificationSelectorPanel();
-            if (SearchResultHasCount())
-            {
-                if (SearchResultHasCount())
-                {
-                    if (SearchBoxResultCycleIndex < GetSearchResultCount() - 1)
-                    {
-                        SearchBoxResultCycleIndex += 1;
-                    }
-
-                    SelectSearchResult(SearchBoxResultCycleIndex);
-                }
-            }
-        }
-
-        private bool SearchResultHasCount()
-        {
-            if (listBoxSearchResult != null && listBoxSearchResult.Items.Count > 0)
-            {
-                return true;
-            }
-            else
-            {
-                return false;
-            }
-        }
-
-        private int GetSearchResultCount()
-        {
-            if (listBoxSearchResult != null && listBoxSearchResult.Items.Count > 0)
-            {
-                return listBoxSearchResult.Items.Count;
-            }
-            else
-            {
-                return 0;
-            }
-        }
-        #endregion
-
         #region  CYPHER ENCRYPT/DECRYPT (addition 12-02-2017)
         private void encryptDecryptSelectionToolStripMenuItem_Click(object sender, EventArgs e)
         {
@@ -16789,69 +13918,76 @@ namespace AhoyBrowser
             msg.ShowDialog();
         }
 
-        private string tempCypherOriginalString;
-        private string tempCypherProcessedString;
-        private string tempCypherOutput;
         private void CypherEncryptDecrypt()
         {
-            if (tbContent.SelectedText.Length > 0)
-            {
-                // Display cypher prompt
-                InputPrompt prompt = new InputPrompt(MessageText.CypherCaption(), CypherKey, "Message Encryption\nAlgorithm: 3DES with BASE64 encoding", "Enter Encryption Key", 16, false, "OK", false, null, null, true);
-                prompt.ShowDialog();
-
-                if (!prompt.ActionCancelled)
-                {
-                    KeepAwake();
-                    CypherKey = prompt.UserInput.Trim();
-                    SetPoolHasChanges();
-                    tempCypherOutput = "";
-
-                    // Exit if empty key
-                    if (CypherKey.Length == 0)
-                    {
-                        return;
-                    }
-
-                    // Get original input
-                    tempCypherOriginalString = tbContent.SelectedText.Trim();
-
-                    try
-                    {
-                        tempCypherProcessedString = Auth.refCATD(tempCypherOriginalString, CypherKey);
-                        // if unable to decrypt string try to encrypt string
-                        if (tempCypherProcessedString == "errorcode002")
-                        {
-                            tempCypherProcessedString = Auth.refCATE(tempCypherOriginalString, CypherKey);
-                            if (tempCypherProcessedString == "errorcode001")
-                            {
-                                tempCypherProcessedString = tempCypherOriginalString;
-                                DisplayCypherErrorMessage();
-                            }
-                            else
-                            {
-                                SetClipboardText(tempCypherProcessedString);
-                                AhoySimpleMessageBox msg = new AhoySimpleMessageBox("Clipboard set", MessageText.CypherCaption(), false);
-                                msg.ShowDialog();
-                            }
-                        }
-
-                        // Set result
-                        tempCypherOutput = Environment.NewLine + "──── Input ────" + Environment.NewLine + tempCypherOriginalString + Environment.NewLine + Environment.NewLine;
-                        tempCypherOutput += "──── Output ────" + Environment.NewLine + tempCypherProcessedString + Environment.NewLine;
-                        tbContent.SelectedText = tempCypherOutput;
-                    }
-                    catch
-                    {
-                        // Do nothing
-                    }
-                }
-            }
-            else
+            if (tbContent.SelectedText.Length == 0)
             {
                 AhoySimpleMessageBox msg = new AhoySimpleMessageBox("Please make a text selection to continue", MessageText.CypherCaption(), false);
                 msg.ShowDialog();
+                return;
             }
+
+            // Display cypher prompt
+            InputPrompt prompt = new InputPrompt(MessageText.CypherCaption(), CypherKey,
+                "Message Encryption\n" + PoolFile.AlgorithmDescription + " (messages from older versions can still be decrypted)",
+                "Enter Encryption Key", MaxPasswordLength, false, "OK", false, null, null, true);
+            prompt.ShowDialog();
+            if (prompt.ActionCancelled)
+            {
+                return;
+            }
+
+            KeepAwake();
+            CypherKey = prompt.UserInput.Trim();
+            SetPoolHasChanges();
+
+            // Exit if empty key
+            if (CypherKey.Length == 0)
+            {
+                return;
+            }
+
+            string input = tbContent.SelectedText.Trim();
+            string output;
+            Cursor previousCursor = Cursor.Current;
+            Cursor.Current = Cursors.WaitCursor;
+            try
+            {
+                if (MessageCrypto.LooksEncrypted(input))
+                {
+                    // Decrypt
+                    if (!MessageCrypto.TryDecrypt(input, CypherKey, out output))
+                    {
+                        Cursor.Current = previousCursor;
+                        AhoySimpleMessageBox failed = new AhoySimpleMessageBox("Unable to decrypt the selection.\nWrong key, or the text was changed.", MessageText.CypherCaption(), false);
+                        failed.ShowDialog();
+                        return;
+                    }
+                }
+                else
+                {
+                    // Encrypt
+                    output = MessageCrypto.Encrypt(input, CypherKey);
+                    SetClipboardText(output);
+                    Cursor.Current = previousCursor;
+                    AhoySimpleMessageBox msg = new AhoySimpleMessageBox("Clipboard set", MessageText.CypherCaption(), false);
+                    msg.ShowDialog();
+                }
+            }
+            catch
+            {
+                Cursor.Current = previousCursor;
+                DisplayCypherErrorMessage();
+                return;
+            }
+            finally
+            {
+                Cursor.Current = previousCursor;
+            }
+
+            // Set result
+            tbContent.SelectedText = Environment.NewLine + "──── Input ────" + Environment.NewLine + input + Environment.NewLine + Environment.NewLine +
+                                     "──── Output ────" + Environment.NewLine + output + Environment.NewLine;
         }
         #endregion
 
@@ -17193,7 +14329,7 @@ namespace AhoyBrowser
                     }
                     else
                     {
-                        if (SimplePromptForPassword(MessageText.EnterPasswordMessage(), "", AuthPassword, false))
+                        if (SimplePromptForPassword(MessageText.EnterPasswordMessage(), "", false))
                         {
                             tempPoolReadOnlyPolicy = true;
                         }
@@ -17313,16 +14449,18 @@ namespace AhoyBrowser
                             ForceSaveEverything();
                         }
 
+                        // Remember the open pool, to return to it if the new one is not unlocked
+                        bool previousWasCustomPath = IO.UsingCustomFilePath();
+                        string previousPoolPath = IO.GetCustomFilePathAndName();
+                        bool previousWasSecondaryPool = IO.UseSecondaryPool;
+                        bool hadOpenPool = LoggedInOnce;
+
                         // Reset everything before loading
                         ClearAllEntriesFromMemory(true);
                         // Reset secondary pool flag
                         IO.UseSecondaryPool = false;
 
                         // Close Utility Editor
-                        if (UtilityEditorIsOpen && utilityEditor != null)
-                        {
-                            utilityEditor.SubmitDataAndCloseForm(true);
-                        }
 
                         // Exit fullscreen
                         if (IsFullScreen)
@@ -17334,6 +14472,24 @@ namespace AhoyBrowser
 
                         // Load pool
                         LoadPool(true, tempOpenFilePath);
+
+                        // Not unlocked: go back to the pool that was open before
+                        if (LastPoolUnlockCancelled && hadOpenPool)
+                        {
+                            AhoySimpleMessageBox notOpened = new AhoySimpleMessageBox("The selected Pool was not opened." + Environment.NewLine + "Returning to the previous Pool.",MessageText.LoadCaption(), false);
+                            notOpened.ShowDialog();
+                            ClearAllEntriesFromMemory(true);
+                            IO.UseSecondaryPool = previousWasSecondaryPool;
+                            if (previousWasCustomPath)
+                            {
+                                LoadPool(true, previousPoolPath);
+                            }
+                            else
+                            {
+                                LoadPool(false, "");
+                            }
+                            PoolLoadFromFileDialogSuccess = false;
+                        }
 
                         // Pool loaded from open file dialog success
                         if (PoolLoadFromFileDialogSuccess)
@@ -17356,7 +14512,6 @@ namespace AhoyBrowser
                 }
 
                 // Resolve status
-                PoolHasNotifications();
             }
             else
             {
@@ -17471,61 +14626,53 @@ namespace AhoyBrowser
         #region Demo Mode (addition 18-05-2017)
         private void ResolveIndicatorLabel()
         {
-            if (ScreenBlockerIsActive)
+            if (IO.UseDemoPool)
             {
-                SetIndicatorLabel(MagicBlocker.IndicatorLabelText, "Magic Screen Blocker (CTRL+ALT+ENTER)", true);
-            }
-            else
-            {
-
-                if (IO.UseDemoPool)
+                if (IO.UseSecondaryPool)
                 {
-                    if (IO.UseSecondaryPool)
+                    if (PoolIsReadOnly)
                     {
-                        if (PoolIsReadOnly)
-                        {
-                            SetIndicatorLabel("[EXIT DEMO] (POOL 2) READ-ONLY", "Click to Exit", true);
-                        }
-                        else
-                        {
-                            SetIndicatorLabel("[EXIT DEMO] (POOL 2)", "Click to Exit", true);
-                        }
+                        SetIndicatorLabel("[EXIT DEMO] (POOL 2) READ-ONLY", "Click to Exit", true);
                     }
                     else
                     {
-                        if (PoolIsReadOnly)
-                        {
-                            SetIndicatorLabel("[EXIT DEMO] READ-ONLY", "Click to Exit", true);
-                        }
-                        else
-                        {
-                            SetIndicatorLabel("[EXIT DEMO]", "Click to Exit", true);
-                        }
+                        SetIndicatorLabel("[EXIT DEMO] (POOL 2)", "Click to Exit", true);
                     }
                 }
                 else
                 {
-                    if (IO.UseSecondaryPool)
+                    if (PoolIsReadOnly)
                     {
-                        if (PoolIsReadOnly)
-                        {
-                            SetIndicatorLabel("(POOL 2) READ-ONLY", "", true);
-                        }
-                        else
-                        {
-                            SetIndicatorLabel("(POOL 2)", "", true);
-                        }
+                        SetIndicatorLabel("[EXIT DEMO] READ-ONLY", "Click to Exit", true);
                     }
                     else
                     {
-                        if (PoolIsReadOnly)
-                        {
-                            SetIndicatorLabel("READ-ONLY", "", true);
-                        }
-                        else
-                        {
-                            SetIndicatorLabel("", "", false);
-                        }
+                        SetIndicatorLabel("[EXIT DEMO]", "Click to Exit", true);
+                    }
+                }
+            }
+            else
+            {
+                if (IO.UseSecondaryPool)
+                {
+                    if (PoolIsReadOnly)
+                    {
+                        SetIndicatorLabel("(POOL 2) READ-ONLY", "", true);
+                    }
+                    else
+                    {
+                        SetIndicatorLabel("(POOL 2)", "", true);
+                    }
+                }
+                else
+                {
+                    if (PoolIsReadOnly)
+                    {
+                        SetIndicatorLabel("READ-ONLY", "", true);
+                    }
+                    else
+                    {
+                        SetIndicatorLabel("", "", false);
                     }
                 }
             }
@@ -17618,12 +14765,6 @@ namespace AhoyBrowser
                         // Set demo
                         IO.UseDemoPool = true;
                         // Close Utility Editor
-                        if (UtilityEditorIsOpen && utilityEditor != null)
-                        {
-                            utilityEditor.SubmitDataAndCloseForm(true);
-                            ClearUtilityEditorContent();
-                            ClearPlopUtilityContent();
-                        }
                         // Reset WPM Counter
                         WPMCounter.ClearWPMCounter();
                         // Exit fullscreen
@@ -17631,10 +14772,8 @@ namespace AhoyBrowser
                         {
                             ToggleFullScreen();
                         }
-                        // Set default demo credentials, access granted and no backup path
-                        AuthPassword = "demo";
-                        AuthAnswer = "demo";
-                        AuthQuestion = "demo";
+                        // Set default demo credentials (password "demo"), access granted and no backup path
+                        SetCurrentKey(PoolKey.CreateNew("demo"));
                         AccessGranted = true;
                         AlternateBackupPath = "";
                         AlternateBackupPathStringIsSet();
@@ -17660,7 +14799,6 @@ namespace AhoyBrowser
                         ShowPinned();
                     }
                     // Resolve status
-                    PoolHasNotifications();
                 }
             }
             else
@@ -17697,7 +14835,6 @@ namespace AhoyBrowser
                         ShowPinned();
                     }
                     // Resolve status
-                    PoolHasNotifications();
                 }
             }
         }
@@ -17716,10 +14853,6 @@ namespace AhoyBrowser
             CurrentEntry.ID = Guid.NewGuid().ToString();
             CurrentEntry.Created = IO.GetIsoDateTimeNow();
             CurrentEntry.Changed = IO.GetIsoDateTimeNow();
-            CurrentEntry.NotificationTimeStamp = "";
-            CurrentEntry.NotificationText = "";
-            CurrentEntry.NotificationCaretPosition = 0;
-            CurrentEntry.NotificationRepeat = "";
             CurrentEntry.Title = "";
             CurrentEntry.Content = "";
             CurrentEntry.Pin = false; // Will be set through the cbPinned box further down
@@ -17780,180 +14913,6 @@ namespace AhoyBrowser
             PDEditorOpen = false;
         }
 
-        #endregion
-
-        #region TYPEWRITER (addition 30-05-2017)
-
-        private void HideLoadingPanel()
-        {
-            if (pnlLoading.Visible)
-            {
-                pnlLoading.Visible = false;
-                pnlLoading.SendToBack();
-            }
-        }
-
-        private void ShowLoadingPanel(string text)
-        {
-            if (!pnlLoading.Visible)
-            {
-                pnlLoading.Width = 400;
-                pnlLoading.Height = 150;
-                lbLoading.Font = Design.MessageboxLargeFont();
-                lbLoading.Text = text;
-                //lbLoading.Text = "Loading...";
-                pnlLoading.Location = GetControlCenterPointComp(splitContainer1, pnlLoading);
-                pnlLoading.BringToFront();
-                pnlLoading.Visible = true;
-            }
-        }
-
-        private void typeWriterToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            SpawnTypeWriterControl();
-        }
-
-        private void pnlSpawnTypeWriter_Click(object sender, EventArgs e)
-        {
-            SpawnTypeWriterControl();
-        }
-
-        private void SpawnTypeWriterControl()
-        {
-            ShowLoadingPanel(MessageText.LoadingMessage());
-            SpawnTypeWriter = true;
-        }
-
-        // Declare typewriter object
-        private TypeWriter typeWriter;
-        // Toggle typewriter
-        public void ShowTypeWriter()
-        {
-            // Reset spawn variable
-            SpawnTypeWriter = false;
-
-            if (CurrentEntryNotNullOrDummy())
-            {
-                if (CurrentEntry.Protected) // Prevent Typewriter from starting if entry is writeprotected
-                {
-                    AhoySimpleMessageBox msg = new AhoySimpleMessageBox(MessageText.EntryWriteProtectedMessage(), MessageText.TypeWriterCaption(), false);
-                    msg.TopMost = true;
-                    msg.ShowDialog();
-                    return;
-                }
-
-                // If null "new it" and add it to the form
-                if (typeWriter == null)
-                {
-                    Log.LogTypeWriterInit();
-                    typeWriter = new TypeWriter();
-                    this.Controls.Add(typeWriter);
-                }
-
-                if (!TypeWriterEnabled)
-                {
-                    SuspendLayout();
-                    SaveCurrentEntry(false);
-                    Log.LogTypeWriterStart();
-                    HideMenuControls();
-                    TypeWriterEnabled = true;
-                    typeWriter.Visible = true;
-                    typeWriter.BringToFront();
-                    typeWriter.Dock = DockStyle.Fill;
-                    typeWriter.StartTypeWriter(CurrentEntry.ID, CurrentEntry.Content, CurrentEntry.Title, TypeWriterFontSize, TypeWriterLineCount, TypeWriterCPLIndex, TypeWriterBellMargin,
-                                TypeWriterLeftMargin, TypeWriterDelLock, TypeWriterLogo, TypeWriterBasketX, TypeWriterBasketY, TypeWriterAutoMenu, TypeWriterTabRuler, TypeWriterColorTheme, TypeWriterAutoBasket, TypeWriterPageAutoScroll);
-                    ResumeLayout();
-                }
-            }
-            else
-            {
-                AhoySimpleMessageBox msg = new AhoySimpleMessageBox(MessageText.SelectEntryToTypeWriteMessage(), MessageText.TypeWriterCaption(), false);
-                msg.TopMost = true;
-                msg.ShowDialog();
-            }
-        }
-
-        private void HideTypeWriter()
-        {
-            ExitTypeWriter = false;
-            if (typeWriter != null)
-            {
-                SuspendLayout();
-                Log.LogTypeWriterEnd();
-                typeWriter.Visible = false;
-                TypeWriterEnabled = false;
-                SubmitFromTypeWriter();
-                ShowMenuControls();
-                ResumeLayout();
-                SubmitFromTypeWriter();
-            }
-        }
-
-        private void SubmitFromTypeWriter()
-        {
-            if (CurrentEntryNotNullOrDummy())
-            {
-                // Only update to corresponding entry ID
-                if (CurrentEntry.ID == typeWriter.LinkedID)
-                {
-                    tbContent.Text = typeWriter.GetOutputSummary();
-                }
-                else
-                {
-                    // Try to find the corresponding entry and set it
-                    if (EntryExist(typeWriter.LinkedID))
-                    {
-                        // Log ID lookup
-                        Log.LogTypeWriterIDLookup();
-                        // Save any current entries
-                        SaveCurrentEntry(false);
-                        // Select the entry and set the content
-                        SelectEntryByID(typeWriter.LinkedID, true, true); // Get entry
-                        tbContent.Text = typeWriter.GetOutputSummary(); // Set content
-                        CheckListsAndHighlight(CurrentEntry.ID); // Highlight if pinned
-                    }
-                    else
-                    {
-                        Log.LogTypeWriterError();
-                        AhoySimpleMessageBox msg = new AhoySimpleMessageBox("Unable to find linked entry...", MessageText.TypeWriterCaption(), false);
-                        msg.TopMost = true;
-                        msg.ShowDialog();
-                    }
-                }
-
-                // Move caret end of text
-                if (!TypeWriterEnabled)
-                {
-                    CenterCursor();
-                    tbContent.Focus();
-                    if (tbContent.Text.Length > 0)
-                    {
-                        tbContent.Select(tbContent.Text.Length, 0);
-                        tbContent.ScrollToCaret();
-                    }
-                }
-            }
-        }
-
-        private void HideMenuControls()
-        {
-            SetInterfaceVisibility(false);
-            interfaceLockToolStripMenuItem.Enabled = false;
-            aboutToolStripMenuItem.Enabled = false;
-            exitToolStripMenuItem.Enabled = false;
-            menuStrip1.Visible = false;
-            statusStrip1.Visible = false;
-        }
-
-        private void ShowMenuControls()
-        {
-            SetInterfaceVisibility(true);
-            interfaceLockToolStripMenuItem.Enabled = true;
-            aboutToolStripMenuItem.Enabled = true;
-            exitToolStripMenuItem.Enabled = true;
-            menuStrip1.Visible = true;
-            statusStrip1.Visible = true;
-        }
         #endregion
 
         #region SAVE AS .TXT (addition 13-06-2017)
@@ -18326,7 +15285,7 @@ namespace AhoyBrowser
         {
             if (StickyExists())
             {
-                if (SimplePromptForPassword(MessageText.StickyCaption(), "Delete all Stickies?", AuthPassword, false))
+                if (SimplePromptForPassword(MessageText.StickyCaption(), "Delete all Stickies?", false))
                 {
                     CloseAllStickiesAndClearMemory();
                 }
@@ -18794,98 +15753,6 @@ namespace AhoyBrowser
         }
         #endregion
 
-        #region MAGIC SCREEN BLOCKER (addition 30-01-2019)
-        private void ToggleScreenBlocker()
-        {
-            KeepAwake();
-            // If disabled prompt for password before enabling this option
-            // save changes to settings file
-            if (!ScreenBlockerEnabled)
-            {
-                if (SimplePromptForPassword(MessageText.ScreenBlockerkCaption(), "Enable Magic Screen Blocker?", AuthPassword, false))
-                {
-                    ScreenBlockerEnabled = true;
-                    SettingsHasChanges = true;
-                    Log.ScreenBlockerStaus("Enabled");
-                    AhoySimpleMessageBox msg = new AhoySimpleMessageBox(MessageText.ScreenBlockerEnabledMessage(), MessageText.ScreenBlockerkCaption(), false);
-                    msg.ShowDialog();
-                }
-            }
-            else
-            {
-                ScreenBlockerEnabled = false;
-                SettingsHasChanges = true;
-                Log.ScreenBlockerStaus("Disabled");
-                AhoySimpleMessageBox msg = new AhoySimpleMessageBox(MessageText.ScreenBlockerDisabledMessage(), MessageText.ScreenBlockerkCaption(), false);
-                msg.ShowDialog();
-            }
-
-            // Resolve menu
-            ResolveScreenBlockerMenu();
-        }
-
-        private void ResolveScreenBlockerMenu()
-        {
-            if (InterfaceLock)
-            {
-                magicScreenBlockerToolStripMenuItem.Enabled = false;
-                intervalToolStripMenuItem.Enabled = false;
-            }
-            else
-            {
-                // Handle enabled menu item for the screen blocker
-                if (ScreenBlockerEnabled)
-                {
-                    // Enable menu item
-                    magicScreenBlockerToolStripMenuItem.Enabled = true;
-                    intervalToolStripMenuItem.Enabled = true;
-                }
-                else
-                {
-                    // Disable menu item
-                    magicScreenBlockerToolStripMenuItem.Enabled = false;
-                    intervalToolStripMenuItem.Enabled = false;
-                }
-            }
-        }
-
-        // Start Screen Blocker per remote (PLOP etc.)
-        internal static void StartMagicBlockerPerRemote()
-        {
-            // The global timer will react and enable the Screen Blocker
-            if (!InvokeScreenBlockerPerRemote)
-            {
-                InvokeScreenBlockerPerRemote = true;
-            }
-        }
-
-        private void magicScreenBlockerToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            StartMagicBlocker();
-        }
-
-        // Start Screen Blocker if enabled and not sleeping
-        private void StartMagicBlocker()
-        {
-            if (!pnlLoading.Visible) // Only start Screen Blocker if not in the process of loading typewriter or checking for updates
-            {
-                if (ScreenBlockerEnabled && !InterfaceLock)
-                {
-                    ScreenBlockerIsActive = true;
-                    ResolveIndicatorLabel();
-                    Log.ScreenBlockerStaus("Activated");
-                    MagicBlocker blocker = new MagicBlocker(AuthPassword);
-                    blocker.Show();
-                }
-                else
-                {
-                    AhoySimpleMessageBox msg = new AhoySimpleMessageBox("Magic Screen Blocker not enabled", MessageText.ScreenBlockerkCaption(), false);
-                    msg.ShowDialog();
-                }
-            }
-        }
-        #endregion
-
         #region LOG MONITOR (addition 12-07-2017)
         private static Timer logMonTimer;
         private AhoySearchMessageBox logMonitorWindow;
@@ -19012,7 +15879,7 @@ namespace AhoyBrowser
         private string tempDump;
         private void PoolDump()
         {
-            if (SimplePromptForPassword(MessageText.ServiceCaption(), MessageText.ServiceAccessTitle(), AuthPassword, false))
+            if (SimplePromptForPassword(MessageText.ServiceCaption(), MessageText.ServiceAccessTitle(), false))
             {
                 InputPrompt serviceMsg = new InputPrompt(MessageText.ServiceCaption(), "", "", "Enter service code", 128, false, "OK", false, null, null, true);
                 serviceMsg.ShowDialog();
@@ -19230,89 +16097,6 @@ namespace AhoyBrowser
 
         #endregion
 
-        #region ROMAN NUMERALS (addition 02-08-2017)
-        private void romanNumeralsToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            Log.RomanNumerals();
-            RomanNumerals rm = new RomanNumerals();
-            rm.Show();
-        }
-        #endregion
-
-
-        #region TYPERMAX (addition 07-08-2017)
-        private void ResetTypermaxHighScore()
-        {
-            // Prompt for password
-            if (IO.UsingCustomFilePath())
-            {
-                PromptForPassword(MessageText.WelcomeCaption(), "Reset Typermax high score", AuthPassword, IO.GetCustomFileName());
-            }
-            else
-            {
-                PromptForPassword(MessageText.WelcomeCaption(), "Reset Typermax high score", AuthPassword, "");
-            }
-
-            if (!AccessGranted)
-            {
-                return;
-            }
-            else
-            {
-                SetTypermaxHighScore(0);
-                AhoySimpleMessageBox msg = new AhoySimpleMessageBox("Typermax high score reset", MessageText.TypermaxCaption(), false);
-                msg.TopMost = true;
-                msg.ShowDialog();
-                SetPoolHasChanges();
-            }
-        }
-
-        internal static void SetTypermaxHighScore(int score)
-        {
-            TypermaxHighScore = score;
-            // Save highscore
-            SetPoolHasChanges();
-        }
-
-        private void typermaxGameToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            StartTyperMax();
-        }
-
-        private bool TypermaxRunning { get; set; }
-        Typermax.Typermax tpMax { get; set; }
-        private void StartTyperMax()
-        {
-            // Move Cursor away from lists
-            CenterCursor();
-            ShowAnimation();
-            if (!TypermaxRunning)
-            {
-                Log.Typermax();
-                TypermaxRunning = true;
-                tpMax = new AhoyBrowser.Typermax.Typermax(TypermaxHighScore);
-                tpMax.FormClosing += TpMax_FormClosing;
-                tpMax.TopMost = true;
-                tpMax.Show();
-                tpMax.BringToFront();
-            }
-            else
-            {
-                if (tpMax != null)
-                {
-                    tpMax.BringToFront();
-                }
-            }
-        }
-
-        private void TpMax_FormClosing(object sender, FormClosingEventArgs e)
-        {
-            TypermaxRunning = false;
-            // Save highscore
-            SetPoolHasChanges();
-        }
-
-        #endregion
 
 
         #region FONT SELECTION (addition 29-12-2017)
@@ -19364,42 +16148,6 @@ namespace AhoyBrowser
         }
         #endregion
 
-
-        #region MICRO CALCULATOR (addition 31-01-2018)
-        private void picCalculator_Click(object sender, EventArgs e)
-        {
-            ToggleMicroCalculator();
-        }
-
-        private void ToggleMicroCalculator(bool show)
-        {
-            KeepAwake();
-            if (show)
-            {
-                microCalculator1.ReturnFocusTo(tbContent);
-                microCalculator1.ShowControl();
-            }
-            else
-            {
-                microCalculator1.HideControl(false);
-            }
-        }
-
-        private void ToggleMicroCalculator()
-        {
-            KeepAwake();
-            if (!microCalculator1.Visible)
-            {
-                microCalculator1.ReturnFocusTo(tbContent);
-                microCalculator1.ShowControl();
-            }
-            else
-            {
-                microCalculator1.HideControl(false);
-            }
-        }
-
-        #endregion
 
 
         #region IMPORT/EXPORT (addition 11-02-2018)
@@ -19770,7 +16518,6 @@ namespace AhoyBrowser
                                 // Submit pinned rankings to all entries and re-populate pinned list (is done withing the SubmitPinnedRanking method).
                                 SubmitPinnedRanking();
                             }
-                            PoolHasNotifications();
                             Log.LogImportExportCollectionStatus(1, "Import success (Count: " + tempImportCollection.Count.ToString() + ")");
 
                             if (tempImportCollection.Count == 1)
@@ -20012,13 +16759,6 @@ namespace AhoyBrowser
 
             if (msg.Accepted)
             {
-                // Close Utility Editor
-                if (UtilityEditorIsOpen && utilityEditor != null)
-                {
-                    utilityEditor.SubmitDataAndCloseForm(true);
-                    ClearUtilityEditorContent();
-                    ClearPlopUtilityContent();
-                }
                 // Save everything if changes are present
                 SaveAll(); // <------------- SAVE ALL
                 try
@@ -20032,17 +16772,9 @@ namespace AhoyBrowser
                     // Reset WPM Counter
                     WPMCounter.ClearWPMCounter();
                 RetryNewPool: // Goto statement
-                    // Display password dialog
-                    CreatePassword createPassword = new CreatePassword("Set login credentials", MessageText.NewPoolCaption());
-                    createPassword.TopMost = true;
-                    createPassword.ShowDialog();
-
-                    if (createPassword.AuthPassword.Length > 0 && createPassword.AuthQuestion.Length > 0 && createPassword.AuthAnswer.Length > 0)
+                    // The new pool gets its own password (and therefore its own encryption key)
+                    if (AskForNewPoolPassword("Create a password for the new Pool", MessageText.NewPoolCaption()))
                     {
-                        // Assign values
-                        AuthPassword = createPassword.AuthPassword;
-                        AuthQuestion = createPassword.AuthQuestion;
-                        AuthAnswer = createPassword.AuthAnswer;
 
                         AlternateBackupPath = "";
                         AlternateBackupPathStringIsSet();
@@ -20085,7 +16817,6 @@ namespace AhoyBrowser
                             message.TopMost = true;
                             message.ShowDialog();
                             // Resolve status
-                            PoolHasNotifications();
                             // Load the newly created pool from custom filepath
                             LoadPool(true, "");
                         }
@@ -20323,115 +17054,6 @@ namespace AhoyBrowser
         #endregion
 
 
-        #region CHECK FOR UPDATES (addition 31-01-2019)
-        // private bool InvokeCheckForUpdates;
-        // private void checkForUpdatesToolStripMenuItem_Click(object sender, EventArgs e)
-        // {
-        //     CheckForUpdates(0, false); // Standard check
-        // }
-
-        // private int UpdateCheckCode = 0;
-        // private void CheckForUpdates(int updateCode, bool requireServiceCode)
-        // {
-        //     if (requireServiceCode)
-        //     {
-        //         InputPrompt serviceMsg = new InputPrompt(MessageText.ServiceCaption(), "", "", "Enter service code", 128, false, "OK", false, null, null, true);
-        //         serviceMsg.ShowDialog();
-        //         if (serviceMsg.UserInput.Trim() != Srv)
-        //         {
-        //             return;
-        //         }
-        //     }
-        //
-        //     Log.UpdateStaus("Invoked (type " + updateCode + ")");
-        //     UpdateCheckCode = updateCode;
-        //     ShowLoadingPanel(MessageText.ContactingServerMessage());
-        //     InvokeCheckForUpdates = true;
-        // }
-
-        // private void DoCheckForUpdates()
-        // {
-        //     // Get update status
-        //     int updateStatus = HttpRequest.CheckForUpdates(UpdateCheckCode);
-        //     // Hide loading panel
-        //     HideLoadingPanel();
-        //
-        //     // React on status
-        //     if (updateStatus == 0) // No connection/request failed
-        //     {
-        //         AhoySimpleMessageBox msg = new AhoySimpleMessageBox(MessageText.FailedMessage(), MessageText.CheckForUpdatesCaption(), false);
-        //         msg.ShowDialog();
-        //     }
-        //     else if (updateStatus == 1) // Your version is up-to-date
-        //     {
-        //         AhoySimpleMessageBox msg = new AhoySimpleMessageBox(MessageText.NoUpdatesMessage(), MessageText.CheckForUpdatesCaption(), false);
-        //         msg.ShowDialog();
-        //     }
-        //     else if (updateStatus == 2) // New update available. Visit download page?
-        //     {
-        //         AhoyAnswerMessageBox msg = new AhoyAnswerMessageBox(MessageText.UpdateFoundMessage(), MessageText.CheckForUpdatesCaption(), false, false);
-        //         msg.TopMost = true;
-        //         msg.ShowDialog();
-        //
-        //         if (msg.Accepted)
-        //         {
-        //             VisitDownloadSite(false);
-        //         }
-        //     }
-        // }
-
-        // Timer tempExitTimer;
-        // private int tempExitCounter;
-        // private void AutoExitAhoy()
-        // {
-        //     // Save current entry
-        //     SaveCurrentEntry(false);
-        //     tempExitCounter = 0;
-        //     tempExitTimer = new Timer();
-        //     tempExitTimer.Interval = 1000;
-        //     tempExitTimer.Tick += TempExitTimer_Tick;
-        //     tempExitTimer.Enabled = true;
-        // }
-        // private void TempExitTimer_Tick(object sender, EventArgs e)
-        // {
-        //     tempExitCounter += 1;
-        //     if (tempExitCounter >= 3) // Exit after 3 secconds
-        //     {
-        //         tempExitTimer.Enabled = false;
-        //         ExitAhoy(); // Save Pool and exit
-        //     }
-        // }
-
-
-        // private void VisitDownloadSite(bool requireServiceCode)
-        // {
-        //     if (requireServiceCode)
-        //     {
-        //         InputPrompt serviceMsg = new InputPrompt(MessageText.ServiceCaption(), "", "", "Enter service code", 128, false, "OK", false, null, null, true);
-        //         serviceMsg.ShowDialog();
-        //         if (serviceMsg.UserInput.Trim() != Srv)
-        //         {
-        //             return;
-        //         }
-        //     }
-        //
-        //     try
-        //     {
-        //         // Open default browser and go to download page
-        //         Log.ProcessStart("Download page...");
-        //         ShellCommands.BrowseInternet(HttpRequest.DownloadPageUrl, SelectedInternetBrowser);
-        //         // Save and Exit AHOY to allow for update
-        //         AutoExitAhoy();
-        //     }
-        //     catch
-        //     {
-        //         Log.UpdateStaus("Unable to start process");
-        //         AhoySimpleMessageBox msg = new AhoySimpleMessageBox(MessageText.ErrorMessage("Request failed"), MessageText.CheckForUpdatesCaption(), false);
-        //         msg.ShowDialog();
-        //     }
-        // }
-        #endregion
-
         #region Colorize title field according to pinned color (addition 12-02-2019)
         private void ResetTitleColorOnCurrentEntry()
         {
@@ -20457,7 +17079,6 @@ namespace AhoyBrowser
                     SetCustomTitleColors(CurrentEntry.PresetColor, CurrentEntry.CustomColor);
                 }
 
-                TransferDataToPLOP();
             }
             else
             {
@@ -20504,35 +17125,6 @@ namespace AhoyBrowser
         }
         #endregion
 
-
-        #region Dynamic PLOP data update (addition 16-02-2019)
-        private void TransferDataToPLOP() // Will also ensure that title colors are updated in plop
-        {
-            // Check that current entry is not null
-            if (CurrentEntryNotNullOrDummy())
-            {
-                // Match current entry ID with PLOP linked ID
-                if (CurrentEntry.ID == PlopLinkedID)
-                {
-                    // If UE is open and is PLOP
-                    if (UtilityEditorIsOpen && utilityEditor != null && utilityEditor.IsPlopEditor)
-                    {
-                        utilityEditor.UpdatePLOPLinkData();
-                    }
-                }
-            }
-        }
-
-        private void TransferDataToPlopForced()
-        {
-            // If UE is open and is PLOP
-            if (UtilityEditorIsOpen && utilityEditor != null && utilityEditor.IsPlopEditor)
-            {
-                utilityEditor.UpdatePLOPLinkData();
-            }
-        }
-
-        #endregion
 
         #region Checklist/Progress Bar (addition 28-02-2019)
         private void checklistTemplateToolStripMenuItem_Click(object sender, EventArgs e)
@@ -21044,207 +17636,6 @@ namespace AhoyBrowser
         #endregion
 
 
-        #region PRISM EFFECT (addition 07-04-2019)
-
-        // Enable/Disable prism effect
-        private void prismEffectToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            if (PrismEffect == false)
-            {
-                ToggleColorShiftTimer(true);
-            }
-            else
-            {
-                ToggleColorShiftTimer(false);
-            }
-        }
-
-        // Resovle checkmark in menu
-        private void ResolvePrismEffectMenuItem()
-        {
-            if (PrismEffect)
-            {
-                prismEffectToolStripMenuItem.Checked = true;
-            }
-            else
-            {
-                prismEffectToolStripMenuItem.Checked = false;
-            }
-        }
-
-        // Start/Stop prism effect
-        private void ResolvePrismEffect()
-        {
-            if (PrismEffect)
-            {
-                StartColorShiftTimer();
-            }
-            else
-            {
-                StopColorShiftTimer();
-            }
-        }
-
-        // Used by the Start/Stop methods to control the prism effect
-        private void ToggleColorShiftTimer(bool enable)
-        {
-            if (enable)
-            {
-                AhoySimpleMessageBox msg = new AhoySimpleMessageBox(MessageText.PrismMessage(), MessageText.PrismCaption(), false);
-                msg.ShowDialog();
-                ClearDisplays(false);
-                ShowAnimation();
-                PrismEffect = true;
-                ResolvePrismEffectMenuItem();
-                SettingsHasChanges = true;
-                Log.GeneralStatus("Prism effect enabled");
-                StartColorShiftTimer();
-            }
-            else
-            {
-                PrismEffect = false;
-                ResolvePrismEffectMenuItem();
-                SettingsHasChanges = true;
-                Log.GeneralStatus("Prism effect disabled");
-                StopColorShiftTimer();
-            }
-        }
-
-        private void StartColorShiftTimer()
-        {
-            if (!PrismEffect)
-            {
-                return;
-            }
-
-            // Create timer instance
-            if (tempColorShiftTimer == null)
-            {
-                tempColorShiftTimer = new Timer();
-                tempColorShiftTimer.Interval = 5;
-                tempColorShiftTimer.Tick += TempColorShiftTimer_Tick;
-            }
-
-            if (tempColorShiftTimer != null && !tempColorShiftTimer.Enabled)
-            {
-                if (lbPinnedAndMemoAnimation != null)
-                {
-                    ShiftTimerCounter = ShiftTimerCounterDefault;
-                    tempColorShiftTimer.Enabled = true;
-                    Log.GeneralStatus("Prism effect start");
-                }
-            }
-        }
-
-        private void StopColorShiftTimer()
-        {
-            if (tempColorShiftTimer != null && tempColorShiftTimer.Enabled)
-            {
-                tempColorShiftTimer.Enabled = false;
-                Log.GeneralStatus("Prism effect stop");
-                // Retrieve colors
-                lbPinnedAndMemoAnimation.ForeColor = listBoxPinned.ForeColor;
-                lbInterfaceLocked.ForeColor = AhoyColors.CurrentColorTheme()[2];
-                lbStatus.ForeColor = AhoyColors.CurrentColorTheme()[8];
-                btnHistory.ForeColor = AhoyColors.CurrentColorTheme()[8];
-                SetExpanderColorTheme();
-                RefreshHomeScreenLabel();
-            }
-        }
-
-        // Color shift timer
-        private float ShiftTimerCounter = 0f;
-        private const float ShiftTimerCounterDefault = 0f;
-        Timer tempColorShiftTimer;
-        private void TempColorShiftTimer_Tick(object sender, EventArgs e)
-        {
-            ShiftTimerCounter += 0.001f;
-            if (ShiftTimerCounter > 1)
-            {
-                ShiftTimerCounter = ShiftTimerCounterDefault;
-            }
-
-            // Colorize sleep sceen if possible
-            if (lbInterfaceLocked.Visible)
-            {
-                lbInterfaceLocked.ForeColor = Rainbow(ShiftTimerCounter);
-            }
-            else
-            {
-                // Colorize pinned animation if visible
-                if (lbPinnedAndMemoAnimation.Visible)
-                {
-                    lbPinnedAndMemoAnimation.ForeColor = Rainbow(ShiftTimerCounter);
-                }
-                // Colorize status and history button color
-                lbStatus.ForeColor = Rainbow(ShiftTimerCounter);
-                btnHistory.ForeColor = Rainbow(ShiftTimerCounter);
-                picExpandResult.BackColor = Rainbow(ShiftTimerCounter);
-                if (lbHomeScreen != null && lbHomeScreen.Visible)
-                {
-                    lbHomeScreen.ForeColor = Rainbow(ShiftTimerCounter);
-                }
-            }
-        }
-
-        // Generate color from input
-        private static int MaxValue = 255;
-        public static Color Rainbow(float progress)
-        {
-            float div = (Math.Abs(progress % 1) * 6);
-            int ascending = (int)((div % 1) * MaxValue);
-            int descending = MaxValue - ascending;
-
-            switch ((int)div)
-            {
-                case 0:
-                    return Color.FromArgb(MaxValue, MaxValue, ascending, 0);
-                case 1:
-                    return Color.FromArgb(MaxValue, descending, MaxValue, 0);
-                case 2:
-                    return Color.FromArgb(MaxValue, 0, MaxValue, ascending);
-                case 3:
-                    return Color.FromArgb(MaxValue, 0, descending, MaxValue);
-                case 4:
-                    return Color.FromArgb(MaxValue, ascending, 0, MaxValue);
-                default: // case 5:
-                    return Color.FromArgb(MaxValue, MaxValue, 0, descending);
-            }
-        }
-        #endregion
-
-
-        #region Random Numbers (addition 24-04-2019)
-        RandomNumbers randomNumbersDialog;
-        private void OpenRandomNumbers()
-        {
-            if (!RandomNumbersOpen)
-            {
-                RandomNumbersOpen = true;
-                randomNumbersDialog = new RandomNumbers();
-                randomNumbersDialog.FormClosing += RandomNumbersDialog_FormClosing;
-                randomNumbersDialog.TopMost = true;
-                randomNumbersDialog.Show();
-            }
-            else
-            {
-                if (randomNumbersDialog != null)
-                {
-                    randomNumbersDialog.BringToFront();
-                }
-            }
-        }
-
-        private void RandomNumbersDialog_FormClosing(object sender, FormClosingEventArgs e)
-        {
-            RandomNumbersOpen = false;
-        }
-
-        private void randomNumbersToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            OpenRandomNumbers();
-        }
-        #endregion
 
         #region Clock (addition 02-05-2019)
         private void ToggleClock()
@@ -21853,64 +18244,6 @@ namespace AhoyBrowser
         #endregion
 
 
-        #region Screen blocker intervals (addition 30-08-2019)
-        private void neverToolStripMenuItem1_Click(object sender, EventArgs e)
-        {
-            // Never
-            SetScreenBlockerInterval(0, true);
-        }
-
-        private void secToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            SetScreenBlockerInterval(1, true);
-        }
-
-        private void minToolStripMenuItem9_Click(object sender, EventArgs e)
-        {
-            SetScreenBlockerInterval(2, true);
-        }
-
-        private void minToolStripMenuItem10_Click(object sender, EventArgs e)
-        {
-            SetScreenBlockerInterval(3, true);
-        }
-
-        private void minToolStripMenuItem11_Click(object sender, EventArgs e)
-        {
-            SetScreenBlockerInterval(4, true);
-        }
-
-        private void minToolStripMenuItem12_Click(object sender, EventArgs e)
-        {
-            SetScreenBlockerInterval(5, true);
-        }
-
-        private void minToolStripMenuItem13_Click(object sender, EventArgs e)
-        {
-            SetScreenBlockerInterval(6, true);
-        }
-
-        private void minToolStripMenuItem14_Click(object sender, EventArgs e)
-        {
-            SetScreenBlockerInterval(7, true);
-        }
-
-        private void minToolStripMenuItem15_Click(object sender, EventArgs e)
-        {
-            SetScreenBlockerInterval(8, true);
-        }
-
-        private void minToolStripMenuItem16_Click(object sender, EventArgs e)
-        {
-            SetScreenBlockerInterval(9, true);
-        }
-
-        private void minToolStripMenuItem17_Click(object sender, EventArgs e)
-        {
-            SetScreenBlockerInterval(10, true);
-        }
-        #endregion
-
         #region Sort text selection (addition 25-10-2019)
 
         private void sortAZToolStripMenuItem1_Click(object sender, EventArgs e)
@@ -22127,16 +18460,14 @@ namespace AhoyBrowser
                 ResetSearchResultSelectionIndex();
                 ClearDisplays(false);
                 ShowPinned();
-                ClosePlopUe();
                 Halt();
                 UtilitySearchCollection = new List<Entry>();
                 // Collect unused entries
                 foreach (Entry entry in Entries)
                 {
-                    // If title, content and notification text is empty or default content
-                    if (((entry.Title.Trim().ToLower() == NewEntryCaption.ToLower() || entry.Title.Trim().ToLower() == NotificationCaption.ToLower()) || entry.Title.Trim().Length == 0) &&
-                        (entry.Content.Trim().ToLower() == NewEntryCaption.ToLower() || entry.Content.Trim().Length == 0) &&
-                        (entry.NotificationText.Trim().Length == 0))
+                    // If title and content is empty or default content
+                    if (((entry.Title.Trim().ToLower() == NewEntryCaption.ToLower()) || entry.Title.Trim().Length == 0) &&
+                        (entry.Content.Trim().ToLower() == NewEntryCaption.ToLower() || entry.Content.Trim().Length == 0))
                     {
                         UtilitySearchCollection.Add(entry);
                     }
@@ -23374,7 +19705,7 @@ namespace AhoyBrowser
 
             if (msgClearAll.Accepted)
             {
-                if (SimplePromptForPassword(MessageText.RelationCaption(), MessageText.EnterPasswordMessage(), AuthPassword, false))
+                if (SimplePromptForPassword(MessageText.RelationCaption(), MessageText.EnterPasswordMessage(), false))
                 {
                     SaveBackupForUndo();
                     if (Related.ClearAllRelated(CurrentEntry, Entries))
@@ -23689,10 +20020,6 @@ namespace AhoyBrowser
             newEntry.Content = "";
             newEntry.Created = IO.GetIsoDateTimeNow();
             newEntry.Changed = IO.GetIsoDateTimeNow();
-            newEntry.NotificationTimeStamp = "";
-            newEntry.NotificationText = "";
-            newEntry.NotificationCaretPosition = 0;
-            newEntry.NotificationRepeat = "";
             newEntry.Bookmark = 0;
             newEntry.Pin = false;
             newEntry.Rank = 0;

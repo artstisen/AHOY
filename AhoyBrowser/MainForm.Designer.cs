@@ -7,7 +7,6 @@
         /// </summary>
         private System.ComponentModel.IContainer components = null;
         
-        private MicroCalculator microCalculator1;
         private System.Windows.Forms.ListBox listBoxSearchResult;
         private System.Windows.Forms.SplitContainer splitContainer1;
         private System.Windows.Forms.ToolStripMenuItem fileToolStripMenuItem;
@@ -57,7 +56,6 @@
         private System.Windows.Forms.ToolStripMenuItem copyToolStripMenuItem1;
         private System.Windows.Forms.ToolStripMenuItem pasteToolStripMenuItem1;
         private System.Windows.Forms.ToolStripMenuItem undoToolStripMenuItem1;
-        private System.Windows.Forms.ToolStripSeparator toolStripMenuItem11;
         private System.Windows.Forms.ToolStripMenuItem selectAllToolStripMenuItem1;
         private AhoySaveButton btnSave;
         private System.Windows.Forms.ToolStripMenuItem savePoolToolStripMenuItem;
@@ -104,7 +102,6 @@
         private System.Windows.Forms.ToolStripSeparator toolStripMenuItem21;
         private System.Windows.Forms.Button btnHoldB;
         private System.Windows.Forms.ToolStripMenuItem deleteLineToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem textSymbolsAndDecorationsToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem holdEntry2ToolStripMenuItem;
         private System.Windows.Forms.Label lbContentSearch;
         private System.Windows.Forms.Button btnBack;
@@ -247,12 +244,7 @@
         private System.Windows.Forms.Label lbMaintenance;
         private System.Windows.Forms.ToolStripMenuItem loadBackupToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem jumpBetweenHeldEntriesToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem openUtilityEditorToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem transferToUtilityEditorToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem transferToUtilityEditorToolStripMenuItem1;
         private System.Windows.Forms.ToolStripSeparator toolStripMenuItem23;
-        private System.Windows.Forms.ToolStripMenuItem addSelectionToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem addSelectionToolStripMenuItem1;
         private System.Windows.Forms.ToolStripSeparator toolStripMenuItem43;
         private System.Windows.Forms.ToolStripSeparator toolStripMenuItem44;
         private System.Windows.Forms.ToolStripMenuItem eOLToSpaceToolStripMenuItem;
@@ -282,15 +274,10 @@
         private System.Windows.Forms.ToolStripMenuItem poolInformationToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem displayInfoToolStripMenuItem;
         private System.Windows.Forms.ToolStripSeparator toolStripMenuItem47;
-        private System.Windows.Forms.ToolStripMenuItem plopEditorToolStripMenuItem;
-        private System.Windows.Forms.ToolStripSeparator toolStripMenuItem7;
         private System.Windows.Forms.ToolStripMenuItem generatePasswordsToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem copyPoolToClipboardToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem generatePasswordsToolStripMenuItem1;
         private System.Windows.Forms.ToolStripSeparator toolStripMenuItem49;
-        private System.Windows.Forms.Button btnNotification;
-        private System.Windows.Forms.ToolStripMenuItem notificationToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem notificationsToolStripMenuItem;
         private System.Windows.Forms.Timer timerRefocusContent;
         private System.Windows.Forms.ToolStripMenuItem deleteEntryToolStripMenuItem;
         private System.Windows.Forms.ToolStripSeparator toolStripMenuItem50;
@@ -299,24 +286,6 @@
         private System.Windows.Forms.ToolStripSeparator toolStripMenuItem51;
         private System.Windows.Forms.ToolStripMenuItem clearAlternateBackupToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem openAlternateRepositoryToolStripMenuItem;
-        private System.Windows.Forms.Panel pnlNotificationSelector;
-        private System.Windows.Forms.Button btnCloseNotificationSelector;
-        private System.Windows.Forms.Button btnListPassiveNotifications;
-        private System.Windows.Forms.Button btnListActiveNotifications;
-        private System.Windows.Forms.Button btnNewNotification;
-        private System.Windows.Forms.Label lbNotification;
-        private System.Windows.Forms.Button btnOpenNotification;
-        private System.Windows.Forms.Timer timerNotificationAnimation;
-        private System.Windows.Forms.Label lbNotificationPreview;
-        private System.Windows.Forms.Label lbNotificationTimeStamp;
-        private System.Windows.Forms.Label lbNotificationTitle;
-        private System.Windows.Forms.Button btnDisableNotificationFromPreview;
-        private CustomCheckBoxButton cbPersistDialog;
-        private System.Windows.Forms.Button btnCycleNotificationsBackwards;
-        private System.Windows.Forms.Button btnCycleNotificationsForwards;
-        private System.Windows.Forms.Button btnDeleteNotification;
-        private System.Windows.Forms.PictureBox picHelp;
-        private System.Windows.Forms.Panel pnlNotificationPreviewTitleBack;
         private System.Windows.Forms.ToolStripMenuItem duplicateEntryToolStripMenuItem;
         private System.Windows.Forms.ToolStripSeparator toolStripMenuItem52;
         private System.Windows.Forms.ToolStripMenuItem unpinEntryToolStripMenuItem;
@@ -339,10 +308,8 @@
         private System.Windows.Forms.ToolStripMenuItem paragraphDividersToolStripMenuItem;
         private System.Windows.Forms.ToolStripSeparator toolStripMenuItem54;
         private System.Windows.Forms.ToolStripSeparator toolStripMenuItem55;
-        private System.Windows.Forms.ToolStripMenuItem typeWriterToolStripMenuItem;
         private System.Windows.Forms.Panel pnlLoading;
         private System.Windows.Forms.Label lbLoading;
-        private System.Windows.Forms.Panel pnlSpawnTypeWriter;
         private System.Windows.Forms.ToolStripMenuItem saveAsTextDocumentToolStripMenuItem;
         private System.Windows.Forms.Panel pnlSpawnSticky;
         private System.Windows.Forms.ToolStripMenuItem stickyToolStripMenuItem;
@@ -358,19 +325,12 @@
         private System.Windows.Forms.ToolStripMenuItem bringToFrontToolStripMenuItem;
         private System.Windows.Forms.ToolStripSeparator toolStripMenuItem58;
         private System.Windows.Forms.ToolStripMenuItem viewInfoToolStripMenuItem1;
-        private System.Windows.Forms.ToolStripMenuItem additionalToolsToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem openANSIEditorToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem romanNumeralsToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem wordAndWPMCounterToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem calculatorToolStripMenuItem;
-        private System.Windows.Forms.ToolStripSeparator toolStripMenuItem59;
-        private System.Windows.Forms.ToolStripMenuItem typermaxGameToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem fontToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem classicToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem modernToolStripMenuItem;
         private AhoyMenuStrip menuStrip1;
        
-        private System.Windows.Forms.PictureBox picCalculator;
         private System.Windows.Forms.Button btnExport;
         private System.Windows.Forms.ToolStripMenuItem markForExportToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem importExportToolStripMenuItem;
@@ -421,8 +381,6 @@
         private System.Windows.Forms.ToolStripMenuItem layoutAToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem layoutBToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem layoutCToolStripMenuItem;
-        private System.Windows.Forms.ToolStripSeparator toolStripMenuItem68;
-        private System.Windows.Forms.ToolStripMenuItem magicScreenBlockerToolStripMenuItem;
         //private System.Windows.Forms.ToolStripMenuItem checkForUpdatesToolStripMenuItem;
         //private System.Windows.Forms.ToolStripSeparator toolStripMenuItem75;
         private System.Windows.Forms.ToolStripMenuItem insertToolStripMenuItem;
@@ -462,15 +420,12 @@
         private System.Windows.Forms.ToolStripMenuItem sample19ToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem sample20ToolStripMenuItem;
         private System.Windows.Forms.ToolStripSeparator toolStripMenuItem78;
-        private System.Windows.Forms.ToolStripMenuItem effectsToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem prismEffectToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem labyrinthToolStripMenuItem;
         private System.Windows.Forms.ToolStripSeparator toolStripMenuItem79;
         private System.Windows.Forms.ToolStripMenuItem newPinnedEntryToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem newPinnedEntryToolStripMenuItem1;
         private System.Windows.Forms.ToolStripSeparator toolStripMenuItem80;
         private System.Windows.Forms.ToolStripMenuItem bookmarkTemplateToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem randomNumbersToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem showClockToolStripMenuItem;
         private System.Windows.Forms.ToolStripSeparator toolStripMenuItem60;
         private System.Windows.Forms.ToolStripMenuItem sortToolStripMenuItem;
@@ -490,19 +445,6 @@
         private System.Windows.Forms.ToolStripMenuItem newPinnedByClickToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem hidePinnedByClickToolStripMenuItem;
         private System.Windows.Forms.ToolStripSeparator toolStripMenuItem86;
-        private System.Windows.Forms.ToolStripMenuItem intervalToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem neverToolStripMenuItem1;
-        private System.Windows.Forms.ToolStripSeparator toolStripMenuItem87;
-        private System.Windows.Forms.ToolStripMenuItem secToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem minToolStripMenuItem9;
-        private System.Windows.Forms.ToolStripMenuItem minToolStripMenuItem10;
-        private System.Windows.Forms.ToolStripMenuItem minToolStripMenuItem11;
-        private System.Windows.Forms.ToolStripMenuItem minToolStripMenuItem12;
-        private System.Windows.Forms.ToolStripMenuItem minToolStripMenuItem13;
-        private System.Windows.Forms.ToolStripMenuItem minToolStripMenuItem14;
-        private System.Windows.Forms.ToolStripMenuItem minToolStripMenuItem15;
-        private System.Windows.Forms.ToolStripMenuItem minToolStripMenuItem16;
-        private System.Windows.Forms.ToolStripMenuItem minToolStripMenuItem17;
         private System.Windows.Forms.ToolStripMenuItem keyboardControlToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem moveByKeyboardToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem resizeByKeyboardToolStripMenuItem;
@@ -533,17 +475,6 @@
         {
         
             // Calculator instantiated here
-            this.microCalculator1 = new AhoyBrowser.MicroCalculator();
-            // 
-            // microCalculator1
-            // 
-            this.microCalculator1.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.microCalculator1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(40)))), ((int)(((byte)(40)))), ((int)(((byte)(40)))));
-            this.microCalculator1.LatestResult = "";
-            this.microCalculator1.Location = new System.Drawing.Point(277, 96);
-            this.microCalculator1.Name = "microCalculator1";
-            this.microCalculator1.Size = new System.Drawing.Size(362, 86);
-            this.microCalculator1.TabIndex = 30;
         
         
             this.components = new System.ComponentModel.Container();
@@ -557,7 +488,6 @@
             this.picExpandResult = new System.Windows.Forms.PictureBox();
             this.btnClearExportMarks = new System.Windows.Forms.Button();
             this.btnExport = new System.Windows.Forms.Button();
-            this.btnNotification = new System.Windows.Forms.Button();
             this.lbMaintenance = new System.Windows.Forms.Label();
             this.btnTogglePinAndMemo = new System.Windows.Forms.Button();
             this.btnTogglePinned = new System.Windows.Forms.Button();
@@ -639,25 +569,7 @@
             this.autoHideToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.btnBack = new System.Windows.Forms.Button();
             this.btnSearch = new System.Windows.Forms.Button();
-            this.picCalculator = new System.Windows.Forms.PictureBox();
            
-            this.pnlNotificationSelector = new System.Windows.Forms.Panel();
-            this.pnlNotificationPreviewTitleBack = new System.Windows.Forms.Panel();
-            this.lbNotificationTitle = new System.Windows.Forms.Label();
-            this.lbNotificationTimeStamp = new System.Windows.Forms.Label();
-            this.picHelp = new System.Windows.Forms.PictureBox();
-            this.btnDeleteNotification = new System.Windows.Forms.Button();
-            this.btnCycleNotificationsBackwards = new System.Windows.Forms.Button();
-            this.btnCycleNotificationsForwards = new System.Windows.Forms.Button();
-            this.cbPersistDialog = new AhoyBrowser.CustomCheckBoxButton();
-            this.btnDisableNotificationFromPreview = new System.Windows.Forms.Button();
-            this.lbNotificationPreview = new System.Windows.Forms.Label();
-            this.btnCloseNotificationSelector = new System.Windows.Forms.Button();
-            this.btnListPassiveNotifications = new System.Windows.Forms.Button();
-            this.btnListActiveNotifications = new System.Windows.Forms.Button();
-            this.btnNewNotification = new System.Windows.Forms.Button();
-            this.lbNotification = new System.Windows.Forms.Label();
-            this.btnOpenNotification = new System.Windows.Forms.Button();
             this.btnSleep = new System.Windows.Forms.Button();
             this.cbBookmark = new AhoyBrowser.CustomCheckBoxButton();
             this.cbProtect = new AhoyBrowser.CustomCheckBoxButton();
@@ -736,9 +648,6 @@
             this.printToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripMenuItem32 = new System.Windows.Forms.ToolStripSeparator();
             this.generatePasswordsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.toolStripMenuItem11 = new System.Windows.Forms.ToolStripSeparator();
-            this.transferToUtilityEditorToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.addSelectionToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripMenuItem43 = new System.Windows.Forms.ToolStripSeparator();
             this.viewInfoToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripMenuItem27 = new System.Windows.Forms.ToolStripSeparator();
@@ -793,7 +702,6 @@
             this.globalUndoToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripMenuItem82 = new System.Windows.Forms.ToolStripSeparator();
             this.pinToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.notificationToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.bookmarkEntryToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.replaceBookmarkToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
             this.clearBookmarkToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -838,7 +746,6 @@
             this.findAllToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.allToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.newToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
-            this.notificationsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.lockedToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripMenuItem38 = new System.Windows.Forms.ToolStripSeparator();
             this.smallText11500CharactersToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -889,21 +796,6 @@
             this.toolStripMenuItem29 = new System.Windows.Forms.ToolStripSeparator();
             this.neverToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.interfaceLockToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.toolStripMenuItem68 = new System.Windows.Forms.ToolStripSeparator();
-            this.magicScreenBlockerToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.intervalToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.neverToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
-            this.toolStripMenuItem87 = new System.Windows.Forms.ToolStripSeparator();
-            this.secToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.minToolStripMenuItem9 = new System.Windows.Forms.ToolStripMenuItem();
-            this.minToolStripMenuItem10 = new System.Windows.Forms.ToolStripMenuItem();
-            this.minToolStripMenuItem11 = new System.Windows.Forms.ToolStripMenuItem();
-            this.minToolStripMenuItem12 = new System.Windows.Forms.ToolStripMenuItem();
-            this.minToolStripMenuItem13 = new System.Windows.Forms.ToolStripMenuItem();
-            this.minToolStripMenuItem14 = new System.Windows.Forms.ToolStripMenuItem();
-            this.minToolStripMenuItem15 = new System.Windows.Forms.ToolStripMenuItem();
-            this.minToolStripMenuItem16 = new System.Windows.Forms.ToolStripMenuItem();
-            this.minToolStripMenuItem17 = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripMenuItem31 = new System.Windows.Forms.ToolStripSeparator();
             this.clearAllSettingsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.changePasswordToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -924,23 +816,10 @@
             this.toolStripMenuItem57 = new System.Windows.Forms.ToolStripSeparator();
             this.deleteAllToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripMenuItem56 = new System.Windows.Forms.ToolStripSeparator();
-            this.plopEditorToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.openSnippetEditorToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.typeWriterToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.toolStripMenuItem7 = new System.Windows.Forms.ToolStripSeparator();
-            this.openUtilityEditorToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.transferToUtilityEditorToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
-            this.addSelectionToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripMenuItem40 = new System.Windows.Forms.ToolStripSeparator();
-            this.calculatorToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.generatePasswordToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.encryptDecryptSelectionToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.additionalToolsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.randomNumbersToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.romanNumeralsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.openANSIEditorToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.toolStripMenuItem59 = new System.Windows.Forms.ToolStripSeparator();
-            this.typermaxGameToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripMenuItem23 = new System.Windows.Forms.ToolStripSeparator();
             this.openFirefoxToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.openChromeToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -996,8 +875,6 @@
             this.labyrinthToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripMenuItem79 = new System.Windows.Forms.ToolStripSeparator();
             this.layoutCToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.effectsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.prismEffectToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.setDisplayTextToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.clearDisplayTextToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripMenuItem41 = new System.Windows.Forms.ToolStripSeparator();
@@ -1005,7 +882,6 @@
             this.restoreDefaultToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.helpToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.gettingStartedToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.textSymbolsAndDecorationsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripMenuItem5 = new System.Windows.Forms.ToolStripSeparator();
             //this.checkForUpdatesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             //this.toolStripMenuItem75 = new System.Windows.Forms.ToolStripSeparator();
@@ -1017,7 +893,6 @@
             this.lbInterfaceLocked = new System.Windows.Forms.Label();
             this.timerRefocusContentSearch = new System.Windows.Forms.Timer(this.components);
             this.toolTip1 = new System.Windows.Forms.ToolTip(this.components);
-            this.pnlSpawnTypeWriter = new System.Windows.Forms.Panel();
             this.pnlSpawnSticky = new System.Windows.Forms.Panel();
             this.pnlShowAllStickies = new System.Windows.Forms.Panel();
             this.timerReselectPinned = new System.Windows.Forms.Timer(this.components);
@@ -1042,7 +917,6 @@
             this.selectionToLowercaseToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
             this.timerRefocusContent = new System.Windows.Forms.Timer(this.components);
             this.timerFastGlobal = new System.Windows.Forms.Timer(this.components);
-            this.timerNotificationAnimation = new System.Windows.Forms.Timer(this.components);
             this.timerFastAnimation = new System.Windows.Forms.Timer(this.components);
             this.lbReadOnlyIndicator = new System.Windows.Forms.Label();
             this.pnlLoading = new System.Windows.Forms.Panel();
@@ -1059,10 +933,6 @@
             ((System.ComponentModel.ISupportInitialize)(this.picExpandResult)).BeginInit();
             this.panel1.SuspendLayout();
             this.contextMenuPinned.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.picCalculator)).BeginInit();
-            this.pnlNotificationSelector.SuspendLayout();
-            this.pnlNotificationPreviewTitleBack.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.picHelp)).BeginInit();
             this.panel3.SuspendLayout();
             this.panel2.SuspendLayout();
             this.contextMenuContent.SuspendLayout();
@@ -1124,7 +994,6 @@
             this.splitContainer1.Panel1.Controls.Add(this.picExpandResult);
             this.splitContainer1.Panel1.Controls.Add(this.btnClearExportMarks);
             this.splitContainer1.Panel1.Controls.Add(this.btnExport);
-            this.splitContainer1.Panel1.Controls.Add(this.btnNotification);
             this.splitContainer1.Panel1.Controls.Add(this.lbMaintenance);
             this.splitContainer1.Panel1.Controls.Add(this.btnTogglePinAndMemo);
             this.splitContainer1.Panel1.Controls.Add(this.btnTogglePinned);
@@ -1147,9 +1016,6 @@
             // 
             // splitContainer1.Panel2
             // 
-            this.splitContainer1.Panel2.Controls.Add(this.picCalculator);
-            this.splitContainer1.Panel2.Controls.Add(this.microCalculator1);
-            this.splitContainer1.Panel2.Controls.Add(this.pnlNotificationSelector);
             this.splitContainer1.Panel2.Controls.Add(this.btnSleep);
             this.splitContainer1.Panel2.Controls.Add(this.cbBookmark);
             this.splitContainer1.Panel2.Controls.Add(this.cbProtect);
@@ -1214,24 +1080,6 @@
             this.toolTip1.SetToolTip(this.btnExport, "View And Export Marked Entries");
             this.btnExport.UseVisualStyleBackColor = true;
             this.btnExport.Click += new System.EventHandler(this.btnExport_Click);
-            // 
-            // btnNotification
-            // 
-            this.btnNotification.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.btnNotification.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Center;
-            this.btnNotification.Cursor = System.Windows.Forms.Cursors.Default;
-            this.btnNotification.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btnNotification.Font = new System.Drawing.Font("Courier New", 11.25F, System.Drawing.FontStyle.Bold);
-            this.btnNotification.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(142)))), ((int)(((byte)(142)))), ((int)(((byte)(142)))));
-            this.btnNotification.Location = new System.Drawing.Point(300, 223);
-            this.btnNotification.Name = "btnNotification";
-            this.btnNotification.Size = new System.Drawing.Size(37, 23);
-            this.btnNotification.TabIndex = 7;
-            this.btnNotification.TabStop = false;
-            this.toolTip1.SetToolTip(this.btnNotification, "Notification (CTRL+ALT+N) - Right Click To List Active");
-            this.btnNotification.UseVisualStyleBackColor = true;
-            this.btnNotification.Click += new System.EventHandler(this.btnNotification_Click);
-            this.btnNotification.MouseDown += new System.Windows.Forms.MouseEventHandler(this.btnNotification_MouseDown);
             // 
             // lbMaintenance
             // 
@@ -1448,7 +1296,7 @@
             this.btnHistory.Cursor = System.Windows.Forms.Cursors.Default;
             this.btnHistory.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnHistory.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(142)))), ((int)(((byte)(142)))), ((int)(((byte)(142)))));
-            this.btnHistory.Location = new System.Drawing.Point(219, 223);
+            this.btnHistory.Location = new System.Drawing.Point(262, 223);
             this.btnHistory.Name = "btnHistory";
             this.btnHistory.Size = new System.Drawing.Size(75, 23);
             this.btnHistory.TabIndex = 6;
@@ -2016,291 +1864,7 @@
             this.btnSearch.UseVisualStyleBackColor = true;
             this.btnSearch.Click += new System.EventHandler(this.btnSearch_Click);
             this.btnSearch.KeyDown += new System.Windows.Forms.KeyEventHandler(this.btn_KeyDown);
-            // 
-            // picCalculator
-            // 
-            this.picCalculator.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.picCalculator.BackColor = System.Drawing.Color.Transparent;
-            this.picCalculator.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("picCalculator.BackgroundImage")));
-            this.picCalculator.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Center;
-            this.picCalculator.Cursor = System.Windows.Forms.Cursors.Default;
-            this.picCalculator.Location = new System.Drawing.Point(554, 70);
-            this.picCalculator.Name = "picCalculator";
-            this.picCalculator.Size = new System.Drawing.Size(20, 20);
-            this.picCalculator.TabIndex = 93;
-            this.picCalculator.TabStop = false;
-            this.toolTip1.SetToolTip(this.picCalculator, "Calculator (CTRL+ALT+W)");
-            this.picCalculator.Click += new System.EventHandler(this.picCalculator_Click);
 
-            // 
-            // pnlNotificationSelector
-            // 
-            this.pnlNotificationSelector.Controls.Add(this.pnlNotificationPreviewTitleBack);
-            this.pnlNotificationSelector.Controls.Add(this.picHelp);
-            this.pnlNotificationSelector.Controls.Add(this.btnDeleteNotification);
-            this.pnlNotificationSelector.Controls.Add(this.btnCycleNotificationsBackwards);
-            this.pnlNotificationSelector.Controls.Add(this.btnCycleNotificationsForwards);
-            this.pnlNotificationSelector.Controls.Add(this.cbPersistDialog);
-            this.pnlNotificationSelector.Controls.Add(this.btnDisableNotificationFromPreview);
-            this.pnlNotificationSelector.Controls.Add(this.lbNotificationPreview);
-            this.pnlNotificationSelector.Controls.Add(this.btnCloseNotificationSelector);
-            this.pnlNotificationSelector.Controls.Add(this.btnListPassiveNotifications);
-            this.pnlNotificationSelector.Controls.Add(this.btnListActiveNotifications);
-            this.pnlNotificationSelector.Controls.Add(this.btnNewNotification);
-            this.pnlNotificationSelector.Controls.Add(this.lbNotification);
-            this.pnlNotificationSelector.Controls.Add(this.btnOpenNotification);
-            this.pnlNotificationSelector.Location = new System.Drawing.Point(7, 146);
-            this.pnlNotificationSelector.Name = "pnlNotificationSelector";
-            this.pnlNotificationSelector.Size = new System.Drawing.Size(480, 230);
-            this.pnlNotificationSelector.TabIndex = 24;
-            this.pnlNotificationSelector.MouseMove += new System.Windows.Forms.MouseEventHandler(this.pnlNotificationSelector_MouseMove);
-            // 
-            // pnlNotificationPreviewTitleBack
-            // 
-            this.pnlNotificationPreviewTitleBack.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(50)))), ((int)(((byte)(50)))), ((int)(((byte)(50)))));
-            this.pnlNotificationPreviewTitleBack.Controls.Add(this.lbNotificationTitle);
-            this.pnlNotificationPreviewTitleBack.Controls.Add(this.lbNotificationTimeStamp);
-            this.pnlNotificationPreviewTitleBack.Location = new System.Drawing.Point(164, 12);
-            this.pnlNotificationPreviewTitleBack.Name = "pnlNotificationPreviewTitleBack";
-            this.pnlNotificationPreviewTitleBack.Size = new System.Drawing.Size(304, 46);
-            this.pnlNotificationPreviewTitleBack.TabIndex = 92;
-            // 
-            // lbNotificationTitle
-            // 
-            this.lbNotificationTitle.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(50)))), ((int)(((byte)(50)))), ((int)(((byte)(50)))));
-            this.lbNotificationTitle.Font = new System.Drawing.Font("Courier New", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lbNotificationTitle.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(142)))), ((int)(((byte)(142)))), ((int)(((byte)(142)))));
-            this.lbNotificationTitle.Location = new System.Drawing.Point(3, 5);
-            this.lbNotificationTitle.Name = "lbNotificationTitle";
-            this.lbNotificationTitle.Size = new System.Drawing.Size(282, 14);
-            this.lbNotificationTitle.TabIndex = 31;
-            this.lbNotificationTitle.Text = "Title:";
-            this.toolTip1.SetToolTip(this.lbNotificationTitle, "Notification Title");
-            // 
-            // lbNotificationTimeStamp
-            // 
-            this.lbNotificationTimeStamp.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(50)))), ((int)(((byte)(50)))), ((int)(((byte)(50)))));
-            this.lbNotificationTimeStamp.Font = new System.Drawing.Font("Courier New", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lbNotificationTimeStamp.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(142)))), ((int)(((byte)(142)))), ((int)(((byte)(142)))));
-            this.lbNotificationTimeStamp.Location = new System.Drawing.Point(3, 27);
-            this.lbNotificationTimeStamp.Name = "lbNotificationTimeStamp";
-            this.lbNotificationTimeStamp.Size = new System.Drawing.Size(282, 14);
-            this.lbNotificationTimeStamp.TabIndex = 32;
-            this.lbNotificationTimeStamp.Text = "Notification Timestamp";
-            // 
-            // picHelp
-            // 
-            this.picHelp.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.picHelp.BackColor = System.Drawing.Color.Transparent;
-            this.picHelp.BackgroundImage = global::AhoyBrowser.Properties.Resources.help;
-            this.picHelp.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Center;
-            this.picHelp.Cursor = System.Windows.Forms.Cursors.Default;
-            this.picHelp.Location = new System.Drawing.Point(10, 9);
-            this.picHelp.Name = "picHelp";
-            this.picHelp.Size = new System.Drawing.Size(20, 20);
-            this.picHelp.TabIndex = 91;
-            this.picHelp.TabStop = false;
-            this.toolTip1.SetToolTip(this.picHelp, "Help");
-            this.picHelp.Click += new System.EventHandler(this.picHelp_Click);
-            // 
-            // btnDeleteNotification
-            // 
-            this.btnDeleteNotification.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
-            this.btnDeleteNotification.Cursor = System.Windows.Forms.Cursors.Default;
-            this.btnDeleteNotification.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btnDeleteNotification.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(142)))), ((int)(((byte)(142)))), ((int)(((byte)(142)))));
-            this.btnDeleteNotification.Location = new System.Drawing.Point(11, 164);
-            this.btnDeleteNotification.Name = "btnDeleteNotification";
-            this.btnDeleteNotification.Size = new System.Drawing.Size(37, 23);
-            this.btnDeleteNotification.TabIndex = 6;
-            this.btnDeleteNotification.Text = "Del";
-            this.toolTip1.SetToolTip(this.btnDeleteNotification, "Delete Entry");
-            this.btnDeleteNotification.UseVisualStyleBackColor = true;
-            this.btnDeleteNotification.Click += new System.EventHandler(this.btnDeleteNotification_Click);
-            this.btnDeleteNotification.Enter += new System.EventHandler(this.btnOpenNotification_Enter);
-            this.btnDeleteNotification.KeyDown += new System.Windows.Forms.KeyEventHandler(this.btnOpenNotification_KeyDown);
-            // 
-            // btnCycleNotificationsBackwards
-            // 
-            this.btnCycleNotificationsBackwards.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Center;
-            this.btnCycleNotificationsBackwards.Cursor = System.Windows.Forms.Cursors.Default;
-            this.btnCycleNotificationsBackwards.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btnCycleNotificationsBackwards.Font = new System.Drawing.Font("Courier New", 11.25F, System.Drawing.FontStyle.Bold);
-            this.btnCycleNotificationsBackwards.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(142)))), ((int)(((byte)(142)))), ((int)(((byte)(142)))));
-            this.btnCycleNotificationsBackwards.Location = new System.Drawing.Point(121, 106);
-            this.btnCycleNotificationsBackwards.Name = "btnCycleNotificationsBackwards";
-            this.btnCycleNotificationsBackwards.Size = new System.Drawing.Size(37, 23);
-            this.btnCycleNotificationsBackwards.TabIndex = 4;
-            this.toolTip1.SetToolTip(this.btnCycleNotificationsBackwards, "Select Previous");
-            this.btnCycleNotificationsBackwards.UseVisualStyleBackColor = true;
-            this.btnCycleNotificationsBackwards.Click += new System.EventHandler(this.btnCycleNotificationsBackwards_Click);
-            this.btnCycleNotificationsBackwards.Enter += new System.EventHandler(this.btnOpenNotification_Enter);
-            this.btnCycleNotificationsBackwards.KeyDown += new System.Windows.Forms.KeyEventHandler(this.btnOpenNotification_KeyDown);
-            // 
-            // btnCycleNotificationsForwards
-            // 
-            this.btnCycleNotificationsForwards.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Center;
-            this.btnCycleNotificationsForwards.Cursor = System.Windows.Forms.Cursors.Default;
-            this.btnCycleNotificationsForwards.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btnCycleNotificationsForwards.Font = new System.Drawing.Font("Courier New", 11.25F, System.Drawing.FontStyle.Bold);
-            this.btnCycleNotificationsForwards.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(142)))), ((int)(((byte)(142)))), ((int)(((byte)(142)))));
-            this.btnCycleNotificationsForwards.Location = new System.Drawing.Point(121, 135);
-            this.btnCycleNotificationsForwards.Name = "btnCycleNotificationsForwards";
-            this.btnCycleNotificationsForwards.Size = new System.Drawing.Size(37, 23);
-            this.btnCycleNotificationsForwards.TabIndex = 5;
-            this.toolTip1.SetToolTip(this.btnCycleNotificationsForwards, "Select Next");
-            this.btnCycleNotificationsForwards.UseVisualStyleBackColor = true;
-            this.btnCycleNotificationsForwards.Click += new System.EventHandler(this.btnCycleNotificationsForwards_Click);
-            this.btnCycleNotificationsForwards.Enter += new System.EventHandler(this.btnOpenNotification_Enter);
-            this.btnCycleNotificationsForwards.KeyDown += new System.Windows.Forms.KeyEventHandler(this.btnOpenNotification_KeyDown);
-            // 
-            // cbPersistDialog
-            // 
-            this.cbPersistDialog.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
-            this.cbPersistDialog.CheckedBackgroundImage = null;
-            this.cbPersistDialog.CheckedText = null;
-            this.cbPersistDialog.CheckedTextColor = System.Drawing.Color.Empty;
-            this.cbPersistDialog.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
-            this.cbPersistDialog.Location = new System.Drawing.Point(11, 193);
-            this.cbPersistDialog.Name = "cbPersistDialog";
-            this.cbPersistDialog.Size = new System.Drawing.Size(37, 23);
-            this.cbPersistDialog.TabIndex = 8;
-            this.toolTip1.SetToolTip(this.cbPersistDialog, "Persist Preview Dialog (Toggle Auto-Close On/Off)");
-            this.cbPersistDialog.UnCheckedBackgroundImage = null;
-            this.cbPersistDialog.UnCheckedText = null;
-            this.cbPersistDialog.UnCheckedTextColor = System.Drawing.Color.Empty;
-            this.cbPersistDialog.UseVisualStyleBackColor = true;
-            this.cbPersistDialog.Click += new System.EventHandler(this.btnPersistDialog_Click);
-            this.cbPersistDialog.Enter += new System.EventHandler(this.btnOpenNotification_Enter);
-            this.cbPersistDialog.KeyDown += new System.Windows.Forms.KeyEventHandler(this.btnOpenNotification_KeyDown);
-            // 
-            // btnDisableNotificationFromPreview
-            // 
-            this.btnDisableNotificationFromPreview.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
-            this.btnDisableNotificationFromPreview.Cursor = System.Windows.Forms.Cursors.Default;
-            this.btnDisableNotificationFromPreview.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btnDisableNotificationFromPreview.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(142)))), ((int)(((byte)(142)))), ((int)(((byte)(142)))));
-            this.btnDisableNotificationFromPreview.Location = new System.Drawing.Point(54, 164);
-            this.btnDisableNotificationFromPreview.Name = "btnDisableNotificationFromPreview";
-            this.btnDisableNotificationFromPreview.Size = new System.Drawing.Size(104, 23);
-            this.btnDisableNotificationFromPreview.TabIndex = 7;
-            this.btnDisableNotificationFromPreview.Text = "Deactivate";
-            this.toolTip1.SetToolTip(this.btnDisableNotificationFromPreview, "Make Selected Notification Inactive");
-            this.btnDisableNotificationFromPreview.UseVisualStyleBackColor = true;
-            this.btnDisableNotificationFromPreview.Click += new System.EventHandler(this.btnDisableNotificationFromPreview_Click);
-            this.btnDisableNotificationFromPreview.Enter += new System.EventHandler(this.btnOpenNotification_Enter);
-            this.btnDisableNotificationFromPreview.KeyDown += new System.Windows.Forms.KeyEventHandler(this.btnOpenNotification_KeyDown);
-            // 
-            // lbNotificationPreview
-            // 
-            this.lbNotificationPreview.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(50)))), ((int)(((byte)(50)))), ((int)(((byte)(50)))));
-            this.lbNotificationPreview.Font = new System.Drawing.Font("Courier New", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lbNotificationPreview.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(142)))), ((int)(((byte)(142)))), ((int)(((byte)(142)))));
-            this.lbNotificationPreview.Location = new System.Drawing.Point(164, 61);
-            this.lbNotificationPreview.Name = "lbNotificationPreview";
-            this.lbNotificationPreview.Size = new System.Drawing.Size(304, 155);
-            this.lbNotificationPreview.TabIndex = 33;
-            this.toolTip1.SetToolTip(this.lbNotificationPreview, "Notification Preview");
-            this.lbNotificationPreview.MouseMove += new System.Windows.Forms.MouseEventHandler(this.pnlNotificationSelector_MouseMove);
-            // 
-            // btnCloseNotificationSelector
-            // 
-            this.btnCloseNotificationSelector.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
-            this.btnCloseNotificationSelector.Cursor = System.Windows.Forms.Cursors.Default;
-            this.btnCloseNotificationSelector.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btnCloseNotificationSelector.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(142)))), ((int)(((byte)(142)))), ((int)(((byte)(142)))));
-            this.btnCloseNotificationSelector.Location = new System.Drawing.Point(54, 193);
-            this.btnCloseNotificationSelector.Name = "btnCloseNotificationSelector";
-            this.btnCloseNotificationSelector.Size = new System.Drawing.Size(104, 23);
-            this.btnCloseNotificationSelector.TabIndex = 9;
-            this.btnCloseNotificationSelector.Text = "Close";
-            this.toolTip1.SetToolTip(this.btnCloseNotificationSelector, "Close This Dialog");
-            this.btnCloseNotificationSelector.UseVisualStyleBackColor = true;
-            this.btnCloseNotificationSelector.Click += new System.EventHandler(this.btnCloseNotificationSelector_Click);
-            this.btnCloseNotificationSelector.Enter += new System.EventHandler(this.btnOpenNotification_Enter);
-            this.btnCloseNotificationSelector.KeyDown += new System.Windows.Forms.KeyEventHandler(this.btnOpenNotification_KeyDown);
-            this.btnCloseNotificationSelector.MouseMove += new System.Windows.Forms.MouseEventHandler(this.pnlNotificationSelector_MouseMove);
-            // 
-            // btnListPassiveNotifications
-            // 
-            this.btnListPassiveNotifications.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
-            this.btnListPassiveNotifications.Cursor = System.Windows.Forms.Cursors.Default;
-            this.btnListPassiveNotifications.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btnListPassiveNotifications.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(142)))), ((int)(((byte)(142)))), ((int)(((byte)(142)))));
-            this.btnListPassiveNotifications.Location = new System.Drawing.Point(11, 135);
-            this.btnListPassiveNotifications.Name = "btnListPassiveNotifications";
-            this.btnListPassiveNotifications.Size = new System.Drawing.Size(104, 23);
-            this.btnListPassiveNotifications.TabIndex = 3;
-            this.btnListPassiveNotifications.Text = "Inactive (9999)";
-            this.toolTip1.SetToolTip(this.btnListPassiveNotifications, "List Inactive Notifications");
-            this.btnListPassiveNotifications.UseVisualStyleBackColor = true;
-            this.btnListPassiveNotifications.Click += new System.EventHandler(this.btnListPassiveNotifications_Click);
-            this.btnListPassiveNotifications.Enter += new System.EventHandler(this.btnOpenNotification_Enter);
-            this.btnListPassiveNotifications.KeyDown += new System.Windows.Forms.KeyEventHandler(this.btnOpenNotification_KeyDown);
-            this.btnListPassiveNotifications.MouseMove += new System.Windows.Forms.MouseEventHandler(this.pnlNotificationSelector_MouseMove);
-            // 
-            // btnListActiveNotifications
-            // 
-            this.btnListActiveNotifications.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
-            this.btnListActiveNotifications.Cursor = System.Windows.Forms.Cursors.Default;
-            this.btnListActiveNotifications.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btnListActiveNotifications.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(142)))), ((int)(((byte)(142)))), ((int)(((byte)(142)))));
-            this.btnListActiveNotifications.Location = new System.Drawing.Point(11, 106);
-            this.btnListActiveNotifications.Name = "btnListActiveNotifications";
-            this.btnListActiveNotifications.Size = new System.Drawing.Size(104, 23);
-            this.btnListActiveNotifications.TabIndex = 2;
-            this.btnListActiveNotifications.Text = "Active (9999)";
-            this.toolTip1.SetToolTip(this.btnListActiveNotifications, "List Active Notifications");
-            this.btnListActiveNotifications.UseVisualStyleBackColor = true;
-            this.btnListActiveNotifications.Click += new System.EventHandler(this.btnListActiveNotifications_Click);
-            this.btnListActiveNotifications.Enter += new System.EventHandler(this.btnOpenNotification_Enter);
-            this.btnListActiveNotifications.KeyDown += new System.Windows.Forms.KeyEventHandler(this.btnOpenNotification_KeyDown);
-            this.btnListActiveNotifications.MouseMove += new System.Windows.Forms.MouseEventHandler(this.pnlNotificationSelector_MouseMove);
-            // 
-            // btnNewNotification
-            // 
-            this.btnNewNotification.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
-            this.btnNewNotification.Cursor = System.Windows.Forms.Cursors.Default;
-            this.btnNewNotification.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btnNewNotification.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(142)))), ((int)(((byte)(142)))), ((int)(((byte)(142)))));
-            this.btnNewNotification.Location = new System.Drawing.Point(11, 77);
-            this.btnNewNotification.Name = "btnNewNotification";
-            this.btnNewNotification.Size = new System.Drawing.Size(147, 23);
-            this.btnNewNotification.TabIndex = 1;
-            this.btnNewNotification.Text = "New";
-            this.toolTip1.SetToolTip(this.btnNewNotification, "New");
-            this.btnNewNotification.UseVisualStyleBackColor = true;
-            this.btnNewNotification.Click += new System.EventHandler(this.btnNewNotification_Click);
-            this.btnNewNotification.Enter += new System.EventHandler(this.btnOpenNotification_Enter);
-            this.btnNewNotification.KeyDown += new System.Windows.Forms.KeyEventHandler(this.btnOpenNotification_KeyDown);
-            this.btnNewNotification.MouseMove += new System.Windows.Forms.MouseEventHandler(this.pnlNotificationSelector_MouseMove);
-            // 
-            // lbNotification
-            // 
-            this.lbNotification.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(142)))), ((int)(((byte)(142)))), ((int)(((byte)(142)))));
-            this.lbNotification.Location = new System.Drawing.Point(31, 13);
-            this.lbNotification.Name = "lbNotification";
-            this.lbNotification.Size = new System.Drawing.Size(115, 13);
-            this.lbNotification.TabIndex = 30;
-            this.lbNotification.Text = "Notification Preview";
-            // 
-            // btnOpenNotification
-            // 
-            this.btnOpenNotification.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
-            this.btnOpenNotification.Cursor = System.Windows.Forms.Cursors.Default;
-            this.btnOpenNotification.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btnOpenNotification.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(142)))), ((int)(((byte)(142)))), ((int)(((byte)(142)))));
-            this.btnOpenNotification.Location = new System.Drawing.Point(11, 37);
-            this.btnOpenNotification.Name = "btnOpenNotification";
-            this.btnOpenNotification.Size = new System.Drawing.Size(147, 23);
-            this.btnOpenNotification.TabIndex = 0;
-            this.btnOpenNotification.Text = "Open Selected";
-            this.toolTip1.SetToolTip(this.btnOpenNotification, "Open Selected");
-            this.btnOpenNotification.UseVisualStyleBackColor = true;
-            this.btnOpenNotification.Click += new System.EventHandler(this.btnOpenNotification_Click);
-            this.btnOpenNotification.Enter += new System.EventHandler(this.btnOpenNotification_Enter);
-            this.btnOpenNotification.KeyDown += new System.Windows.Forms.KeyEventHandler(this.btnOpenNotification_KeyDown);
-            this.btnOpenNotification.MouseMove += new System.Windows.Forms.MouseEventHandler(this.pnlNotificationSelector_MouseMove);
             // 
             // btnSleep
             // 
@@ -2627,9 +2191,6 @@
             this.printToolStripMenuItem,
             this.toolStripMenuItem32,
             this.generatePasswordsToolStripMenuItem,
-            this.toolStripMenuItem11,
-            this.transferToUtilityEditorToolStripMenuItem,
-            this.addSelectionToolStripMenuItem,
             this.toolStripMenuItem43,
             this.viewInfoToolStripMenuItem,
             this.toolStripMenuItem27,
@@ -3083,27 +2644,6 @@
             this.generatePasswordsToolStripMenuItem.Text = "&Generate Passwords";
             this.generatePasswordsToolStripMenuItem.Click += new System.EventHandler(this.generatePasswordsToolStripMenuItem_Click);
             // 
-            // toolStripMenuItem11
-            // 
-            this.toolStripMenuItem11.Name = "toolStripMenuItem11";
-            this.toolStripMenuItem11.Size = new System.Drawing.Size(278, 6);
-            // 
-            // transferToUtilityEditorToolStripMenuItem
-            // 
-            this.transferToUtilityEditorToolStripMenuItem.Name = "transferToUtilityEditorToolStripMenuItem";
-            this.transferToUtilityEditorToolStripMenuItem.ShortcutKeyDisplayString = "Ctrl+Shift+R";
-            this.transferToUtilityEditorToolStripMenuItem.Size = new System.Drawing.Size(281, 22);
-            this.transferToUtilityEditorToolStripMenuItem.Text = "Add To &Utility Editor";
-            this.transferToUtilityEditorToolStripMenuItem.Click += new System.EventHandler(this.transferToUtilityEditorToolStripMenuItem_Click);
-            // 
-            // addSelectionToolStripMenuItem
-            // 
-            this.addSelectionToolStripMenuItem.Name = "addSelectionToolStripMenuItem";
-            this.addSelectionToolStripMenuItem.ShortcutKeyDisplayString = "Ctrl+Shift+A";
-            this.addSelectionToolStripMenuItem.Size = new System.Drawing.Size(281, 22);
-            this.addSelectionToolStripMenuItem.Text = "Add Selection...";
-            this.addSelectionToolStripMenuItem.Click += new System.EventHandler(this.addSelectionToolStripMenuItem_Click);
-            // 
             // toolStripMenuItem43
             // 
             this.toolStripMenuItem43.Name = "toolStripMenuItem43";
@@ -3518,7 +3058,6 @@
             this.globalUndoToolStripMenuItem,
             this.toolStripMenuItem82,
             this.pinToolStripMenuItem,
-            this.notificationToolStripMenuItem,
             this.bookmarkEntryToolStripMenuItem,
             this.replaceBookmarkToolStripMenuItem1,
             this.clearBookmarkToolStripMenuItem,
@@ -3560,15 +3099,6 @@
             this.pinToolStripMenuItem.Size = new System.Drawing.Size(275, 22);
             this.pinToolStripMenuItem.Text = "Pi&n";
             this.pinToolStripMenuItem.Click += new System.EventHandler(this.pinToolStripMenuItem_Click);
-            // 
-            // notificationToolStripMenuItem
-            // 
-            this.notificationToolStripMenuItem.Name = "notificationToolStripMenuItem";
-            this.notificationToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)(((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.Alt) 
-            | System.Windows.Forms.Keys.N)));
-            this.notificationToolStripMenuItem.Size = new System.Drawing.Size(275, 22);
-            this.notificationToolStripMenuItem.Text = "&Notification";
-            this.notificationToolStripMenuItem.Click += new System.EventHandler(this.notificationToolStripMenuItem_Click);
             // 
             // bookmarkEntryToolStripMenuItem
             // 
@@ -3879,9 +3409,6 @@
             this.clearDisplaysToolStripMenuItem,
             this.sleepIntervalToolStripMenuItem,
             this.interfaceLockToolStripMenuItem,
-            this.toolStripMenuItem68,
-            this.magicScreenBlockerToolStripMenuItem,
-            this.intervalToolStripMenuItem,
             this.toolStripMenuItem31,
             this.clearAllSettingsToolStripMenuItem,
             this.changePasswordToolStripMenuItem});
@@ -3956,7 +3483,6 @@
             this.findAllToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.allToolStripMenuItem,
             this.newToolStripMenuItem1,
-            this.notificationsToolStripMenuItem,
             this.lockedToolStripMenuItem,
             this.toolStripMenuItem38,
             this.smallText11500CharactersToolStripMenuItem,
@@ -3983,13 +3509,6 @@
             this.newToolStripMenuItem1.Size = new System.Drawing.Size(223, 22);
             this.newToolStripMenuItem1.Text = "New";
             this.newToolStripMenuItem1.Click += new System.EventHandler(this.newToolStripMenuItem1_Click);
-            // 
-            // notificationsToolStripMenuItem
-            // 
-            this.notificationsToolStripMenuItem.Name = "notificationsToolStripMenuItem";
-            this.notificationsToolStripMenuItem.Size = new System.Drawing.Size(223, 22);
-            this.notificationsToolStripMenuItem.Text = "Notifications";
-            this.notificationsToolStripMenuItem.Click += new System.EventHandler(this.notificationsToolStripMenuItem_Click);
             // 
             // lockedToolStripMenuItem
             // 
@@ -4343,120 +3862,6 @@
             this.interfaceLockToolStripMenuItem.Text = "Sl&eep";
             this.interfaceLockToolStripMenuItem.Click += new System.EventHandler(this.interfaceLockToolStripMenuItem_Click);
             // 
-            // toolStripMenuItem68
-            // 
-            this.toolStripMenuItem68.Name = "toolStripMenuItem68";
-            this.toolStripMenuItem68.Size = new System.Drawing.Size(268, 6);
-            // 
-            // magicScreenBlockerToolStripMenuItem
-            // 
-            this.magicScreenBlockerToolStripMenuItem.Name = "magicScreenBlockerToolStripMenuItem";
-            this.magicScreenBlockerToolStripMenuItem.ShortcutKeyDisplayString = "Ctrl+Alt+Enter";
-            this.magicScreenBlockerToolStripMenuItem.Size = new System.Drawing.Size(271, 22);
-            this.magicScreenBlockerToolStripMenuItem.Text = "&Magic Screen Blocker";
-            this.magicScreenBlockerToolStripMenuItem.Click += new System.EventHandler(this.magicScreenBlockerToolStripMenuItem_Click);
-            // 
-            // intervalToolStripMenuItem
-            // 
-            this.intervalToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.neverToolStripMenuItem1,
-            this.toolStripMenuItem87,
-            this.secToolStripMenuItem,
-            this.minToolStripMenuItem9,
-            this.minToolStripMenuItem10,
-            this.minToolStripMenuItem11,
-            this.minToolStripMenuItem12,
-            this.minToolStripMenuItem13,
-            this.minToolStripMenuItem14,
-            this.minToolStripMenuItem15,
-            this.minToolStripMenuItem16,
-            this.minToolStripMenuItem17});
-            this.intervalToolStripMenuItem.Name = "intervalToolStripMenuItem";
-            this.intervalToolStripMenuItem.Size = new System.Drawing.Size(271, 22);
-            this.intervalToolStripMenuItem.Text = "&Interval";
-            // 
-            // neverToolStripMenuItem1
-            // 
-            this.neverToolStripMenuItem1.Name = "neverToolStripMenuItem1";
-            this.neverToolStripMenuItem1.Size = new System.Drawing.Size(110, 22);
-            this.neverToolStripMenuItem1.Text = "Never";
-            this.neverToolStripMenuItem1.Click += new System.EventHandler(this.neverToolStripMenuItem1_Click);
-            // 
-            // toolStripMenuItem87
-            // 
-            this.toolStripMenuItem87.Name = "toolStripMenuItem87";
-            this.toolStripMenuItem87.Size = new System.Drawing.Size(107, 6);
-            // 
-            // secToolStripMenuItem
-            // 
-            this.secToolStripMenuItem.Name = "secToolStripMenuItem";
-            this.secToolStripMenuItem.Size = new System.Drawing.Size(110, 22);
-            this.secToolStripMenuItem.Text = "30 sec";
-            this.secToolStripMenuItem.Click += new System.EventHandler(this.secToolStripMenuItem_Click);
-            // 
-            // minToolStripMenuItem9
-            // 
-            this.minToolStripMenuItem9.Name = "minToolStripMenuItem9";
-            this.minToolStripMenuItem9.Size = new System.Drawing.Size(110, 22);
-            this.minToolStripMenuItem9.Text = "1 min";
-            this.minToolStripMenuItem9.Click += new System.EventHandler(this.minToolStripMenuItem9_Click);
-            // 
-            // minToolStripMenuItem10
-            // 
-            this.minToolStripMenuItem10.Name = "minToolStripMenuItem10";
-            this.minToolStripMenuItem10.Size = new System.Drawing.Size(110, 22);
-            this.minToolStripMenuItem10.Text = "2 min";
-            this.minToolStripMenuItem10.Click += new System.EventHandler(this.minToolStripMenuItem10_Click);
-            // 
-            // minToolStripMenuItem11
-            // 
-            this.minToolStripMenuItem11.Name = "minToolStripMenuItem11";
-            this.minToolStripMenuItem11.Size = new System.Drawing.Size(110, 22);
-            this.minToolStripMenuItem11.Text = "3 min";
-            this.minToolStripMenuItem11.Click += new System.EventHandler(this.minToolStripMenuItem11_Click);
-            // 
-            // minToolStripMenuItem12
-            // 
-            this.minToolStripMenuItem12.Name = "minToolStripMenuItem12";
-            this.minToolStripMenuItem12.Size = new System.Drawing.Size(110, 22);
-            this.minToolStripMenuItem12.Text = "4 min";
-            this.minToolStripMenuItem12.Click += new System.EventHandler(this.minToolStripMenuItem12_Click);
-            // 
-            // minToolStripMenuItem13
-            // 
-            this.minToolStripMenuItem13.Name = "minToolStripMenuItem13";
-            this.minToolStripMenuItem13.Size = new System.Drawing.Size(110, 22);
-            this.minToolStripMenuItem13.Text = "5 min";
-            this.minToolStripMenuItem13.Click += new System.EventHandler(this.minToolStripMenuItem13_Click);
-            // 
-            // minToolStripMenuItem14
-            // 
-            this.minToolStripMenuItem14.Name = "minToolStripMenuItem14";
-            this.minToolStripMenuItem14.Size = new System.Drawing.Size(110, 22);
-            this.minToolStripMenuItem14.Text = "10 min";
-            this.minToolStripMenuItem14.Click += new System.EventHandler(this.minToolStripMenuItem14_Click);
-            // 
-            // minToolStripMenuItem15
-            // 
-            this.minToolStripMenuItem15.Name = "minToolStripMenuItem15";
-            this.minToolStripMenuItem15.Size = new System.Drawing.Size(110, 22);
-            this.minToolStripMenuItem15.Text = "15 min";
-            this.minToolStripMenuItem15.Click += new System.EventHandler(this.minToolStripMenuItem15_Click);
-            // 
-            // minToolStripMenuItem16
-            // 
-            this.minToolStripMenuItem16.Name = "minToolStripMenuItem16";
-            this.minToolStripMenuItem16.Size = new System.Drawing.Size(110, 22);
-            this.minToolStripMenuItem16.Text = "30 min";
-            this.minToolStripMenuItem16.Click += new System.EventHandler(this.minToolStripMenuItem16_Click);
-            // 
-            // minToolStripMenuItem17
-            // 
-            this.minToolStripMenuItem17.Name = "minToolStripMenuItem17";
-            this.minToolStripMenuItem17.Size = new System.Drawing.Size(110, 22);
-            this.minToolStripMenuItem17.Text = "60 min";
-            this.minToolStripMenuItem17.Click += new System.EventHandler(this.minToolStripMenuItem17_Click);
-            // 
             // toolStripMenuItem31
             // 
             this.toolStripMenuItem31.Name = "toolStripMenuItem31";
@@ -4487,20 +3892,10 @@
             this.stickyToolStripMenuItem,
             this.stickyOptionsToolStripMenuItem,
             this.toolStripMenuItem56,
-            this.plopEditorToolStripMenuItem,
             this.openSnippetEditorToolStripMenuItem,
-            this.typeWriterToolStripMenuItem,
-            this.toolStripMenuItem7,
-            this.openUtilityEditorToolStripMenuItem,
-            this.transferToUtilityEditorToolStripMenuItem1,
-            this.addSelectionToolStripMenuItem1,
             this.toolStripMenuItem40,
-            this.calculatorToolStripMenuItem,
             this.generatePasswordToolStripMenuItem,
             this.encryptDecryptSelectionToolStripMenuItem,
-            this.additionalToolsToolStripMenuItem,
-            this.toolStripMenuItem59,
-            this.typermaxGameToolStripMenuItem,
             this.toolStripMenuItem23,
             this.openFirefoxToolStripMenuItem,
             this.openChromeToolStripMenuItem,
@@ -4642,16 +4037,6 @@
             this.toolStripMenuItem56.Name = "toolStripMenuItem56";
             this.toolStripMenuItem56.Size = new System.Drawing.Size(285, 6);
             // 
-            // plopEditorToolStripMenuItem
-            // 
-            this.plopEditorToolStripMenuItem.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.plopEditorToolStripMenuItem.Name = "plopEditorToolStripMenuItem";
-            this.plopEditorToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.E)));
-            this.plopEditorToolStripMenuItem.Size = new System.Drawing.Size(288, 22);
-            this.plopEditorToolStripMenuItem.Tag = "bold";
-            this.plopEditorToolStripMenuItem.Text = "&PLOP Editor";
-            this.plopEditorToolStripMenuItem.Click += new System.EventHandler(this.plopEditorToolStripMenuItem_Click);
-            // 
             // openSnippetEditorToolStripMenuItem
             // 
             this.openSnippetEditorToolStripMenuItem.Name = "openSnippetEditorToolStripMenuItem";
@@ -4661,61 +4046,10 @@
             this.openSnippetEditorToolStripMenuItem.Text = "&Snippet Window";
             this.openSnippetEditorToolStripMenuItem.Click += new System.EventHandler(this.openSnippetEditorToolStripMenuItem_Click);
             // 
-            // typeWriterToolStripMenuItem
-            // 
-            this.typeWriterToolStripMenuItem.Name = "typeWriterToolStripMenuItem";
-            this.typeWriterToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)(((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.Alt) 
-            | System.Windows.Forms.Keys.T)));
-            this.typeWriterToolStripMenuItem.Size = new System.Drawing.Size(288, 22);
-            this.typeWriterToolStripMenuItem.Text = "&Typewriter";
-            this.typeWriterToolStripMenuItem.Click += new System.EventHandler(this.typeWriterToolStripMenuItem_Click);
-            // 
-            // toolStripMenuItem7
-            // 
-            this.toolStripMenuItem7.Name = "toolStripMenuItem7";
-            this.toolStripMenuItem7.Size = new System.Drawing.Size(285, 6);
-            // 
-            // openUtilityEditorToolStripMenuItem
-            // 
-            this.openUtilityEditorToolStripMenuItem.Name = "openUtilityEditorToolStripMenuItem";
-            this.openUtilityEditorToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)(((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.Alt) 
-            | System.Windows.Forms.Keys.E)));
-            this.openUtilityEditorToolStripMenuItem.Size = new System.Drawing.Size(288, 22);
-            this.openUtilityEditorToolStripMenuItem.Text = "Open &Utility Editor";
-            this.openUtilityEditorToolStripMenuItem.Click += new System.EventHandler(this.openUtilityEditorToolStripMenuItem_Click);
-            // 
-            // transferToUtilityEditorToolStripMenuItem1
-            // 
-            this.transferToUtilityEditorToolStripMenuItem1.Name = "transferToUtilityEditorToolStripMenuItem1";
-            this.transferToUtilityEditorToolStripMenuItem1.ShortcutKeys = ((System.Windows.Forms.Keys)(((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.Shift) 
-            | System.Windows.Forms.Keys.R)));
-            this.transferToUtilityEditorToolStripMenuItem1.Size = new System.Drawing.Size(288, 22);
-            this.transferToUtilityEditorToolStripMenuItem1.Text = "&Add to Utility Editor";
-            this.transferToUtilityEditorToolStripMenuItem1.Click += new System.EventHandler(this.transferToUtilityEditorToolStripMenuItem1_Click);
-            // 
-            // addSelectionToolStripMenuItem1
-            // 
-            this.addSelectionToolStripMenuItem1.Name = "addSelectionToolStripMenuItem1";
-            this.addSelectionToolStripMenuItem1.ShortcutKeys = ((System.Windows.Forms.Keys)(((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.Shift) 
-            | System.Windows.Forms.Keys.A)));
-            this.addSelectionToolStripMenuItem1.Size = new System.Drawing.Size(288, 22);
-            this.addSelectionToolStripMenuItem1.Text = "Add &Selection...";
-            this.addSelectionToolStripMenuItem1.Click += new System.EventHandler(this.addSelectionToolStripMenuItem1_Click);
-            // 
             // toolStripMenuItem40
             // 
             this.toolStripMenuItem40.Name = "toolStripMenuItem40";
             this.toolStripMenuItem40.Size = new System.Drawing.Size(285, 6);
-            // 
-            // calculatorToolStripMenuItem
-            // 
-            this.calculatorToolStripMenuItem.Name = "calculatorToolStripMenuItem";
-            this.calculatorToolStripMenuItem.ShortcutKeyDisplayString = "";
-            this.calculatorToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)(((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.Alt) 
-            | System.Windows.Forms.Keys.W)));
-            this.calculatorToolStripMenuItem.Size = new System.Drawing.Size(288, 22);
-            this.calculatorToolStripMenuItem.Text = "&Calculator";
-            this.calculatorToolStripMenuItem.Click += new System.EventHandler(this.calculatorToolStripMenuItem_Click);
             // 
             // generatePasswordToolStripMenuItem
             // 
@@ -4734,49 +4068,6 @@
             this.encryptDecryptSelectionToolStripMenuItem.Size = new System.Drawing.Size(288, 22);
             this.encryptDecryptSelectionToolStripMenuItem.Text = "Message &Encryption";
             this.encryptDecryptSelectionToolStripMenuItem.Click += new System.EventHandler(this.encryptDecryptSelectionToolStripMenuItem_Click);
-            // 
-            // additionalToolsToolStripMenuItem
-            // 
-            this.additionalToolsToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.randomNumbersToolStripMenuItem,
-            this.romanNumeralsToolStripMenuItem,
-            this.openANSIEditorToolStripMenuItem});
-            this.additionalToolsToolStripMenuItem.Name = "additionalToolsToolStripMenuItem";
-            this.additionalToolsToolStripMenuItem.Size = new System.Drawing.Size(288, 22);
-            this.additionalToolsToolStripMenuItem.Text = "&Additional Tools";
-            // 
-            // randomNumbersToolStripMenuItem
-            // 
-            this.randomNumbersToolStripMenuItem.Name = "randomNumbersToolStripMenuItem";
-            this.randomNumbersToolStripMenuItem.Size = new System.Drawing.Size(171, 22);
-            this.randomNumbersToolStripMenuItem.Text = "&Random Numbers";
-            this.randomNumbersToolStripMenuItem.Click += new System.EventHandler(this.randomNumbersToolStripMenuItem_Click);
-            // 
-            // romanNumeralsToolStripMenuItem
-            // 
-            this.romanNumeralsToolStripMenuItem.Name = "romanNumeralsToolStripMenuItem";
-            this.romanNumeralsToolStripMenuItem.Size = new System.Drawing.Size(171, 22);
-            this.romanNumeralsToolStripMenuItem.Text = "&Roman Numerals";
-            this.romanNumeralsToolStripMenuItem.Click += new System.EventHandler(this.romanNumeralsToolStripMenuItem_Click);
-            // 
-            // openANSIEditorToolStripMenuItem
-            // 
-            this.openANSIEditorToolStripMenuItem.Name = "openANSIEditorToolStripMenuItem";
-            this.openANSIEditorToolStripMenuItem.Size = new System.Drawing.Size(171, 22);
-            this.openANSIEditorToolStripMenuItem.Text = "&ANSI Editor";
-            this.openANSIEditorToolStripMenuItem.Click += new System.EventHandler(this.openANSIEditorToolStripMenuItem_Click);
-            // 
-            // toolStripMenuItem59
-            // 
-            this.toolStripMenuItem59.Name = "toolStripMenuItem59";
-            this.toolStripMenuItem59.Size = new System.Drawing.Size(285, 6);
-            // 
-            // typermaxGameToolStripMenuItem
-            // 
-            this.typermaxGameToolStripMenuItem.Name = "typermaxGameToolStripMenuItem";
-            this.typermaxGameToolStripMenuItem.Size = new System.Drawing.Size(288, 22);
-            this.typermaxGameToolStripMenuItem.Text = "&Typermax Game";
-            this.typermaxGameToolStripMenuItem.Click += new System.EventHandler(this.typermaxGameToolStripMenuItem_Click);
             // 
             // toolStripMenuItem23
             // 
@@ -4926,7 +4217,6 @@
             this.colorThemesToolStripMenuItem,
             this.toolStripMenuItem28,
             this.homeScreenToolStripMenuItem,
-            this.effectsToolStripMenuItem,
             this.setDisplayTextToolStripMenuItem,
             this.clearDisplayTextToolStripMenuItem,
             this.toolStripMenuItem41,
@@ -5201,21 +4491,6 @@
             this.layoutCToolStripMenuItem.Text = "&Custom Text";
             this.layoutCToolStripMenuItem.Click += new System.EventHandler(this.layoutCCustomToolStripMenuItem_Click);
             // 
-            // effectsToolStripMenuItem
-            // 
-            this.effectsToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.prismEffectToolStripMenuItem});
-            this.effectsToolStripMenuItem.Name = "effectsToolStripMenuItem";
-            this.effectsToolStripMenuItem.Size = new System.Drawing.Size(176, 22);
-            this.effectsToolStripMenuItem.Text = "&Effects";
-            // 
-            // prismEffectToolStripMenuItem
-            // 
-            this.prismEffectToolStripMenuItem.Name = "prismEffectToolStripMenuItem";
-            this.prismEffectToolStripMenuItem.Size = new System.Drawing.Size(137, 22);
-            this.prismEffectToolStripMenuItem.Text = "Prism Effect";
-            this.prismEffectToolStripMenuItem.Click += new System.EventHandler(this.prismEffectToolStripMenuItem_Click);
-            // 
             // setDisplayTextToolStripMenuItem
             // 
             this.setDisplayTextToolStripMenuItem.Name = "setDisplayTextToolStripMenuItem";
@@ -5254,7 +4529,6 @@
             // 
             this.helpToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.gettingStartedToolStripMenuItem,
-            this.textSymbolsAndDecorationsToolStripMenuItem,
             this.toolStripMenuItem5,
             //this.checkForUpdatesToolStripMenuItem,
             //this.toolStripMenuItem75,
@@ -5272,13 +4546,6 @@
             this.gettingStartedToolStripMenuItem.Size = new System.Drawing.Size(232, 22);
             this.gettingStartedToolStripMenuItem.Text = "Quick &Guide";
             this.gettingStartedToolStripMenuItem.Click += new System.EventHandler(this.gettingStartedToolStripMenuItem_Click);
-            // 
-            // textSymbolsAndDecorationsToolStripMenuItem
-            // 
-            this.textSymbolsAndDecorationsToolStripMenuItem.Name = "textSymbolsAndDecorationsToolStripMenuItem";
-            this.textSymbolsAndDecorationsToolStripMenuItem.Size = new System.Drawing.Size(232, 22);
-            this.textSymbolsAndDecorationsToolStripMenuItem.Text = "Text Symbols and &Decorations";
-            this.textSymbolsAndDecorationsToolStripMenuItem.Click += new System.EventHandler(this.textSymbolsAndDecorationsToolStripMenuItem_Click);
             // 
             // toolStripMenuItem5
             // 
@@ -5358,18 +4625,6 @@
             // timerRefocusContentSearch
             // 
             this.timerRefocusContentSearch.Tick += new System.EventHandler(this.timerRefocusContentSearch_Tick);
-            // 
-            // pnlSpawnTypeWriter
-            // 
-            this.pnlSpawnTypeWriter.Cursor = System.Windows.Forms.Cursors.Default;
-            this.pnlSpawnTypeWriter.Location = new System.Drawing.Point(290, 0);
-            this.pnlSpawnTypeWriter.MaximumSize = new System.Drawing.Size(37, 23);
-            this.pnlSpawnTypeWriter.MinimumSize = new System.Drawing.Size(37, 23);
-            this.pnlSpawnTypeWriter.Name = "pnlSpawnTypeWriter";
-            this.pnlSpawnTypeWriter.Size = new System.Drawing.Size(37, 23);
-            this.pnlSpawnTypeWriter.TabIndex = 32;
-            this.toolTip1.SetToolTip(this.pnlSpawnTypeWriter, "Typewriter (CTRL+ALT+T)");
-            this.pnlSpawnTypeWriter.Click += new System.EventHandler(this.pnlSpawnTypeWriter_Click);
             // 
             // pnlSpawnSticky
             // 
@@ -5558,11 +4813,6 @@
             // 
             this.timerFastGlobal.Tick += new System.EventHandler(this.timerFastGlobal_Tick);
             // 
-            // timerNotificationAnimation
-            // 
-            this.timerNotificationAnimation.Interval = 200;
-            this.timerNotificationAnimation.Tick += new System.EventHandler(this.timerNotificationAnimation_Tick);
-            // 
             // timerFastAnimation
             // 
             this.timerFastAnimation.Interval = 500;
@@ -5639,7 +4889,6 @@
             this.ClientSize = new System.Drawing.Size(1034, 662);
             this.Controls.Add(this.pnlShowAllStickies);
             this.Controls.Add(this.pnlSpawnSticky);
-            this.Controls.Add(this.pnlSpawnTypeWriter);
             this.Controls.Add(this.pnlLoading);
             this.Controls.Add(this.lbReadOnlyIndicator);
             this.Controls.Add(this.statusStrip1);
@@ -5670,10 +4919,6 @@
             this.panel1.ResumeLayout(false);
             this.panel1.PerformLayout();
             this.contextMenuPinned.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.picCalculator)).EndInit();
-            this.pnlNotificationSelector.ResumeLayout(false);
-            this.pnlNotificationPreviewTitleBack.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.picHelp)).EndInit();
             this.panel3.ResumeLayout(false);
             this.panel3.PerformLayout();
             this.panel2.ResumeLayout(false);

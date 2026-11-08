@@ -16,10 +16,6 @@ namespace AhoyBrowser
         public string ID { get; set; }
         public string Created { get; set; }
         public string Changed { get; set; }
-        public string NotificationTimeStamp { get; set; }
-        public string NotificationText { get; set; }
-        public string NotificationRepeat { get; set; }
-        public int NotificationCaretPosition { get; set; }
         public bool Pin { get; set; }
         public int Rank { get; set; } // Rank in the pinned list
         public int PresetColor { get; set; } // Preset Colors in the pinned list

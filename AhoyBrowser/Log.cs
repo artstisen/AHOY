@@ -391,50 +391,11 @@ namespace AhoyBrowser
             logList.Add(GetTimeStamp(true) + "Sleep");
             RunLogMaintenance();
         }
-
-        public static void ScreenBlockerStaus(string status)
-        {
-            logList.Add(GetTimeStamp(true) + "Screen Blocker: " + status);
-            RunLogMaintenance();
-        }
-
-        public static void UpdateStaus(string status)
-        {
-            logList.Add(GetTimeStamp(true) + MessageText.CheckForUpdatesCaption() + ": " + status);
-            RunLogMaintenance();
-        }
-
         public static void SpellCheck()
         {
             logList.Add(GetTimeStamp(true) + "Spell Check");
             RunLogMaintenance();
         }
-
-        public static void AnsiEditor()
-        {
-            logList.Add(GetTimeStamp(true) + "ANSI Edit");
-            RunLogMaintenance();
-        }
-
-        public static void UtilityEditor()
-        {
-            logList.Add(GetTimeStamp(true) + "Utility Editor");
-            RunLogMaintenance();
-        }
-
-        public static void PlopCallUpEntry()
-        {
-            logList.Add(GetTimeStamp(true) + "PLOP: Call-Up");
-            RunLogMaintenance();
-        }
-
-
-        public static void UEEditor(string status)
-        {
-            logList.Add(GetTimeStamp(true) + status);
-            RunLogMaintenance();
-        }
-
         public static void StickyCreated(bool perRemote)
         {
             if (perRemote)
@@ -555,13 +516,6 @@ namespace AhoyBrowser
             logList.Add(GetTimeStamp(true) + "Opacity: " + value);
             RunLogMaintenance();
         }
-
-        public static void NotificationSet(string status)
-        {
-            logList.Add(GetTimeStamp(true) + "Notification: " + status);
-            RunLogMaintenance();
-        }
-
         public static void ProcessStart(string info)
         {
             logList.Add(GetTimeStamp(true) + "Process Start: \"" + info + "\"");
@@ -660,13 +614,6 @@ namespace AhoyBrowser
             logList.Add(GetTimeStamp(false) + "Content search: \"" + query + "\"");
             RunLogMaintenance();
         }
-
-        public static void LogUEContentSearch(string query)
-        {
-            logList.Add(GetTimeStamp(false) + "UE/PLOP Editor search: \"" + query + "\"");
-            RunLogMaintenance();
-        }
-
         public static void LogGeneralContentSearch(string query)
         {
             logList.Add(GetTimeStamp(false) + "Editor search: \"" + query + "\"");
@@ -777,19 +724,6 @@ namespace AhoyBrowser
             RunLogMaintenance();
         }
 
-        public static void RomanNumerals()
-        {
-            logList.Add(GetTimeStamp(true) + "Roman Numerals");
-            RunLogMaintenance();
-        }
-
-        public static void LogWindowStateChangeErrorUE()
-        {
-            logList.Add(GetTimeStamp(true) + "Error: Window state change (UE)");
-            RunLogMaintenance();
-        }
-
-
         public static void LogWindowStateChangeErrorSticky()
         {
             logList.Add(GetTimeStamp(true) + "Error: Window state change (Sticky)");
@@ -802,49 +736,11 @@ namespace AhoyBrowser
             logList.Add(GetTimeStamp(true) + "Error: Cursor location change");
             RunLogMaintenance();
         }
-
-        public static void LogTypeWriterInit()
-        {
-            logList.Add(GetTimeStamp(true) + "Typewriter: Initialize");
-            RunLogMaintenance();
-        }
-
-        public static void LogTypeWriterError()
-        {
-            logList.Add(GetTimeStamp(true) + "Typewriter: Error");
-            RunLogMaintenance();
-        }
-
-        public static void LogTypeWriterIDLookup()
-        {
-            logList.Add(GetTimeStamp(true) + "Typewriter: ID lookup...");
-            RunLogMaintenance();
-        }
-
-        public static void LogTypeWriterStart()
-        {
-            logList.Add(GetTimeStamp(true) + "Typewriter: Open");
-            RunLogMaintenance();
-        }
-
-        public static void LogTypeWriterEnd()
-        {
-            logList.Add(GetTimeStamp(true) + "Typewriter: Exit");
-            RunLogMaintenance();
-        }
-
         public static void Typermax()
         {
             logList.Add(GetTimeStamp(true) + "Game: Typermax");
             RunLogMaintenance();
         }
-
-        public static void TypermaxTest(bool mode)
-        {
-            logList.Add(GetTimeStamp(true) + "Game: Typermax (Test mode: " + mode.ToString() + ")");
-            RunLogMaintenance();
-        }
-
         public static void LogResetSettingsChanged()
         {
             logList.Add(GetTimeStamp(true) + "Settings: Reset");

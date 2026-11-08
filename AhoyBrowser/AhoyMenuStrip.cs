@@ -335,14 +335,7 @@ namespace AhoyBrowser
         {
             get
             {
-                if (AhoyColors.ColorTheme != 0 && AhoyColors.ColorTheme != 1 && AhoyColors.ColorTheme != 2 && AhoyColors.ColorTheme != 6 && AhoyColors.ColorTheme != 7 && AhoyColors.ColorTheme != 10 && AhoyColors.ColorTheme != 11 && AhoyColors.ColorTheme != 13 && AhoyColors.ColorTheme != 15)
-                {
-                    return AhoyColors.CurrentColorTheme()[9];
-                }
-                else
-                {
-                    return AhoyColors.CurrentColorTheme()[0];
-                }
+                return AhoyColors.CurrentColorTheme()[0];
             }
         }
         // Separator line 
@@ -350,14 +343,7 @@ namespace AhoyBrowser
         {
             get
             {
-                if (AhoyColors.ColorTheme != 0 && AhoyColors.ColorTheme != 1 && AhoyColors.ColorTheme != 2 && AhoyColors.ColorTheme != 6 && AhoyColors.ColorTheme != 7 && AhoyColors.ColorTheme != 10 && AhoyColors.ColorTheme != 11 && AhoyColors.ColorTheme != 13 && AhoyColors.ColorTheme != 15)
-                {
-                    return AhoyColors.CurrentColorTheme()[9];
-                }
-                else
-                {
-                    return AhoyColors.CurrentColorTheme()[0];
-                }
+                return AhoyColors.CurrentColorTheme()[0];
             }
         }
         // Separator line 
@@ -365,14 +351,7 @@ namespace AhoyBrowser
         {
             get
             {
-                if (AhoyColors.ColorTheme != 0 && AhoyColors.ColorTheme != 1 && AhoyColors.ColorTheme != 2 && AhoyColors.ColorTheme != 6 && AhoyColors.ColorTheme != 7 && AhoyColors.ColorTheme != 10 && AhoyColors.ColorTheme != 11 && AhoyColors.ColorTheme != 13 && AhoyColors.ColorTheme != 15)
-                {
-                    return AhoyColors.CurrentColorTheme()[9];
-                }
-                else
-                {
-                    return AhoyColors.CurrentColorTheme()[0];
-                }
+                return AhoyColors.CurrentColorTheme()[0];
             }
         }
 

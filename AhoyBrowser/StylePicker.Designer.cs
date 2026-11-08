@@ -85,7 +85,6 @@
             this.btnResetOpacity = new System.Windows.Forms.Button();
             this.btnSetName = new System.Windows.Forms.Button();
             this.btnResetName = new System.Windows.Forms.Button();
-            this.lbPrismEffect = new System.Windows.Forms.Label();
             this.lbTestList = new System.Windows.Forms.Label();
             this.lbTestContent = new System.Windows.Forms.Label();
             this.lbCopyPreset = new System.Windows.Forms.Label();
@@ -778,18 +777,6 @@
             this.btnResetName.UseVisualStyleBackColor = true;
             this.btnResetName.Click += new System.EventHandler(this.btnResetName_Click);
             // 
-            // lbPrismEffect
-            // 
-            this.lbPrismEffect.BackColor = System.Drawing.SystemColors.ControlDarkDark;
-            this.lbPrismEffect.Location = new System.Drawing.Point(17, 82);
-            this.lbPrismEffect.Name = "lbPrismEffect";
-            this.lbPrismEffect.Size = new System.Drawing.Size(96, 21);
-            this.lbPrismEffect.TabIndex = 95;
-            this.lbPrismEffect.Text = "Prism: OFF";
-            this.lbPrismEffect.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            this.toolTip1.SetToolTip(this.lbPrismEffect, "Toggle Prism Effect");
-            this.lbPrismEffect.Click += new System.EventHandler(this.lbPrismEffect_Click);
-            // 
             // lbTestList
             // 
             this.lbTestList.Font = new System.Drawing.Font("Courier New", 12F);
@@ -867,7 +854,6 @@
             this.ClientSize = new System.Drawing.Size(619, 461);
             this.Controls.Add(this.lbPastePreset);
             this.Controls.Add(this.lbCopyPreset);
-            this.Controls.Add(this.lbPrismEffect);
             this.Controls.Add(this.btnResetName);
             this.Controls.Add(this.btnSetName);
             this.Controls.Add(this.btnResetOpacity);
@@ -1000,7 +986,6 @@
         private System.Windows.Forms.Button btnResetOpacity;
         private System.Windows.Forms.Button btnSetName;
         private System.Windows.Forms.Button btnResetName;
-        private System.Windows.Forms.Label lbPrismEffect;
         private System.Windows.Forms.Label lbCopyPreset;
         private System.Windows.Forms.Label lbPastePreset;
     }

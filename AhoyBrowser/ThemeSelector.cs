@@ -127,17 +127,17 @@ namespace AhoyBrowser
 
         private void btnSelectA_Click(object sender, EventArgs e)
         {
-            SubmitSelection(0);
+            SubmitSelection(AhoyColors.ThemeDark);
         }
 
         private void btnSelectB_Click(object sender, EventArgs e)
         {
-            SubmitSelection(1);
+            SubmitSelection(AhoyColors.ThemeLight);
         }
 
         private void btnSelectC_Click(object sender, EventArgs e)
         {
-            SubmitSelection(15);
+            SubmitSelection(AhoyColors.ThemeBlue);
         }
 
         private void picA_Click(object sender, EventArgs e)
@@ -177,7 +177,6 @@ namespace AhoyBrowser
             Log.StyleChanged();
             AhoyColors.ColorTheme = SelectedColorTheme;
             MainForm.SelectedTexture = Settings.DefaultTexture;
-            MainForm.PrismEffect = Settings.DefaultPrismEffect;
             MainForm.FormOpacity = Settings.DefaultOpacity;
             ButtonBitmaps.UserSelectedBitmapVersion = 0; // Always set the two theme selector themes to use standard home screen (ANSI)
             MainForm.DisplayTextCycle = 0;

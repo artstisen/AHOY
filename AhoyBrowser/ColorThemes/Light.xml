@@ -1,0 +1,14 @@
+﻿<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<settings>
+  <setting>
+    <colortheme>1</colortheme>
+    <!-- Button bitmap 0-2 -->
+    <btnbovr>0</btnbovr>
+    <opacity>0,9</opacity>
+    <texture>0</texture>
+    <!--Display text cycle -->
+    <qgcycle>0</qgcycle>
+    <custt><![CDATA[Light]]></custt>
+    <custc><![CDATA[#E1E1E1;#FFFFFF;#5A5A5A;#000000;#0192D1;#FFFFFF;#F3A700;#FFFFFF;#646464;#FFFFFF;#DCDCDC;#C8C8C8;#D10101;#0192D1;#005B84;#8DB20D;#556E12;#B20DA4;#DCDCDC;#141414;#FFFFFF;#141414;#00B2FF;#141414;#B2E114;#FFFFFF;#141414;#DCDCDC;#FFAF00;#FFFFFF;#000000;]]></custc>
+  </setting>
+</settings>

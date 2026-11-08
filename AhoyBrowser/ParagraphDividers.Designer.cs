@@ -59,8 +59,6 @@
             this.lbClearD = new AhoyBrowser.HoverLabel();
             this.lbPasteD = new AhoyBrowser.HoverLabel();
             this.lbCopyD = new AhoyBrowser.HoverLabel();
-            this.btnSymbolsPicker = new System.Windows.Forms.Button();
-            this.btnAnsiEdit = new System.Windows.Forms.Button();
             this.lbResetA = new AhoyBrowser.HoverLabel();
             this.lbResetB = new AhoyBrowser.HoverLabel();
             this.lbResetC = new AhoyBrowser.HoverLabel();
@@ -439,32 +437,6 @@
             this.toolTip1.SetToolTip(this.lbCopyD, "Copy");
             this.lbCopyD.Click += new System.EventHandler(this.lbCopyD_Click);
             // 
-            // btnSymbolsPicker
-            // 
-            this.btnSymbolsPicker.Cursor = System.Windows.Forms.Cursors.Default;
-            this.btnSymbolsPicker.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btnSymbolsPicker.Location = new System.Drawing.Point(12, 647);
-            this.btnSymbolsPicker.Name = "btnSymbolsPicker";
-            this.btnSymbolsPicker.Size = new System.Drawing.Size(95, 23);
-            this.btnSymbolsPicker.TabIndex = 4;
-            this.btnSymbolsPicker.Text = "Symbols";
-            this.toolTip1.SetToolTip(this.btnSymbolsPicker, "Show Symbols");
-            this.btnSymbolsPicker.UseVisualStyleBackColor = true;
-            this.btnSymbolsPicker.Click += new System.EventHandler(this.btnSymbolsPicker_Click);
-            // 
-            // btnAnsiEdit
-            // 
-            this.btnAnsiEdit.Cursor = System.Windows.Forms.Cursors.Default;
-            this.btnAnsiEdit.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btnAnsiEdit.Location = new System.Drawing.Point(113, 647);
-            this.btnAnsiEdit.Name = "btnAnsiEdit";
-            this.btnAnsiEdit.Size = new System.Drawing.Size(95, 23);
-            this.btnAnsiEdit.TabIndex = 41;
-            this.btnAnsiEdit.Text = "ANSI Edit";
-            this.toolTip1.SetToolTip(this.btnAnsiEdit, "ANSI/ASCII Art Editor");
-            this.btnAnsiEdit.UseVisualStyleBackColor = true;
-            this.btnAnsiEdit.Click += new System.EventHandler(this.btnAnsiEdit_Click);
-            // 
             // lbResetA
             // 
             this.lbResetA.Cursor = System.Windows.Forms.Cursors.Default;
@@ -683,7 +655,6 @@
             this.Controls.Add(this.lbResetA);
             this.Controls.Add(this.lbSelectionTag);
             this.Controls.Add(this.lbTimestampTag);
-            this.Controls.Add(this.btnAnsiEdit);
             this.Controls.Add(this.lbClearD);
             this.Controls.Add(this.lbPasteD);
             this.Controls.Add(this.lbCopyD);
@@ -707,7 +678,6 @@
             this.Controls.Add(this.btnClearAll);
             this.Controls.Add(this.btnResetAll);
             this.Controls.Add(this.lbInstructions);
-            this.Controls.Add(this.btnSymbolsPicker);
             this.Controls.Add(this.btnSaveAndClose);
             this.Controls.Add(this.btnCancel);
             this.Controls.Add(this.tbDeviderD);
@@ -777,8 +747,6 @@
         private HoverLabel lbClearD;
         private HoverLabel lbPasteD;
         private HoverLabel lbCopyD;
-        private System.Windows.Forms.Button btnSymbolsPicker;
-        private System.Windows.Forms.Button btnAnsiEdit;
         private HoverLabel lbTimestampTag;
         private HoverLabel lbSelectionTag;
         private HoverLabel lbResetA;

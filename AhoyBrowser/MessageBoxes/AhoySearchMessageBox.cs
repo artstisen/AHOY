@@ -166,14 +166,7 @@ namespace AhoyBrowser
 
         private void AhoySearchMessageBox_KeyDown(object sender, KeyEventArgs e)
         {
-            // Screen Blocker
-            if (e.KeyData == (Keys.Control | Keys.Alt | Keys.Enter)) // Multiple shortcut keypress
-            {
-                MainForm.StartMagicBlockerPerRemote();
-                e.Handled = true;
-                return;
-            }
-            else if (e.KeyData == (Keys.Control | Keys.Shift | Keys.D)) // Multiple shortcut keypress
+            if (e.KeyData == (Keys.Control | Keys.Shift | Keys.D)) // Multiple shortcut keypress
             {
                 DuplicateSelection(tbInformation);
                 e.Handled = true;

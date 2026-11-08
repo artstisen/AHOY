@@ -29,7 +29,6 @@ namespace AhoyBrowser
         private const string OptionCommandPrefix = "options.";
         private const string ToolCommandPrefix = "tools.";
         private const string ThemeCommandPrefix = "theme.";
-        private const string NotificationCommandPrefix = "notify.";
         private const string StickyCommandPrefix = "sticky.";
 
         // Command types
@@ -43,7 +42,6 @@ namespace AhoyBrowser
             OptionCommand,
             ToolCommand,
             ThemeCommand,
-            NotificationCommand,
             StickyCommand,
             ShellCommand
         }
@@ -65,15 +63,9 @@ namespace AhoyBrowser
                 CommandLibrary.Add(new Command("sleep", "Lock interface"));
                 CommandLibrary.Add(new Command("lock", "Lock interface"));
                 CommandLibrary.Add(new Command("log", "Open Log"));
-                CommandLibrary.Add(new Command("p", "Open PLOP Editor"));
-                CommandLibrary.Add(new Command("ue", "Open Utility Editor"));
                 CommandLibrary.Add(new Command("sticky", "New Sticky"));
-                CommandLibrary.Add(new Command("calc", "Toggle Calculator"));
                 CommandLibrary.Add(new Command("kb", "Toggle Keyboard Control"));
                 CommandLibrary.Add(new Command("x", "Password Generator"));
-                CommandLibrary.Add(new Command("type", "Start Typewriter"));
-                CommandLibrary.Add(new Command("rand", "Random Numbers Generator"));
-                CommandLibrary.Add(new Command("game", "Typermax Game"));
                 CommandLibrary.Add(new Command("op", "Open Current Pool directory"));
                 CommandLibrary.Add(new Command("div", "Paragraph Dividers"));
                 CommandLibrary.Add(new Command("demo", "Toggle Demo Mode"));
@@ -98,9 +90,6 @@ namespace AhoyBrowser
                 CommandLibrary.Add(new Command("task", "Insert Checklist Template"));
                 CommandLibrary.Add(new Command("prog", "Insert Checklist Template"));
                 CommandLibrary.Add(new Command("book", "Insert Bookmark Template"));
-                CommandLibrary.Add(new Command("prism", "Toggle color-shifting effect"));
-                CommandLibrary.Add(new Command("blocker", "Toggle Magic Screen Blocker (gimmick) On/Off"));
-                //CommandLibrary.Add(new Command("update", "Check for Updates"));
                 CommandLibrary.Add(new Command("default", "Load Default Pool"));
                 CommandLibrary.Add(new Command("reload", "Reload current Pool"));
                 CommandLibrary.Add(new Command("ent", "List all entries"));
@@ -195,21 +184,13 @@ namespace AhoyBrowser
                 // Tool commands
                 CommandLibrary.Add(new Command(ToolCommandPrefix + "div", "Paragraph Dividers"));
                 CommandLibrary.Add(new Command(ToolCommandPrefix + "snippet", "Open Snippet Editor"));
-                CommandLibrary.Add(new Command(ToolCommandPrefix + "plop", "Open PLOP Editor"));
-                CommandLibrary.Add(new Command(ToolCommandPrefix + "ue", "Open Utility Editor"));
                 CommandLibrary.Add(new Command(ToolCommandPrefix + "toue", "Open Entry in Utility Editor"));
                 CommandLibrary.Add(new Command(ToolCommandPrefix + "appue", "Append Entry in Utility Editor"));
                 CommandLibrary.Add(new Command(ToolCommandPrefix + "appsel", "Append text selection in Utility Editor"));
-                CommandLibrary.Add(new Command(ToolCommandPrefix + "rand", "Open Random Numbers Generator"));
-                CommandLibrary.Add(new Command(ToolCommandPrefix + "roman", "Open Roman Numerals Editor"));
-                CommandLibrary.Add(new Command(ToolCommandPrefix + "ansi", "Open ANSI Editor"));
-                CommandLibrary.Add(new Command(ToolCommandPrefix + "ascii", "Open ANSI Editor"));
                 CommandLibrary.Add(new Command(ToolCommandPrefix + "pass", "Generate 20-char Strong Password"));
                 CommandLibrary.Add(new Command(ToolCommandPrefix + "chars", "List character selection"));
                 CommandLibrary.Add(new Command(ToolCommandPrefix + "morechars", "List all printable characters"));
                 CommandLibrary.Add(new Command(ToolCommandPrefix + "typewriter", "Start Typewriter"));
-                CommandLibrary.Add(new Command(ToolCommandPrefix + "typermax", "Start Typermax Game"));
-                CommandLibrary.Add(new Command(ToolCommandPrefix + "typermax.reset", "Reset Typermax high score"));
                 CommandLibrary.Add(new Command(ToolCommandPrefix + "mon", "Open Log Monitor"));
                 // CommandLibrary.Add(new Command(ToolCommandPrefix + "dcheck", "Debug routine/Server check (service command)"));
                 // CommandLibrary.Add(new Command(ToolCommandPrefix + "ucheck", "Debug routine/Server check (service command)"));
@@ -221,20 +202,6 @@ namespace AhoyBrowser
                 CommandLibrary.Add(new Command(ThemeCommandPrefix + "table", "Theme color table (HEX/RGB)"));
                 CommandLibrary.Add(new Command(ThemeCommandPrefix + "csv", "Theme colors as CSV (HEX/RGB)"));
                 CommandLibrary.Add(new Command(ThemeCommandPrefix + "list", "All theme colors indexed (HEX/RGB)"));
-                // Notification commands
-                CommandLibrary.Add(new Command(NotificationCommandPrefix + "set", "Set Notification on current Entry"));
-                CommandLibrary.Add(new Command(NotificationCommandPrefix + "count", "Get Notification count"));
-                CommandLibrary.Add(new Command(NotificationCommandPrefix + "info", "Entry Notification details"));
-                CommandLibrary.Add(new Command(NotificationCommandPrefix + "5", "Set 5 min. on Entry"));
-                CommandLibrary.Add(new Command(NotificationCommandPrefix + "10", "Set 10 min. on Entry"));
-                CommandLibrary.Add(new Command(NotificationCommandPrefix + "15", "Set 15 min. on Entry"));
-                CommandLibrary.Add(new Command(NotificationCommandPrefix + "20", "Set 20 min. on Entry"));
-                CommandLibrary.Add(new Command(NotificationCommandPrefix + "30", "Set 30 min. on Entry"));
-                CommandLibrary.Add(new Command(NotificationCommandPrefix + "push", "Push +5 min."));
-                CommandLibrary.Add(new Command(NotificationCommandPrefix + "push10", "Push +10 min."));
-                CommandLibrary.Add(new Command(NotificationCommandPrefix + "push30", "Push +30 min."));
-                CommandLibrary.Add(new Command(NotificationCommandPrefix + "remove", "Deactivate Notification"));
-                CommandLibrary.Add(new Command(NotificationCommandPrefix + "clear", "Deactivate all Notifications"));
                 // Sticky commands
                 CommandLibrary.Add(new Command(StickyCommandPrefix + "new", "New Sticky/Show hidden"));
                 CommandLibrary.Add(new Command(StickyCommandPrefix + "hide", "Hide all Stickies"));
@@ -343,18 +310,6 @@ namespace AhoyBrowser
             }
         }
 
-        public static bool IsNotificationCommand(string input)
-        {
-            if (input.Contains(NotificationCommandPrefix))
-            {
-                return true;
-            }
-            else
-            {
-                return false;
-            }
-        }
-
         public static bool IsStickyCommand(string input)
         {
             if (input.Contains(StickyCommandPrefix))
@@ -405,12 +360,6 @@ namespace AhoyBrowser
             return input;
         }
 
-        private static string TrimNotificationCommand(string input)
-        {
-            input = input.Replace(NotificationCommandPrefix, "");
-            return input;
-        }
-
         private static string TrimStickyCommand(string input)
         {
             input = input.Replace(StickyCommandPrefix, "");
@@ -431,7 +380,6 @@ namespace AhoyBrowser
         private static bool tempOptionsCommandHeader;
         private static bool tempToolsCommandHeader;
         private static bool tempThemeCommandHeader;
-        private static bool tempNotificationCommandHeader;
         private static bool tempStickyCommandHeader;
         public static string GetAllCommands()
         {
@@ -442,7 +390,6 @@ namespace AhoyBrowser
             tempOptionsCommandHeader = true;
             tempToolsCommandHeader = true;
             tempThemeCommandHeader = true;
-            tempNotificationCommandHeader = true;
             tempStickyCommandHeader = true;
 
             tempCommandsOutput = "";
@@ -489,12 +436,6 @@ namespace AhoyBrowser
                 {
                     tempThemeCommandHeader = false;
                     tempCommandsOutput += IO.GetHeadlineFormatted("THEME COMMANDS");
-                }
-                // Notification command header
-                if (IsNotificationCommand(CommandLibrary[i].CommandValue) && tempNotificationCommandHeader)
-                {
-                    tempNotificationCommandHeader = false;
-                    tempCommandsOutput += IO.GetHeadlineFormatted("NOTIFICATION COMMANDS");
                 }
                 // Sticky command header
                 if (IsStickyCommand(CommandLibrary[i].CommandValue) && tempStickyCommandHeader)
@@ -671,10 +612,6 @@ namespace AhoyBrowser
             else if (IsThemeCommand(trimmedCommand)) // Theme command
             {
                 SubmitCommand(TrimThemeCommand(trimmedCommand), CommandType.ThemeCommand);
-            }
-            else if (IsNotificationCommand(trimmedCommand)) // Notification command
-            {
-                SubmitCommand(TrimNotificationCommand(trimmedCommand), CommandType.NotificationCommand);
             }
             else if (IsStickyCommand(trimmedCommand)) // Sticky command
             {

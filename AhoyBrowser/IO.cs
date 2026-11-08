@@ -5,6 +5,7 @@ using System.Text;
 using System.Text.RegularExpressions;
 using System.Windows.Forms;
 using System.Xml;
+using AhoyBrowser.Crypto;
 
 namespace AhoyBrowser
 {
@@ -185,6 +186,16 @@ namespace AhoyBrowser
         internal const string DemoFolderPath = "\\" + ProgramFolderName + "\\" + DemoPoolFolderName;
         internal const string DemoSecondaryFolderPath = "\\" + ProgramFolderName + "\\" + DemoPoolFolderName + "\\" + SecondaryPoolFolderName;
         internal const string BackupFolderPath = "\\" + BackupFolderName;
+
+        /// <summary>
+        /// Root folder for Ahoy's data (normally %APPDATA%). Can be redirected, e.g. by tests,
+        /// so nothing touches the user's real pool.
+        /// </summary>
+        internal static string DataRootOverride { get; set; }
+        internal static string ApplicationDataRoot()
+        {
+            return string.IsNullOrEmpty(DataRootOverride) ? Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData) : DataRootOverride;
+        }
 
         internal static bool CheckDataPath()
         {
@@ -403,15 +414,15 @@ namespace AhoyBrowser
                 // Demo pool and pool switch
                 if (UseDemoPool && !UseSecondaryPool)
                 {
-                    return Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData) + DemoFolderPath;
+                    return ApplicationDataRoot() + DemoFolderPath;
                 }
                 else if (UseDemoPool && UseSecondaryPool)
                 {
-                    return Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData) + DemoSecondaryFolderPath;
+                    return ApplicationDataRoot() + DemoSecondaryFolderPath;
                 }
                 else if (!UseCustomFilePath && UseSecondaryPool)
                 {
-                    return Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData) + SecondaryFolderPath;
+                    return ApplicationDataRoot() + SecondaryFolderPath;
                 }
                 else
                 {
@@ -424,7 +435,7 @@ namespace AhoyBrowser
                     else
                     {
                         // Primary (default directory) path
-                        return Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData) + PrimaryFolderPath;
+                        return ApplicationDataRoot() + PrimaryFolderPath;
                     }
                 }
             }
@@ -441,20 +452,20 @@ namespace AhoyBrowser
                 // Demo pool and pool switch
                 if (UseDemoPool && !UseSecondaryPool)
                 {
-                    return Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData) + DemoFolderPath;
+                    return ApplicationDataRoot() + DemoFolderPath;
                 }
                 else if (UseDemoPool && UseSecondaryPool)
                 {
-                    return Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData) + DemoSecondaryFolderPath;
+                    return ApplicationDataRoot() + DemoSecondaryFolderPath;
                 }
                 else if (!UseCustomFilePath && UseSecondaryPool)
                 {
-                    return Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData) + SecondaryFolderPath;
+                    return ApplicationDataRoot() + SecondaryFolderPath;
                 }
                 else
                 {
                     // Primary (default directory) path
-                    return Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData) + PrimaryFolderPath;
+                    return ApplicationDataRoot() + PrimaryFolderPath;
                 }
             }
             catch
@@ -467,7 +478,7 @@ namespace AhoyBrowser
         {
             try
             {
-                return Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData) + PrimaryFolderPath;
+                return ApplicationDataRoot() + PrimaryFolderPath;
             }
             catch
             {
@@ -700,7 +711,7 @@ namespace AhoyBrowser
         private static string SelectedAlternateBackupFilePath { get; set; }
         private static bool SaveAlternateBackup { get; set; }
         internal static string PoolDumpString { get; set; }
-        internal static bool SaveEntries(List<Entry> Entries, List<StickySettings> StickyList, string logText, string holdEntryAID, string holdEntryBID, string memoText, int memoCaret, UEData ueData, string displayText, Welcome Auth, string AuthQuestion, string AuthAnswer, string AuthPassword, bool isBackup, string cypherKey, int typermaxHighScore, bool saveAtAlternateLocation, string alternateFilePath, bool writeProtected, string dividerA, string dividerB, string dividerC, string dividerD, bool dump)
+        internal static bool SaveEntries(List<Entry> Entries, List<StickySettings> StickyList, string logText, string holdEntryAID, string holdEntryBID, string memoText, int memoCaret, string displayText, PoolKey key, bool isBackup, string cypherKey, bool saveAtAlternateLocation, string alternateFilePath, bool writeProtected, string dividerA, string dividerB, string dividerC, string dividerD, bool dump)
         {
             if (!saveAtAlternateLocation && !CheckDataPath())
             {
@@ -739,8 +750,12 @@ namespace AhoyBrowser
                 }
             }
 
+            if (key == null)
+            {
+                return false; // Never write a pool without a password-derived key
+            }
+
             StringBuilder xmlContent = new StringBuilder();
-            string encryptedXmlContent = "";
 
             // If any entries exist create xml file and save entries to it
             if (Entries.Count >= 0)
@@ -751,9 +766,6 @@ namespace AhoyBrowser
 
                 // Write settings
                 xmlContent.AppendLine(@"    <settings>");
-                xmlContent.AppendLine(@"        <seta><![CDATA[" + AuthQuestion + "]]></seta>");
-                xmlContent.AppendLine(@"        <setb><![CDATA[" + AuthAnswer + "]]></setb>");
-                xmlContent.AppendLine(@"        <setc><![CDATA[" + AuthPassword + "]]></setc>");
                 xmlContent.AppendLine(@"        <protect>" + writeProtected.ToString() + "</protect>");
                 xmlContent.AppendLine(@"    </settings>");
 
@@ -786,51 +798,10 @@ namespace AhoyBrowser
                 xmlContent.AppendLine(@"        <caret><![CDATA[" + RemoveIllegalXMLTags(memoCaret.ToString()) + "]]></caret>");
                 xmlContent.AppendLine(@"    </mcaret>");
 
-                // UTILITY EDITOR BANKS AND CARET POSITIONS
-                // Write Utility Editor Bank A
-                xmlContent.AppendLine(@"    <uebanka>");
-                xmlContent.AppendLine(@"        <text><![CDATA[" + RemoveIllegalXMLTags(ueData.UETextA) + "]]></text>");
-                xmlContent.AppendLine(@"    </uebanka>");
-                // Write Bank A Caret Position
-                xmlContent.AppendLine(@"    <uecareta>");
-                xmlContent.AppendLine(@"        <caret><![CDATA[" + RemoveIllegalXMLTags(ueData.UECaretPositionA.ToString()) + "]]></caret>");
-                xmlContent.AppendLine(@"    </uecareta>");
-                // Write Utility Editor Bank B
-                xmlContent.AppendLine(@"    <uebankb>");
-                xmlContent.AppendLine(@"        <text><![CDATA[" + RemoveIllegalXMLTags(ueData.UETextB) + "]]></text>");
-                xmlContent.AppendLine(@"    </uebankb>");
-                // Write Bank B Caret Position
-                xmlContent.AppendLine(@"    <uecaretb>");
-                xmlContent.AppendLine(@"        <caret><![CDATA[" + RemoveIllegalXMLTags(ueData.UECaretPositionB.ToString()) + "]]></caret>");
-                xmlContent.AppendLine(@"    </uecaretb>");
-                // Write Utility Editor Bank C
-                xmlContent.AppendLine(@"    <uebankc>");
-                xmlContent.AppendLine(@"        <text><![CDATA[" + RemoveIllegalXMLTags(ueData.UETextC) + "]]></text>");
-                xmlContent.AppendLine(@"    </uebankc>");
-                // Write Bank C Caret Position
-                xmlContent.AppendLine(@"    <uecaretc>");
-                xmlContent.AppendLine(@"        <caret><![CDATA[" + RemoveIllegalXMLTags(ueData.UECaretPositionC.ToString()) + "]]></caret>");
-                xmlContent.AppendLine(@"    </uecaretc>");
-                // Write PLOP Linked ID
-                xmlContent.AppendLine(@"    <uelinkedid>");
-                xmlContent.AppendLine(@"        <id>" + ueData.PlopLinkedID + "</id>");
-                xmlContent.AppendLine(@"    </uelinkedid>");
-                // Write PLOP Main Text
-                xmlContent.AppendLine(@"    <ueplopmain>");
-                xmlContent.AppendLine(@"       <text><![CDATA[" + RemoveIllegalXMLTags(ueData.PlopMainText) + "]]></text>");
-                xmlContent.AppendLine(@"    </ueplopmain>");
-                // Write PLOP Utility Text
-                xmlContent.AppendLine(@"    <ueploputil>");
-                xmlContent.AppendLine(@"       <text><![CDATA[" + RemoveIllegalXMLTags(ueData.PlopUtilityText) + "]]></text>");
-                xmlContent.AppendLine(@"    </ueploputil>");
                 // Write Cypher key
                 xmlContent.AppendLine(@"    <cypher>");
                 xmlContent.AppendLine(@"       <text><![CDATA[" + RemoveIllegalXMLTags(cypherKey) + "]]></text>");
                 xmlContent.AppendLine(@"    </cypher>");
-                // Typermax HighScore
-                xmlContent.AppendLine(@"    <typermaxb>");
-                xmlContent.AppendLine(@"       <high><![CDATA[" + RemoveIllegalXMLTags(typermaxHighScore.ToString()) + "]]></high>");
-                xmlContent.AppendLine(@"    </typermaxb>");
                 // Write display text
                 xmlContent.AppendLine(@"    <display>");
                 xmlContent.AppendLine(@"        <text><![CDATA[" + RemoveIllegalXMLTags(displayText) + "]]></text>");
@@ -880,10 +851,6 @@ namespace AhoyBrowser
                     xmlContent.AppendLine(@"        <id>" + entry.ID + "</id>");
                     xmlContent.AppendLine(@"        <cre>" + entry.Created + "</cre>");
                     xmlContent.AppendLine(@"        <cha>" + entry.Changed + "</cha>");
-                    xmlContent.AppendLine(@"        <ntf>" + entry.NotificationTimeStamp + "</ntf>");
-                    xmlContent.AppendLine(@"        <ntr>" + entry.NotificationRepeat + "</ntr>");
-                    xmlContent.AppendLine(@"        <ntt><![CDATA[" + RemoveIllegalXMLTags(entry.NotificationText) + "]]></ntt>");
-                    xmlContent.AppendLine(@"        <ntp>" + entry.NotificationCaretPosition.ToString() + "</ntp>");
                     xmlContent.AppendLine(@"        <pin>" + entry.Pin.ToString() + "</pin>");
                     xmlContent.AppendLine(@"        <rnk>" + entry.Rank.ToString() + "</rnk>");
                     xmlContent.AppendLine(@"        <sta>" + entry.PresetColor.ToString() + "</sta>");
@@ -906,92 +873,129 @@ namespace AhoyBrowser
                 }
                 xmlContent.AppendLine(@"</entries>");
 
-                // Save file to disk
-                StreamWriter Stream = null;
-                StreamWriter StreamBackup = null;
-                StreamWriter StreamAlternateBackup = null;
-
                 // Dump pool before encryption
                 if (dump)
                 {
                     PoolDumpString = xmlContent.ToString();
                 }
-                // Encrypt the content
-                encryptedXmlContent = Auth.RefE(xmlContent.ToString());
-                //encryptedXmlContent = xmlContent.ToString(); // TEST
 
-                // Main
-                FileStream fileStream = null;
+                // Encrypt the content (AES-256-GCM, see Crypto/PoolFile.cs)
+                byte[] encryptedPool;
                 try
                 {
-                    fileStream = new FileStream(SelectedFilePath, FileMode.Create, FileAccess.ReadWrite, FileShare.ReadWrite);
-                    Stream = new StreamWriter(fileStream, Encoding.UTF8);
+                    encryptedPool = PoolFile.Encrypt(xmlContent.ToString(), key);
                 }
                 catch
                 {
                     return false;
                 }
 
-                // Backup
-                FileStream fileStreamBackup;
-                FileStream fileStreamAlternateBackup;
-                try
-                {
-                    if (isBackup)
-                    {
-                        // Main backup
-                        fileStreamBackup = new FileStream(SelectedBackupFilePath, FileMode.Create, FileAccess.ReadWrite, FileShare.ReadWrite);
-                        StreamBackup = new StreamWriter(fileStreamBackup, Encoding.UTF8);
-
-                        // Remote backup
-                        if (SaveAlternateBackup)
-                        {
-                            fileStreamAlternateBackup = new FileStream(SelectedAlternateBackupFilePath, FileMode.Create, FileAccess.ReadWrite, FileShare.ReadWrite);
-                            StreamAlternateBackup = new StreamWriter(fileStreamAlternateBackup, Encoding.UTF8);
-                        }
-                    }
-                }
-                catch
+                if (!WriteFileAtomically(SelectedFilePath, encryptedPool))
                 {
                     return false;
                 }
 
-                try
+                if (isBackup)
                 {
-                    Stream.WriteLine(encryptedXmlContent);
-                    if (isBackup)
+                    WriteFileAtomically(SelectedBackupFilePath, encryptedPool);
+                    if (SaveAlternateBackup)
                     {
-                        StreamBackup.WriteLine(encryptedXmlContent);
-                        if (SaveAlternateBackup)
-                        {
-                            StreamAlternateBackup.WriteLine(encryptedXmlContent);
-                        }
-                    }
-                    return true;
-                }
-                catch
-                {
-                    return false;
-                }
-                finally
-                {
-                    Stream.Close();
-                    if (isBackup)
-                    {
-                        StreamBackup.Close();
-                        if (SaveAlternateBackup)
-                        {
-                            if (StreamAlternateBackup != null)
-                            {
-                                StreamAlternateBackup.Close();
-                            }
-                        }
+                        WriteFileAtomically(SelectedAlternateBackupFilePath, encryptedPool);
                     }
                 }
+                return true;
             }
             return false;
         }
 
+        /// <summary>
+        /// Write to a temporary file in the same directory, then move it over the target,
+        /// so an interrupted save never leaves a half-written pool behind.
+        /// </summary>
+        internal static bool WriteFileAtomically(string path, byte[] data)
+        {
+            string tempPath = path + ".tmp";
+            try
+            {
+                using (var stream = new FileStream(tempPath, FileMode.Create, FileAccess.Write, FileShare.None))
+                {
+                    stream.Write(data, 0, data.Length);
+                    stream.Flush(true);
+                }
+                File.Move(tempPath, path, overwrite: true);
+                return true;
+            }
+            catch
+            {
+                try { File.Delete(tempPath); } catch { /* ignore */ }
+                return false;
+            }
+        }
+
+        /// <summary>Read the current pool back from disk and check that it decrypts with the given key.</summary>
+        internal static bool VerifySavedPool(PoolKey key)
+        {
+            try
+            {
+                return PoolFile.TryDecrypt(File.ReadAllBytes(GetDataPathAndFileName()), key, out _);
+            }
+            catch
+            {
+                return false;
+            }
+        }
+
+        /// <summary>
+        /// Find pool and backup files that are still in the Ahoy 1.x format (readable by anyone
+        /// with a copy of Ahoy 1.x), in the data directory, the backup directory and the remote backup directory.
+        /// </summary>
+        internal static List<string> FindLegacyPoolFiles()
+        {
+            var result = new List<string>();
+            var directories = new List<string> { GetDataPath(), GetBackupDirectory(), GetAlternateBackupPath() };
+            foreach (string directory in directories)
+            {
+                if (string.IsNullOrEmpty(directory) || !Directory.Exists(directory))
+                {
+                    continue;
+                }
+                foreach (string file in Directory.EnumerateFiles(directory, "*" + PoolFileExtension))
+                {
+                    try
+                    {
+                        byte[] bytes = File.ReadAllBytes(file);
+                        if (!PoolFile.IsEncryptedPool(bytes) &&
+                            Legacy.TryDecryptPool(Encoding.UTF8.GetString(bytes).TrimStart('\uFEFF'), out _) &&
+                            !result.Contains(file))
+                        {
+                            result.Add(file);
+                        }
+                    }
+                    catch
+                    {
+                        // Unreadable file: skip
+                    }
+                }
+            }
+            return result;
+        }
+
+
+        // Color theme index: <colortheme> (Ahoy 2.x) or <theme> (Ahoy 1.x, 20 themes)
+        private static int ReadColorTheme(XmlNode node)
+        {
+            XmlNode current = node.SelectSingleNode("colortheme");
+            if (current != null && int.TryParse(current.InnerText, out int index) && index >= 0 && index <= AhoyColors.ThemeCount)
+            {
+                return index;
+            }
+            XmlNode legacy = node.SelectSingleNode("theme");
+            if (legacy != null && int.TryParse(legacy.InnerText, out int legacyIndex))
+            {
+                return AhoyColors.MapLegacyThemeIndex(legacyIndex);
+            }
+            return Settings.DefaultColorTheme;
+        }
 
         // Temporary method for checking the "rnk" node
         private static int CheckNodeInt(XmlNode node, string value, int defaultValue)
@@ -1038,7 +1042,7 @@ namespace AhoyBrowser
         }
 
         // Load
-        public static Load LoadEntries(List<Entry> Entries, Welcome Auth, bool loadBackup, bool backupA, bool openFilePath, string filePath)
+        public static Load LoadEntries(List<Entry> Entries, PoolUnlocker unlockPool, bool loadBackup, bool backupA, bool openFilePath, string filePath)
         {
             // Prepare load object to return
             Load loadObject = new Load();
@@ -1101,44 +1105,45 @@ namespace AhoyBrowser
             }
 
 
-            FileStream fileStream = null;
-            StreamReader reader = null;
+            // Read the file
+            byte[] fileBytes;
             try
             {
-                fileStream = new FileStream(Filepath, FileMode.Open, FileAccess.ReadWrite, FileShare.ReadWrite);
-                reader = new StreamReader(fileStream);
+                fileBytes = File.ReadAllBytes(Filepath);
             }
             catch
             {
                 loadObject.LoadSuccess = false;
-                loadObject.LoadMessage = "Unable to instantiate file stream...";
+                loadObject.LoadMessage = "Unable to read the Pool file.";
                 return loadObject;
             }
 
-            StringBuilder encryptedXmlContent = new StringBuilder();
-            string decryptedXmlContent = "";
-
-            // Load the file to memory
-            try
+            string decryptedXmlContent;
+            if (PoolFile.IsEncryptedPool(fileBytes))
             {
-                while (reader.Peek() != -1)
+                // Current format: ask the caller for the password and decrypt
+                decryptedXmlContent = unlockPool(fileBytes, loadObject);
+                if (decryptedXmlContent == null)
                 {
-                    encryptedXmlContent.AppendLine(reader.ReadLine());
+                    loadObject.LoadSuccess = false;
+                    if (string.IsNullOrEmpty(loadObject.LoadMessage))
+                    {
+                        loadObject.LoadMessage = "The Pool was not unlocked.";
+                    }
+                    return loadObject;
                 }
-
-                // Decrypt the encrypted content
-                decryptedXmlContent = Auth.RefD(encryptedXmlContent.ToString());
-                //decryptedXmlContent = encryptedXmlContent.ToString(); // TEST
             }
-            catch
+            else
             {
-                loadObject.LoadSuccess = false;
-                loadObject.LoadMessage = "Error decrypting XML.";
-                return loadObject;
-            }
-            finally
-            {
-                reader.Close();
+                // Ahoy 1.x format (3DES with a built-in key): read it so it can be upgraded
+                string legacyText = Encoding.UTF8.GetString(fileBytes).TrimStart('\uFEFF');
+                if (!Legacy.TryDecryptPool(legacyText, out decryptedXmlContent))
+                {
+                    loadObject.LoadSuccess = false;
+                    loadObject.LoadMessage = "Error decrypting the Pool (unknown or damaged file).";
+                    return loadObject;
+                }
+                loadObject.IsLegacyFormat = true;
             }
 
             // Extract the XML from the string in memory
@@ -1157,9 +1162,11 @@ namespace AhoyBrowser
                 // Read settings
                 foreach (XmlNode node in settingsNodes)
                 {
-                    loadObject.AuthAuthQuestion = node["seta"].InnerText;
-                    loadObject.AuthAnswer = node["setb"].InnerText;
-                    loadObject.AuthPassword = node["setc"].InnerText;
+                    if (loadObject.IsLegacyFormat)
+                    {
+                        // Ahoy 1.x kept the login password in the pool; used once to confirm the upgrade
+                        loadObject.LegacyPassword = CheckNodeString(node, "setc", string.Empty);
+                    }
                     loadObject.WriteProtected = CheckNodeBoolean(node, "protect", false); // Defaults to false (not write protected)
                 }
 
@@ -1214,70 +1221,6 @@ namespace AhoyBrowser
                 }
 
 
-                // UTILITY EDITOR MEMORY BANKS AND CARET POSITIONS
-                // Read Memory Bank A
-                XmlNodeList ueBankANodes;
-                ueBankANodes = document.SelectNodes("//entries/uebanka"); // XPath statement
-                foreach (XmlNode node in ueBankANodes)
-                {
-                    loadObject.UETextA = RestoreIllegalXMLTags(node["text"].InnerText);
-                }
-                // Read Bank A Caret Position
-                XmlNodeList ueCaretANodes;
-                ueCaretANodes = document.SelectNodes("//entries/uecareta"); // XPath statement
-                foreach (XmlNode node in ueCaretANodes)
-                {
-                    loadObject.UECaretPositionA = Convert.ToInt32(node["caret"].InnerText);
-                }
-                // Read Memory Bank B
-                XmlNodeList ueBankBNodes;
-                ueBankBNodes = document.SelectNodes("//entries/uebankb"); // XPath statement
-                foreach (XmlNode node in ueBankBNodes)
-                {
-                    loadObject.UETextB = RestoreIllegalXMLTags(node["text"].InnerText);
-                }
-                // Read Bank B Caret Position
-                XmlNodeList ueCaretBNodes;
-                ueCaretBNodes = document.SelectNodes("//entries/uecaretb"); // XPath statement
-                foreach (XmlNode node in ueCaretBNodes)
-                {
-                    loadObject.UECaretPositionB = Convert.ToInt32(node["caret"].InnerText);
-                }
-                // Read Memory Bank C
-                XmlNodeList ueBankCNodes;
-                ueBankCNodes = document.SelectNodes("//entries/uebankc"); // XPath statement
-                foreach (XmlNode node in ueBankCNodes)
-                {
-                    loadObject.UETextC = RestoreIllegalXMLTags(node["text"].InnerText);
-                }
-                // Read Bank C Caret Position
-                XmlNodeList ueCaretCNodes;
-                ueCaretCNodes = document.SelectNodes("//entries/uecaretc"); // XPath statement
-                foreach (XmlNode node in ueCaretCNodes)
-                {
-                    loadObject.UECaretPositionC = Convert.ToInt32(node["caret"].InnerText);
-                }
-                // Read PLOP Linked ID
-                XmlNodeList uePlopLinkedID;
-                uePlopLinkedID = document.SelectNodes("//entries/uelinkedid"); // XPath statement
-                foreach (XmlNode node in uePlopLinkedID)
-                {
-                    loadObject.PlopLinkedID = node["id"].InnerText;
-                }
-                // Read PLOP Main Text
-                XmlNodeList uePlopMainText;
-                uePlopMainText = document.SelectNodes("//entries/ueplopmain"); // XPath statement
-                foreach (XmlNode node in uePlopMainText)
-                {
-                    loadObject.PlopMainText = RestoreIllegalXMLTags(node["text"].InnerText);
-                }
-                // Read PLOP Utility Text
-                XmlNodeList uePlopUtilityText;
-                uePlopUtilityText = document.SelectNodes("//entries/ueploputil"); // XPath statement
-                foreach (XmlNode node in uePlopUtilityText)
-                {
-                    loadObject.PlopUtilityText = RestoreIllegalXMLTags(node["text"].InnerText);
-                }
                 // Read Cypher key
                 XmlNodeList cypherKeyText;
                 cypherKeyText = document.SelectNodes("//entries/cypher"); // XPath statement
@@ -1285,21 +1228,6 @@ namespace AhoyBrowser
                 {
                     loadObject.CypherKey = RestoreIllegalXMLTags(node["text"].InnerText);
                 }
-                // Read Typermax highscore
-                XmlNodeList typermaxHighScoreText;
-                typermaxHighScoreText = document.SelectNodes("//entries/typermaxb"); // XPath statement new version = b
-                foreach (XmlNode node in typermaxHighScoreText)
-                {
-                    try
-                    {
-                        loadObject.TypermaxHighScore = Convert.ToInt32(node["high"].InnerText);
-                    }
-                    catch
-                    {
-                        loadObject.TypermaxHighScore = 0;
-                    }
-                }
-
                 // Read display text
                 XmlNodeList displayNodes;
                 displayNodes = document.SelectNodes("//entries/display"); // XPath statement
@@ -1354,10 +1282,6 @@ namespace AhoyBrowser
                     newEntry.ID = node["id"].InnerText;
                     newEntry.Created = node["cre"].InnerText;
                     newEntry.Changed = node["cha"].InnerText;
-                    newEntry.NotificationTimeStamp = CheckNodeString(node, "ntf", string.Empty);
-                    newEntry.NotificationRepeat = CheckNodeString(node, "ntr", string.Empty);
-                    newEntry.NotificationText = RestoreIllegalXMLTags(CheckNodeString(node, "ntt", string.Empty));
-                    newEntry.NotificationCaretPosition = CheckNodeInt(node, "ntp", DefaultStatus);
                     newEntry.Pin = Convert.ToBoolean(node["pin"].InnerText);
                     newEntry.Rank = CheckNodeInt(node, "rnk", DefaultRank);
                     newEntry.PresetColor = CheckNodeInt(node, "sta", DefaultStatus);
@@ -1433,14 +1357,13 @@ namespace AhoyBrowser
                 xmlContent.AppendLine(@"        <height>" + settingsObject.Height.ToString() + "</height>");
                 xmlContent.AppendLine(@"        <posx>" + settingsObject.PositionX.ToString() + "</posx>");
                 xmlContent.AppendLine(@"        <posy>" + settingsObject.PositionY.ToString() + "</posy>");
-                xmlContent.AppendLine(@"        <theme>" + settingsObject.ColorTheme.ToString() + "</theme>");
+                xmlContent.AppendLine(@"        <colortheme>" + settingsObject.ColorTheme.ToString() + "</colortheme>");
                 xmlContent.AppendLine(@"        <border>" + settingsObject.EnableFormBorder.ToString() + "</border>");
                 xmlContent.AppendLine(@"        <btnbovr>" + settingsObject.ButtonBitmapOverride.ToString() + "</btnbovr>");
                 xmlContent.AppendLine(@"        <layout>" + settingsObject.LayoutMode.ToString() + "</layout>");
                 xmlContent.AppendLine(@"        <opacity>" + settingsObject.Opacity.ToString() + "</opacity>");
                 xmlContent.AppendLine(@"        <texture>" + settingsObject.Texture.ToString() + "</texture>");
                 xmlContent.AppendLine(@"        <anim>" + settingsObject.Animations.ToString() + "</anim>");
-                xmlContent.AppendLine(@"        <prism>" + settingsObject.PrismEffect.ToString() + "</prism>");
                 xmlContent.AppendLine(@"        <qgcycle>" + settingsObject.DisplayTextCycle.ToString() + "</qgcycle>");
                 xmlContent.AppendLine(@"        <wpmcnt>" + settingsObject.ShowWPMCounter.ToString() + "</wpmcnt>");
                 xmlContent.AppendLine(@"        <sleep>" + settingsObject.SleepIntervalIndex.ToString() + "</sleep>");
@@ -1459,45 +1382,11 @@ namespace AhoyBrowser
                 xmlContent.AppendLine(@"        <libold>" + settingsObject.CurrentListFontWeight.ToString() + "</libold>");
                 xmlContent.AppendLine(@"        <scroll>" + settingsObject.EnforceScrollbars.ToString() + "</scroll>");
                 xmlContent.AppendLine(@"        <lautohide>" + settingsObject.ListsAutoHide.ToString() + "</lautohide>");
-                xmlContent.AppendLine(@"        <persprev>" + settingsObject.PersistNotificationPreview.ToString() + "</persprev>");
-                xmlContent.AppendLine(@"        <notscl>" + settingsObject.NotificationScrollToCaret.ToString() + "</notscl>");
                 xmlContent.AppendLine(@"        <clk>" + settingsObject.ShowClock.ToString() + "</clk>");
                 xmlContent.AppendLine(@"        <pinbc>" + settingsObject.NewPinnedByClick.ToString() + "</pinbc>");
                 xmlContent.AppendLine(@"        <hpinc>" + settingsObject.HidePinnedByClick.ToString() + "</hpinc>");
                 xmlContent.AppendLine(@"        <browser>" + settingsObject.InternetBrowser.ToString() + "</browser>");
                 xmlContent.AppendLine(@"        <durls>" + settingsObject.DetectURLs.ToString() + "</durls>");
-                xmlContent.AppendLine(@"        <mcalcm>" + settingsObject.MicroCalculatorMain.ToString() + "</mcalcm>");
-                xmlContent.AppendLine(@"        <mcalcue>" + settingsObject.MicroCalculatorUE.ToString() + "</mcalcue>");
-                xmlContent.AppendLine(@"        <snooze>" + settingsObject.SnoozeInterval.ToString() + "</snooze>");
-                xmlContent.AppendLine(@"        <twfsize>" + settingsObject.TypeWriterFontSize.ToString() + "</twfsize>");
-                xmlContent.AppendLine(@"        <twlines>" + settingsObject.TypeWriterLineCount.ToString() + "</twlines>");
-                xmlContent.AppendLine(@"        <twcpl>" + settingsObject.TypeWriterCPLIndex.ToString() + "</twcpl>");
-                xmlContent.AppendLine(@"        <twbell>" + settingsObject.TypeWriterBellMargin.ToString() + "</twbell>");
-                xmlContent.AppendLine(@"        <twleftm>" + settingsObject.TypeWriterLeftMargin.ToString() + "</twleftm>");
-                xmlContent.AppendLine(@"        <twdel>" + settingsObject.TypeWriterDelLock.ToString() + "</twdel>");
-                xmlContent.AppendLine(@"        <twbaskx>" + settingsObject.TypeWriterBasketX.ToString() + "</twbaskx>");
-                xmlContent.AppendLine(@"        <twbasky>" + settingsObject.TypeWriterBasketY.ToString() + "</twbasky>");
-                xmlContent.AppendLine(@"        <twbaska>" + settingsObject.TypeWriterAutoBasket.ToString() + "</twbaska>");
-                xmlContent.AppendLine(@"        <twmenu>" + settingsObject.TypeWriterAutoMenu.ToString() + "</twmenu>");
-                xmlContent.AppendLine(@"        <twtabr>" + settingsObject.TypeWriterTabRuler.ToString() + "</twtabr>");
-                xmlContent.AppendLine(@"        <twtheme>" + settingsObject.TypeWriterColorTheme.ToString() + "</twtheme>");
-                xmlContent.AppendLine(@"        <twscroll>" + settingsObject.TypeWriterPageAutoScroll.ToString() + "</twscroll>");
-                xmlContent.AppendLine(@"        <twlogo><![CDATA[" + settingsObject.TypeWriterLogo + "]]></twlogo>");
-                xmlContent.AppendLine(@"        <ueopen>" + settingsObject.UEOpen.ToString() + "</ueopen>");
-                xmlContent.AppendLine(@"        <uetopmost>" + settingsObject.UETopMost.ToString() + "</uetopmost>");
-                xmlContent.AppendLine(@"        <uemaximized>" + settingsObject.UEMaximized.ToString() + "</uemaximized>");
-                xmlContent.AppendLine(@"        <uewidth>" + settingsObject.UEWidth.ToString() + "</uewidth>");
-                xmlContent.AppendLine(@"        <ueheight>" + settingsObject.UEHeight.ToString() + "</ueheight>");
-                xmlContent.AppendLine(@"        <ueposx>" + settingsObject.UEPositionX.ToString() + "</ueposx>");
-                xmlContent.AppendLine(@"        <ueposy>" + settingsObject.UEPositionY.ToString() + "</ueposy>");
-                xmlContent.AppendLine(@"        <ueopas>" + settingsObject.UEOpacity.ToString() + "</ueopas>");
-                xmlContent.AppendLine(@"        <ueversl>" + settingsObject.UEVersionSelection.ToString() + "</ueversl>");
-                xmlContent.AppendLine(@"        <uelines>" + settingsObject.UEBlankLines.ToString() + "</uelines>");
-                xmlContent.AppendLine(@"        <uetrim>" + settingsObject.UETrimWhitespace.ToString() + "</uetrim>");
-                xmlContent.AppendLine(@"        <pesc>" + settingsObject.PlopESCtoClose + "</pesc>");
-                xmlContent.AppendLine(@"        <plpdir>" + settingsObject.UEPlopDirection.ToString() + "</plpdir>");
-                xmlContent.AppendLine(@"        <sclck>" + settingsObject.ScreenBlocker + "</sclck>");
-                xmlContent.AppendLine(@"        <sclcki>" + settingsObject.ScreenBlockerIndex + "</sclcki>");
                 xmlContent.AppendLine(@"        <mbk>" + settingsObject.MoveByKeyboard + "</mbk>");
                 xmlContent.AppendLine(@"        <rbk>" + settingsObject.ResizeByKeyboard + "</rbk>");
                 xmlContent.AppendLine(@"        <tsf>" + settingsObject.TimestampFormat.ToString() + "</tsf>");
@@ -1606,14 +1495,13 @@ namespace AhoyBrowser
                     settingsObject.Height = Convert.ToInt32(node["height"].InnerText);
                     settingsObject.PositionX = Convert.ToInt32(node["posx"].InnerText);
                     settingsObject.PositionY = Convert.ToInt32(node["posy"].InnerText);
-                    settingsObject.ColorTheme = Convert.ToInt32(node["theme"].InnerText);
+                    settingsObject.ColorTheme = ReadColorTheme(node);
                     settingsObject.EnableFormBorder = CheckNodeBoolean(node, "border", Settings.DefaultEnableFormBorder);
                     settingsObject.ButtonBitmapOverride = CheckNodeInt(node, "btnbovr", Settings.DefaultButtonBitmapOverride);
                     settingsObject.LayoutMode = Convert.ToInt32(node["layout"].InnerText);
                     settingsObject.Opacity = CheckNodeDouble(node, "opacity", Settings.DefaultOpacity);
                     settingsObject.Texture = CheckNodeInt(node, "texture", Settings.DefaultTexture);
                     settingsObject.Animations = CheckNodeBoolean(node, "anim", true);
-                    settingsObject.PrismEffect = CheckNodeBoolean(node, "prism", Settings.DefaultPrismEffect);
                     settingsObject.DisplayTextCycle = CheckNodeInt(node, "qgcycle", Settings.DefaultDisplayTextCycle);
                     settingsObject.ShowWPMCounter = CheckNodeBoolean(node, "wpmcnt", false);
                     settingsObject.SleepIntervalIndex = Convert.ToInt32(node["sleep"].InnerText);
@@ -1632,45 +1520,11 @@ namespace AhoyBrowser
                     settingsObject.CurrentListFontWeight = CheckNodeBoolean(node, "libold", Settings.DefaultListFontWeight);
                     settingsObject.EnforceScrollbars = CheckNodeBoolean(node, "scroll", Settings.DefaultEnforceScrollbars);
                     settingsObject.ListsAutoHide = Convert.ToBoolean(node["lautohide"].InnerText);
-                    settingsObject.PersistNotificationPreview = CheckNodeBoolean(node, "persprev", false);
-                    settingsObject.NotificationScrollToCaret = CheckNodeBoolean(node, "notscl", Settings.DefaultNotificationScrollToCaret);
                     settingsObject.ShowClock = CheckNodeBoolean(node, "clk", Settings.DefaultShowClock);
                     settingsObject.NewPinnedByClick = CheckNodeBoolean(node, "pinbc", Settings.DefaultNewPinnedByClick);
                     settingsObject.HidePinnedByClick = CheckNodeBoolean(node, "hpinc", Settings.DefaultHidePinnedByClick);
                     settingsObject.InternetBrowser = CheckNodeInt(node, "browser", Settings.DefaultBrowser);
                     settingsObject.DetectURLs = CheckNodeBoolean(node, "durls", Settings.DefaultDetectURLs);
-                    settingsObject.MicroCalculatorMain = CheckNodeBoolean(node, "mcalcm", Settings.DefaultMicroCalculator);
-                    settingsObject.MicroCalculatorUE = CheckNodeBoolean(node, "mcalcue", Settings.DefaultMicroCalculator);
-                    settingsObject.SnoozeInterval = CheckNodeInt(node, "snooze", Settings.DefaultSnoozeInterval);
-                    settingsObject.TypeWriterFontSize = CheckNodeInt(node, "twfsize", TypeWriter.DefaultFontSize);
-                    settingsObject.TypeWriterLineCount = CheckNodeInt(node, "twlines", TypeWriter.DefaultLineCount);
-                    settingsObject.TypeWriterCPLIndex = CheckNodeInt(node, "twcpl", TypeWriter.DefaultCPLIndex);
-                    settingsObject.TypeWriterBellMargin = CheckNodeInt(node, "twbell", TypeWriter.DefaultBellMargin);
-                    settingsObject.TypeWriterLeftMargin = CheckNodeInt(node, "twleftm", TypeWriter.DefaultLeftMargin);
-                    settingsObject.TypeWriterDelLock = CheckNodeBoolean(node, "twdel", TypeWriter.DefaultDelLock);
-                    settingsObject.TypeWriterBasketX = CheckNodeInt(node, "twbaskx", TypeWriter.DefaultTypeBasketX);
-                    settingsObject.TypeWriterBasketY = CheckNodeInt(node, "twbasky", TypeWriter.DefaultTypeBasketY);
-                    settingsObject.TypeWriterAutoBasket = CheckNodeBoolean(node, "twbaska", TypeWriter.DefaultAutoBasket);
-                    settingsObject.TypeWriterAutoMenu = CheckNodeBoolean(node, "twmenu", TypeWriter.DefaultAutoMenu);
-                    settingsObject.TypeWriterTabRuler = CheckNodeBoolean(node, "twtabr", TypeWriter.DefaultTabRuler);
-                    settingsObject.TypeWriterColorTheme = CheckNodeInt(node, "twtheme", TypeWriter.DefaultColorTheme);
-                    settingsObject.TypeWriterPageAutoScroll = CheckNodeBoolean(node, "twscroll", TypeWriter.DefaultPageAutoScroll);
-                    settingsObject.TypeWriterLogo = CheckNodeString(node, "twlogo", TypeWriter.DefaultLogo);
-                    settingsObject.UEOpen = CheckNodeBoolean(node, "ueopen", DefaultBoolean);
-                    settingsObject.UETopMost = CheckNodeBoolean(node, "uetopmost", DetachedEditor.UEDefaultTopMost);
-                    settingsObject.UEMaximized = CheckNodeBoolean(node, "uemaximized", DefaultBoolean);
-                    settingsObject.UEWidth = CheckNodeInt(node, "uewidth", DetachedEditor.UEDefaultWidth);
-                    settingsObject.UEHeight = CheckNodeInt(node, "ueheight", DetachedEditor.UEDefaultHeight);
-                    settingsObject.UEPositionX = CheckNodeInt(node, "ueposx", DetachedEditor.GetParentLocationXWithOffset());
-                    settingsObject.UEPositionY = CheckNodeInt(node, "ueposy", DetachedEditor.GetParentLocationYWithOffset());
-                    settingsObject.UEOpacity = CheckNodeDouble(node, "ueopas", DetachedEditor.UEDefaultOpacity);
-                    settingsObject.UEVersionSelection = CheckNodeInt(node, "ueversl", DetachedEditor.UEDefaultBank);
-                    settingsObject.UEBlankLines = CheckNodeBoolean(node, "uelines", Settings.DefaultUEBlankLines);
-                    settingsObject.UETrimWhitespace = CheckNodeBoolean(node, "uetrim", Settings.DefaultUETrimWhitespace);
-                    settingsObject.PlopESCtoClose = CheckNodeBoolean(node, "pesc", Settings.DefaultUEPlopESCtoClose);
-                    settingsObject.UEPlopDirection = CheckNodeBoolean(node, "plpdir", Settings.DefaultPlopDirection);
-                    settingsObject.ScreenBlocker = CheckNodeBoolean(node, "sclck", Settings.DefaultScreenBlockerState);
-                    settingsObject.ScreenBlockerIndex = CheckNodeInt(node, "sclcki", Settings.DefaultScreenBlockerIndex);
                     settingsObject.MoveByKeyboard = CheckNodeBoolean(node, "mbk", Settings.DefaultMoveByKeyboard);
                     settingsObject.ResizeByKeyboard = CheckNodeBoolean(node, "rbk", Settings.DefaultResizeByKeyboard);
                     settingsObject.TimestampFormat = CheckNodeInt(node, "tsf", Settings.DefaultTimestampFormat);
@@ -1984,11 +1838,25 @@ namespace AhoyBrowser
         // New method used instead of the one above to preserve some ASCII symbols etc.
         public static string CleanInvalidXmlChars(string text)
         {
-            // From xml spec valid chars: 
-            // #x9 | #xA | #xD | [#x20-#xD7FF] | [#xE000-#xFFFD] | [#x10000-#x10FFFF]     
-            // any Unicode character, excluding the surrogate blocks, FFFE, and FFFF. 
-            string re = @"[^\x09\x0A\x0D\x20-\uD7FF\uE000-\uFFFD\u10000-u10FFFF]";
-            return Regex.Replace(text, re, "");
+            // Keep only characters allowed by the XML spec:
+            // #x9 | #xA | #xD | [#x20-#xD7FF] | [#xE000-#xFFFD] | [#x10000-#x10FFFF]
+            // Characters above #xFFFF (emoji etc.) are UTF-16 surrogate pairs and are kept when well-formed.
+            // (The previous regex dropped every surrogate pair, i.e. all emoji.)
+            var cleaned = new StringBuilder(text.Length);
+            for (int i = 0; i < text.Length; i++)
+            {
+                char c = text[i];
+                if (char.IsHighSurrogate(c) && i + 1 < text.Length && XmlConvert.IsXmlSurrogatePair(text[i + 1], c))
+                {
+                    cleaned.Append(c).Append(text[i + 1]);
+                    i++;
+                }
+                else if (XmlConvert.IsXmlChar(c))
+                {
+                    cleaned.Append(c);
+                }
+            }
+            return cleaned.ToString();
         }
 
         #endregion
@@ -2218,36 +2086,6 @@ namespace AhoyBrowser
         }
         #endregion
 
-        #region Text symbols text reader
-        public static string SymbolsTextReader()
-        {
-            StreamReader reader;
-            // Load embedded dictionary file
-            reader = new StreamReader(Splash.asm.GetManifestResourceStream("AhoyBrowser.TextFiles.Symbols.txt"));
-
-            try
-            {
-                string tmpContent = "";
-
-                while (reader.Peek() != -1)
-                {
-                    tmpContent += reader.ReadLine() + Environment.NewLine;
-                }
-
-                return tmpContent;
-            }
-            catch
-            {
-                return "";
-            }
-            finally
-            {
-                // always close the reader when finished
-                reader.Close();
-            }
-        }
-        #endregion
-
         #region Password info text reader
         public static string PasswordInfoTextReader()
         {
@@ -2287,152 +2125,6 @@ namespace AhoyBrowser
             try
             {
                 string tmpContent = "";
-                while (reader.Peek() != -1)
-                {
-                    tmpContent += reader.ReadLine() + Environment.NewLine;
-                }
-
-                return tmpContent;
-            }
-            catch
-            {
-                return "";
-            }
-            finally
-            {
-                // always close the reader when finished
-                reader.Close();
-            }
-        }
-        #endregion
-
-        #region Dictionary text reader
-        public static List<string> DictionaryTextReader()
-        {
-            StreamReader reader;
-            List<string> tempList = new List<string>();
-            // Load embedded dictionary file
-            reader = new StreamReader(Splash.asm.GetManifestResourceStream("AhoyBrowser.Typermax.Dictionary.txt"));
-
-            try
-            {
-                tempList.Clear();
-                while (reader.Peek() != -1)
-                {
-                    tempList.Add(reader.ReadLine());
-                }
-
-                return tempList;
-            }
-            catch
-            {
-                return null;
-            }
-            finally
-            {
-                // always close the reader when finished
-                reader.Close();
-            }
-        }
-        #endregion
-
-        #region Typermax Help message text reader
-        public static string TypermaxHelpMessageTextReader()
-        {
-            StreamReader reader;
-            // Load embedded dictionary file
-            reader = new StreamReader(Splash.asm.GetManifestResourceStream("AhoyBrowser.Typermax.TypermaxHelp.txt"));
-
-            try
-            {
-                string tmpContent = "";
-
-                while (reader.Peek() != -1)
-                {
-                    tmpContent += reader.ReadLine() + Environment.NewLine;
-                }
-
-                return tmpContent;
-            }
-            catch
-            {
-                return "";
-            }
-            finally
-            {
-                // always close the reader when finished
-                reader.Close();
-            }
-        }
-        #endregion
-
-        #region Typermax Phrase
-        public static string TypermaxPhraseTextReader(int phrase)
-        {
-            StreamReader reader;
-            // Load embedded phrase
-            switch (phrase)
-            {
-                case 0:
-                    reader = new StreamReader(Splash.asm.GetManifestResourceStream("AhoyBrowser.Typermax.InitialPhrase.txt"));
-                    break;
-                case 1:
-                    reader = new StreamReader(Splash.asm.GetManifestResourceStream("AhoyBrowser.Typermax.Phrase1.txt"));
-                    break;
-                case 2:
-                    reader = new StreamReader(Splash.asm.GetManifestResourceStream("AhoyBrowser.Typermax.Phrase2.txt"));
-                    break;
-                case 3:
-                    reader = new StreamReader(Splash.asm.GetManifestResourceStream("AhoyBrowser.Typermax.Phrase3.txt"));
-                    break;
-                case 4:
-                    reader = new StreamReader(Splash.asm.GetManifestResourceStream("AhoyBrowser.Typermax.Phrase4.txt"));
-                    break;
-                case 5:
-                    reader = new StreamReader(Splash.asm.GetManifestResourceStream("AhoyBrowser.Typermax.Phrase5.txt"));
-                    break;
-                case 6:
-                    reader = new StreamReader(Splash.asm.GetManifestResourceStream("AhoyBrowser.Typermax.Phrase6.txt"));
-                    break;
-                default:
-                    reader = new StreamReader(Splash.asm.GetManifestResourceStream("AhoyBrowser.Typermax.Phrase1.txt"));
-                    break;
-            }
-
-            try
-            {
-                string tmpContent = "";
-
-                while (reader.Peek() != -1)
-                {
-                    tmpContent += reader.ReadLine() + Environment.NewLine;
-                }
-
-                return tmpContent;
-            }
-            catch
-            {
-                return "";
-            }
-            finally
-            {
-                // always close the reader when finished
-                reader.Close();
-            }
-        }
-        #endregion
-
-        #region Help message text reader
-        public static string NotificationEditorHelpMessageTextReader()
-        {
-            StreamReader reader;
-            // Load embedded dictionary file
-            reader = new StreamReader(Splash.asm.GetManifestResourceStream("AhoyBrowser.TextFiles.NotificationEditor.txt"));
-
-            try
-            {
-                string tmpContent = "";
-
                 while (reader.Peek() != -1)
                 {
                     tmpContent += reader.ReadLine() + Environment.NewLine;
@@ -2522,79 +2214,6 @@ namespace AhoyBrowser
         }
         #endregion
 
-        #region Typewriter Instruction Card
-        public static string TypewriterInstructionsTextReader(int page)
-        {
-            StreamReader reader;
-            // Load embedded dictionary file
-            if (page == 0)
-            {
-                reader = new StreamReader(Splash.asm.GetManifestResourceStream("AhoyBrowser.TextFiles.TWInstructionsA.txt"));
-            }
-            else if (page == 1)
-            {
-                reader = new StreamReader(Splash.asm.GetManifestResourceStream("AhoyBrowser.TextFiles.TWInstructionsB.txt"));
-            }
-            else if (page == 2)
-            {
-                reader = new StreamReader(Splash.asm.GetManifestResourceStream("AhoyBrowser.TextFiles.TWInstructionsC.txt"));
-            }
-            else
-            {
-                reader = new StreamReader(Splash.asm.GetManifestResourceStream("AhoyBrowser.TextFiles.TWInstructionsD.txt"));
-            }
-
-            try
-            {
-                string tmpContent = "";
-                while (reader.Peek() != -1)
-                {
-                    tmpContent += reader.ReadLine() + Environment.NewLine;
-                }
-                return tmpContent;
-            }
-            catch
-            {
-                return "";
-            }
-            finally
-            {
-                // always close the reader when finished
-                reader.Close();
-            }
-        }
-        #endregion
-
-        #region Roman Numerals
-        private static string tempRomanNumerals;
-        public static string RomanNumeralsReader()
-        {
-            StreamReader reader;
-            // Load embedded dictionary file
-            reader = new StreamReader(Splash.asm.GetManifestResourceStream("AhoyBrowser.TextFiles.RomanNumerals.txt"));
-
-            try
-            {
-                tempRomanNumerals = "";
-                while (reader.Peek() != -1)
-                {
-                    tempRomanNumerals += reader.ReadLine() + Environment.NewLine;
-                }
-            }
-            catch
-            {
-                // Do nothing
-            }
-            finally
-            {
-                // always close the reader when finished
-                reader.Close();
-            }
-
-            return tempRomanNumerals;
-        }
-        #endregion
-
         #region Software License text reader
         public static string SoftwareLicenseTextReader()
         {
@@ -2654,150 +2273,6 @@ namespace AhoyBrowser
         //     }
         // }
         // #endregion
-
-        #region Utility Editor Logo
-        public static string UtilityEditorTextReader()
-        {
-            StreamReader reader;
-            // Load embedded dictionary file
-            reader = new StreamReader(Splash.asm.GetManifestResourceStream("AhoyBrowser.TextFiles.UtilityEditor.txt"));
-
-            try
-            {
-                string tmpContent = "";
-
-                while (reader.Peek() != -1)
-                {
-                    tmpContent += reader.ReadLine() + Environment.NewLine;
-                }
-
-                return tmpContent;
-            }
-            catch
-            {
-                return "";
-            }
-            finally
-            {
-                // always close the reader when finished
-                reader.Close();
-            }
-        }
-        #endregion
-
-        #region PLOP Editor Logo
-        public static string PlopEditorLogoTextReader()
-        {
-            StreamReader reader;
-            // Load embedded file
-            reader = new StreamReader(Splash.asm.GetManifestResourceStream("AhoyBrowser.TextFiles.PlopLogo.txt"));
-
-            try
-            {
-                string tmpContent = "";
-
-                while (reader.Peek() != -1)
-                {
-                    tmpContent += reader.ReadLine() + Environment.NewLine;
-                }
-
-                return tmpContent;
-            }
-            catch
-            {
-                return "";
-            }
-            finally
-            {
-                // always close the reader when finished
-                reader.Close();
-            }
-        }
-        #endregion
-
-        #region Typermax Logo
-        private static string tempTypermaxLogo = "";
-        private static int tempTypermaxLogoType;
-        public static string TypermaxLogoTextReader(int logo)
-        {
-            if (tempTypermaxLogoType == logo && tempTypermaxLogo.Length > 0)
-            {
-                return tempTypermaxLogo;
-            }
-            else
-            {
-                tempTypermaxLogoType = logo;
-            }
-
-            StreamReader reader;
-            // Load embedded dictionary file
-            switch (logo)
-            {
-                case 0:
-                    reader = new StreamReader(Splash.asm.GetManifestResourceStream("AhoyBrowser.Typermax.TypermaxLogo.txt"));
-                    break;
-                case 1:
-                    reader = new StreamReader(Splash.asm.GetManifestResourceStream("AhoyBrowser.Typermax.TypermaxTrainingLogo.txt"));
-                    break;
-                default:
-                    reader = new StreamReader(Splash.asm.GetManifestResourceStream("AhoyBrowser.Typermax.TypermaxLogo.txt"));
-                    break;
-            }
-
-            try
-            {
-                string tmpContent = "";
-
-                while (reader.Peek() != -1)
-                {
-                    tmpContent += reader.ReadLine() + Environment.NewLine;
-                }
-
-                tempTypermaxLogo = tmpContent;
-
-                return tempTypermaxLogo;
-            }
-            catch
-            {
-                return "";
-            }
-            finally
-            {
-                // always close the reader when finished
-                reader.Close();
-            }
-        }
-        #endregion
-
-        #region PLOP Editor
-        public static string PlopEditorTextReader()
-        {
-            StreamReader reader;
-            // Load embedded dictionary file
-            reader = new StreamReader(Splash.asm.GetManifestResourceStream("AhoyBrowser.TextFiles.Plop.txt"));
-
-            try
-            {
-                string tmpContent = "";
-
-                while (reader.Peek() != -1)
-                {
-                    tmpContent += reader.ReadLine() + Environment.NewLine;
-                }
-
-                return tmpContent;
-            }
-            catch
-            {
-                return "";
-            }
-            finally
-            {
-                // always close the reader when finished
-                reader.Close();
-            }
-        }
-        #endregion
 
         #region Ahoy ASCII Logo1
         public static string AhoyASCIILogo1TextReader(int topMargin, int leftMargin, int type)
@@ -2975,36 +2450,6 @@ namespace AhoyBrowser
         }
         #endregion
 
-        #region Calculator Text
-        public static string CalculatorTextReader()
-        {
-            StreamReader reader;
-            // Load embedded dictionary file
-            reader = new StreamReader(Splash.asm.GetManifestResourceStream("AhoyBrowser.TextFiles.Calculator.txt"));
-
-            try
-            {
-                string tmpContent = "";
-
-                while (reader.Peek() != -1)
-                {
-                    tmpContent += reader.ReadLine() + Environment.NewLine;
-                }
-
-                return tmpContent;
-            }
-            catch
-            {
-                return "";
-            }
-            finally
-            {
-                // always close the reader when finished
-                reader.Close();
-            }
-        }
-        #endregion
-
         #region Additional About Information
         public static string AdditionalAboutInformationTextReader()
         {
@@ -3046,10 +2491,6 @@ namespace AhoyBrowser
             newEntry.Content = entryToBeCloned.Content;
             newEntry.Created = entryToBeCloned.Created;
             newEntry.Changed = entryToBeCloned.Changed;
-            newEntry.NotificationTimeStamp = entryToBeCloned.NotificationTimeStamp;
-            newEntry.NotificationText = entryToBeCloned.NotificationText;
-            newEntry.NotificationCaretPosition = entryToBeCloned.NotificationCaretPosition;
-            newEntry.NotificationRepeat = entryToBeCloned.NotificationRepeat;
             newEntry.Bookmark = entryToBeCloned.Bookmark;
             newEntry.Pin = entryToBeCloned.Pin;
             newEntry.Rank = entryToBeCloned.Rank;
@@ -3126,11 +2567,10 @@ namespace AhoyBrowser
 
                     // Write settings
                     xmlContent.AppendLine(@"    <setting>");
-                    xmlContent.AppendLine(@"        <theme>" + settingsObject.ColorTheme.ToString() + "</theme>");
+                    xmlContent.AppendLine(@"        <colortheme>" + settingsObject.ColorTheme.ToString() + "</colortheme>");
                     xmlContent.AppendLine(@"        <btnbovr>" + settingsObject.ButtonBitmapOverride.ToString() + "</btnbovr>");
                     xmlContent.AppendLine(@"        <opacity>" + settingsObject.Opacity.ToString() + "</opacity>");
                     xmlContent.AppendLine(@"        <texture>" + settingsObject.Texture.ToString() + "</texture>");
-                    xmlContent.AppendLine(@"        <prism>" + settingsObject.PrismEffect.ToString() + "</prism>");
                     xmlContent.AppendLine(@"        <qgcycle>" + settingsObject.DisplayTextCycle.ToString() + "</qgcycle>");
                     xmlContent.AppendLine(@"        <custt><![CDATA[" + settingsObject.ThemeTitle + "]]></custt>");
                     xmlContent.AppendLine(@"        <custc><![CDATA[" + settingsObject.CustomColors + "]]></custc>");
@@ -3228,11 +2668,10 @@ namespace AhoyBrowser
                 // Read settings
                 foreach (XmlNode node in settingsNodes)
                 {
-                    settingsObject.ColorTheme = Convert.ToInt32(node["theme"].InnerText);
+                    settingsObject.ColorTheme = ReadColorTheme(node);
                     settingsObject.ButtonBitmapOverride = CheckNodeInt(node, "btnbovr", Settings.DefaultButtonBitmapOverride);
                     settingsObject.Opacity = CheckNodeDouble(node, "opacity", Settings.DefaultOpacity);
                     settingsObject.Texture = CheckNodeInt(node, "texture", Settings.DefaultTexture);
-                    settingsObject.PrismEffect = CheckNodeBoolean(node, "prism", Settings.DefaultPrismEffect);
                     settingsObject.DisplayTextCycle = CheckNodeInt(node, "qgcycle", Settings.DefaultDisplayTextCycle);
                     settingsObject.ThemeTitle = CheckNodeString(node, "custt", Settings.DefaultThemeTitle);
                     settingsObject.CustomColors = CheckNodeString(node, "custc", Settings.DefaultCustomColors);
@@ -3260,68 +2699,14 @@ namespace AhoyBrowser
             // Load embedded file
             switch (index)
             {
-                case 0:
-                    reader = new StreamReader(Splash.asm.GetManifestResourceStream("AhoyBrowser.ColorThemes.DashboardDefault.xml"));
+                case AhoyColors.ThemeLight:
+                    reader = new StreamReader(Splash.asm.GetManifestResourceStream("AhoyBrowser.ColorThemes.Light.xml"));
                     break;
-                case 1:
-                    reader = new StreamReader(Splash.asm.GetManifestResourceStream("AhoyBrowser.ColorThemes.TextEditor.xml"));
-                    break;
-                case 2:
-                    reader = new StreamReader(Splash.asm.GetManifestResourceStream("AhoyBrowser.ColorThemes.Gadget.xml"));
-                    break;
-                case 3:
-                    reader = new StreamReader(Splash.asm.GetManifestResourceStream("AhoyBrowser.ColorThemes.Console.xml"));
-                    break;
-                case 4:
-                    reader = new StreamReader(Splash.asm.GetManifestResourceStream("AhoyBrowser.ColorThemes.Garden.xml"));
-                    break;
-                case 5:
-                    reader = new StreamReader(Splash.asm.GetManifestResourceStream("AhoyBrowser.ColorThemes.Terminal.xml"));
-                    break;
-                case 6:
-                    reader = new StreamReader(Splash.asm.GetManifestResourceStream("AhoyBrowser.ColorThemes.Interface.xml"));
-                    break;
-                case 7:
-                    reader = new StreamReader(Splash.asm.GetManifestResourceStream("AhoyBrowser.ColorThemes.ExecutiveSuite.xml"));
-                    break;
-                case 8:
-                    reader = new StreamReader(Splash.asm.GetManifestResourceStream("AhoyBrowser.ColorThemes.Monochrome.xml"));
-                    break;
-                case 9:
-                    reader = new StreamReader(Splash.asm.GetManifestResourceStream("AhoyBrowser.ColorThemes.Mauve.xml"));
-                    break;
-                case 10:
-                    reader = new StreamReader(Splash.asm.GetManifestResourceStream("AhoyBrowser.ColorThemes.BluePlastic.xml"));
-                    break;
-                case 11:
-                    reader = new StreamReader(Splash.asm.GetManifestResourceStream("AhoyBrowser.ColorThemes.RougeMakeup.xml"));
-                    break;
-                case 12:
-                    reader = new StreamReader(Splash.asm.GetManifestResourceStream("AhoyBrowser.ColorThemes.DashboardClassic.xml"));
-                    break;
-                case 13:
-                    reader = new StreamReader(Splash.asm.GetManifestResourceStream("AhoyBrowser.ColorThemes.DashboardModded.xml"));
-                    break;
-                case 14:
-                    reader = new StreamReader(Splash.asm.GetManifestResourceStream("AhoyBrowser.ColorThemes.MidnightFunk.xml"));
-                    break;
-                case 15:
-                    reader = new StreamReader(Splash.asm.GetManifestResourceStream("AhoyBrowser.ColorThemes.AgeOfKings.xml"));
-                    break;
-                case 16:
-                    reader = new StreamReader(Splash.asm.GetManifestResourceStream("AhoyBrowser.ColorThemes.Professional.xml"));
-                    break;
-                case 17:
-                    reader = new StreamReader(Splash.asm.GetManifestResourceStream("AhoyBrowser.ColorThemes.1920sLounge.xml"));
-                    break;
-                case 18:
-                    reader = new StreamReader(Splash.asm.GetManifestResourceStream("AhoyBrowser.ColorThemes.MidnightExpress.xml"));
-                    break;
-                case 19:
-                    reader = new StreamReader(Splash.asm.GetManifestResourceStream("AhoyBrowser.ColorThemes.Exile.xml"));
+                case AhoyColors.ThemeBlue:
+                    reader = new StreamReader(Splash.asm.GetManifestResourceStream("AhoyBrowser.ColorThemes.Blue.xml"));
                     break;
                 default:
-                    reader = new StreamReader(Splash.asm.GetManifestResourceStream("AhoyBrowser.ColorThemes.DashboardDefault.xml"));
+                    reader = new StreamReader(Splash.asm.GetManifestResourceStream("AhoyBrowser.ColorThemes.Dark.xml"));
                     break;
             }
             
@@ -3363,11 +2748,10 @@ namespace AhoyBrowser
                 // Read settings
                 foreach (XmlNode node in settingsNodes)
                 {
-                    settingsObject.ColorTheme = Convert.ToInt32(node["theme"].InnerText);
+                    settingsObject.ColorTheme = ReadColorTheme(node);
                     settingsObject.ButtonBitmapOverride = CheckNodeInt(node, "btnbovr", Settings.DefaultButtonBitmapOverride);
                     settingsObject.Opacity = CheckNodeDouble(node, "opacity", Settings.DefaultOpacity);
                     settingsObject.Texture = CheckNodeInt(node, "texture", Settings.DefaultTexture);
-                    settingsObject.PrismEffect = CheckNodeBoolean(node, "prism", Settings.DefaultPrismEffect);
                     settingsObject.DisplayTextCycle = CheckNodeInt(node, "qgcycle", Settings.DefaultDisplayTextCycle);
                     settingsObject.ThemeTitle = CheckNodeString(node, "custt", Settings.DefaultThemeTitle);
                     settingsObject.CustomColors = CheckNodeString(node, "custc", Settings.DefaultCustomColors);
@@ -3405,10 +2789,6 @@ namespace AhoyBrowser
                     xmlContent.AppendLine(@"        <id>AUTOMATIC</id>");
                     xmlContent.AppendLine(@"        <created>" + entry.Created + "</created>");
                     xmlContent.AppendLine(@"        <changed>" + entry.Changed + "</changed>");
-                    xmlContent.AppendLine(@"        <notification>" + entry.NotificationTimeStamp + "</notification>");
-                    xmlContent.AppendLine(@"        <notificationtxt><![CDATA[" + RemoveIllegalXMLTags(entry.NotificationText) + "]]></notificationtxt>");
-                    xmlContent.AppendLine(@"        <notificationrepeat>" + entry.NotificationRepeat + "</notificationrepeat>");
-                    xmlContent.AppendLine(@"        <notificationcaret>" + entry.NotificationCaretPosition.ToString() + "</notificationcaret>");
                     xmlContent.AppendLine(@"        <pinned>" + entry.Pin.ToString() + "</pinned>");
                     xmlContent.AppendLine(@"        <pinnedrank>" + entry.Rank.ToString() + "</pinnedrank>");
                     xmlContent.AppendLine(@"        <presetcolor>" + entry.PresetColor.ToString() + "</presetcolor>");
@@ -3515,10 +2895,6 @@ namespace AhoyBrowser
                     newEntry.ID = Guid.NewGuid().ToString(); // Create a new GUID for imported entries...
                     newEntry.Created = EnforceSemicolons(node["created"].InnerText);
                     newEntry.Changed = EnforceSemicolons(node["changed"].InnerText);
-                    newEntry.NotificationTimeStamp = EnforceSemicolons(CheckNodeString(node, "notification", string.Empty));
-                    newEntry.NotificationRepeat = CheckNodeString(node, "notificationrepeat", string.Empty);
-                    newEntry.NotificationText = RestoreIllegalXMLTags(CheckNodeString(node, "notificationtxt", string.Empty));
-                    newEntry.NotificationCaretPosition = CheckNodeInt(node, "notificationcaret", DefaultStatus);
                     newEntry.Pin = Convert.ToBoolean(node["pinned"].InnerText);
                     newEntry.Rank = CheckNodeInt(node, "pinnedrank", DefaultRank);
                     newEntry.PresetColor = CheckNodeInt(node, "presetcolor", DefaultStatus);
@@ -3567,13 +2943,6 @@ namespace AhoyBrowser
                         !IsValidISODateTimeFormat(e.Changed))
                     {
                         return false;
-                    }
-                    if (!string.IsNullOrEmpty(e.NotificationTimeStamp) && e.NotificationTimeStamp.Length > 0)
-                    {
-                        if (!IsValidISODateTimeFormat(e.NotificationTimeStamp))
-                        {
-                            return false;
-                        }
                     }
                 }
             }

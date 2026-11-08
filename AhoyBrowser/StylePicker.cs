@@ -13,8 +13,6 @@ namespace AhoyBrowser
         private int BitmapPreviewIndex { get; set; }
         private double OriginalFormOpacity { get; set; }
         private bool ChangesSubmitted { get; set; }
-        public static bool PrismEffect { get; set; }
-        private bool OverrideThemePrism { get; set; }
 
 
         public StylePicker()
@@ -26,9 +24,6 @@ namespace AhoyBrowser
             toolTip1.OwnerDraw = true;
             toolTip1.Draw += toolTip1_Draw;
             BitmapPreviewIndex = 0;
-            // Prism effect
-            PrismEffect = MainForm.PrismEffect;
-            OverrideThemePrism = true;
 
             // Prepare previews and save original values
             AhoyColors.PreparePreview();
@@ -120,11 +115,9 @@ namespace AhoyBrowser
 
             tbThemeTitle.BackColor = AhoyColors.CurrentColorThemePreview()[29];
             lbTestContent.BackColor = AhoyColors.CurrentColorThemePreview()[29];
-            lbPrismEffect.BackColor = AhoyColors.CurrentColorThemePreview()[29];
 
             tbThemeTitle.ForeColor = AhoyColors.CurrentColorThemePreview()[30];
             lbTestContent.ForeColor = AhoyColors.CurrentColorThemePreview()[30];
-            lbPrismEffect.ForeColor = AhoyColors.CurrentColorThemePreview()[30];
 
             // Divider line
             pnlDivider.BackColor = AhoyColors.CurrentColorThemePreview()[7];
@@ -545,15 +538,6 @@ namespace AhoyBrowser
             UpdateCurrentThemeLabel();
             UpdateTexture();
             SetDisplayTextPreview();
-            if (!OverrideThemePrism) // Only get preview prism if not an import
-            {
-                PrismEffect = AhoyColors.GetCurrentThemePrismEffect(AhoyColors.PreviewColorTheme); // Get prism state from theme
-            }
-            else
-            {
-                OverrideThemePrism = false;
-            }
-            RespondToCurrentPrismSetting();
         }
 
 
@@ -581,18 +565,7 @@ namespace AhoyBrowser
         // Determine Home Screen by theme
         private int GetQuickGuideCycle()
         {
-            if (AhoyColors.PreviewColorTheme == 3 || AhoyColors.PreviewColorTheme == 5 || AhoyColors.PreviewColorTheme == 8 || AhoyColors.PreviewColorTheme == 14)
-            {
-                return 1;
-            }
-            else if (AhoyColors.PreviewColorTheme == 13)
-            {
-                return 2;
-            }
-            else
-            {
-                return 0;
-            }
+            return 0;
         }
 
 
@@ -930,8 +903,6 @@ namespace AhoyBrowser
             MainForm.DisplayTextCycle = GetQuickGuideCycle();
             MainForm.SelectedTexture = MainForm.SelectedTexturePreview;
             MainForm.FormOpacity = this.Opacity;
-            MainForm.UEOpacity = this.Opacity; // Enforce opacity to PLOP/UE
-            MainForm.PrismEffect = PrismEffect;
             MainForm.StyleEditorHasChanges = true;
         }
 
@@ -1461,9 +1432,6 @@ namespace AhoyBrowser
             ResolveFormOpacity();
             SetCustomColorThemeTitle(AhoyColors.CustomColorThemeTitle);
             UpdateColorTheme();
-            // Handle current prism effect
-            PrismEffect = MainForm.PrismEffect;
-            RespondToCurrentPrismSetting();
         }
         #endregion
 
@@ -1563,7 +1531,6 @@ namespace AhoyBrowser
 
             if (settingsObject.LoadSuccess && settingsObject.CustomColors.Contains("#"))
             {
-                OverrideThemePrism = true;
                 ResetSubmissionVariable();
 
                 // 1 Set title
@@ -1589,8 +1556,6 @@ namespace AhoyBrowser
                 BitmapPreviewIndex = settingsObject.ButtonBitmapOverride;
                 ResolveBitmapLabel();
 
-                // Prism effect
-                PrismEffect = settingsObject.PrismEffect; // The respons to this setting is done through the UpdateColorTheme method
 
                 // Home screen
                 MainForm.DisplayTextCycle = settingsObject.DisplayTextCycle;
@@ -1625,7 +1590,6 @@ namespace AhoyBrowser
                 settingsObject.Opacity = this.Opacity;
                 settingsObject.Texture = MainForm.SelectedTexturePreview;
                 settingsObject.ButtonBitmapOverride = BitmapPreviewIndex;
-                settingsObject.PrismEffect = PrismEffect;
                 settingsObject.DisplayTextCycle = MainForm.DisplayTextCycle;
                 settingsObject.CustomColors = AhoyColors.RetrieveCustomColorPreviewAsCSV();
 
@@ -1643,107 +1607,6 @@ namespace AhoyBrowser
                 AhoySimpleMessageBox msg = new AhoySimpleMessageBox("Please create a custom color theme to export", MessageText.ExportCaption(), false);
                 msg.TopMost = true;
                 msg.ShowDialog();
-            }
-        }
-        #endregion
-
-        #region Prism effect
-        private void lbPrismEffect_Click(object sender, EventArgs e)
-        {
-            ResolvePrismEffect();
-        }
-
-        private void RespondToCurrentPrismSetting()
-        {
-            if (PrismEffect)
-            {
-                StartColorShiftTimer();
-            }
-            else
-            {
-                StopColorShiftTimer();
-            }
-        }
-
-        private void ResolvePrismEffect()
-        {
-            if (PrismEffect)
-            {
-                StopColorShiftTimer();
-            }
-            else
-            {
-                StartColorShiftTimer();
-            }
-        }
-
-        private void StartColorShiftTimer()
-        {
-            // Create timer instance
-            if (tempColorShiftTimer == null)
-            {
-                tempColorShiftTimer = new Timer();
-                tempColorShiftTimer.Interval = 5;
-                tempColorShiftTimer.Tick += TempColorShiftTimer_Tick;
-            }
-
-            if (tempColorShiftTimer != null && !tempColorShiftTimer.Enabled)
-            {
-                lbPrismEffect.Text = "Prism: ON";
-                PrismEffect = true;
-                ShiftTimerCounter = ShiftTimerCounterDefault;
-                tempColorShiftTimer.Enabled = true;
-            }
-        }
-
-        private void StopColorShiftTimer()
-        {
-            if (tempColorShiftTimer != null && tempColorShiftTimer.Enabled)
-            {
-                PrismEffect = false;
-                tempColorShiftTimer.Enabled = false;
-                lbPrismEffect.Text = "Prism: OFF";
-                lbPrismEffect.BackColor = AhoyColors.CurrentColorThemePreview()[29];
-                lbPrismEffect.ForeColor = AhoyColors.CurrentColorThemePreview()[30];
-            }
-        }
-
-        // Color shift timer
-        private float ShiftTimerCounter = 0f;
-        private const float ShiftTimerCounterDefault = 0f;
-        Timer tempColorShiftTimer;
-        private void TempColorShiftTimer_Tick(object sender, EventArgs e)
-        {
-            ShiftTimerCounter += 0.001f;
-            if (ShiftTimerCounter > 1)
-            {
-                ShiftTimerCounter = ShiftTimerCounterDefault;
-            }
-            lbPrismEffect.ForeColor = Rainbow(ShiftTimerCounter);
-        }
-
-        // Generate color from input
-        private static int MaxValue = 255;
-        public static Color Rainbow(float progress)
-        {
-            float div = (Math.Abs(progress % 1) * 6);
-            int ascending = (int)((div % 1) * MaxValue);
-            int descending = MaxValue - ascending;
-
-            switch ((int)div)
-            {
-                case 0:
-                    return Color.FromArgb(MaxValue, MaxValue, ascending, 0);
-                case 1:
-                    return Color.FromArgb(MaxValue, descending, MaxValue, 0);
-                case 2:
-                    return Color.FromArgb(MaxValue, 0, MaxValue, ascending);
-                case 3:
-                    return Color.FromArgb(MaxValue, 0, descending, MaxValue);
-                case 4:
-                    return Color.FromArgb(MaxValue, ascending, 0, MaxValue);
-                default: // case 5:
-                    return Color.FromArgb(MaxValue, MaxValue, 0, descending);
             }
         }
         #endregion

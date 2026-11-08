@@ -13,7 +13,6 @@ namespace AhoyBrowser
         private bool EnablePinning { get; set; }
         private bool IsCommandline { get; set; }
         private bool IsPasswordDialog { get; set; }
-        private MathParser Calculator { get; set; }
         public InputPrompt(string formCaption, string optionalInputText, string optionalAttentionMessage, string inputLabel, int maxTextLength, bool enablePinning, string okButtonText, bool isCommandline, Bitmap pinnedImage, Bitmap unpinnedImage, bool displayPasswordChars)
         {
             InitializeComponent();
@@ -33,10 +32,6 @@ namespace AhoyBrowser
                 // Set font
                 tbInput.Font = Design.TitleFieldFont();
             }
-
-            // Initialize Calculator
-            Calculator = new MathParser();
-            IsCalculatorMode = false;
 
             // Get commandline flags
             IsCommandline = isCommandline;
@@ -174,84 +169,12 @@ namespace AhoyBrowser
         }
 
 
-        private bool IsMathSymbol(char input)
-        {
-            if (input == '/' || input == '*' || input == '-' || input == '+')
-            {
-                return true;
-            }
-            else
-            {
-                return false;
-            }
-        }
-
-        private string tempCalculatorOutput = "";
-        private string tempPreviousCalculatorOutput = "";
-        private string tempCalculatorInput = "";
-        private bool IsCalculatorMode { get; set; }
         private void btnOK_Click(object sender, EventArgs e)
         {
             // Only trim if commandline or password dialog
             if (IsCommandline || IsPasswordDialog)
             {
-                // Prevent multiple lines
-                tempCalculatorInput = "";
                 UserInput = tbInput.Text.Trim();
-                tempCalculatorInput = UserInput;
-                tbInput.Clear();
-                tbInput.Text = tempCalculatorInput;
-
-                // Clear calculator result if a previous calculation exist and "cls" was typed
-                // and return...
-                if (tempPreviousCalculatorOutput.Length > 0 && tempCalculatorInput == "cls")
-                {
-                    tempPreviousCalculatorOutput = "";
-                    lbAttentionMessage.Text = "";
-                    UserInput = "";
-                    tbInput.Text = "";
-                    tbInput.Focus();
-                    return;
-                }
-
-                // Fetch previous calculator result
-                if (tempPreviousCalculatorOutput != null && tempPreviousCalculatorOutput.Length > 0)
-                {
-                    if (tempCalculatorInput.Length > 0 && IsMathSymbol(tempCalculatorInput[0]))
-                    {
-                        tempCalculatorInput = tempPreviousCalculatorOutput + tempCalculatorInput;
-                    }
-                }
-
-                // Calculator
-                tempCalculatorOutput = Calculator.DoCalculation(tempCalculatorInput);
-                if (IsCommandline && tempCalculatorOutput != "nocalc")
-                {
-                    tempCalculatorInput = Calculator.GetProcessedInputFormula();
-                    tempPreviousCalculatorOutput = tempCalculatorOutput;
-                    IsCalculatorMode = true;
-                    AddToCommandsHistoryList(tempCalculatorInput);
-                    this.lbAttentionMessage.Font = Design.MessageboxLargeFont();
-                    // Modify error message color, depending on theme ("Text Editor" and "Gadget")
-                    if (AhoyColors.ColorTheme == 1 || AhoyColors.ColorTheme == 2)
-                    {
-                        lbAttentionMessage.ForeColor = AhoyColors.CurrentColorTheme()[4];
-                    }
-                    else
-                    {
-                        lbAttentionMessage.ForeColor = AhoyColors.CurrentColorTheme()[6];
-                    }
-                    lbAttentionMessage.Text = tempCalculatorInput + " = " + tempCalculatorOutput.ToString();
-                    tbInput.Clear();
-                    return;
-                }
-                else
-                {
-                    tempPreviousCalculatorOutput = "";
-                    IsCalculatorMode = false;
-                    lbAttentionMessage.ForeColor = AhoyColors.CurrentColorTheme()[2];
-                    this.lbAttentionMessage.Font = new Font("Microsoft Sans Serif", 8.25F);
-                }
             }
             else
             {
@@ -316,7 +239,7 @@ namespace AhoyBrowser
             {
                 btnOK_Click(this, null);
             }
-            else if (e.Control && e.KeyCode == Keys.T && (!IsCommandline && !IsCalculatorMode && !IsPasswordDialog))
+            else if (e.Control && e.KeyCode == Keys.T && (!IsCommandline && !IsPasswordDialog))
             {
                 tbInput.Paste(IO.GetIsoDateTimeNow());
             }
@@ -330,11 +253,6 @@ namespace AhoyBrowser
             {
                 if (tbInput.Text.Length > 0)
                 {
-                    if (IsCalculatorMode)
-                    {
-                        lbAttentionMessage.Text = "";
-                    }
-
                     tbInput.Text = "";
                     e.SuppressKeyPress = true;
                     e.Handled = true;

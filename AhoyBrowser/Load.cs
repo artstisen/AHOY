@@ -6,32 +6,30 @@ namespace AhoyBrowser
     {
         internal bool LoadSuccess { get; set; }
         internal string LoadMessage { get; set; }
-        internal string AuthAuthQuestion { get; set; }
-        internal string AuthAnswer { get; set; }
-        internal string AuthPassword { get; set; }
+
+        /// <summary>The pool was not decrypted because the user cancelled the password prompt.</summary>
+        internal bool UnlockCancelled { get; set; }
+        /// <summary>The user pressed F5 / Ctrl+O in the password prompt to open another pool.</summary>
+        internal bool OpenOtherPoolRequested { get; set; }
+
+        /// <summary>The pool was stored in the Ahoy 1.x (3DES) format and must be upgraded.</summary>
+        internal bool IsLegacyFormat { get; set; }
+        /// <summary>Ahoy 1.x stored the login password inside the pool; only used to confirm identity before upgrading.</summary>
+        internal string LegacyPassword { get; set; }
+
         internal bool WriteProtected { get; set; }
         internal string LogText { get; set; }
         internal string DisplayText { get; set; }
         internal string MemoText { get; set; }
         internal int MemoCaretPosition { get; set; }
-        public string UETextA { get; set; }
-        public string UETextB { get; set; }
-        public string UETextC { get; set; }
-        public int UECaretPositionA { get; set; }
-        public int UECaretPositionB { get; set; }
-        public int UECaretPositionC { get; set; }
         public string HoldEntryAID { get; set; }
         public string HoldEntryBID { get; set; }
-        public string PlopLinkedID { get; set; }
-        public string PlopMainText { get; set; }
-        public string PlopUtilityText { get; set; }
         public string AlternateBackupPath { get; set; }
         public string DividerAString { get; set; }
         public string DividerBString { get; set; }
         public string DividerCString { get; set; }
         public string DividerDString { get; set; }
         internal string CypherKey { get; set; }
-        internal int TypermaxHighScore { get; set; }
 
         internal List<StickySettings> Stickies { get; set; }
         internal List<Entry> Entries { get; set; }
@@ -40,9 +38,7 @@ namespace AhoyBrowser
         {
             LoadSuccess = false;
             LoadMessage = "";
-            AuthAuthQuestion = "";
-            AuthAnswer = "";
-            AuthPassword = "";
+            LegacyPassword = "";
             WriteProtected = false;
             LogText = "";
             DisplayText = "";
@@ -50,24 +46,17 @@ namespace AhoyBrowser
             MemoCaretPosition = 0;
             Entries = new List<Entry>();
             Stickies = new List<StickySettings>();
-            UETextA = "";
-            UETextB = "";
-            UETextC = "";
-            UECaretPositionA = 0;
-            UECaretPositionB = 0;
-            UECaretPositionC = 0;
             HoldEntryAID = "";
             HoldEntryBID = "";
-            PlopLinkedID = "";
-            PlopMainText = "";
-            PlopUtilityText = "";
             AlternateBackupPath = "";
             DividerAString = "";
             DividerBString = "";
             DividerCString = "";
             DividerDString = "";
             CypherKey = "";
-            TypermaxHighScore = 0;
         }
     }
+
+    /// <summary>Called by IO.LoadEntries with an encrypted pool; returns the decrypted XML, or null if not unlocked.</summary>
+    internal delegate string PoolUnlocker(byte[] encryptedPool, Load loadObject);
 }

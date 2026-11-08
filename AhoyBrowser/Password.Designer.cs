@@ -34,7 +34,6 @@
             this.btnLogin = new System.Windows.Forms.Button();
             this.lbMessage = new System.Windows.Forms.Label();
             this.lbErrorMessage = new System.Windows.Forms.Label();
-            this.btnRestorePassword = new System.Windows.Forms.Button();
             this.btnCancel = new System.Windows.Forms.Button();
             this.lbWelcomeMessage = new System.Windows.Forms.Label();
             this.pnlPasswordInput = new System.Windows.Forms.Panel();
@@ -90,19 +89,6 @@
             this.lbErrorMessage.Name = "lbErrorMessage";
             this.lbErrorMessage.Size = new System.Drawing.Size(379, 24);
             this.lbErrorMessage.TabIndex = 3;
-            // 
-            // btnRestorePassword
-            // 
-            this.btnRestorePassword.Cursor = System.Windows.Forms.Cursors.Default;
-            this.btnRestorePassword.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
-            this.btnRestorePassword.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(142)))), ((int)(((byte)(142)))), ((int)(((byte)(142)))));
-            this.btnRestorePassword.Location = new System.Drawing.Point(38, 128);
-            this.btnRestorePassword.Name = "btnRestorePassword";
-            this.btnRestorePassword.Size = new System.Drawing.Size(140, 23);
-            this.btnRestorePassword.TabIndex = 4;
-            this.btnRestorePassword.Text = "Restore Password";
-            this.btnRestorePassword.UseVisualStyleBackColor = true;
-            this.btnRestorePassword.Click += new System.EventHandler(this.btnRestorePassword_Click);
             // 
             // btnCancel
             // 
@@ -188,7 +174,6 @@
             this.Controls.Add(this.pnlPasswordInput);
             this.Controls.Add(this.lbWelcomeMessage);
             this.Controls.Add(this.btnCancel);
-            this.Controls.Add(this.btnRestorePassword);
             this.Controls.Add(this.lbErrorMessage);
             this.Controls.Add(this.lbMessage);
             this.Controls.Add(this.btnLogin);
@@ -214,7 +199,6 @@
         private System.Windows.Forms.Button btnLogin;
         private System.Windows.Forms.Label lbMessage;
         private System.Windows.Forms.Label lbErrorMessage;
-        private System.Windows.Forms.Button btnRestorePassword;
         private System.Windows.Forms.Button btnCancel;
         private System.Windows.Forms.Label lbWelcomeMessage;
         private System.Windows.Forms.Panel pnlPasswordInput;

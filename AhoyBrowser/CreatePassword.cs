@@ -1,17 +1,30 @@
 ﻿using System.Windows.Forms;
+using AhoyBrowser.Crypto;
 
 namespace AhoyBrowser
 {
+    /// <summary>
+    /// Create (or change) the pool password. The dialog states which encryption is used and that a
+    /// forgotten password cannot be recovered; the user has to acknowledge this before saving.
+    /// </summary>
     public partial class CreatePassword : Form
     {
-        internal string AuthQuestion { get; set; }
-        internal string AuthAnswer { get; set; }
         internal string AuthPassword { get; set; }
         private string ErrorMessage { get; set; }
+
+        internal static string EncryptionNotice()
+        {
+            return "Encryption: " + PoolFile.AlgorithmDescription + "\n" +
+                   "Key derivation: " + PoolFile.KdfDescription + "\n\n" +
+                   "Your password is the only key to your notes. Ahoy does not store it and " +
+                   "cannot reset it. If you forget it, your data cannot be recovered.";
+        }
 
         public CreatePassword(string welcomeMessage, string formCaption)
         {
             InitializeComponent();
+            AuthPassword = "";
+
             // Hide the control box
             this.ControlBox = false;
 
@@ -30,14 +43,10 @@ namespace AhoyBrowser
             // Setup context menu
             tbPassword1.ContextMenuStrip = contextMenuBasic;
             tbPassword2.ContextMenuStrip = contextMenuBasic;
-            tbQuestion.ContextMenuStrip = contextMenuBasic;
-            tbAnswer.ContextMenuStrip = contextMenuBasic;
 
             // Set fonts
             tbPassword1.Font = Design.PasswordFieldFont();
             tbPassword2.Font = Design.PasswordFieldFont();
-            tbQuestion.Font = Design.TitleFieldFont();
-            tbAnswer.Font = Design.TitleFieldFont();
             lbStrength.Font = Design.MessageboxXSmallFont();
 
             // Set colors
@@ -45,48 +54,34 @@ namespace AhoyBrowser
             lbMessage.BackColor = this.BackColor;
             lbMessage.ForeColor = AhoyColors.CurrentColorTheme()[2];
             lbErrorMessage.BackColor = this.BackColor;
-            lbErrorMessage.ForeColor = AhoyColors.CurrentColorTheme()[6];
+            lbErrorMessage.ForeColor = AhoyColors.ErrorTextColor();
             label1.ForeColor = AhoyColors.CurrentColorTheme()[2];
             label2.ForeColor = AhoyColors.CurrentColorTheme()[2];
-            label3.ForeColor = AhoyColors.CurrentColorTheme()[2];
-            label4.ForeColor = AhoyColors.CurrentColorTheme()[2];
+            lbWarning.ForeColor = AhoyColors.CurrentColorTheme()[2];
+            lbWarning.BackColor = this.BackColor;
+            cbUnderstand.ForeColor = AhoyColors.CurrentColorTheme()[2];
+            cbUnderstand.BackColor = this.BackColor;
             lbEscapeText.ForeColor = AhoyColors.CurrentColorTheme()[2];
             lbEscapeText.BackColor = this.BackColor;
             tbPassword1.BackColor = AhoyColors.CurrentColorTheme()[1];
             tbPassword1.ForeColor = AhoyColors.CurrentColorTheme()[3];
             tbPassword2.BackColor = AhoyColors.CurrentColorTheme()[1];
             tbPassword2.ForeColor = AhoyColors.CurrentColorTheme()[3];
-            tbQuestion.BackColor = AhoyColors.CurrentColorTheme()[1];
-            tbQuestion.ForeColor = AhoyColors.CurrentColorTheme()[3];
-            tbAnswer.BackColor = AhoyColors.CurrentColorTheme()[1];
-            tbAnswer.ForeColor = AhoyColors.CurrentColorTheme()[3];
             btnSave.BackColor = AhoyColors.CurrentColorTheme()[7];
             btnSave.ForeColor = AhoyColors.CurrentColorTheme()[8];
             lbStrength.BackColor = this.BackColor;
             lbStrength.ForeColor = AhoyColors.CurrentColorTheme()[2];
 
-            // Modify error message color, depending on theme ("Text Editor" and "Gadget")
-            if (AhoyColors.ColorTheme == 1 || AhoyColors.ColorTheme == 2)
-            {
-                lbErrorMessage.ForeColor = AhoyColors.CurrentColorTheme()[4];
-            }
-            else
-            {
-                lbErrorMessage.ForeColor = AhoyColors.CurrentColorTheme()[6];
-            }
-
             this.Text = formCaption;
             lbMessage.Text = welcomeMessage;
             label1.Text = "Enter password";
             label2.Text = "Please repeat password";
-            label3.Text = "Enter password recovery question (Example: Athena?)";
-            label4.Text = "Enter password recovery answer (Example: Palladium)";
+            lbWarning.Text = EncryptionNotice();
 
             // Hook events for highlighting save button
             tbPassword1.TextChanged += TbPassword1_TextChanged;
             tbPassword2.TextChanged += General_TextChanged;
-            tbQuestion.TextChanged += General_TextChanged;
-            tbAnswer.TextChanged += General_TextChanged;
+            cbUnderstand.CheckedChanged += General_TextChanged;
             TestStrength();
             // Set max password length
             tbPassword1.MaxLength = MainForm.MaxPasswordLength;
@@ -114,37 +109,25 @@ namespace AhoyBrowser
             }
 
             TestStrength(); // Test password strength
-            if (!FieldsMissingText())
-            {
-                btnSave.ForeColor = AhoyColors.CurrentColorTheme()[6];
-            }
-            else
-            {
-                btnSave.ForeColor = AhoyColors.CurrentColorTheme()[8];
-            }
+            General_TextChanged(sender, e);
         }
 
         private void General_TextChanged(object sender, System.EventArgs e)
         {
-            if (!FieldsMissingText())
-            {
-                btnSave.ForeColor = AhoyColors.CurrentColorTheme()[6];
-            }
-            else
-            {
-                btnSave.ForeColor = AhoyColors.CurrentColorTheme()[8];
-            }
+            btnSave.ForeColor = ReadyToSave()
+                ? AhoyColors.CurrentColorTheme()[6]
+                : AhoyColors.CurrentColorTheme()[8];
         }
 
         private void btnSave_Click(object sender, System.EventArgs e)
         {
             // Validate input before submitting
             lbErrorMessage.Text = "";
-         
+            ErrorMessage = "";
 
             if (FieldsMissingText())
             {
-                ErrorMessage = "Please fill out all fields to continue";
+                ErrorMessage = "Please enter the password twice";
             }
             else if (tbPassword1.Text.Trim() != tbPassword2.Text.Trim())
             {
@@ -155,16 +138,19 @@ namespace AhoyBrowser
             }
             else if (!PasswordTester.IsScoreValid())
             {
-                ErrorMessage = "Password is invalid";
+                ErrorMessage = "Password is too weak";
                 tbPassword1.Text = "";
                 tbPassword2.Text = "";
                 tbPassword1.Focus();
             }
+            else if (!cbUnderstand.Checked)
+            {
+                ErrorMessage = "Please tick the box to confirm";
+                cbUnderstand.Focus();
+            }
             else
             {
                 AuthPassword = tbPassword1.Text.Trim();
-                AuthQuestion = tbQuestion.Text.Trim();
-                AuthAnswer = tbAnswer.Text.Trim();
                 this.Close();
             }
 
@@ -173,7 +159,6 @@ namespace AhoyBrowser
 
         private void tbPassword1_KeyPress(object sender, KeyPressEventArgs e)
         {
-            // Tjek også dette i password dialogen mv
             if ((Keys)e.KeyChar == Keys.Enter)
             {
                 btnSave_Click(this, null);
@@ -189,17 +174,14 @@ namespace AhoyBrowser
             }
         }
 
-        // Check if fields are missing text
         private bool FieldsMissingText()
         {
-            if (string.IsNullOrEmpty(tbPassword1.Text.Trim()) || string.IsNullOrEmpty(tbPassword2.Text.Trim()) || string.IsNullOrEmpty(tbQuestion.Text.Trim()) || string.IsNullOrEmpty(tbAnswer.Text.Trim()))
-            {
-                return true;
-            }
-            else
-            {
-                return false;
-            }
+            return string.IsNullOrEmpty(tbPassword1.Text.Trim()) || string.IsNullOrEmpty(tbPassword2.Text.Trim());
+        }
+
+        private bool ReadyToSave()
+        {
+            return !FieldsMissingText() && cbUnderstand.Checked;
         }
 
         // Context menu actions
@@ -247,8 +229,6 @@ namespace AhoyBrowser
         private void CancelForm()
         {
             AuthPassword = "";
-            AuthQuestion = "";
-            AuthAnswer = "";
             this.Close();
         }
 
