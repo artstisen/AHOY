@@ -47,3 +47,7 @@ Typewriter, Typermax, notifications, the Utility/PLOP Editor, calculators, Roman
 - Opening folders and web links, and choosing the remote backup folder.
 - Numbers in settings files saved with a comma decimal separator (for example on Danish Windows) are read correctly.
 - Many smaller fixes from a full code review.
+
+## Earlier versions
+
+The changes in AHOY! 1.5.0.3 to 1.6.1.1 (2019-2022) are in [docs/CHANGELOG-1.x.txt](docs/CHANGELOG-1.x.txt).
