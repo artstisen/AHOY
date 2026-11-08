@@ -24,8 +24,6 @@ namespace AhoyBrowser
         internal static string CurrentSessionId { get; set; }
         internal static string PoolSessionId { get; set; }
         internal static string PoolSessionChanged { get; set; }
-        //internal const string IsoDateTimeSecondsFormat = "yyyy-MM-dd HH:mm:ss";
-        //internal const string IsoDateTimeMinutesFormat = "yyyy-MM-dd HH:mm";
 
         #region ISO 8601 Timestamp
         // Get culture invariant datetime string
@@ -69,42 +67,6 @@ namespace AhoyBrowser
             _tempDateTimeIso += DateTime.Now.Minute.ToString("00");
             return _tempDateTimeIso;
         }
-
-        public static string FormatAsISODateTime(DateTime dt)
-        {
-            _tempDateTimeIso = "";
-            _tempDateTimeIso += dt.Year.ToString();
-            _tempDateTimeIso += "-";
-            _tempDateTimeIso += dt.Month.ToString("00");
-            _tempDateTimeIso += "-";
-            _tempDateTimeIso += dt.Day.ToString("00");
-            _tempDateTimeIso += " ";
-            _tempDateTimeIso += dt.Hour.ToString("00");
-            _tempDateTimeIso += ":";
-            _tempDateTimeIso += dt.Minute.ToString("00");
-            _tempDateTimeIso += ":";
-            _tempDateTimeIso += dt.Second.ToString("00");
-            return _tempDateTimeIso;
-        }
-
-
-        public static string FormatAsISODateTimeZeroSeconds(DateTime dt)
-        {
-            _tempDateTimeIso = "";
-            _tempDateTimeIso += dt.Year.ToString();
-            _tempDateTimeIso += "-";
-            _tempDateTimeIso += dt.Month.ToString("00");
-            _tempDateTimeIso += "-";
-            _tempDateTimeIso += dt.Day.ToString("00");
-            _tempDateTimeIso += " ";
-            _tempDateTimeIso += dt.Hour.ToString("00");
-            _tempDateTimeIso += ":";
-            _tempDateTimeIso += dt.Minute.ToString("00");
-            _tempDateTimeIso += ":";
-            _tempDateTimeIso += "00";
-            return _tempDateTimeIso;
-        }
-
         public static string FormatAsISODateMinutes(DateTime dt)
         {
             _tempDateTimeIso = "";
@@ -214,7 +176,7 @@ namespace AhoyBrowser
                 }
                 else
                 {
-                    DataPathMessage = "Directory exists: " + tempPath + DemoFolderPath;
+                    DataPathMessage = "Directory exists: " + tempPath;
                 }
                 return true;
             }
@@ -385,7 +347,6 @@ namespace AhoyBrowser
         }
 
 
-
         internal static string GetCustomFileNameStripped()
         {
             if (CustomFileName.Contains(PoolFileExtension))
@@ -547,27 +508,24 @@ namespace AhoyBrowser
                 return "";
             }
         }
-
         internal static string GetAlternateBackupFileName(string path)
+        {
+            return GetAlternateBackupFileName(path, GetCurrentAlternateBackupIdentifier());
+        }
+
+        // Name of backup "A" or "B" in the remote backup folder for the current pool
+        private static string GetAlternateBackupFileName(string path, string identifier)
         {
             if (!UseCustomFilePath && UseSecondaryPool)
             {
-                return path + "\\" + GetCurrentAlternateBackupIdentifier() + "-Sub-" + BackupFileName;
+                return path + "\\" + identifier + "-Sub-" + BackupFileName;
             }
-            else
+            if (UseCustomFilePath)
             {
-                if (UseCustomFilePath)
-                {
-                    tempCustomFilePath = path + "\\" + GetCustomFileNameStripped() + "-" + GetCurrentAlternateBackupIdentifier() + "-" + BackupFileName;
-                    return tempCustomFilePath;
-                }
-                else
-                {
-                    return path + "\\" + GetCurrentAlternateBackupIdentifier() + "-" + BackupFileName;
-                }
+                return path + "\\" + GetCustomFileNameStripped() + "-" + identifier + "-" + BackupFileName;
             }
+            return path + "\\" + identifier + "-" + BackupFileName;
         }
-
         internal static string GetDataPathAndBackupFileNameWithPrimaryIdentifier()
         {
             try
@@ -713,6 +671,12 @@ namespace AhoyBrowser
         internal static string PoolDumpString { get; set; }
         internal static bool SaveEntries(List<Entry> Entries, List<StickySettings> StickyList, string logText, string holdEntryAID, string holdEntryBID, string memoText, int memoCaret, string displayText, PoolKey key, bool isBackup, string cypherKey, bool saveAtAlternateLocation, string alternateFilePath, bool writeProtected, string dividerA, string dividerB, string dividerC, string dividerD, bool dump)
         {
+            using var invariantCulture = InvariantCulture.Use(); // locale-independent file format
+            if (key == null)
+            {
+                return false; // Never write a pool without a password-derived key
+            }
+
             if (!saveAtAlternateLocation && !CheckDataPath())
             {
                 return false;
@@ -748,11 +712,6 @@ namespace AhoyBrowser
                         }
                     }
                 }
-            }
-
-            if (key == null)
-            {
-                return false; // Never write a pool without a password-derived key
             }
 
             StringBuilder xmlContent = new StringBuilder();
@@ -808,10 +767,6 @@ namespace AhoyBrowser
                 xmlContent.AppendLine(@"    </display>");
 
                 //// Write backup path removed from version 1.4.1.7
-                // Saved in settings instead
-                //xmlContent.AppendLine(@"    <backup>");
-                //xmlContent.AppendLine(@"        <path><![CDATA[" + RemoveIllegalXMLTags(alternateBackupPath) + "]]></path>");
-                //xmlContent.AppendLine(@"    </backup>");
 
                 // Write Paragraph Dividers
                 xmlContent.AppendLine(@"    <dividers>");
@@ -839,11 +794,7 @@ namespace AhoyBrowser
                     }
                 }
 
-                try
-                {
-
-
-
+                // Entries (an exception here fails the whole save; a partial pool is never written)
                 foreach (Entry entry in Entries)
                 {
                     // Write entries to XML file
@@ -864,12 +815,6 @@ namespace AhoyBrowser
                     xmlContent.AppendLine(@"        <tit><![CDATA[" + RemoveIllegalXMLTags(entry.Title) + "]]></tit>");
                     xmlContent.AppendLine(@"        <con><![CDATA[" + RemoveIllegalXMLTags(entry.Content) + "]]></con>");
                     xmlContent.AppendLine(@"    </entry>");
-                }
-                
-                }
-                catch// (Exception e)
-                {
-                    //e.Message;
                 }
                 xmlContent.AppendLine(@"</entries>");
 
@@ -897,10 +842,13 @@ namespace AhoyBrowser
 
                 if (isBackup)
                 {
-                    WriteFileAtomically(SelectedBackupFilePath, encryptedPool);
-                    if (SaveAlternateBackup)
+                    if (!WriteFileAtomically(SelectedBackupFilePath, encryptedPool))
                     {
-                        WriteFileAtomically(SelectedAlternateBackupFilePath, encryptedPool);
+                        Log.LogSavePoolError();
+                    }
+                    if (SaveAlternateBackup && !WriteFileAtomically(SelectedAlternateBackupFilePath, encryptedPool))
+                    {
+                        Log.LogSavePoolError();
                     }
                 }
                 return true;
@@ -912,6 +860,16 @@ namespace AhoyBrowser
         /// Write to a temporary file in the same directory, then move it over the target,
         /// so an interrupted save never leaves a half-written pool behind.
         /// </summary>
+        internal static bool WriteTextFileAtomically(string path, string text)
+        {
+            byte[] bom = Encoding.UTF8.GetPreamble();
+            byte[] body = Encoding.UTF8.GetBytes((text ?? "") + Environment.NewLine);
+            byte[] data = new byte[bom.Length + body.Length];
+            bom.CopyTo(data, 0);
+            body.CopyTo(data, bom.Length);
+            return WriteFileAtomically(path, data);
+        }
+
         internal static bool WriteFileAtomically(string path, byte[] data)
         {
             string tempPath = path + ".tmp";
@@ -946,40 +904,48 @@ namespace AhoyBrowser
         }
 
         /// <summary>
-        /// Find pool and backup files that are still in the Ahoy 1.x format (readable by anyone
-        /// with a copy of Ahoy 1.x), in the data directory, the backup directory and the remote backup directory.
+        /// The current pool's own files that are still in the Ahoy 1.x format (readable by anyone with a
+        /// copy of Ahoy 1.x): the pool itself, its backups A/B and its remote backups A/B.
+        /// Other pools in the same folders are never included.
         /// </summary>
         internal static List<string> FindLegacyPoolFiles()
         {
-            var result = new List<string>();
-            var directories = new List<string> { GetDataPath(), GetBackupDirectory(), GetAlternateBackupPath() };
-            foreach (string directory in directories)
+            var candidates = new List<string>
             {
-                if (string.IsNullOrEmpty(directory) || !Directory.Exists(directory))
+                GetDataPathAndFileName(),
+                GetDataPathAndBackupFileNameWithPrimaryIdentifier(),
+                GetDataPathAndBackupFileNameWithSecondaryIdentifier()
+            };
+            string remote = GetAlternateBackupPath();
+            if (!string.IsNullOrEmpty(remote))
+            {
+                candidates.Add(GetAlternateBackupFileName(remote, "A"));
+                candidates.Add(GetAlternateBackupFileName(remote, "B"));
+            }
+
+            var result = new List<string>();
+            foreach (string file in candidates)
+            {
+                if (string.IsNullOrEmpty(file) || result.Contains(file) || !File.Exists(file))
                 {
                     continue;
                 }
-                foreach (string file in Directory.EnumerateFiles(directory, "*" + PoolFileExtension))
+                try
                 {
-                    try
+                    byte[] bytes = File.ReadAllBytes(file);
+                    if (!PoolFile.IsEncryptedPool(bytes) &&
+                        Legacy.TryDecryptPool(Encoding.UTF8.GetString(bytes).TrimStart('\uFEFF'), out _))
                     {
-                        byte[] bytes = File.ReadAllBytes(file);
-                        if (!PoolFile.IsEncryptedPool(bytes) &&
-                            Legacy.TryDecryptPool(Encoding.UTF8.GetString(bytes).TrimStart('\uFEFF'), out _) &&
-                            !result.Contains(file))
-                        {
-                            result.Add(file);
-                        }
+                        result.Add(file);
                     }
-                    catch
-                    {
-                        // Unreadable file: skip
-                    }
+                }
+                catch
+                {
+                    // Unreadable file: skip
                 }
             }
             return result;
         }
-
 
         // Color theme index: <colortheme> (Ahoy 2.x) or <theme> (Ahoy 1.x, 20 themes)
         private static int ReadColorTheme(XmlNode node)
@@ -1003,7 +969,7 @@ namespace AhoyBrowser
             XmlNode checkNode = node.SelectSingleNode(value);
 
             if (checkNode != null)
-                return Convert.ToInt32(checkNode.InnerText);
+                return InvariantCulture.ParseInt(checkNode.InnerText);
             else
                 return defaultValue;
         }
@@ -1014,7 +980,7 @@ namespace AhoyBrowser
             XmlNode checkNode = node.SelectSingleNode(value);
 
             if (checkNode != null)
-                return Convert.ToDouble(checkNode.InnerText);
+                return InvariantCulture.ParseDouble(checkNode.InnerText);
             else
                 return defaultValue;
         }
@@ -1044,6 +1010,7 @@ namespace AhoyBrowser
         // Load
         public static Load LoadEntries(List<Entry> Entries, PoolUnlocker unlockPool, bool loadBackup, bool backupA, bool openFilePath, string filePath)
         {
+            using var invariantCulture = InvariantCulture.Use(); // locale-independent file format
             // Prepare load object to return
             Load loadObject = new Load();
             loadObject.Entries = new List<Entry>();
@@ -1217,7 +1184,7 @@ namespace AhoyBrowser
                 mcaretNodes = document.SelectNodes("//entries/mcaret"); // XPath statement
                 foreach (XmlNode node in mcaretNodes)
                 {
-                    loadObject.MemoCaretPosition = Convert.ToInt32(node["caret"].InnerText);
+                    loadObject.MemoCaretPosition = InvariantCulture.ParseInt(node["caret"].InnerText);
                 }
 
 
@@ -1249,10 +1216,10 @@ namespace AhoyBrowser
                 dividerNodes = document.SelectNodes("//entries/dividers"); // XPath statement
                 foreach (XmlNode node in dividerNodes)
                 {
-                    loadObject.DividerAString = node["dividera"].InnerText;
-                    loadObject.DividerBString = node["dividerb"].InnerText;
-                    loadObject.DividerCString = node["dividerc"].InnerText;
-                    loadObject.DividerDString = node["dividerd"].InnerText;
+                    loadObject.DividerAString = RestoreIllegalXMLTags(node["dividera"].InnerText);
+                    loadObject.DividerBString = RestoreIllegalXMLTags(node["dividerb"].InnerText);
+                    loadObject.DividerCString = RestoreIllegalXMLTags(node["dividerc"].InnerText);
+                    loadObject.DividerDString = RestoreIllegalXMLTags(node["dividerd"].InnerText);
                 }
 
                 // Read Stickies
@@ -1264,10 +1231,10 @@ namespace AhoyBrowser
                     {
                         StickySettings newSticky = new StickySettings();
                         newSticky.ID = node["id"].InnerText;
-                        newSticky.Width = Convert.ToInt32(node["w"].InnerText);
-                        newSticky.Height = Convert.ToInt32(node["h"].InnerText);
-                        newSticky.Left = Convert.ToInt32(node["x"].InnerText);
-                        newSticky.Top = Convert.ToInt32(node["y"].InnerText);
+                        newSticky.Width = InvariantCulture.ParseInt(node["w"].InnerText);
+                        newSticky.Height = InvariantCulture.ParseInt(node["h"].InnerText);
+                        newSticky.Left = InvariantCulture.ParseInt(node["x"].InnerText);
+                        newSticky.Top = InvariantCulture.ParseInt(node["y"].InnerText);
                         newSticky.Theme = CheckNodeInt(node, "ct", 0);
                         newSticky.TopMost = CheckNodeBoolean(node, "po", true);
                         newSticky.Text = RestoreIllegalXMLTags(node["t"].InnerText);
@@ -1287,7 +1254,7 @@ namespace AhoyBrowser
                     newEntry.PresetColor = CheckNodeInt(node, "sta", DefaultStatus);
                     newEntry.CustomColor = CheckNodeString(node, "cuc", string.Empty);
                     newEntry.Protected = Convert.ToBoolean(node["pro"].InnerText);
-                    newEntry.CaretPosition = Convert.ToInt32(node["pos"].InnerText);
+                    newEntry.CaretPosition = InvariantCulture.ParseInt(node["pos"].InnerText);
                     newEntry.Bookmark = CheckNodeInt(node, "bmk", DefaultStatus);
                     newEntry.RelatedEntries = CheckNodeString(node, "rel", string.Empty);
                     newEntry.RelatedView = CheckNodeBoolean(node, "rev", false);
@@ -1328,6 +1295,7 @@ namespace AhoyBrowser
         private static string SelectedSettingsFilePath { get; set; }
         internal static bool SaveSettings(Settings settingsObject)
         {
+            using var invariantCulture = InvariantCulture.Use(); // locale-independent file format
             if (!CheckDataPath())
             {
                 return false;
@@ -1390,41 +1358,31 @@ namespace AhoyBrowser
                 xmlContent.AppendLine(@"        <mbk>" + settingsObject.MoveByKeyboard + "</mbk>");
                 xmlContent.AppendLine(@"        <rbk>" + settingsObject.ResizeByKeyboard + "</rbk>");
                 xmlContent.AppendLine(@"        <tsf>" + settingsObject.TimestampFormat.ToString() + "</tsf>");
-                xmlContent.AppendLine(@"        <ofdp><![CDATA[" + settingsObject.OpenFileDialogPath + "]]></ofdp>");
-                xmlContent.AppendLine(@"        <sfdp><![CDATA[" + settingsObject.SaveFileDialogPath + "]]></sfdp>");
-                xmlContent.AppendLine(@"        <bkpth><![CDATA[" + settingsObject.BackupLocation + "]]></bkpth>");
-                xmlContent.AppendLine(@"        <custt><![CDATA[" + settingsObject.ThemeTitle + "]]></custt>");
-                xmlContent.AppendLine(@"        <custc><![CDATA[" + settingsObject.CustomColors + "]]></custc>");
+                xmlContent.AppendLine(@"        <ofdp><![CDATA[" + RemoveIllegalXMLTags(settingsObject.OpenFileDialogPath) + "]]></ofdp>");
+                xmlContent.AppendLine(@"        <sfdp><![CDATA[" + RemoveIllegalXMLTags(settingsObject.SaveFileDialogPath) + "]]></sfdp>");
+                xmlContent.AppendLine(@"        <bkpth><![CDATA[" + RemoveIllegalXMLTags(settingsObject.BackupLocation) + "]]></bkpth>");
+                xmlContent.AppendLine(@"        <custt><![CDATA[" + RemoveIllegalXMLTags(settingsObject.ThemeTitle) + "]]></custt>");
+                xmlContent.AppendLine(@"        <custc><![CDATA[" + RemoveIllegalXMLTags(settingsObject.CustomColors) + "]]></custc>");
                 xmlContent.AppendLine(@"    </setting>");
 
                 xmlContent.AppendLine(@"</settings>");
 
-                // Save file to disk
-                StreamWriter Stream = null;
 
                 // Add xml content to string
                 stringData = xmlContent.ToString();
 
-                // Main
-                FileStream fileStream = null;
 
                 try
                 {
-                    fileStream = new FileStream(SelectedSettingsFilePath, FileMode.Create, FileAccess.ReadWrite, FileShare.ReadWrite);
-                    Stream = new StreamWriter(fileStream, Encoding.UTF8);
-                    Stream.WriteLine(stringData);
+                    if (!WriteTextFileAtomically(SelectedSettingsFilePath, stringData))
+                    {
+                        throw new IOException("Unable to write " + SelectedSettingsFilePath);
+                    }
                     return true;
                 }
                 catch
                 {
                     return false;
-                }
-                finally
-                {
-                    if (Stream != null)
-                    {
-                        Stream.Close();
-                    }
                 }
             }
             return false;
@@ -1434,6 +1392,7 @@ namespace AhoyBrowser
         // Load
         public static Settings LoadSettings()
         {
+            using var invariantCulture = InvariantCulture.Use(); // locale-independent file format
             // Prepare Settings object to return
             Settings settingsObject = new Settings();
 
@@ -1448,7 +1407,7 @@ namespace AhoyBrowser
                 }
             }
 
-            FileStream fileStream = new FileStream(GetDataPathAndSettingsFileName(), FileMode.Open, FileAccess.ReadWrite, FileShare.ReadWrite);
+            FileStream fileStream = new FileStream(GetDataPathAndSettingsFileName(), FileMode.Open, FileAccess.Read, FileShare.ReadWrite);
             StreamReader reader = new StreamReader(fileStream);
             StringBuilder xmlContent = new StringBuilder();
             string stringData = "";
@@ -1491,20 +1450,20 @@ namespace AhoyBrowser
                     settingsObject.BackupIdentifier = CheckNodeInt(node, "backupidnt", DefaultStatus);
                     settingsObject.Fullscreen = Convert.ToBoolean(node["fscreen"].InnerText);
                     settingsObject.Maximized = CheckNodeBoolean(node, "maximized", DefaultBoolean);
-                    settingsObject.Width = Convert.ToInt32(node["width"].InnerText);
-                    settingsObject.Height = Convert.ToInt32(node["height"].InnerText);
-                    settingsObject.PositionX = Convert.ToInt32(node["posx"].InnerText);
-                    settingsObject.PositionY = Convert.ToInt32(node["posy"].InnerText);
+                    settingsObject.Width = InvariantCulture.ParseInt(node["width"].InnerText);
+                    settingsObject.Height = InvariantCulture.ParseInt(node["height"].InnerText);
+                    settingsObject.PositionX = InvariantCulture.ParseInt(node["posx"].InnerText);
+                    settingsObject.PositionY = InvariantCulture.ParseInt(node["posy"].InnerText);
                     settingsObject.ColorTheme = ReadColorTheme(node);
                     settingsObject.EnableFormBorder = CheckNodeBoolean(node, "border", Settings.DefaultEnableFormBorder);
                     settingsObject.ButtonBitmapOverride = CheckNodeInt(node, "btnbovr", Settings.DefaultButtonBitmapOverride);
-                    settingsObject.LayoutMode = Convert.ToInt32(node["layout"].InnerText);
+                    settingsObject.LayoutMode = InvariantCulture.ParseInt(node["layout"].InnerText);
                     settingsObject.Opacity = CheckNodeDouble(node, "opacity", Settings.DefaultOpacity);
                     settingsObject.Texture = CheckNodeInt(node, "texture", Settings.DefaultTexture);
                     settingsObject.Animations = CheckNodeBoolean(node, "anim", true);
                     settingsObject.DisplayTextCycle = CheckNodeInt(node, "qgcycle", Settings.DefaultDisplayTextCycle);
                     settingsObject.ShowWPMCounter = CheckNodeBoolean(node, "wpmcnt", false);
-                    settingsObject.SleepIntervalIndex = Convert.ToInt32(node["sleep"].InnerText);
+                    settingsObject.SleepIntervalIndex = InvariantCulture.ParseInt(node["sleep"].InnerText);
                     settingsObject.LiveSearch = CheckNodeBoolean(node, "lsearch", Settings.DefaultLiveSearch);
                     settingsObject.TitlePrioritySearch = CheckNodeBoolean(node, "tsearch", Settings.DefaultTitlePrioritySearch);
                     settingsObject.AutoSearch = CheckNodeBoolean(node, "asearch", Settings.DefaultAutoSearch);
@@ -1515,8 +1474,8 @@ namespace AhoyBrowser
                     settingsObject.AutoSaveEntryChanges = CheckNodeBoolean(node, "autos", Settings.DefaultAutoSaveEntryChanges);
                     settingsObject.SpellCheckerLanguage = CheckNodeInt(node, "splang", 1);
                     settingsObject.CurrentFont = CheckNodeInt(node, "font", 0);
-                    settingsObject.FieldsFontSize = Convert.ToInt32(node["ffont"].InnerText);
-                    settingsObject.ListsFontSize = Convert.ToInt32(node["lfont"].InnerText);
+                    settingsObject.FieldsFontSize = InvariantCulture.ParseInt(node["ffont"].InnerText);
+                    settingsObject.ListsFontSize = InvariantCulture.ParseInt(node["lfont"].InnerText);
                     settingsObject.CurrentListFontWeight = CheckNodeBoolean(node, "libold", Settings.DefaultListFontWeight);
                     settingsObject.EnforceScrollbars = CheckNodeBoolean(node, "scroll", Settings.DefaultEnforceScrollbars);
                     settingsObject.ListsAutoHide = Convert.ToBoolean(node["lautohide"].InnerText);
@@ -1528,11 +1487,11 @@ namespace AhoyBrowser
                     settingsObject.MoveByKeyboard = CheckNodeBoolean(node, "mbk", Settings.DefaultMoveByKeyboard);
                     settingsObject.ResizeByKeyboard = CheckNodeBoolean(node, "rbk", Settings.DefaultResizeByKeyboard);
                     settingsObject.TimestampFormat = CheckNodeInt(node, "tsf", Settings.DefaultTimestampFormat);
-                    settingsObject.OpenFileDialogPath = CheckNodeString(node, "ofdp", "");
-                    settingsObject.SaveFileDialogPath = CheckNodeString(node, "sfdp", "");
-                    settingsObject.BackupLocation = CheckNodeString(node, "bkpth", "");
-                    settingsObject.ThemeTitle = CheckNodeString(node, "custt", Settings.DefaultThemeTitle);
-                    settingsObject.CustomColors = CheckNodeString(node, "custc", Settings.DefaultCustomColors);
+                    settingsObject.OpenFileDialogPath = RestoreIllegalXMLTags(CheckNodeString(node, "ofdp", ""));
+                    settingsObject.SaveFileDialogPath = RestoreIllegalXMLTags(CheckNodeString(node, "sfdp", ""));
+                    settingsObject.BackupLocation = RestoreIllegalXMLTags(CheckNodeString(node, "bkpth", ""));
+                    settingsObject.ThemeTitle = RestoreIllegalXMLTags(CheckNodeString(node, "custt", Settings.DefaultThemeTitle));
+                    settingsObject.CustomColors = RestoreIllegalXMLTags(CheckNodeString(node, "custc", Settings.DefaultCustomColors));
                 }
 
                 settingsObject.LoadSuccess = true;
@@ -1562,8 +1521,6 @@ namespace AhoyBrowser
                 openFileFromPath.CheckPathExists = true;
                 //openPoolFromFilePath.DefaultExt = @".ahoy";
                 openFileFromPath.DereferenceLinks = true;
-                //openPoolFromFilePath.FileName = PoolFileName;
-                //openPoolFromFilePath.Filter = @"Ahoy pool|*.ahoy";
                 openFileFromPath.FilterIndex = 1;
                 openFileFromPath.InitialDirectory = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
                 openFileFromPath.Multiselect = false;
@@ -1756,9 +1713,6 @@ namespace AhoyBrowser
                 TextDocumentFilePath = path;
                 StringBuilder textContent = new StringBuilder();
                 string stringData = "";
-                // Save file to disk
-                StreamWriter Stream = null;
-                FileStream fileStream = null;
                 // Add content to string (tested with large documents of over 1.000.000 chars, it's fast)
                 TextDocumentList.AddRange(text.Split('\n'));
                 for (int i = 0; i < TextDocumentList.Count; i++)
@@ -1769,21 +1723,15 @@ namespace AhoyBrowser
                 try
                 {
                     // Main
-                    fileStream = new FileStream(TextDocumentFilePath, FileMode.Create, FileAccess.ReadWrite, FileShare.ReadWrite);
-                    Stream = new StreamWriter(fileStream, Encoding.UTF8);
-                    Stream.WriteLine(stringData);
+                    if (!WriteTextFileAtomically(TextDocumentFilePath, stringData))
+                    {
+                        throw new IOException("Unable to write " + TextDocumentFilePath);
+                    }
                     return true;
                 }
                 catch
                 {
                     return false;
-                }
-                finally
-                {
-                    if (Stream != null)
-                    {
-                        Stream.Close();
-                    }
                 }
             }
             else
@@ -1829,13 +1777,8 @@ namespace AhoyBrowser
          * Euro (u20AC)
          * Trademark (u2122)
          */
-        //public static string CleanString(string s)
-        //{
-        //    s = Regex.Replace(s, @"[^\u0000-\u00FF-\u20AC-\u2122]", "");
-        //    return s;
-        //}
 
-        // New method used instead of the one above to preserve some ASCII symbols etc.
+        // Keeps Latin-1 letters and the Euro/Trademark symbols
         public static string CleanInvalidXmlChars(string text)
         {
             // Keep only characters allowed by the XML spec:
@@ -2164,35 +2107,6 @@ namespace AhoyBrowser
         }
         #endregion
 
-        // #region Privacy statement text reader
-        // public static string PrivacyStatementTextReader()
-        // {
-        //     StreamReader reader;
-        //     // Load embedded dictionary file
-        //     reader = new StreamReader(Splash.asm.GetManifestResourceStream("AhoyBrowser.TextFiles.PrivacyStatement.txt"));
-        //
-        //     try
-        //     {
-        //         string tmpContent = "";
-        //
-        //         while (reader.Peek() != -1)
-        //         {
-        //             tmpContent += reader.ReadLine() + Environment.NewLine;
-        //         }
-        //
-        //         return tmpContent;
-        //     }
-        //     catch
-        //     {
-        //         return "";
-        //     }
-        //     finally
-        //     {
-        //         // always close the reader when finished
-        //         reader.Close();
-        //     }
-        // }
-        // #endregion
 
         #region Command reference text
         private static string tempHeadline;
@@ -2425,6 +2339,7 @@ namespace AhoyBrowser
         private static string ExportFilePath { get; set; }
         internal static bool ExportTheme(Settings settingsObject)
         {
+            using var invariantCulture = InvariantCulture.Use(); // locale-independent file format
             if (settingsObject == null)
             {
                 return false;
@@ -2450,38 +2365,28 @@ namespace AhoyBrowser
                     xmlContent.AppendLine(@"        <opacity>" + settingsObject.Opacity.ToString() + "</opacity>");
                     xmlContent.AppendLine(@"        <texture>" + settingsObject.Texture.ToString() + "</texture>");
                     xmlContent.AppendLine(@"        <qgcycle>" + settingsObject.DisplayTextCycle.ToString() + "</qgcycle>");
-                    xmlContent.AppendLine(@"        <custt><![CDATA[" + settingsObject.ThemeTitle + "]]></custt>");
-                    xmlContent.AppendLine(@"        <custc><![CDATA[" + settingsObject.CustomColors + "]]></custc>");
+                    xmlContent.AppendLine(@"        <custt><![CDATA[" + RemoveIllegalXMLTags(settingsObject.ThemeTitle) + "]]></custt>");
+                    xmlContent.AppendLine(@"        <custc><![CDATA[" + RemoveIllegalXMLTags(settingsObject.CustomColors) + "]]></custc>");
                     xmlContent.AppendLine(@"    </setting>");
                     xmlContent.AppendLine(@"</settings>");
 
-                    // Save file to disk
-                    StreamWriter Stream = null;
 
                     // Add xml content to string
                     stringData = xmlContent.ToString();
 
-                    // Main
-                    FileStream fileStream = null;
 
                     try
                     {
-                        fileStream = new FileStream(ExportFilePath, FileMode.Create, FileAccess.ReadWrite, FileShare.ReadWrite);
-                        Stream = new StreamWriter(fileStream, Encoding.UTF8);
-                        Stream.WriteLine(stringData);
+                        if (!WriteTextFileAtomically(ExportFilePath, stringData))
+                        {
+                            throw new IOException("Unable to write " + ExportFilePath);
+                        }
                         return true;
                     }
                     catch
                     {
                         Log.LogExportThemeError();
                         return false;
-                    }
-                    finally
-                    {
-                        if (Stream != null)
-                        {
-                            Stream.Close();
-                        }
                     }
                 }
                 return false;
@@ -2495,6 +2400,7 @@ namespace AhoyBrowser
 
         public static Settings ImportTheme(string path)
         {
+            using var invariantCulture = InvariantCulture.Use(); // locale-independent file format
             // Prepare Settings object to return
             Settings settingsObject = new Settings();
 
@@ -2506,7 +2412,7 @@ namespace AhoyBrowser
                 return settingsObject;
             }
 
-            FileStream fileStream = new FileStream(path, FileMode.Open, FileAccess.ReadWrite, FileShare.ReadWrite);
+            FileStream fileStream = new FileStream(path, FileMode.Open, FileAccess.Read, FileShare.ReadWrite);
             StreamReader reader = new StreamReader(fileStream);
             StringBuilder xmlContent = new StringBuilder();
             string stringData = "";
@@ -2551,8 +2457,8 @@ namespace AhoyBrowser
                     settingsObject.Opacity = CheckNodeDouble(node, "opacity", Settings.DefaultOpacity);
                     settingsObject.Texture = CheckNodeInt(node, "texture", Settings.DefaultTexture);
                     settingsObject.DisplayTextCycle = CheckNodeInt(node, "qgcycle", Settings.DefaultDisplayTextCycle);
-                    settingsObject.ThemeTitle = CheckNodeString(node, "custt", Settings.DefaultThemeTitle);
-                    settingsObject.CustomColors = CheckNodeString(node, "custc", Settings.DefaultCustomColors);
+                    settingsObject.ThemeTitle = RestoreIllegalXMLTags(CheckNodeString(node, "custt", Settings.DefaultThemeTitle));
+                    settingsObject.CustomColors = RestoreIllegalXMLTags(CheckNodeString(node, "custc", Settings.DefaultCustomColors));
                 }
 
                 settingsObject.LoadSuccess = true;
@@ -2570,6 +2476,7 @@ namespace AhoyBrowser
         #region Import embedded theme file
         public static Settings ImportLocalTheme(int index)
         {
+            using var invariantCulture = InvariantCulture.Use(); // locale-independent file format
             // Prepare Settings object to return
             Settings settingsObject = new Settings();
 
@@ -2631,8 +2538,8 @@ namespace AhoyBrowser
                     settingsObject.Opacity = CheckNodeDouble(node, "opacity", Settings.DefaultOpacity);
                     settingsObject.Texture = CheckNodeInt(node, "texture", Settings.DefaultTexture);
                     settingsObject.DisplayTextCycle = CheckNodeInt(node, "qgcycle", Settings.DefaultDisplayTextCycle);
-                    settingsObject.ThemeTitle = CheckNodeString(node, "custt", Settings.DefaultThemeTitle);
-                    settingsObject.CustomColors = CheckNodeString(node, "custc", Settings.DefaultCustomColors);
+                    settingsObject.ThemeTitle = RestoreIllegalXMLTags(CheckNodeString(node, "custt", Settings.DefaultThemeTitle));
+                    settingsObject.CustomColors = RestoreIllegalXMLTags(CheckNodeString(node, "custc", Settings.DefaultCustomColors));
                 }
 
                 settingsObject.LoadSuccess = true;
@@ -2651,6 +2558,7 @@ namespace AhoyBrowser
         // Export Collection
         internal static bool ExportCollection(List<Entry> exportCollection, string exportFilePath)
         {
+            using var invariantCulture = InvariantCulture.Use(); // locale-independent file format
             StringBuilder xmlContent = new StringBuilder();
 
             // If any entries exist create xml file and save entries to it
@@ -2677,58 +2585,29 @@ namespace AhoyBrowser
                     xmlContent.AppendLine(@"        <title><![CDATA[" + RemoveIllegalXMLTags(entry.Title) + "]]></title>");
                     xmlContent.AppendLine(@"        <content><![CDATA[" + RemoveIllegalXMLTags(entry.Content) + "]]></content>");
                     xmlContent.AppendLine(@"    </entry>");
-                    Log.LogImportExportStatus("Entry", "\"" + entry.Title + "\"");
+                    Log.LogImportExportStatus("Entry", "exported");
                 }
                 xmlContent.AppendLine(@"</entries>");
 
-                // Save file to disk
-                StreamWriter Stream = null;
 
-                // Main
-                FileStream fileStream = null;
-                try
-                {
-                    fileStream = new FileStream(exportFilePath, FileMode.Create, FileAccess.ReadWrite, FileShare.ReadWrite);
-                    Stream = new StreamWriter(fileStream, Encoding.UTF8);
-                }
-                catch
-                {
-                    return false;
-                }
-
-                try
-                {
-                    Stream.WriteLine(xmlContent);
-                    return true;
-                }
-                catch
-                {
-                    return false;
-                }
-                finally
-                {
-                    Stream.Close();
-                }
+                return WriteTextFileAtomically(exportFilePath, xmlContent.ToString());
             }
             return false;
         }
 
 
         // Import Collection
-        private static List<Entry> tempImportList;
         public static List<Entry> ImportCollection(string importFilePath)
         {
-            if (tempImportList == null)
-            {
-                tempImportList = new List<Entry>();
-            }
-            tempImportList.Clear();
+            using var invariantCulture = InvariantCulture.Use(); // locale-independent file format
+            // A new list per import (callers keep the result)
+            var tempImportList = new List<Entry>();
 
             FileStream fileStream = null;
             StreamReader reader = null;
             try
             {
-                fileStream = new FileStream(importFilePath, FileMode.Open, FileAccess.ReadWrite, FileShare.ReadWrite);
+                fileStream = new FileStream(importFilePath, FileMode.Open, FileAccess.Read, FileShare.ReadWrite);
                 reader = new StreamReader(fileStream);
             }
             catch
@@ -2778,13 +2657,13 @@ namespace AhoyBrowser
                     newEntry.PresetColor = CheckNodeInt(node, "presetcolor", DefaultStatus);
                     newEntry.CustomColor = CheckNodeString(node, "customcolor", string.Empty);
                     newEntry.Protected = Convert.ToBoolean(node["protected"].InnerText);
-                    newEntry.CaretPosition = Convert.ToInt32(node["caretposition"].InnerText);
+                    newEntry.CaretPosition = InvariantCulture.ParseInt(node["caretposition"].InnerText);
                     newEntry.Bookmark = CheckNodeInt(node, "bookmark", DefaultStatus);
                     newEntry.RelatedEntries = string.Empty;
                     newEntry.RelatedView = false;
                     newEntry.RelatedStyle = 0;
                     newEntry.Title = RestoreIllegalXMLTags(node["title"].InnerText);
-                    Log.LogImportExportStatus("Entry", "\"" + newEntry.Title + "\"");
+                    Log.LogImportExportStatus("Entry", "imported");
                     newEntry.Content = RestoreIllegalXMLTags(node["content"].InnerText);
                     tempImportList.Add(newEntry);
                 }
@@ -2801,13 +2680,8 @@ namespace AhoyBrowser
             }
             catch
             {
-                return tempImportList;
+                return new List<Entry>(); // a damaged file imports nothing, not a partial list
             }
-            //finally
-            //{
-            //    if (reader != null)
-            //        reader.Close();
-            //}
         }
 
         // Validate DateTime format (ISO)
@@ -2830,20 +2704,6 @@ namespace AhoyBrowser
         #endregion
 
         #region Init File
-        /* 
-        Preload Log metoder til Init:
-        LogInitCheck
-        LogInitLoad
-        LogInitSuccess
-        LogInitError
-        LogInitCreate
-        LogInitMissing
-        LogInitDirectoryError
-        LogInitLoaded
-        
-        Postload log metoder til Init:
-        LogInitUpdate
-        */
 
         internal static void InitializeInitProperties()
         {
@@ -2897,6 +2757,7 @@ namespace AhoyBrowser
 
         internal static void SaveInitFile(string path)
         {
+            using var invariantCulture = InvariantCulture.Use(); // locale-independent file format
             CreateInitFile(path);
         }
 
@@ -2940,11 +2801,12 @@ namespace AhoyBrowser
         private static string tempCustomInitFilePath;
         private static void LoadInitFile()
         {
+            using var invariantCulture = InvariantCulture.Use(); // locale-independent file format
             try
             {
                 CurrentSessionId = "";
                 tempCustomInitFilePath = "";
-                FileStream fileStream = new FileStream(GetInitPathAndFileName(), FileMode.Open, FileAccess.ReadWrite, FileShare.ReadWrite);
+                FileStream fileStream = new FileStream(GetInitPathAndFileName(), FileMode.Open, FileAccess.Read, FileShare.ReadWrite);
                 StreamReader reader = new StreamReader(fileStream);
                 StringBuilder xmlContent = new StringBuilder();
                 string stringData = "";
@@ -3073,32 +2935,22 @@ namespace AhoyBrowser
                 xmlContent.AppendLine(@"    </data>");
                 xmlContent.AppendLine(@"</init>");
 
-                // Save file to disk
-                StreamWriter Stream = null;
 
                 // Add xml content to string
                 stringData = xmlContent.ToString();
 
-                // Main
-                FileStream fileStream = null;
 
                 try
                 {
-                    fileStream = new FileStream(GetInitPathAndFileName(), FileMode.Create, FileAccess.ReadWrite, FileShare.ReadWrite);
-                    Stream = new StreamWriter(fileStream, Encoding.UTF8);
-                    Stream.WriteLine(stringData);
+                    if (!WriteTextFileAtomically(GetInitPathAndFileName(), stringData))
+                    {
+                        throw new IOException("Unable to write " + GetInitPathAndFileName());
+                    }
                     Log.LogInitCreated();
                 }
                 catch
                 {
                     Log.LogInitError("File create");
-                }
-                finally
-                {
-                    if (Stream != null)
-                    {
-                        Stream.Close();
-                    }
                 }
             }
             catch
@@ -3109,71 +2961,5 @@ namespace AhoyBrowser
         #endregion
 
 
-
-        /*
-                #region Session file
-
-                // Load and match internal session ID
-                // If file does not exist, create a new one
-                // If file exists match internal ID
-                // If ID matches load pool
-                // If ID does not match inform user
-                public static void CheckSessionFileID()
-                {
-                    try
-                    {
-                        Log.LogSessionFileCheck();
-                        if (File.Exists(PoolFileName + SessionFileExtension))
-                        {
-                            Log.LogSessionFileValidated();
-
-                        }
-                        else
-                        {
-                            Log.LogSessionFileMissing();
-                            SaveSessionFile();
-                            Log.LogSessionFileCreated();
-                        }
-
-
-                    }
-                    catch
-                    {
-                        Log.LogSessionFileError();
-                    }
-                }
-
-                // Save Session file (to current pool path)
-                private static void SaveSessionFile()
-                {
-                    // Log process start
-
-                    // Check for current session ID 
-
-                    // Check pool path exists
-
-                    // Save session file to pool path
-
-                    // Log process end success/unsuccessful
-                }
-
-                // Load Session file (from current pool path
-                private static void LoadSessionFile()
-                {
-                    // Log process start
-
-                    // Check for session file and compare to current pool
-
-                    // Compare session ID
-
-                    // Inform user if different
-
-                    // Log process end success/unsuccessful
-                }
-
-
-                #endregion
-
-            */
     }
 }

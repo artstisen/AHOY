@@ -224,23 +224,6 @@ namespace AhoyBrowser
         }
 
 
-
-        //public string GetTextContent()
-        //{
-        //    if (tbInformation.Text.Length > 0)
-        //    {
-        //        return tbInformation.Text;
-        //    }
-        //    else
-        //    {
-        //        return "";
-        //    }
-        //}
-
-
-
-
-
         #region Public modification properties
 
         public void EnableAutoScrollToEnd()
@@ -265,15 +248,26 @@ namespace AhoyBrowser
             lbContentSearch.Visible = false;
         }
 
-        Timer timerDateTime;
+        private Timer timerDateTime;
         public void ShowDateTime()
         {
-            timerDateTime = new Timer();
-            timerDateTime.Interval = 1000;
-            timerDateTime.Tick += TimerDateTime_Tick;
+            if (timerDateTime == null)
+            {
+                timerDateTime = new Timer();
+                timerDateTime.Interval = 1000;
+                timerDateTime.Tick += TimerDateTime_Tick;
+            }
             lbTopText.Text = IO.GetIsoDateTimeNow();
             lbTopText.Visible = true;
             timerDateTime.Enabled = true;
+        }
+
+        protected override void OnFormClosed(FormClosedEventArgs e)
+        {
+            timerDateTime?.Stop();
+            timerDateTime?.Dispose();
+            timerDateTime = null;
+            base.OnFormClosed(e);
         }
 
         public void HighlightDateTimeLabel()
@@ -329,7 +323,6 @@ namespace AhoyBrowser
             }
         }
         #endregion
-
 
 
         private void TimerDateTime_Tick(object sender, EventArgs e)
@@ -621,7 +614,6 @@ namespace AhoyBrowser
             }
         }
 
-        private string tempClipboard;
         private void GeneratePasswords()
         {
             // Clipboard sometimes fails, hence the try-catch
@@ -640,23 +632,8 @@ namespace AhoyBrowser
                         MainForm.SettingsHasChanges = true;
                     }
 
-                    // Save clipboard content to temp variable
-                    tempClipboard = "";
-                    if (Clipboard.ContainsText())
-                    {
-                        tempClipboard = Clipboard.GetText(TextDataFormat.Text);
-                    }
-
-                    SetClipboardText(pwts.GetGeneratedKeys());
-
-                    // Paste password text to textbox
-                    tbInformation.Paste();
-
-                    // Add previous content (if any) back to clipboard
-                    if (tempClipboard.Length > 0)
-                    {
-                        SetClipboardText(tempClipboard);
-                    }
+                    // Insert the generated keys directly (not via the clipboard)
+                    tbInformation.InsertText(pwts.GetGeneratedKeys());
                 }
                 else
                 {

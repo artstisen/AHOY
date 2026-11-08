@@ -247,16 +247,8 @@ namespace AhoyBrowser
             lbSplash.TextAlign = ContentAlignment.MiddleCenter;
             lbSplash.Font = Design.FieldFont(MainForm.FieldsFontSize);
 
-            if (TextBoxBackgroundColor == null)
-            {
-                lbSplash.BackColor = AhoyColors.CurrentColorTheme()[29];
-                lbSplash.ForeColor = AhoyColors.CurrentColorTheme()[30];
-            }
-            else
-            {
-                lbSplash.BackColor = TextBoxBackgroundColor;
-                lbSplash.ForeColor = TextBoxForegroundColor;
-            }
+            lbSplash.BackColor = TextBoxBackgroundColor;
+            lbSplash.ForeColor = TextBoxForegroundColor;
 
             if (customText && text.Length > 0)
             {
@@ -623,9 +615,6 @@ namespace AhoyBrowser
             tbNote.Font = Design.FieldFont(MainForm.FieldsFontSize);
             toolTip1.BackColor = ToolTipBackgroundColor;
             toolTip1.ForeColor = ToolTipForegroundColor;
-            // Set form background image - OBS TEXTURES HAVE BEEN REMOVED AGAIN BECAUSE IT MAKES AESTHETICS TROUBLE
-            //this.BackgroundImageLayout = ImageLayout.Tile;
-            //this.BackgroundImage = MainForm.GetTexture(MainForm.SelectedTexture);
 
             // Replicate clors
             btnClose.Text = "";
@@ -846,7 +835,7 @@ namespace AhoyBrowser
                 IgnoreFormClosing = false;
                 this.Close();
             }
-            else if (MainForm.StickyStatusCode != 0 && !MainForm.StatusCodeCycleEnded() && StatuCodeAllowedToRunTwice())
+            else if (MainForm.StickyStatusCode != 0 && !MainForm.StatusCodeCycleEnded() && StatusCodeAllowedToRunTwice())
             {
                 switch (MainForm.StickyStatusCode)
                 {
@@ -917,7 +906,7 @@ namespace AhoyBrowser
             tbNote.Font = Design.FieldFont(MainForm.FieldsFontSize);
         }
 
-        private bool StatuCodeAllowedToRunTwice()
+        private bool StatusCodeAllowedToRunTwice()
         {
             // Status codes only allowed to run once: 1, 2 and 4
             if (PreviousStatusCode == MainForm.StickyStatusCode && (MainForm.StickyStatusCode == 1 || MainForm.StickyStatusCode == 2 || MainForm.StickyStatusCode == 4))
@@ -1062,8 +1051,6 @@ namespace AhoyBrowser
         {
             // Do nothing
         }
-
-
 
 
         private bool mouseDown;

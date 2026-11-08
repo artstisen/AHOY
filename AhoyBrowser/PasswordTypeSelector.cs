@@ -14,8 +14,6 @@ namespace AhoyBrowser
         public PasswordTypeSelector(int previousSelection)
         {
             InitializeComponent();
-            //this.StartPosition = FormStartPosition.Manual;
-            //this.Location = startPosition;
             this.StartPosition = FormStartPosition.CenterParent;
             GenerationSuccess = false;
             GeneratedString = "";
@@ -356,8 +354,6 @@ namespace AhoyBrowser
         }
 
 
-
-
         // Strong 64 chars
         private void btnStyleH_Click(object sender, EventArgs e)
         {
@@ -458,7 +454,7 @@ namespace AhoyBrowser
 
         private void TestStrength()
         {
-            lbStrength.Text = PasswordTester.GetPasswordStrength(tbPassword.Text, true);
+            lbStrength.Text = PasswordTester.GetPasswordStrength(tbPassword.Text);
         }
 
         private void tbPassword_KeyDown(object sender, KeyEventArgs e)

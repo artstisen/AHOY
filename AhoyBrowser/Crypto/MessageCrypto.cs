@@ -1,36 +1,43 @@
-using System;
+﻿using System;
+using System.Buffers.Binary;
 using System.Security.Cryptography;
 using System.Text;
 
 namespace AhoyBrowser.Crypto
 {
     /// <summary>
-    /// "Message Encryption" tool: encrypts a text selection with a passphrase so it can be
-    /// shared as plain text. Output: "AHOY2:" + Base64(salt[16] | nonce[12] | ciphertext | tag[16]),
-    /// AES-256-GCM with a PBKDF2-HMAC-SHA256 key. The "AHOY2:" prefix is authenticated.
+    /// "Message Encryption" tool: encrypts a text selection with a passphrase so it can be shared as
+    /// plain text. Output: "AHOY2:" + Base64(iterations[4, LE] | salt[16] | nonce[12] | ciphertext | tag[16]),
+    /// AES-256-GCM with a PBKDF2-HMAC-SHA256 key. The prefix and the iteration count are authenticated.
     /// </summary>
     internal static class MessageCrypto
     {
         internal const string Prefix = "AHOY2:";
+        private const int IterationsSize = 4;
         private const int NonceSize = 12;
         private const int TagSize = 16;
+        private const int HeaderSize = IterationsSize + PoolKey.SaltSize + NonceSize;
 
         internal static string Encrypt(string message, string passphrase)
         {
-            byte[] salt = RandomNumberGenerator.GetBytes(PoolKey.SaltSize);
-            using PoolKey key = PoolKey.Derive(passphrase, salt, PoolKey.DefaultIterations);
+            if (string.IsNullOrEmpty(passphrase))
+                throw new ArgumentException("A passphrase is required.", nameof(passphrase));
 
+            int iterations = PoolKey.DefaultIterations;
             byte[] plain = Encoding.UTF8.GetBytes(message);
-            byte[] blob = new byte[PoolKey.SaltSize + NonceSize + plain.Length + TagSize];
-            salt.CopyTo(blob, 0);
-            Span<byte> nonce = blob.AsSpan(PoolKey.SaltSize, NonceSize);
+            byte[] blob = new byte[HeaderSize + plain.Length + TagSize];
+            BinaryPrimitives.WriteUInt32LittleEndian(blob.AsSpan(0, IterationsSize), (uint)iterations);
+            Span<byte> salt = blob.AsSpan(IterationsSize, PoolKey.SaltSize);
+            RandomNumberGenerator.Fill(salt);
+            Span<byte> nonce = blob.AsSpan(IterationsSize + PoolKey.SaltSize, NonceSize);
             RandomNumberGenerator.Fill(nonce);
 
+            using PoolKey key = PoolKey.Derive(passphrase, salt, iterations);
             using var aes = new AesGcm(key.KeyBytes, TagSize);
             aes.Encrypt(nonce, plain,
-                blob.AsSpan(PoolKey.SaltSize + NonceSize, plain.Length),
+                blob.AsSpan(HeaderSize, plain.Length),
                 blob.AsSpan(blob.Length - TagSize, TagSize),
-                Encoding.ASCII.GetBytes(Prefix));
+                AssociatedData(blob));
             CryptographicOperations.ZeroMemory(plain);
 
             return Prefix + Convert.ToBase64String(blob);
@@ -40,6 +47,8 @@ namespace AhoyBrowser.Crypto
         internal static bool TryDecrypt(string text, string passphrase, out string message)
         {
             message = null;
+            if (string.IsNullOrEmpty(passphrase))
+                return false;
             text = text.Trim();
 
             if (!text.StartsWith(Prefix, StringComparison.Ordinal))
@@ -54,19 +63,23 @@ namespace AhoyBrowser.Crypto
             {
                 return false;
             }
-            if (blob.Length < PoolKey.SaltSize + NonceSize + TagSize)
+            if (blob.Length < HeaderSize + TagSize)
                 return false;
 
-            using PoolKey key = PoolKey.Derive(passphrase, blob.AsSpan(0, PoolKey.SaltSize), PoolKey.DefaultIterations);
-            byte[] plain = new byte[blob.Length - PoolKey.SaltSize - NonceSize - TagSize];
+            uint iterations = BinaryPrimitives.ReadUInt32LittleEndian(blob.AsSpan(0, IterationsSize));
+            if (iterations < PoolKey.MinIterations || iterations > PoolKey.MaxIterations)
+                return false;
+
+            using PoolKey key = PoolKey.Derive(passphrase, blob.AsSpan(IterationsSize, PoolKey.SaltSize), (int)iterations);
+            byte[] plain = new byte[blob.Length - HeaderSize - TagSize];
             try
             {
                 using var aes = new AesGcm(key.KeyBytes, TagSize);
-                aes.Decrypt(blob.AsSpan(PoolKey.SaltSize, NonceSize),
-                    blob.AsSpan(PoolKey.SaltSize + NonceSize, plain.Length),
+                aes.Decrypt(blob.AsSpan(IterationsSize + PoolKey.SaltSize, NonceSize),
+                    blob.AsSpan(HeaderSize, plain.Length),
                     blob.AsSpan(blob.Length - TagSize, TagSize),
                     plain,
-                    Encoding.ASCII.GetBytes(Prefix));
+                    AssociatedData(blob));
                 message = Encoding.UTF8.GetString(plain);
                 return true;
             }
@@ -78,6 +91,16 @@ namespace AhoyBrowser.Crypto
             {
                 CryptographicOperations.ZeroMemory(plain);
             }
+        }
+
+        // The prefix and the iteration count are authenticated together with the ciphertext
+        private static byte[] AssociatedData(byte[] blob)
+        {
+            byte[] prefix = Encoding.ASCII.GetBytes(Prefix);
+            byte[] data = new byte[prefix.Length + IterationsSize];
+            prefix.CopyTo(data, 0);
+            Array.Copy(blob, 0, data, prefix.Length, IterationsSize);
+            return data;
         }
 
         /// <summary>True if the text looks like something this tool can decrypt.</summary>

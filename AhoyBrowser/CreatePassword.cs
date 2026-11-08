@@ -97,7 +97,7 @@ namespace AhoyBrowser
 
         private void TestStrength()
         {
-            lbStrength.Text = PasswordTester.GetPasswordStrength(tbPassword1.Text, true);
+            lbStrength.Text = PasswordTester.GetPasswordStrength(tbPassword1.Text);
         }
 
         private void TbPassword1_TextChanged(object sender, System.EventArgs e)
@@ -138,7 +138,7 @@ namespace AhoyBrowser
             }
             else if (!PasswordTester.IsScoreValid())
             {
-                ErrorMessage = "Password is too weak";
+                ErrorMessage = "Use at least " + PasswordTester.MinimumPasswordLength + " characters and avoid common passwords";
                 tbPassword1.Text = "";
                 tbPassword2.Text = "";
                 tbPassword1.Focus();

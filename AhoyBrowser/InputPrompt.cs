@@ -137,7 +137,7 @@ namespace AhoyBrowser
             }
         }
 
-        // Send ESC keydown event to the tbInput_KeyDown event (Do not send Enter, as it will break the calculator)
+        // Send ESC keydown event to the tbInput_KeyDown event (Enter is handled by the input box itself)
         private void InputPrompt_KeyDown(object sender, KeyEventArgs e)
         {
             if (e.KeyCode == Keys.Escape)
@@ -187,7 +187,6 @@ namespace AhoyBrowser
             }
             this.Close();
         }
-
 
 
         private bool tempRegisterKeyEvent;

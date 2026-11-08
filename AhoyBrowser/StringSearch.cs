@@ -142,7 +142,6 @@ namespace AhoyBrowser
         }
 
 
-
         // Alternate search using pattern list
         public static bool IsMatchB(string input, string pattern)
         {
@@ -350,24 +349,7 @@ namespace AhoyBrowser
                 SearchRulesList.Add(new SearchRule("ö", "ø"));
                 SearchRulesList.Add(new SearchRule("m", "n"));
                 SearchRulesList.Add(new SearchRule("n", "m"));
-                //SearchRulesList.Add(new SearchRule("ü", "y"));
-                //SearchRulesList.Add(new SearchRule("y", "ü"));
-                //SearchRulesList.Add(new SearchRule("q", "k"));
-                //SearchRulesList.Add(new SearchRule("k", "q"));
 
-                // Vocal dobules aeioquæøåäöüß
-                //SearchRulesList.Add(new SearchRule("aa", "a"));
-                //SearchRulesList.Add(new SearchRule("a", "aa"));
-                //SearchRulesList.Add(new SearchRule("ee", "e"));
-                //SearchRulesList.Add(new SearchRule("e", "ee"));
-                //SearchRulesList.Add(new SearchRule("ii", "i"));
-                //SearchRulesList.Add(new SearchRule("i", "ii"));
-                //SearchRulesList.Add(new SearchRule("oo", "o"));
-                //SearchRulesList.Add(new SearchRule("o", "oo"));
-                //SearchRulesList.Add(new SearchRule("qq", "q"));
-                //SearchRulesList.Add(new SearchRule("q", "qq"));
-                //SearchRulesList.Add(new SearchRule("uu", "u"));
-                //SearchRulesList.Add(new SearchRule("u", "uu"));
                 SearchRulesList.Add(new SearchRule("å", "aa"));
                 SearchRulesList.Add(new SearchRule("aa", "å"));
                 SearchRulesList.Add(new SearchRule("æ", "ae"));
@@ -381,43 +363,6 @@ namespace AhoyBrowser
                 SearchRulesList.Add(new SearchRule("ß", "ss"));
                 SearchRulesList.Add(new SearchRule("ss", "ß"));
 
-                // Consonant doubles bcdfghjklmnprstvwxz + www
-                //SearchRulesList.Add(new SearchRule("bb", "b"));
-                //SearchRulesList.Add(new SearchRule("b", "bb"));
-                //SearchRulesList.Add(new SearchRule("cc", "c"));
-                //SearchRulesList.Add(new SearchRule("c", "cc"));
-                //SearchRulesList.Add(new SearchRule("dd", "d"));
-                //SearchRulesList.Add(new SearchRule("d", "dd"));
-                //SearchRulesList.Add(new SearchRule("ff", "f"));
-                //SearchRulesList.Add(new SearchRule("f", "ff"));
-                //SearchRulesList.Add(new SearchRule("gg", "g"));
-                //SearchRulesList.Add(new SearchRule("g", "gg"));
-                //SearchRulesList.Add(new SearchRule("hh", "h"));
-                //SearchRulesList.Add(new SearchRule("h", "hh"));
-                //SearchRulesList.Add(new SearchRule("jj", "j"));
-                //SearchRulesList.Add(new SearchRule("j", "jj"));
-                //SearchRulesList.Add(new SearchRule("kk", "k"));
-                //SearchRulesList.Add(new SearchRule("k", "kk"));
-                //SearchRulesList.Add(new SearchRule("ll", "l"));
-                //SearchRulesList.Add(new SearchRule("l", "ll"));
-                //SearchRulesList.Add(new SearchRule("mm", "m"));
-                //SearchRulesList.Add(new SearchRule("m", "mm"));
-                //SearchRulesList.Add(new SearchRule("nn", "n"));
-                //SearchRulesList.Add(new SearchRule("n", "nn"));
-                //SearchRulesList.Add(new SearchRule("pp", "p"));
-                //SearchRulesList.Add(new SearchRule("p", "pp"));
-                //SearchRulesList.Add(new SearchRule("rr", "r"));
-                //SearchRulesList.Add(new SearchRule("r", "rr"));
-                //SearchRulesList.Add(new SearchRule("ss", "s"));
-                //SearchRulesList.Add(new SearchRule("s", "ss"));
-                //SearchRulesList.Add(new SearchRule("tt", "t"));
-                //SearchRulesList.Add(new SearchRule("t", "tt"));
-                //SearchRulesList.Add(new SearchRule("vv", "v"));
-                //SearchRulesList.Add(new SearchRule("v", "vv"));
-                //SearchRulesList.Add(new SearchRule("xx", "x"));
-                //SearchRulesList.Add(new SearchRule("x", "xx"));
-                //SearchRulesList.Add(new SearchRule("zz", "z"));
-                //SearchRulesList.Add(new SearchRule("z", "zz"));
                 SearchRulesList.Add(new SearchRule("ww", "w"));
                 SearchRulesList.Add(new SearchRule("w", "ww"));
                 SearchRulesList.Add(new SearchRule("www", "ww"));
@@ -491,43 +436,7 @@ namespace AhoyBrowser
                 SearchRulesList.Add(new SearchRule("1", "i"));
                 SearchRulesList.Add(new SearchRule("i", "1"));
 
-                // Roman Numerals switches
-                //SearchRulesList.Add(new SearchRule("i", "1"));
-                //SearchRulesList.Add(new SearchRule("1", "i"));
-                //SearchRulesList.Add(new SearchRule("ii", "2"));
-                //SearchRulesList.Add(new SearchRule("2", "ii"));
-                //SearchRulesList.Add(new SearchRule("iii", "3"));
-                //SearchRulesList.Add(new SearchRule("3", "iii"));
-                //SearchRulesList.Add(new SearchRule("iv", "4"));
-                //SearchRulesList.Add(new SearchRule("4", "iv"));
-                //SearchRulesList.Add(new SearchRule("v", "5"));
-                //SearchRulesList.Add(new SearchRule("5", "v"));
-                //SearchRulesList.Add(new SearchRule("vi", "6"));
-                //SearchRulesList.Add(new SearchRule("6", "vi"));
-                //SearchRulesList.Add(new SearchRule("vii", "7"));
-                //SearchRulesList.Add(new SearchRule("7", "vii"));
-                //SearchRulesList.Add(new SearchRule("viii", "8"));
-                //SearchRulesList.Add(new SearchRule("8", "viii"));
-                //SearchRulesList.Add(new SearchRule("ix", "9"));
-                //SearchRulesList.Add(new SearchRule("9", "ix"));
-                //SearchRulesList.Add(new SearchRule("x", "10"));
-                //SearchRulesList.Add(new SearchRule("10", "x"));
-                //SearchRulesList.Add(new SearchRule("xi", "11"));
-                //SearchRulesList.Add(new SearchRule("11", "xi"));
-                //SearchRulesList.Add(new SearchRule("xii", "12"));
-                //SearchRulesList.Add(new SearchRule("12", "xii"));
 
-                // Keyboard-related (close) characters (typos)
-                //SearchRulesList.Add(new SearchRule("j", "k"));
-                //SearchRulesList.Add(new SearchRule("k", "j"));
-                //SearchRulesList.Add(new SearchRule("h", "j"));
-                //SearchRulesList.Add(new SearchRule("j", "h"));
-                //SearchRulesList.Add(new SearchRule("f", "g"));
-                //SearchRulesList.Add(new SearchRule("g", "f"));
-                //SearchRulesList.Add(new SearchRule("h", "g"));
-                //SearchRulesList.Add(new SearchRule("g", "h"));
-                //SearchRulesList.Add(new SearchRule("t", "g"));
-                //SearchRulesList.Add(new SearchRule("g", "t"));
             }
         }
 

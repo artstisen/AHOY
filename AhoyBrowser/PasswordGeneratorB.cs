@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Security.Cryptography;
 using System.Collections.Generic;
 
 namespace AhoyBrowser
@@ -11,7 +12,6 @@ namespace AhoyBrowser
         private static List<string> GeneratedPasswords { get; set; }
         private static List<string> UsedLongWords { get; set; }
         private static List<string> UsedShortWords { get; set; }
-        private static Random ran;
 
         private static void InitializeGenerator()
         {
@@ -20,7 +20,6 @@ namespace AhoyBrowser
                 GeneratedPasswords = new List<string>();
                 UsedLongWords = new List<string>();
                 UsedShortWords = new List<string>();
-                ran = new Random();
 
                 string[] longWords = { "Rullepolse", "Tastatur", "Mudder", "Flettet", "Langtids", "Simpel", "Knallert", "Afmeldt", "Batteri", "Uartig", "Frydelig", "Banjo", "Flydende", "Ensporet", "Alvorlig", "Bacon", "Boglig", "Elektro", "Halv", "Beskidt", "Brunkage", "Reserve", "Gymnastik", "Opdateret", "Tango", "Cirkus", "Roterende", "Skod", "Huslig", "Stjerne", "Plys", "Marcipan", "Dukke", "Spejl", "Teleskop", "Uendelig", "Konstant", "Heldig", "Gylden", "Rusten", "Tilmeldt", "Smeltet", "Slidt", "Smattet", "Hygge", "Gammel", "Trendy", "Sulten", "Generator", "Omvendt", "Luksus", "Plastik", "Orgel", "Smagfuld", "Mekanisk", "Mindre", "Skjult", "Filter", "Gemt", "Kroget", "Finurlig", "Lykkelig", "Pyntet", "Nydelig", "Holografisk", "Dynamisk", "Venlig", "Software", "Fedte", "System", "Turbo", "Melodisk", "Harmonisk", "Indbagt", "Foto", "Diesel", "Melon", "Automatisk", "Hotel", "Festlig", "Camping", "Naturlig", "Frisk", "Rodvin", "Perle", "Postej", "Salat", "Budding", "Flittig", "Suppe", "Peber", "Ferie", "Dygtig", "Flagrende", "Glimrende", "Kedelig", "Glad", "Flad", "Flaske", "Ballon", "Billed", "Favorit", "Tidlig", "Banan", "Mystisk", "Nisse", "Eventyr", "Kartoffel", "Familie", "Gravko", "Rejsende", "Cykel", "Billig", "Brugt", "Radiator", "Diktafon", "Mikrofon", "Badehat", "Super", "Fantastisk", "Utrolig", "Specifik", "Stolt", "Diplomatisk", "Modig", "Bagvendt", "Varm", "Kold", "Smuk", "Traktor", "Termostat", "Metal", "Stativ", "Magnetisk", "Motorcykel", "Klattet", "Kran", "Grafik", "Grafisk", "Gummi", "Hjemmebagt", "Hjemmelavet", "Hjemmesko", "Disco", "Telefon", "Tele", "Digital", "Analog", "Bambus", "Firkantet", "Kantet", "Rund", "Komplet", "Moderat", "Smart", "Motor", "Sommer", "Vinter", "Danse", "Hoppe", "Pedal", "Grisk", "Lakrids", "Ballet", "Dekoreret", "Lang", "Kort", "Planet", "Arkiv", "Taxa", "Ung", "Grill", "Transport", "Grundig", "Kompleks", "Cigaret", "Tandpasta", "Kanel", "Svedig", "Kuffert", "Panel", "Solsikke", "Sukker", "Baby", "Bingo", "Jern", "Guld", "Yndig", "Diamant", "Dramatisk", "Fin", "Stor", "Lille", "Slem", "Grim", "Elektrisk", "Gardin", "Reol", "Salt", "Syrlig", "Glas", "Pap", "Lidt", "Trekantet", "Mager", "Hurtig", "Strikke", "Krystal", "Fugtig", "Langsom", "Fornem", "Trolde", "Orkester", "Synlig", "Usynlig", "Lystig", "Trylle", "Krydret", "Magisk", "Forstenet", "Mester", "Bagt", "Portal", "Snorkel", "Mug", "Muggen", "Fuld", "Flov", "Tom", "Keramik", "Sulfo", "Spejder", "Sove", "Alarm", "Egoist", "Hummer", "Mormor", "Honning", "Farmor", "Morfar", "Farfar", "Mose", "Klog", "Luft", "Saxofon", "Elevator", "Knogle", "Lommeregner", "Trampe", "Trang", "Travl", "Ivrig", "Kontor", "Kontakt", "Teknisk", "Antenne", "Parabol", "Universal", "Panorama", "Rulle", "Skrap", "Gnaven", "Kunstig", "Dadel", "Kalkulator", "Kalkulator" };
                 LongWords = new List<string>(longWords);
@@ -38,7 +37,7 @@ namespace AhoyBrowser
         {
             do
             {
-                tempGeneratedLongWord = LongWords[ran.Next(0, LongWords.Count)];
+                tempGeneratedLongWord = LongWords[RandomNumberGenerator.GetInt32(0, LongWords.Count)];
             }
             while (LongWordExists(tempGeneratedLongWord));
 
@@ -51,7 +50,7 @@ namespace AhoyBrowser
         {
             do
             {
-                tempGeneratedShortWord = ShortWords[ran.Next(0, ShortWords.Count)];
+                tempGeneratedShortWord = ShortWords[RandomNumberGenerator.GetInt32(0, ShortWords.Count)];
             }
             while (ShortWordExists(tempGeneratedShortWord));
 
@@ -109,11 +108,11 @@ namespace AhoyBrowser
             {
                 if (useSpecialChars)
                 {
-                    GeneratedPasswords.Add(GetRandomLongWord() + Symbols[ran.Next(0, Symbols.Count)] + GetRandomShortWord() + ran.Next(30, 99).ToString("00"));
+                    GeneratedPasswords.Add(GetRandomLongWord() + Symbols[RandomNumberGenerator.GetInt32(0, Symbols.Count)] + GetRandomShortWord() + RandomNumberGenerator.GetInt32(30, 99).ToString("00"));
                 }
                 else
                 {
-                    GeneratedPasswords.Add(GetRandomLongWord() + GetRandomShortWord() + ran.Next(30, 99).ToString("00"));
+                    GeneratedPasswords.Add(GetRandomLongWord() + GetRandomShortWord() + RandomNumberGenerator.GetInt32(30, 99).ToString("00"));
                 }
                
             }

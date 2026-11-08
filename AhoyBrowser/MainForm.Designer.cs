@@ -271,7 +271,6 @@
         private System.Windows.Forms.Timer timerRefocusContent;
         private System.Windows.Forms.ToolStripMenuItem deleteEntryToolStripMenuItem;
         private System.Windows.Forms.ToolStripSeparator toolStripMenuItem50;
-        private System.Windows.Forms.Timer timerFastGlobal;
         private System.Windows.Forms.ToolStripMenuItem setAlternateBackupToolStripMenuItem;
         private System.Windows.Forms.ToolStripSeparator toolStripMenuItem51;
         private System.Windows.Forms.ToolStripMenuItem clearAlternateBackupToolStripMenuItem;
@@ -890,7 +889,6 @@
             this.selectionToUPPERCASEToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.selectionToLowercaseToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
             this.timerRefocusContent = new System.Windows.Forms.Timer(this.components);
-            this.timerFastGlobal = new System.Windows.Forms.Timer(this.components);
             this.timerFastAnimation = new System.Windows.Forms.Timer(this.components);
             this.lbReadOnlyIndicator = new System.Windows.Forms.Label();
             this.pnlLoading = new System.Windows.Forms.Panel();
@@ -4680,10 +4678,6 @@
             // 
             this.timerRefocusContent.Interval = 500;
             this.timerRefocusContent.Tick += new System.EventHandler(this.timerRefocusContent_Tick);
-            // 
-            // timerFastGlobal
-            // 
-            this.timerFastGlobal.Tick += new System.EventHandler(this.timerFastGlobal_Tick);
             // 
             // timerFastAnimation
             // 

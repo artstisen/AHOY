@@ -1,4 +1,5 @@
-﻿using System.Drawing;
+﻿using System.Collections.Generic;
+using System.Drawing;
 
 namespace AhoyBrowser
 {
@@ -9,6 +10,23 @@ namespace AhoyBrowser
         public static int CurrentFont { get; set; }
         public static bool CurrentListFontWeight { get; set; }
         public static bool EnforceScrollbars { get; set; }
+
+        // Fonts are shared between controls (a new Font per call leaked a GDI handle each time). Never dispose them.
+        private static readonly Dictionary<(string, float, FontStyle, GraphicsUnit), Font> Fonts = new Dictionary<(string, float, FontStyle, GraphicsUnit), Font>();
+
+        private static Font CachedFont(string name, float size, FontStyle style, GraphicsUnit unit = GraphicsUnit.Point, byte gdiCharSet = 0)
+        {
+            var id = (name, size, style, unit);
+            lock (Fonts)
+            {
+                if (!Fonts.TryGetValue(id, out Font font))
+                {
+                    font = new Font(name, size, style, unit, gdiCharSet);
+                    Fonts[id] = font;
+                }
+                return font;
+            }
+        }
 
         private static FontStyle GetListFontWeight()
         {
@@ -202,36 +220,36 @@ namespace AhoyBrowser
         #region FONTS
         public static Font MenuFont()
         {
-            return new Font("Microsoft Sans Serif", 8.25f, FontStyle.Regular);
+            return CachedFont("Microsoft Sans Serif", 8.25f, FontStyle.Regular);
         }
 
         public static Font MenuFontBold()
         {
-            return new Font("Microsoft Sans Serif", 8.25f, FontStyle.Bold);
+            return CachedFont("Microsoft Sans Serif", 8.25f, FontStyle.Bold);
         }
 
         public static Font SearchFieldFont()
         {
             // Search fields
-            return new Font(GetFontName(), 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            return CachedFont(GetFontName(), 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
         }
 
         public static Font PasswordFieldFont()
         {
             // Password
-            return new Font(GetFontName(), 12F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            return CachedFont(GetFontName(), 12F, FontStyle.Bold, GraphicsUnit.Point, 0);
         }
 
         public static Font TitleFieldFont()
         {
             // Entry title
-            return new Font(GetFontName(), 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            return CachedFont(GetFontName(), 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
         }
 
         public static Font ContentFieldFont()
         {
             // Entry content
-            return new Font(GetFontName(), 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            return CachedFont(GetFontName(), 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
         }
         public static Font FieldFont(int Zoom)
         {
@@ -239,13 +257,13 @@ namespace AhoyBrowser
             switch (Zoom)
             {
                 case 0:
-                    return new Font(GetFontName(), 9F, FontStyle.Regular, GraphicsUnit.Point, 0);
+                    return CachedFont(GetFontName(), 9F, FontStyle.Regular, GraphicsUnit.Point, 0);
                 case 1:
-                    return new Font(GetFontName(), 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
+                    return CachedFont(GetFontName(), 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
                 case 2: // Purposely different font size
-                    return new Font(GetFontName(), 15.25F, FontStyle.Regular, GraphicsUnit.Point, 0);
+                    return CachedFont(GetFontName(), 15.25F, FontStyle.Regular, GraphicsUnit.Point, 0);
                 default:
-                    return new Font(GetFontName(), 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
+                    return CachedFont(GetFontName(), 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
             }
         }
 
@@ -255,97 +273,84 @@ namespace AhoyBrowser
             switch (Zoom)
             {
                 case 0:
-                    return new Font(GetFontName(), 9F, GetListFontWeight(), GraphicsUnit.Point, 0);
+                    return CachedFont(GetFontName(), 9F, GetListFontWeight(), GraphicsUnit.Point, 0);
                 case 1:
-                    return new Font(GetFontName(), 12F, GetListFontWeight(), GraphicsUnit.Point, 0);
+                    return CachedFont(GetFontName(), 12F, GetListFontWeight(), GraphicsUnit.Point, 0);
                 case 2:
-                    return new Font(GetFontName(), 14.25F, GetListFontWeight(), GraphicsUnit.Point, 0);
+                    return CachedFont(GetFontName(), 14.25F, GetListFontWeight(), GraphicsUnit.Point, 0);
                 default:
-                    return new Font(GetFontName(), 12F, GetListFontWeight(), GraphicsUnit.Point, 0);
+                    return CachedFont(GetFontName(), 12F, GetListFontWeight(), GraphicsUnit.Point, 0);
             }
         }
 
         public static Font MessageboxTinyFont()
         {
             // Messagebox small font
-            return new Font(GetFontName(), 8F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            return CachedFont(GetFontName(), 8F, FontStyle.Regular, GraphicsUnit.Point, 0);
         }
 
         public static Font MessageboxXSmallFont()
         {
             // Messagebox small font
-            return new Font(GetFontName(), 9F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            return CachedFont(GetFontName(), 9F, FontStyle.Regular, GraphicsUnit.Point, 0);
         }
 
         public static Font MessageboxSmallFont()
         {
             // Messagebox small font
-            return new Font(GetFontName(), 10F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            return CachedFont(GetFontName(), 10F, FontStyle.Regular, GraphicsUnit.Point, 0);
         }
 
         public static Font MessageboxSmallFontBold()
         {
             // Messagebox small font
-            return new Font(GetFontName(), 10F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            return CachedFont(GetFontName(), 10F, FontStyle.Bold, GraphicsUnit.Point, 0);
         }
 
         public static Font MessageboxMediumSmallFont()
         {
             // Messagebox small font
-            return new Font(GetFontName(), 11F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            return CachedFont(GetFontName(), 11F, FontStyle.Regular, GraphicsUnit.Point, 0);
         }
 
         public static Font MessageboxLargeFont()
         {
             // Messagebox large font
-            return new Font(GetFontName(), 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            return CachedFont(GetFontName(), 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
         }
 
         public static Font MessageboxLargeFontBold()
         {
             // Messagebox large font
-            return new Font(GetFontName(), 12F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            return CachedFont(GetFontName(), 12F, FontStyle.Bold, GraphicsUnit.Point, 0);
         }
-
-        public static Font MessageboxXXLFont()
-        {
-            // Messagebox large font
-            return new Font(GetFontName(), 44F, FontStyle.Regular, GraphicsUnit.Point, 0);
-        }
-
         public static Font SleepFont()
         {
             // Messagebox large font
-            return new Font(GetFontName(), 32F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            return CachedFont(GetFontName(), 32F, FontStyle.Bold, GraphicsUnit.Point, 0);
         }
 
         public static Font SplashFont()
         {
             // Messagebox large font
-            return new Font(GetFontName(), 10F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            return CachedFont(GetFontName(), 10F, FontStyle.Regular, GraphicsUnit.Point, 0);
         }
-        public static Font StyleEditorXXSSmallFont()
-        {
-            // Messagebox small font
-            return new Font(GetFontName(), 7F, FontStyle.Regular, GraphicsUnit.Point, 0);
-        }
-
         public static Font StyleEditorXSSmallFont()
         {
             // Messagebox small font
-            return new Font(GetFontName(), 8F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            return CachedFont(GetFontName(), 8F, FontStyle.Regular, GraphicsUnit.Point, 0);
         }
 
         public static Font LogMonitorFont()
         {
             // Messagebox small font
-            return new Font(GetFontName(), 7.25F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            return CachedFont(GetFontName(), 7.25F, FontStyle.Regular, GraphicsUnit.Point, 0);
         }
 
-        public static Font TypermaxXSSmallFont()
+        public static Font StylePreviewFont()
         {
             // Messagebox small font
-            return new Font(GetFontName(), 7.75F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            return CachedFont(GetFontName(), 7.75F, FontStyle.Regular, GraphicsUnit.Point, 0);
         }
         #endregion
     }

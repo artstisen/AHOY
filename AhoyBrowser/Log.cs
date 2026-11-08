@@ -31,19 +31,6 @@ namespace AhoyBrowser
                 return false;
             }
         }
-
-        internal static int GetLogEntriesCount()
-        {
-            if (ContainsEntries())
-            {
-                return logList.Count;
-            }
-            else
-            {
-                return 0;
-            }
-        }
-
         internal static string GetLogEntriesCountAsString()
         {
             if (ContainsEntries())
@@ -61,18 +48,8 @@ namespace AhoyBrowser
         {
             if (ContainsEntries())
             {
-                tempLogContent = "";
-                try
-                {
-                    for (int i = 0; i < logList.Count; i++)
-                    {
-                        tempLogContent += logList[i] + Environment.NewLine;
-                    }
-                }
-                catch
-                {
-                    tempLogContent += "N/A";
-                }
+                // string.Join instead of += in a loop (the log holds up to LogMax lines)
+                tempLogContent = logList.Count > 0 ? string.Join(Environment.NewLine, logList) + Environment.NewLine : "";
                 tempLogContent += Environment.NewLine + logList.Count.ToString() + "/" + LogMax.ToString() + " events logged." + Environment.NewLine +
                     "Please consult the documentation for more information about this log." + Environment.NewLine;
                 return tempLogContent;
@@ -340,7 +317,6 @@ namespace AhoyBrowser
         }
 
 
-
         // ----------------------- ABOVE IS PRELOAD LOGS ----------------------
 
 
@@ -540,11 +516,6 @@ namespace AhoyBrowser
             RunLogMaintenance();
         }
 
-        //public static void LogLoadingThemes() // Bliver ikke fanget i LoadCustomColorsIntoList
-        //{
-        //    logList.Add(GetTimeStamp(false) + "Loading color themes...");
-        //    RunLogMaintenance();
-        //}
 
         public static void SettingsChanged(string info)
         {
@@ -584,16 +555,10 @@ namespace AhoyBrowser
 
         public static void LogSearch(string query, bool displayQuotes, bool liveSearch)
         {
+            // The log is kept in the Pool (and its backups): never store what the user searched for
             if (displayQuotes)
             {
-                if (liveSearch)
-                {
-                    logList.Add(GetTimeStamp(false) + "Pool: Live Search \"" + query + "\"");
-                }
-                else
-                {
-                    logList.Add(GetTimeStamp(false) + "Pool: Search \"" + query + "\"");
-                }
+                logList.Add(GetTimeStamp(false) + (liveSearch ? "Pool: Live Search" : "Pool: Search"));
             }
             else
             {
@@ -611,18 +576,18 @@ namespace AhoyBrowser
 
         public static void LogContentSearch(string query)
         {
-            logList.Add(GetTimeStamp(false) + "Content search: \"" + query + "\"");
+            logList.Add(GetTimeStamp(false) + "Content search");
             RunLogMaintenance();
         }
         public static void LogGeneralContentSearch(string query)
         {
-            logList.Add(GetTimeStamp(false) + "Editor search: \"" + query + "\"");
+            logList.Add(GetTimeStamp(false) + "Editor search");
             RunLogMaintenance();
         }
 
         public static void LogSelect(string title)
         {
-            logList.Add(GetTimeStamp(false) + "Entry select: \"" + title + "\"");
+            logList.Add(GetTimeStamp(false) + "Entry: Select");
             RunLogMaintenance();
         }
 
@@ -658,21 +623,13 @@ namespace AhoyBrowser
 
         public static void LogSaveEntry(string title)
         {
-            logList.Add(GetTimeStamp(false) + "Entry: Save \"" + title + "\"");
+            logList.Add(GetTimeStamp(false) + "Entry: Save");
             RunLogMaintenance();
         }
 
         public static void LogEntryStateChange(string title, string message)
         {
-            if (string.IsNullOrEmpty(title))
-            {
-                title = "(N/A)";
-            }
-            else
-            {
-                title = "(\"" + title + "\")";
-            }
-            logList.Add(GetTimeStamp(false) + "Entry: " + message + " " + title);
+            logList.Add(GetTimeStamp(false) + "Entry: " + message);
             RunLogMaintenance();
         }
 
@@ -690,13 +647,13 @@ namespace AhoyBrowser
 
         public static void LogDelete(string title)
         {
-            logList.Add(GetTimeStamp(false) + "Entry: Delete \"" + title + "\"");
+            logList.Add(GetTimeStamp(false) + "Entry: Delete");
             RunLogMaintenance();
         }
 
         public static void LogCommand(string command)
         {
-            logList.Add(GetTimeStamp(false) + "Command input: \"" + command + "\"");
+            logList.Add(GetTimeStamp(false) + "Command input: \"" + (command ?? "").Trim().Split(' ')[0] + "\"");
             RunLogMaintenance();
         }
 
@@ -712,11 +669,6 @@ namespace AhoyBrowser
             RunLogMaintenance();
         }
 
-        //public static void LogHomeScreenStatus(string text)
-        //{
-        //    logList.Add(GetTimeStamp(true) + "Home Screen: " + text);
-        //    RunLogMaintenance();
-        //}
 
         public static void LogWindowStateChangeError()
         {
@@ -734,11 +686,6 @@ namespace AhoyBrowser
         public static void LogLocationChangeError()
         {
             logList.Add(GetTimeStamp(true) + "Error: Cursor location change");
-            RunLogMaintenance();
-        }
-        public static void Typermax()
-        {
-            logList.Add(GetTimeStamp(true) + "Game: Typermax");
             RunLogMaintenance();
         }
         public static void LogResetSettingsChanged()
@@ -773,14 +720,7 @@ namespace AhoyBrowser
 
         public static void LogMarkExport(string title, bool state)
         {
-            if (state)
-            {
-                logList.Add(GetTimeStamp(false) + "Export (Mark): " + title);
-            }
-            else
-            {
-                logList.Add(GetTimeStamp(false) + "Export (Unmark): " + title);
-            }
+            logList.Add(GetTimeStamp(false) + (state ? "Export (Mark)" : "Export (Unmark)"));
             RunLogMaintenance();
         }
 
@@ -849,19 +789,11 @@ namespace AhoyBrowser
         }
 
 
-
         public static void LogGeneralError(string message)
         {
             logList.Add(GetTimeStamp(false) + "Error: " + message);
             RunLogMaintenance();
         }
-
-        public static void LogEntryTemplateStatus(string message)
-        {
-            logList.Add(GetTimeStamp(false) + "Template: " + message);
-            RunLogMaintenance();
-        }
-
         public static void GeneralStatus(string message)
         {
             logList.Add(GetTimeStamp(false) + "Status: " + message);
@@ -1001,19 +933,6 @@ namespace AhoyBrowser
         //    RunLogMaintenance();
         //}
 
-        // Not implemented
-        //public static void LogCommandAttempt(string command)
-        //{
-        //    logList.Add(GetTimeStamp() + "Entry command attempt: \"" + command + "\"");
-        //    RunLogMaintenance();
-        //}
-
-        // Not implemented
-        //public static void LogError(string type)
-        //{
-        //    logList.Add(GetTimeStamp() + "Error: " + type);
-        //    RunLogMaintenance();
-        //}
 
     }
 }

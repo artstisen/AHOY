@@ -11,7 +11,6 @@ namespace AhoyBrowser
         // ------------------------------------------------
 
 
-
         public static bool SetMark(string id)
         {
             if (!string.IsNullOrEmpty(id))
@@ -453,11 +452,9 @@ namespace AhoyBrowser
                             // Check for duplicates
                             for (int k = 0; k < tempDuplicateRemoveList.Count; k++)
                             {
-                                Log.GeneralStatus("Iterating");
                                 if (!ContainsMatch(entries[i].RelatedEntries, tempDuplicateRemoveList[k]) && MainForm.EntryExist(tempDuplicateRemoveList[k]))
                                 {
                                     entries[i].RelatedEntries += tempDuplicateRemoveList[k] + ";";
-                                    Log.GeneralStatus("Adding");
                                     tempFixed = true;
                                 }
                                 else
@@ -658,7 +655,6 @@ namespace AhoyBrowser
         }
 
 
-
         /// <summary>
         /// Clear related. Returns true if cleared
         /// </summary>
@@ -791,7 +787,6 @@ namespace AhoyBrowser
         }
 
 
-
         public static bool HasRelatedMastersMatchingCurrentMark(Entry slave, List<Entry> entries)
         {
             if (CanMark() && IsRelated(slave, entries))
@@ -842,7 +837,6 @@ namespace AhoyBrowser
                 return entries;
             }
         }
-
 
 
         // Prefix for an entry inside an expanded category (pinned list).

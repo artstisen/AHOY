@@ -72,17 +72,22 @@ namespace AhoyBrowser
             }
         }
 
-        // Ensure the list never becomes bigger than 100 entries
-        private static void TruncateNavigationList()
+        // Remove ID's that are next to each other (A, B, B -> A, B)
+        private static void RemoveAdjacentDuplicates()
         {
-            // Remove ID's that are next to each other
-            for (int i = 0; i < NavigationList.Count - 2; i++)
+            for (int i = NavigationList.Count - 1; i > 0; i--)
             {
-                if (NavigationList[i] == NavigationList[i + 1])
+                if (NavigationList[i] == NavigationList[i - 1])
                 {
                     NavigationList.RemoveAt(i);
                 }
             }
+        }
+
+        // Ensure the list never becomes bigger than 100 entries
+        private static void TruncateNavigationList()
+        {
+            RemoveAdjacentDuplicates();
 
             // Remove at index 0 if more than 99
             if (NavigationList.Count > 99)
@@ -95,13 +100,9 @@ namespace AhoyBrowser
         {
             if (NavigationList.Count > 0)
             {
-                for (int i = 0; i < NavigationList.Count; i++)
-                {
-                    if (NavigationList[i] == entry.ID)
-                    {
-                        NavigationList.RemoveAt(i);
-                    }
-                }
+                NavigationList.RemoveAll(id => id == entry.ID);
+                // Removing an entry can leave the same ID twice in a row
+                RemoveAdjacentDuplicates();
                 // Release hold
                 ReleaseCurrentEntryFromNavigationHistory();
                 ResetNavigationIndex();

@@ -15,7 +15,6 @@ namespace AhoyBrowser
         private static List<Settings> ThemeCollection { get; set; }
 
 
-
         public static List<Color> CurrentColorTheme()
         {
             // Initialize colors list
@@ -55,28 +54,21 @@ namespace AhoyBrowser
         private static Color dimmedColor;
         public static Color GetDimmedColor(Color c, int value, bool invert)
         {
-            if (c != null)
+            try
             {
-                try
+               
+                if (invert)
                 {
-                   
-                    if (invert)
-                    {
-                        dimmedColor = Color.FromArgb(255, FlattenValue(c.R + value), FlattenValue(c.G + value), FlattenValue(c.B + value));
-                    }
-                    else
-                    {
-                        dimmedColor = Color.FromArgb(255, FlattenValue(c.R - value), FlattenValue(c.G - value), FlattenValue(c.B - value));
-                    }
+                    dimmedColor = Color.FromArgb(255, FlattenValue(c.R + value), FlattenValue(c.G + value), FlattenValue(c.B + value));
+                }
+                else
+                {
+                    dimmedColor = Color.FromArgb(255, FlattenValue(c.R - value), FlattenValue(c.G - value), FlattenValue(c.B - value));
+                }
 
-                    return dimmedColor;
-                }
-                catch
-                {
-                    return Color.Black;
-                }
+                return dimmedColor;
             }
-            else
+            catch
             {
                 return Color.Black;
             }
@@ -203,9 +195,6 @@ namespace AhoyBrowser
 
             return currentColors;
         }
-
-
-
 
 
         public static void SetCustomColorPreviewByIndex(int index, string colorHex)
@@ -421,7 +410,6 @@ namespace AhoyBrowser
         }
 
 
-
         #region COLOR CONVERTERS
         private const string tempHexRegex = @"[#]([0-9]|[a-f]|[A-F]){6}\b";
         public static bool IsValidHexCode(string hexString, bool allowEmptyColorCode)
@@ -534,15 +522,8 @@ namespace AhoyBrowser
         {
             try
             {
-                if (color1 != null)
-                {
-                    string tempOutput = ConvertToHex(color1) + " (" + color1.R.ToString("000") + ";" + color1.G.ToString("000") + ";" + color1.B.ToString("000") + ")";
-                    return tempOutput;
-                }
-                else
-                {
-                    return "N/A";
-                }
+                string tempOutput = ConvertToHex(color1) + " (" + color1.R.ToString("000") + ";" + color1.G.ToString("000") + ";" + color1.B.ToString("000") + ")";
+                return tempOutput;
             }
             catch
             {
@@ -554,16 +535,9 @@ namespace AhoyBrowser
         {
             try
             {
-                if (color1 != null && color2 != null)
-                {
-                    string tempOutput = ConvertToHex(color1) + " (" + color1.R.ToString("000") + ";" + color1.G.ToString("000") + ";" + color1.B.ToString("000") + "), " +
-                                        ConvertToHex(color2) + " (" + color2.R.ToString("000") + ";" + color2.G.ToString("000") + ";" + color2.B.ToString("000") + ")";
-                    return tempOutput;
-                }
-                else
-                {
-                    return "N/A";
-                }
+                string tempOutput = ConvertToHex(color1) + " (" + color1.R.ToString("000") + ";" + color1.G.ToString("000") + ";" + color1.B.ToString("000") + "), " +
+                                    ConvertToHex(color2) + " (" + color2.R.ToString("000") + ";" + color2.G.ToString("000") + ";" + color2.B.ToString("000") + ")";
+                return tempOutput;
             }
             catch
             {
@@ -644,7 +618,6 @@ namespace AhoyBrowser
         }
 
 
-
         public static void PreparePreview()
         {
             PreviewColorTheme = ColorTheme;
@@ -668,7 +641,6 @@ namespace AhoyBrowser
                 return "N/A";
             }
         }
-
 
 
         // Load all color themes into memory (Called by the SetTheme method below)

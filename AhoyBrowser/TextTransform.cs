@@ -79,16 +79,6 @@ namespace AhoyBrowser
             }
             return TempSpaces;
         }
-
-        private static void InitializeList()
-        {
-            if (TempLines == null)
-            {
-                TempLines = new List<string>();
-            }
-
-            TempLines.Clear();
-        }
         public static string SelectionToBulletAndLine(string text, bool toUpper)
         {
             if (text.Length > 0)
@@ -224,29 +214,6 @@ namespace AhoyBrowser
 
 
         //// Convert to Unicode
-        //static string tempConvertedToUnicode;
-        //static System.Text.Encoding unicode;
-        //public static string ConvertToUnicode(string input)
-        //{
-        //    try
-        //    {
-        //        if (input.Length > 0)
-        //        {
-        //            unicode = System.Text.Encoding.Unicode;
-        //            tempConvertedToUnicode = unicode.GetString(unicode.GetBytes(input));
-        //            tempConvertedToUnicode = tempConvertedToUnicode.Replace("\n", "\r\n"); // Fix newlines
-        //            return tempConvertedToUnicode;
-        //        }
-        //        else
-        //        {
-        //            return "";
-        //        }
-        //    }
-        //    catch
-        //    {
-        //        return "";
-        //    }
-        //}
 
 
         private static List<char> printableChars;
@@ -359,12 +326,12 @@ namespace AhoyBrowser
                     List<string> tempList = new List<string>();
                     tempList.AddRange(input.Split('\n'));
 
-                    // Trim whitespace and sort
+                    // Trim trailing whitespace (keep indentation) and sort
                     if (tempList.Count > 0)
                     {
                         for (int i = 0; i < tempList.Count; i++)
                         {
-                            tempList[i] = tempList[i].Trim();
+                            tempList[i] = tempList[i].TrimEnd();
                         }
 
                         if (!descending)
@@ -422,18 +389,5 @@ namespace AhoyBrowser
             }
         }
 
-        //private static int tempCaretPosition;
-        //internal static string TrimWhitespace(string input)
-        //{
-        //    try
-        //    {
-        //        // Trim space
-        //        return Regex.Replace(input, @"\s+", GetBlankSpace(1));
-        //    }
-        //    catch
-        //    {
-        //        return input;
-        //    }
-        //}
     }
 }

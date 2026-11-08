@@ -244,9 +244,6 @@ namespace AhoyBrowser
             btnBallancePlusMore.FlatAppearance.MouseDownBackColor = Color.FromArgb(255, 96, 96, 96);
 
 
-
-
-
             // Trackbar buttons
             btnRedMinus.FlatStyle = FlatStyle.Flat;
             btnAlignRed.FlatStyle = FlatStyle.Flat;
@@ -332,7 +329,6 @@ namespace AhoyBrowser
             btnBluePlus.FlatAppearance.MouseDownBackColor = Color.Blue;
 
 
-
             // Preset
             btnPreset1.FlatStyle = FlatStyle.Flat;
             btnPreset2.FlatStyle = FlatStyle.Flat;
@@ -363,8 +359,6 @@ namespace AhoyBrowser
             btnPreset6.FlatAppearance.MouseDownBackColor = btnPreset6.BackColor;
 
 
-
-
             // Continuing with the other buttons
             btnCancel.FlatStyle = FlatStyle.Flat;
             btnOK.FlatStyle = FlatStyle.Flat;
@@ -382,10 +376,6 @@ namespace AhoyBrowser
             btnCloseAdjustPanel.FlatAppearance.BorderColor = AhoyColors.CurrentColorTheme()[9];
 
 
-
-
-
-
             btnCancel.FlatAppearance.MouseOverBackColor = AhoyColors.CurrentColorTheme()[10];
             btnOK.FlatAppearance.MouseOverBackColor = AhoyColors.CurrentColorTheme()[10];
             btnFlip.FlatAppearance.MouseOverBackColor = AhoyColors.CurrentColorTheme()[10];
@@ -394,18 +384,12 @@ namespace AhoyBrowser
             btnCloseAdjustPanel.FlatAppearance.MouseOverBackColor = AhoyColors.CurrentColorTheme()[10];
 
 
-
-
-
             btnCancel.FlatAppearance.MouseDownBackColor = AhoyColors.CurrentColorTheme()[11];
             btnOK.FlatAppearance.MouseDownBackColor = AhoyColors.CurrentColorTheme()[11];
             btnFlip.FlatAppearance.MouseDownBackColor = AhoyColors.CurrentColorTheme()[11];
             btnReset.FlatAppearance.MouseDownBackColor = AhoyColors.CurrentColorTheme()[11];
             btnAdjust.FlatAppearance.MouseDownBackColor = AhoyColors.CurrentColorTheme()[11];
             btnCloseAdjustPanel.FlatAppearance.MouseDownBackColor = AhoyColors.CurrentColorTheme()[11];
-
-
-
 
 
             // Back color
@@ -423,7 +407,6 @@ namespace AhoyBrowser
             btnReset.ForeColor = AhoyColors.CurrentColorTheme()[8];
             btnAdjust.ForeColor = AhoyColors.CurrentColorTheme()[8];
             btnCloseAdjustPanel.ForeColor = AhoyColors.CurrentColorTheme()[8];
-
 
 
             btnFlip.Text = "";
@@ -647,8 +630,6 @@ namespace AhoyBrowser
                 }
             }
         }
-
-
 
 
         #region COLOR CONVERTERS (MODIFIED FOR PICKER)
@@ -889,18 +870,17 @@ namespace AhoyBrowser
 
         private void BtnReset_Click(object sender, EventArgs e)
         {
-            if (DualColorMode && (OriginalPrimary != null && OriginalSecondary != null))
+            if (DualColorMode)
             {
                 tbHexValueA.Text = ConvertToHex(OriginalPrimary);
                 tbHexValueB.Text = ConvertToHex(OriginalSecondary);
             }
-            else if (!DualColorMode && OriginalPrimary != null)
+            else
             {
                 tbHexValueA.Text = ConvertToHex(OriginalPrimary);
             }
             UpdateAdjustTrackers();
         }
-
 
 
         #region Color adjust (addition 23-02-2020)
@@ -1229,17 +1209,6 @@ namespace AhoyBrowser
             SetTrackbarValue(1, rand.Next(0, 255));
             SetTrackbarValue(2, rand.Next(0, 255));
         }
-
-
-        //private int MemoryR;
-        //private int MemoryG;
-        //private int MemoryB;
-        //private void SetMemory()
-        //{
-        //    MemoryR = trackBarRed.Value;
-        //    MemoryG = trackBarRed.Value;
-        //    MemoryB = trackBarRed.Value;
-        //}
 
 
         // Preset select

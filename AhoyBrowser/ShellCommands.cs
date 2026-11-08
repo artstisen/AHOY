@@ -1,6 +1,7 @@
 ﻿using System;
-using System.Diagnostics;
 using System.Collections.Generic;
+using System.Diagnostics;
+using System.IO;
 
 namespace AhoyBrowser
 {
@@ -21,13 +22,13 @@ namespace AhoyBrowser
         // Programs and Snap-ins:
         private static List<string> ShellCommandsList { get; set; }
         // Environment paths:
-        private static List<EnvironmentPath> ShellEnvironemtPathsList { get; set; }
+        private static List<EnvironmentPath> ShellEnvironmentPathsList { get; set; }
 
         // Initialized from MainForm upon load
         public static void InitializeShellCommandsList()
         {
             ShellCommandsList = new List<string>();
-            ShellEnvironemtPathsList = new List<EnvironmentPath>();
+            ShellEnvironmentPathsList = new List<EnvironmentPath>();
             // Add all commands listed in the "DisplayTextShellTools.txt"
             // Just add commands here to make them work in Ahoy command line
             ShellCommandsList.Add("regedit");
@@ -81,54 +82,112 @@ namespace AhoyBrowser
             ShellCommandsList.Add(@"M:\");
             // Add more commands here...
 
-            ShellEnvironemtPathsList.Add(new EnvironmentPath("documents", Environment.SpecialFolder.MyDocuments));
-            ShellEnvironemtPathsList.Add(new EnvironmentPath("doc", Environment.SpecialFolder.MyDocuments));
-            ShellEnvironemtPathsList.Add(new EnvironmentPath("desktop", Environment.SpecialFolder.Desktop));
-            ShellEnvironemtPathsList.Add(new EnvironmentPath("fonts", Environment.SpecialFolder.Fonts));
-            ShellEnvironemtPathsList.Add(new EnvironmentPath("music", Environment.SpecialFolder.MyMusic));
-            ShellEnvironemtPathsList.Add(new EnvironmentPath("video", Environment.SpecialFolder.MyVideos));
-            ShellEnvironemtPathsList.Add(new EnvironmentPath("pictures", Environment.SpecialFolder.MyPictures));
-            ShellEnvironemtPathsList.Add(new EnvironmentPath("img", Environment.SpecialFolder.MyPictures));
-            ShellEnvironemtPathsList.Add(new EnvironmentPath("admin", Environment.SpecialFolder.CommonAdminTools));
-            ShellEnvironemtPathsList.Add(new EnvironmentPath("appdata", Environment.SpecialFolder.ApplicationData));
-            ShellEnvironemtPathsList.Add(new EnvironmentPath("home", Environment.SpecialFolder.UserProfile));
-            ShellEnvironemtPathsList.Add(new EnvironmentPath("%HOMEPATH%", Environment.SpecialFolder.UserProfile));
-            ShellEnvironemtPathsList.Add(new EnvironmentPath("%PROGRAMFILES%", Environment.SpecialFolder.ProgramFiles));
-            ShellEnvironemtPathsList.Add(new EnvironmentPath("%APPDATA%", Environment.SpecialFolder.ApplicationData));
-            ShellEnvironemtPathsList.Add(new EnvironmentPath("%WINDIR%", Environment.SpecialFolder.Windows));
+            ShellEnvironmentPathsList.Add(new EnvironmentPath("documents", Environment.SpecialFolder.MyDocuments));
+            ShellEnvironmentPathsList.Add(new EnvironmentPath("doc", Environment.SpecialFolder.MyDocuments));
+            ShellEnvironmentPathsList.Add(new EnvironmentPath("desktop", Environment.SpecialFolder.Desktop));
+            ShellEnvironmentPathsList.Add(new EnvironmentPath("fonts", Environment.SpecialFolder.Fonts));
+            ShellEnvironmentPathsList.Add(new EnvironmentPath("music", Environment.SpecialFolder.MyMusic));
+            ShellEnvironmentPathsList.Add(new EnvironmentPath("video", Environment.SpecialFolder.MyVideos));
+            ShellEnvironmentPathsList.Add(new EnvironmentPath("pictures", Environment.SpecialFolder.MyPictures));
+            ShellEnvironmentPathsList.Add(new EnvironmentPath("img", Environment.SpecialFolder.MyPictures));
+            ShellEnvironmentPathsList.Add(new EnvironmentPath("admin", Environment.SpecialFolder.CommonAdminTools));
+            ShellEnvironmentPathsList.Add(new EnvironmentPath("appdata", Environment.SpecialFolder.ApplicationData));
+            ShellEnvironmentPathsList.Add(new EnvironmentPath("home", Environment.SpecialFolder.UserProfile));
+            ShellEnvironmentPathsList.Add(new EnvironmentPath("%HOMEPATH%", Environment.SpecialFolder.UserProfile));
+            ShellEnvironmentPathsList.Add(new EnvironmentPath("%PROGRAMFILES%", Environment.SpecialFolder.ProgramFiles));
+            ShellEnvironmentPathsList.Add(new EnvironmentPath("%APPDATA%", Environment.SpecialFolder.ApplicationData));
+            ShellEnvironmentPathsList.Add(new EnvironmentPath("%WINDIR%", Environment.SpecialFolder.Windows));
             // Add more paths here...
 
         }
+        /// <summary>
+        /// Open a program, document or folder through the Windows shell (.NET Core and later
+        /// default to UseShellExecute = false, which cannot open folders, URLs or App Paths programs).
+        /// </summary>
+        internal static void ShellOpen(string fileName, string arguments = "")
+        {
+            Process.Start(new ProcessStartInfo
+            {
+                FileName = fileName,
+                Arguments = arguments ?? "",
+                UseShellExecute = true
+            })?.Dispose();
+        }
 
-        public static void BrowseInternet(string url, int browser)
+        /// <summary>Open a folder in Explorer. Returns false (with a message) if it can't be opened.</summary>
+        internal static bool OpenFolder(string path)
         {
             try
             {
-                // Browser selection
-                if (browser == 0)
+                if (string.IsNullOrEmpty(path) || !Directory.Exists(path))
                 {
-                    Log.ProcessStart("Browser " + browser.ToString() + ": ("+ url + ")");
-                    Process.Start(url, "");
+                    throw new DirectoryNotFoundException("The folder does not exist:\n" + path);
                 }
-                else if (browser == 1)
+                ShellOpen(path);
+                return true;
+            }
+            catch (Exception ex)
+            {
+                AhoySimpleMessageBox msg = new AhoySimpleMessageBox(ex.Message, MessageText.EnvironmentPathErrorCaption(), false);
+                msg.ShowDialog();
+                return false;
+            }
+        }
+
+        /// <summary>
+        /// Only web addresses may be opened from links in notes; anything else (file://, programs,
+        /// UNC paths ...) could run code when handed to the shell.
+        /// </summary>
+        internal static bool TryGetWebUrl(string link, out string url)
+        {
+            url = null;
+            if (string.IsNullOrWhiteSpace(link))
+            {
+                return false;
+            }
+            string candidate = link.Trim();
+            if (candidate.StartsWith("www.", StringComparison.OrdinalIgnoreCase))
+            {
+                candidate = "https://" + candidate;
+            }
+            if (Uri.TryCreate(candidate, UriKind.Absolute, out Uri uri) &&
+                (uri.Scheme == Uri.UriSchemeHttp || uri.Scheme == Uri.UriSchemeHttps))
+            {
+                url = uri.AbsoluteUri;
+                return true;
+            }
+            return false;
+        }
+
+        public static void BrowseInternet(string link, int browser)
+        {
+            if (!TryGetWebUrl(link, out string url))
+            {
+                AhoySimpleMessageBox notWeb = new AhoySimpleMessageBox("Only web links (http/https) can be opened from AHOY!:\n" + link, MessageText.ShellCommandErrorCaption(), false);
+                notWeb.ShowDialog();
+                return;
+            }
+
+            try
+            {
+                Log.ProcessStart("Browser " + browser.ToString(System.Globalization.CultureInfo.InvariantCulture));
+                switch (browser)
                 {
-                    Log.ProcessStart("Browser " + browser.ToString() + ": (" + url + ")");
-                    Process.Start("firefox", url);
-                }
-                else if (browser == 2)
-                {
-                    Log.ProcessStart("Browser " + browser.ToString() + ": (" + url + ")");
-                    Process.Start("chrome", url);
-                }
-                else if (browser == 3)
-                {
-                    Log.ProcessStart("Browser " + browser.ToString() + ": (" + url + ")");
-                    Process.Start("microsoft-edge://", url);
-                }
-                else if (browser == 4)
-                {
-                    Log.ProcessStart("Browser " + browser.ToString() + ": (" + url + ")");
-                    Process.Start("chrome", "-incognito" + " " + url);
+                    case 1:
+                        ShellOpen("firefox", "\"" + url + "\"");
+                        break;
+                    case 2:
+                        ShellOpen("chrome", "\"" + url + "\"");
+                        break;
+                    case 3:
+                        ShellOpen("msedge", "\"" + url + "\"");
+                        break;
+                    case 4:
+                        ShellOpen("chrome", "--incognito \"" + url + "\"");
+                        break;
+                    default:
+                        ShellOpen(url); // Windows default browser
+                        break;
                 }
             }
             catch (Exception ex)
@@ -137,16 +196,22 @@ namespace AhoyBrowser
                 msg.ShowDialog();
             }
         }
-
         public static bool StartProcess(string input, string args)
         {
-            // Execute shell commands
+            // Known programs and snap-ins, or a folder to open
             if (IsShellCommand(input))
             {
                 try
                 {
-                    Log.ProcessStart(input + " " + args);
-                    Process.Start(input, args);
+                    Log.ProcessStart(input);
+                    if (Directory.Exists(input))
+                    {
+                        ShellOpen(input);
+                    }
+                    else
+                    {
+                        ShellOpen(input, args);
+                    }
                 }
                 catch (Exception ex)
                 {
@@ -154,19 +219,12 @@ namespace AhoyBrowser
                     msg.ShowDialog();
                 }
                 return true;
-            } // Open invironement paths
+            } // Open environment paths
             else if (IsShellEnvironmentPath(input))
             {
-                try
-                {
-                    Log.ProcessStart(Environment.GetFolderPath(GetPathFromSignature(input)));
-                    Process.Start(Environment.GetFolderPath(GetPathFromSignature(input)));
-                }
-                catch (Exception ex)
-                {
-                    AhoySimpleMessageBox msg = new AhoySimpleMessageBox(ex.Message, MessageText.EnvironmentPathErrorCaption(), false);
-                    msg.ShowDialog();
-                }
+                string path = Environment.GetFolderPath(GetPathFromSignature(input));
+                Log.ProcessStart(path);
+                OpenFolder(path);
                 return true;
             }
             else
@@ -174,65 +232,54 @@ namespace AhoyBrowser
                 return false;
             }
         }
-
-        private static bool tempCommandTestResult;
+            /// <summary>
+        /// True if the command (or its first word) is one of the known commands in ShellCommandsList,
+        /// or an existing folder. Arbitrary program paths are not run.
+        /// </summary>
         public static bool IsShellCommand(string s)
         {
-            s = s.ToLower() ;
-            tempCommandTestResult = false;
-            if (ShellCommandsList != null && ShellCommandsList.Count > 0)
+            if (string.IsNullOrWhiteSpace(s) || ShellCommandsList == null)
             {
-                foreach (string command in ShellCommandsList)
+                return false;
+            }
+            string command = s.Trim();
+            string firstWord = command.Split(' ')[0];
+            foreach (string known in ShellCommandsList)
+            {
+                if (string.Equals(command, known, StringComparison.OrdinalIgnoreCase) ||
+                    string.Equals(firstWord, known, StringComparison.OrdinalIgnoreCase))
                 {
-                    if (s.Contains(command.ToLower()))
-                    {
-                        tempCommandTestResult = true;
-                        break;
-                    }
+                    return true;
                 }
             }
-            return tempCommandTestResult;
+            return Directory.Exists(firstWord) && Path.IsPathRooted(firstWord);
         }
-
         public static bool IsShellEnvironmentPath(string s)
         {
-            s = s.ToLower();
-            tempCommandTestResult = false;
-            if (ShellEnvironemtPathsList != null && ShellEnvironemtPathsList.Count > 0)
+            if (string.IsNullOrWhiteSpace(s) || ShellEnvironmentPathsList == null)
             {
-                foreach (EnvironmentPath path in ShellEnvironemtPathsList)
+                return false;
+            }
+            foreach (EnvironmentPath path in ShellEnvironmentPathsList)
+            {
+                if (string.Equals(s.Trim(), path.Signature, StringComparison.OrdinalIgnoreCase))
                 {
-                    if (s == path.Signature.ToLower())
-                    {
-                        tempCommandTestResult = true;
-                        break;
-                    }
+                    return true;
                 }
             }
-            return tempCommandTestResult;
+            return false;
         }
-
-        private static Environment.SpecialFolder tempSpecialFolder;
         private static Environment.SpecialFolder GetPathFromSignature(string signature)
         {
-            // Default is desktop
-            tempSpecialFolder = Environment.SpecialFolder.Desktop;
-
-            if (ShellEnvironemtPathsList != null && ShellEnvironemtPathsList.Count > 0)
+            foreach (EnvironmentPath path in ShellEnvironmentPathsList)
             {
-                foreach (EnvironmentPath path in ShellEnvironemtPathsList)
+                if (string.Equals(signature.Trim(), path.Signature, StringComparison.OrdinalIgnoreCase))
                 {
-                    if (signature == path.Signature.ToLower())
-                    {
-                        tempSpecialFolder = path.Path;
-                        break;
-                    }
+                    return path.Path;
                 }
             }
-
-            return tempSpecialFolder;
+            return Environment.SpecialFolder.Desktop; // Default
         }
-
         private static List<string> tempStringSectionsList;
         private static string tempStringSections;
         public static string GetStringSection(string s, int splitIndex1or2)

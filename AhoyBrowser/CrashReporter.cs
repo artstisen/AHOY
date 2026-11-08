@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.IO;
 using System.Text;
 using System.Threading;
@@ -9,7 +9,8 @@ namespace AhoyBrowser
     /// <summary>
     /// Makes unexpected errors visible: without this, an error before the main window appears ends
     /// the process silently (Windows 11 shows no crash dialog by default).
-    /// The log contains the error and stack trace only, never note content.
+    /// The log contains error types and stack traces only: exception messages are left out, since they
+    /// can quote file paths or text.
     /// </summary>
     internal static class CrashReporter
     {
@@ -39,7 +40,7 @@ namespace AhoyBrowser
                 string message = "AHOY! ran into an unexpected error" + (canContinue ? "." : " and has to close.") + Environment.NewLine + Environment.NewLine +
                                  (exception?.Message ?? "Unknown error") + Environment.NewLine + Environment.NewLine +
                                  (logPath != null ? "Details were saved to:" + Environment.NewLine + logPath + Environment.NewLine + Environment.NewLine : "") +
-                                 "Please include this file when reporting the problem (it contains no note content)." +
+                                 "Please include this file when reporting the problem (it contains only error types and code locations)." +
                                  (canContinue ? Environment.NewLine + Environment.NewLine + "Continue running AHOY!?" : "");
 
                 // Standard message box: works even if Ahoy's own forms are what failed
@@ -82,7 +83,7 @@ namespace AhoyBrowser
                 entry.AppendLine("Version: " + typeof(CrashReporter).Assembly.GetName().Version);
                 entry.AppendLine("OS: " + Environment.OSVersion + (Environment.Is64BitProcess ? " (64-bit)" : " (32-bit)"));
                 entry.AppendLine(".NET: " + Environment.Version);
-                entry.AppendLine(exception?.ToString() ?? "Unknown error");
+                AppendException(entry, exception);
                 entry.AppendLine();
                 File.AppendAllText(path, entry.ToString(), Encoding.UTF8);
                 return path;
@@ -90,6 +91,25 @@ namespace AhoyBrowser
             catch
             {
                 return null;
+            }
+        }
+
+        // Type and stack trace of the exception and its inner exceptions (no messages)
+        private static void AppendException(StringBuilder entry, Exception exception)
+        {
+            if (exception == null)
+            {
+                entry.AppendLine("Unknown error");
+                return;
+            }
+            for (int depth = 0; exception != null && depth < 10; depth++)
+            {
+                entry.AppendLine((depth == 0 ? "" : "---> ") + exception.GetType().FullName + " (HResult 0x" + exception.HResult.ToString("X8") + ")");
+                if (exception.StackTrace != null)
+                {
+                    entry.AppendLine(exception.StackTrace);
+                }
+                exception = exception.InnerException;
             }
         }
     }

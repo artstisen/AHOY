@@ -97,35 +97,6 @@ namespace AhoyBrowser
             }
         }
 
-        /// <summary>
-        /// Retrieve wordcount
-        /// </summary>
-        /// <returns></returns>
-        public static string GetWordCount(string input)
-        {
-            if (!string.IsNullOrEmpty(input) && input.Length > 0)
-            {
-                // Clear variable
-                tempWordCount = "";
-                tempGroupOfWords = "";
-                // Count characters
-                tempWordCount += "Character count: " + input.Length + " / ";
-                // Count words ("^\s.?,"  and "\w")
-                tempGroupOfWords = input;
-                var matchesByAlphaNumeric = Regex.Matches(tempGroupOfWords,
-                        @"[^\s.?,]+", RegexOptions.CultureInvariant | RegexOptions.Multiline
-                        | RegexOptions.IgnoreCase);
-
-                tempWordCount += "Word count: " + matchesByAlphaNumeric.Count.ToString();
-
-                return tempWordCount;
-            }
-            else
-            {
-                return "";
-            }
-        }
-
         private const int ProgressBarLength = 50;
         private const string ProgressBarSymbol = "|"; // the symbol to show
         private const decimal MaximumValue = 150m;
@@ -202,6 +173,8 @@ namespace AhoyBrowser
 
                 if (_iWPMTotalTime > 0 && _strWPM >= 5)
                 {
+                    // Note: divides by 4 keystrokes per word (the WPM standard above uses 5 characters);
+                    // kept as-is so scores match earlier versions
                     _iWPMCount = ((60 / _iWPMTotalTime) * (_strWPM / 4));
                     if (_iWPMCount >= 0)
                         tempWPMStringOutput = RetrieveScore(_iWPMCount) + " (" + _iWPMCount.ToString("0") + "WPM)"; // + ((60 / _iWPMTotalTime) * (_strWPM)).ToString("0") + "CPM)"; // WPM/CPM

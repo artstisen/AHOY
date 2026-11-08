@@ -29,7 +29,7 @@ namespace AhoyBrowser
 
         private static string Animation(int index)
         {
-                // The cup animation will runn on index above 100
+                // One case per animation frame
                 switch (index)
                 {
                     case 1:

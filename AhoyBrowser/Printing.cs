@@ -13,56 +13,23 @@ namespace AhoyBrowser
         {
             try
             {
-                Log.GeneralStatus("Print (\"" + title + "\")");
+                Log.GeneralStatus("Print"); // no titles in the log
                 // ready the content for printing (the \n char will not produce new lines when printing)
                 // and is therefore replaced
                 content = content.Replace("\n", Environment.NewLine);
 
-                // Print variables
-                AhoyPrintDocument AhoySimplePrint;
-                AhoySimplePrint = new AhoyPrintDocument();
-                PrintDialog printTextDialog = new PrintDialog();
+                using var font = new Font(Design.GetFontNameByIndex(fontIndex), 11);
+                using var document = new AhoyPrintDocument();
+                using var printTextDialog = new PrintDialog();
+                document.Text = content;
+                document.Font = font;
+                document.DocumentName = "AHOY-Printer-" + title + "-" + DateTime.Now.Ticks;
+                printTextDialog.Document = document;
 
-                AhoySimplePrint.Text = content;
-                AhoySimplePrint.Font = new Font(Design.GetFontNameByIndex(fontIndex), 11);
-                printTextDialog.Document = AhoySimplePrint;
-                printTextDialog.Document.DocumentName = "AHOY-Printer-" + title + "-" + DateTime.Now.Ticks;
-                DialogResult result = printTextDialog.ShowDialog();
-
-                if (result == DialogResult.OK)
+                if (printTextDialog.ShowDialog() == DialogResult.OK)
                 {
-                    AhoySimplePrint.Print();
+                    document.Print();
                 }
-
-                /*
-                 
-                 void OnFilePrint(Object sender, EventArgs e)
-                {
-                    PrintDialog pd = new PrintDialog();
-                    _printdocument.Text = _multipadbox.Text;
-                    _printdocument.Font = _multipadbox.Font;
-                    pd.Document = _printdocument;
-                    pd.ShowDialog();
-                }
-
-                void OnFilePrintPreview(Object sender, EventArgs e)
-                {
-                    PrintPreviewDialog ppd = new PrintPreviewDialog();
-                    _printdocument.Text = _multipadbox.Text;
-                    _printdocument.Font = _multipadbox.Font;
-                    ppd.Document = _printdocument;
-                    ppd.ShowDialog();
-                }
-
-                void OnFilePageSetup(Object sender, EventArgs e)
-                {
-                    PageSetupDialog psd = new PageSetupDialog();
-                    psd.Document = _printdocument;
-                    psd.ShowDialog();
-                }
-                 
-                 */
-
             }
             catch (Exception ex)
             {
@@ -155,7 +122,7 @@ namespace AhoyBrowser
             Single y = offsety;
 
             StringBuilder line = new StringBuilder(256);
-            StringFormat sf = StringFormat.GenericTypographic;
+            using StringFormat sf = StringFormat.GenericTypographic; // a new instance on every call
             sf.FormatFlags = StringFormatFlags.DisplayFormatControl;
             sf.SetTabStops(0.0f, new Single[] { 300.0f });
 
@@ -172,7 +139,6 @@ namespace AhoyBrowser
             {
 
                 // cannot print at least 1 line and footer
-                g.Dispose();
 
                 e.HasMorePages = false;
 
@@ -266,7 +232,6 @@ namespace AhoyBrowser
             sf.Alignment = StringAlignment.Center;
             g.DrawString(_pageno.ToString(), _font, Brushes.Black, r, sf);
 
-            g.Dispose();
 
             _pageno++;
 

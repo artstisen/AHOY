@@ -50,8 +50,8 @@ namespace AhoyBrowser
             lbCopyPreset.BackColor = Color.Transparent;
             lbPastePreset.BackColor = Color.Transparent;
 
-            lbTestContent.Font = Design.TypermaxXSSmallFont();
-            lbTestList.Font = Design.TypermaxXSSmallFont();
+            lbTestContent.Font = Design.StylePreviewFont();
+            lbTestList.Font = Design.StylePreviewFont();
             lbTestContent.TextAlign = ContentAlignment.TopLeft;
             lbTestList.TextAlign = ContentAlignment.TopLeft;
             tbThemeTitle.Font = Design.ContentFieldFont();
@@ -277,7 +277,6 @@ namespace AhoyBrowser
             btnPinnedBack8.FlatAppearance.MouseOverBackColor = AhoyColors.CurrentColorThemePreview()[19];
 
 
-
             btnClose.FlatAppearance.MouseDownBackColor = AhoyColors.CurrentColorThemePreview()[11];
             btnReset.FlatAppearance.MouseDownBackColor = AhoyColors.CurrentColorThemePreview()[11];
             btnPreviousTheme.FlatAppearance.MouseDownBackColor = AhoyColors.CurrentColorThemePreview()[11];
@@ -326,8 +325,6 @@ namespace AhoyBrowser
             btnPinnedBack6.FlatAppearance.MouseDownBackColor = AhoyColors.CurrentColorThemePreview()[17];
             btnPinnedBack7.FlatAppearance.MouseDownBackColor = AhoyColors.CurrentColorThemePreview()[18];
             btnPinnedBack8.FlatAppearance.MouseDownBackColor = AhoyColors.CurrentColorThemePreview()[19];
-
-
 
 
             btnClose.BackColor = AhoyColors.CurrentColorThemePreview()[7];
@@ -541,7 +538,6 @@ namespace AhoyBrowser
         }
 
 
-
         // The small preview text content window
         private void SetDisplayTextPreview()
         {
@@ -679,7 +675,6 @@ namespace AhoyBrowser
         }
 
 
-
         private void btnPreviousTheme_Click(object sender, EventArgs e)
         {
             BitmapPreviewIndex = 0;
@@ -709,7 +704,6 @@ namespace AhoyBrowser
             UpdateTexture();
             ResetSubmissionVariable();
         }
-
 
 
         private void btnPreviousOpacity_Click(object sender, EventArgs e)
@@ -1120,35 +1114,32 @@ namespace AhoyBrowser
         {
             try
             {
-                if (backgroundPresetColor[0] != null)
-                {
-                    // Button 1
-                    AhoyColors.SetCustomColorPreviewByIndex(12, AhoyColors.ConvertToHex(backgroundPresetColor[0]));
-                    AhoyColors.SetCustomColorPreviewByIndex(20, AhoyColors.ConvertToHex(foregroundPresetColor[0]));
-                    // Button 2
-                    AhoyColors.SetCustomColorPreviewByIndex(13, AhoyColors.ConvertToHex(backgroundPresetColor[1]));
-                    AhoyColors.SetCustomColorPreviewByIndex(21, AhoyColors.ConvertToHex(foregroundPresetColor[1]));
-                    // Button 3
-                    AhoyColors.SetCustomColorPreviewByIndex(14, AhoyColors.ConvertToHex(backgroundPresetColor[2]));
-                    AhoyColors.SetCustomColorPreviewByIndex(22, AhoyColors.ConvertToHex(foregroundPresetColor[2]));
-                    // Button 4
-                    AhoyColors.SetCustomColorPreviewByIndex(15, AhoyColors.ConvertToHex(backgroundPresetColor[3]));
-                    AhoyColors.SetCustomColorPreviewByIndex(23, AhoyColors.ConvertToHex(foregroundPresetColor[3]));
-                    // Button 5
-                    AhoyColors.SetCustomColorPreviewByIndex(16, AhoyColors.ConvertToHex(backgroundPresetColor[4]));
-                    AhoyColors.SetCustomColorPreviewByIndex(24, AhoyColors.ConvertToHex(foregroundPresetColor[4]));
-                    // Button 6
-                    AhoyColors.SetCustomColorPreviewByIndex(17, AhoyColors.ConvertToHex(backgroundPresetColor[5]));
-                    AhoyColors.SetCustomColorPreviewByIndex(25, AhoyColors.ConvertToHex(foregroundPresetColor[5]));
-                    // Button 7
-                    AhoyColors.SetCustomColorPreviewByIndex(18, AhoyColors.ConvertToHex(backgroundPresetColor[6]));
-                    AhoyColors.SetCustomColorPreviewByIndex(26, AhoyColors.ConvertToHex(foregroundPresetColor[6]));
-                    // Button 8
-                    AhoyColors.SetCustomColorPreviewByIndex(19, AhoyColors.ConvertToHex(backgroundPresetColor[7]));
-                    AhoyColors.SetCustomColorPreviewByIndex(27, AhoyColors.ConvertToHex(foregroundPresetColor[7]));
+                // Button 1
+                AhoyColors.SetCustomColorPreviewByIndex(12, AhoyColors.ConvertToHex(backgroundPresetColor[0]));
+                AhoyColors.SetCustomColorPreviewByIndex(20, AhoyColors.ConvertToHex(foregroundPresetColor[0]));
+                // Button 2
+                AhoyColors.SetCustomColorPreviewByIndex(13, AhoyColors.ConvertToHex(backgroundPresetColor[1]));
+                AhoyColors.SetCustomColorPreviewByIndex(21, AhoyColors.ConvertToHex(foregroundPresetColor[1]));
+                // Button 3
+                AhoyColors.SetCustomColorPreviewByIndex(14, AhoyColors.ConvertToHex(backgroundPresetColor[2]));
+                AhoyColors.SetCustomColorPreviewByIndex(22, AhoyColors.ConvertToHex(foregroundPresetColor[2]));
+                // Button 4
+                AhoyColors.SetCustomColorPreviewByIndex(15, AhoyColors.ConvertToHex(backgroundPresetColor[3]));
+                AhoyColors.SetCustomColorPreviewByIndex(23, AhoyColors.ConvertToHex(foregroundPresetColor[3]));
+                // Button 5
+                AhoyColors.SetCustomColorPreviewByIndex(16, AhoyColors.ConvertToHex(backgroundPresetColor[4]));
+                AhoyColors.SetCustomColorPreviewByIndex(24, AhoyColors.ConvertToHex(foregroundPresetColor[4]));
+                // Button 6
+                AhoyColors.SetCustomColorPreviewByIndex(17, AhoyColors.ConvertToHex(backgroundPresetColor[5]));
+                AhoyColors.SetCustomColorPreviewByIndex(25, AhoyColors.ConvertToHex(foregroundPresetColor[5]));
+                // Button 7
+                AhoyColors.SetCustomColorPreviewByIndex(18, AhoyColors.ConvertToHex(backgroundPresetColor[6]));
+                AhoyColors.SetCustomColorPreviewByIndex(26, AhoyColors.ConvertToHex(foregroundPresetColor[6]));
+                // Button 8
+                AhoyColors.SetCustomColorPreviewByIndex(19, AhoyColors.ConvertToHex(backgroundPresetColor[7]));
+                AhoyColors.SetCustomColorPreviewByIndex(27, AhoyColors.ConvertToHex(foregroundPresetColor[7]));
 
-                    UpdateColorTheme();
-                }
+                UpdateColorTheme();
             }
             catch
             {
@@ -1416,7 +1407,6 @@ namespace AhoyBrowser
         #endregion
 
 
-
         #region Reset Opacity, Texture and Icon style
         private void btnResetOpacity_Click(object sender, EventArgs e)
         {
@@ -1496,7 +1486,6 @@ namespace AhoyBrowser
             }
         }
         #endregion
-
 
 
         #region Import/Eksport

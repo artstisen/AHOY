@@ -4,7 +4,7 @@
     <colortheme>1</colortheme>
     <!-- Button bitmap 0-2 -->
     <btnbovr>0</btnbovr>
-    <opacity>0,9</opacity>
+    <opacity>0.9</opacity>
     <texture>0</texture>
     <!--Display text cycle -->
     <qgcycle>0</qgcycle>

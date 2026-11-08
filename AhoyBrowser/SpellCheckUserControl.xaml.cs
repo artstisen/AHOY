@@ -263,7 +263,6 @@ namespace AhoyBrowser
         }
 
 
-
         private string GetUnsupportedLanguageMessage()
         {
             return "Language not supported on this computer. Please consult the documentation for help";
@@ -278,7 +277,7 @@ namespace AhoyBrowser
             {
                 tbSpellChecker.Copy();
                 // Convert to plan text
-                tempUnformattedText = Clipboard.GetText(TextDataFormat.Text);
+                tempUnformattedText = Clipboard.GetText(TextDataFormat.UnicodeText);
                 Clipboard.SetText(tempUnformattedText);
                 MainForm.PersistClipboard();
                 e.Handled = true;

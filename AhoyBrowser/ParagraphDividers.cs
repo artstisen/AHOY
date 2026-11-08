@@ -13,7 +13,7 @@ namespace AhoyBrowser
         private const string ShortcutC = "CTRL.";
         private const string ShortcutD = "CTRL-";
         // Labels
-        private const string Intro = "A text-vignette to mark the beginning/end of a text block by pressing the corresponding keyboard shortcuts listed below. Use empty lines to add space above and below the Divider. Create custom Tab indents, predefined templates, text snippets, ANSI-Art, your favourite quotes...";
+        private const string Intro = "A text-vignette to mark the beginning/end of a text block by pressing the corresponding keyboard shortcuts listed below. Use empty lines to add space above and below the Divider. Create custom Tab indents, text snippets, your favourite quotes...";
         private const string Tag1 = "Click to insert ISO Date/Time Tag";
         private const string Tag2 = "Click to insert Selection Tag";
         // Preset strings
@@ -189,7 +189,6 @@ namespace AhoyBrowser
             SuppressTextChanged = false;
             UpdateLabels();
         }
-
 
 
         #region Form and Tooltip
@@ -849,60 +848,17 @@ namespace AhoyBrowser
         {
             lbCopySelectionTag_Click();
         }
-
         private void InsertTimestampTag(HistoryTextBox tb)
         {
             MainForm.KeepAwake();
-            string tempClipboard;
-            if (Clipboard.ContainsText())
-            {
-                tempClipboard = Clipboard.GetText();
-            }
-            else
-            {
-                tempClipboard = "";
-            }
-
-            SetClipboard(TimeStampReplaceString);
-            tb.Paste();
-
-            if (!string.IsNullOrEmpty(tempClipboard))
-            {
-                SetClipboard(tempClipboard);
-            }
+            tb.InsertText(TimeStampReplaceString);
         }
-
         private void InsertSelectionTag(HistoryTextBox tb)
         {
             MainForm.KeepAwake();
-            string tempClipboard;
-            if (Clipboard.ContainsText())
-            {
-                tempClipboard = Clipboard.GetText();
-            }
-            else
-            {
-                tempClipboard = "";
-            }
-
-            SetClipboard(SelectionReplaceString);
-            tb.Paste();
-
-            if (!string.IsNullOrEmpty(tempClipboard))
-            {
-                SetClipboard(tempClipboard);
-            }
-        }
-
-        private void SetClipboard(string input)
-        {
-            if (!string.IsNullOrEmpty(input))
-            {
-                Clipboard.SetText(input);
-            }
+            tb.InsertText(SelectionReplaceString);
         }
         #endregion
-
 
 
         private void lbResetA_Click(object sender, EventArgs e)

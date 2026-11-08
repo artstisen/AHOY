@@ -86,10 +86,6 @@ namespace AhoyBrowser
                 CommandLibrary.Add(new Command("time", "Display system ISO Date/Time"));
                 CommandLibrary.Add(new Command("t", "Display system ISO Date/Time"));
                 CommandLibrary.Add(new Command("flip", "Cycle Home Screen logo style"));
-                CommandLibrary.Add(new Command("check", "Insert Checklist Template"));
-                CommandLibrary.Add(new Command("task", "Insert Checklist Template"));
-                CommandLibrary.Add(new Command("prog", "Insert Checklist Template"));
-                CommandLibrary.Add(new Command("book", "Insert Bookmark Template"));
                 CommandLibrary.Add(new Command("default", "Load Default Pool"));
                 CommandLibrary.Add(new Command("reload", "Reload current Pool"));
                 CommandLibrary.Add(new Command("ent", "List all entries"));
@@ -183,17 +179,10 @@ namespace AhoyBrowser
                 // Tool commands
                 CommandLibrary.Add(new Command(ToolCommandPrefix + "div", "Paragraph Dividers"));
                 CommandLibrary.Add(new Command(ToolCommandPrefix + "snippet", "Open Snippet Editor"));
-                CommandLibrary.Add(new Command(ToolCommandPrefix + "toue", "Open Entry in Utility Editor"));
-                CommandLibrary.Add(new Command(ToolCommandPrefix + "appue", "Append Entry in Utility Editor"));
-                CommandLibrary.Add(new Command(ToolCommandPrefix + "appsel", "Append text selection in Utility Editor"));
                 CommandLibrary.Add(new Command(ToolCommandPrefix + "pass", "Generate 20-char Strong Password"));
                 CommandLibrary.Add(new Command(ToolCommandPrefix + "chars", "List character selection"));
                 CommandLibrary.Add(new Command(ToolCommandPrefix + "morechars", "List all printable characters"));
-                CommandLibrary.Add(new Command(ToolCommandPrefix + "typewriter", "Start Typewriter"));
                 CommandLibrary.Add(new Command(ToolCommandPrefix + "mon", "Open Log Monitor"));
-                // CommandLibrary.Add(new Command(ToolCommandPrefix + "dcheck", "Debug routine/Server check (service command)"));
-                // CommandLibrary.Add(new Command(ToolCommandPrefix + "ucheck", "Debug routine/Server check (service command)"));
-                // CommandLibrary.Add(new Command(ToolCommandPrefix + "vcheck", "Debug routine/Server check (service command)"));
                 // Theme commands
                 CommandLibrary.Add(new Command(ThemeCommandPrefix + "edit", "Open Style Editor"));
                 CommandLibrary.Add(new Command(ThemeCommandPrefix + "select", "Open Theme Selector"));

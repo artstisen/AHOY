@@ -232,7 +232,7 @@ namespace AhoyBrowser.MessageBoxes
             {
                 try
                 {
-                    // Selection håndteres direkte på SourceText når man klikker på selection knappen
+                    // With the selection option, SourceText already holds just the selection
                     if (CaseSens)
                     {
                         TargetText = Regex.Escape(TargetText);

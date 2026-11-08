@@ -235,27 +235,10 @@ namespace AhoyBrowser
         {
             return "Close";
         }
-
-        public static string ClearCaption()
-        {
-            return "Clear";
-        }
-
         public static string ResetCaption()
         {
             return "Reset";
         }
-
-        public static string AppendCaption()
-        {
-            return "Append";
-        }
-
-        public static string OverwriteCaption()
-        {
-            return "Overwrite";
-        }
-
         public static string ModifyCaption()
         {
             return "Modify";
@@ -288,12 +271,6 @@ namespace AhoyBrowser
         {
             return "Environment path error";
         }
-
-        public static string HelpCaption()
-        {
-            return "Help";
-        }
-
         public static string HoldButtonCaption()
         {
             return "Hold button";
@@ -360,11 +337,6 @@ namespace AhoyBrowser
         public static string AhoyCaption()
         {
             return "AHOY!";
-        }
-
-        public static string PoweredByAhoyCaption()
-        {
-            return "Powered by AHOY!";
         }
         public static string StickyCaption()
         {
@@ -609,7 +581,7 @@ namespace AhoyBrowser
 
         public static string PasswordGeneratorSelectEntryToContinueMessage()
         {
-            return "Create a new Entry to hold the generated keys?\n\nThe Password Generator operates by pasting a selection of generated keys into the text area of the selected entry or editor (Main editor, PLOP and Utility Editor)"; // No Entry selected
+            return "Create a new Entry to hold the generated keys?\n\nThe Password Generator operates by pasting a selection of generated keys into the text area of the selected entry"; // No Entry selected
         }
 
         public static string SelectEntryToPinMessage()
@@ -633,7 +605,7 @@ namespace AhoyBrowser
         }
         public static string AlreadyOpenMessage()
         {
-            return "The Editor is already open";
+            return "Paragraph Dividers is already open";
         }
         public static string SelectPinnedEntryToContinueMessage()
         {
@@ -748,16 +720,6 @@ namespace AhoyBrowser
         {
             return "Please enter password to continue...";
         }
-
-        public static string FailedMessage()
-        {
-            return "No connection/request failed\n(Check Log for details)";
-        }
-        public static string LoadingMessage()
-        {
-            return "Loading...";
-        }
-
         // TITLES
         public static string ChangeSleepIntervalTitle()
         {
@@ -798,7 +760,6 @@ namespace AhoyBrowser
         {
             return "*** PAUSED ***\nAUTOMATED ROUTINES SUSPENDED";
         }
-
 
 
         #endregion
@@ -873,7 +834,7 @@ namespace AhoyBrowser
 
         public static string UpgradeFailedMessage()
         {
-            return "The upgraded Pool could not be saved or verified.\n\nNothing has been deleted. Please check that the Pool directory is writable and try again.";
+            return "The upgraded Pool could not be saved or verified.\n\nNo old copies have been deleted, but the Pool file itself may already have been rewritten. Keep a copy of your Pool and backups, check that the Pool directory is writable, and try again.";
         }
 
         public static string UpgradeCompletedMessage()

@@ -1,4 +1,5 @@
-﻿using System.Text.RegularExpressions;
+﻿using System;
+using System.Text.RegularExpressions;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -141,9 +142,12 @@ namespace AhoyBrowser
                     listCommonPasswords.Add("g0ldf1sh");
                 }
 
+                // A common password, or a short password built around one ("dragon1!").
+                // Long passphrases that merely contain a common word are fine.
+                string lower = input.ToLowerInvariant();
                 foreach (string s in listCommonPasswords)
                 {
-                    if (input.ToLower().Contains(s))
+                    if (lower == s || (lower.Length < 12 && s.Length >= 4 && lower.Contains(s, StringComparison.Ordinal)))
                     {
                         return true;
                     }
@@ -156,22 +160,21 @@ namespace AhoyBrowser
             }
         }
 
+        // Minimum length for the pool password (the encryption key is derived from it)
+        internal const int MinimumPasswordLength = 8;
+
+        // True if the last tested password is acceptable as a pool password
         internal static bool IsScoreValid()
         {
-            if (PwStrengthPoints > 0)
-            {
-                return true;
-            }
-            else
-            {
-                return false;
-            }
+            return PwStrengthPoints > 0 && PwLength >= MinimumPasswordLength;
         }
 
         private static int PwStrengthPoints;
-        internal static string GetPasswordStrength(string input, bool returnPoints)
+        private static int PwLength;
+        internal static string GetPasswordStrength(string input)
         {
             PwStrengthPoints = 0;
+            PwLength = input?.Length ?? 0;
 
             // Empty string
             if (string.IsNullOrEmpty(input))
@@ -185,18 +188,9 @@ namespace AhoyBrowser
             {
                 PwStrengthPoints -= 2;
             }
-            // Test for whitespace
-            if (ContainsWhiteSpaceCharacters(input))
-            {
-                PwStrengthPoints -= 99;
-            }
-            // Test for chars other than the latin base characters
-            if (ContainsNonLatinCharacters(input))
-            {
-                PwStrengthPoints -= 99;
-            }
+            // Spaces (passphrases) and non-ASCII letters (æ, ø, å ...) are allowed: the password is
+            // UTF-8 encoded and normalized before the key is derived (see Crypto/PoolKey.cs).
             //---------------------------------------------------------------
-
 
 
             //---------------------------------------------------------------
@@ -239,7 +233,7 @@ namespace AhoyBrowser
                 PwStrengthPoints += 1;
             }
 
-            // Check for Extreme password (12+ chars (upper- and lowercase), symbols and numbers)
+            // Check for Extreme password (12+ chars with upper- and lowercase letters and numbers, no repeated characters)
             if (Regex.IsMatch(input, @"^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z]).{12,}$") && !HasDuplicates(GetAlphabet(), input))
             {
                 PwStrengthPoints += 1;
@@ -248,18 +242,6 @@ namespace AhoyBrowser
             // Evaluate
             return GetStrengthEvaluation(PwStrengthPoints);
         }
-
-
-        private static bool ContainsNonLatinCharacters(string input)
-        {
-            return Regex.IsMatch(input, @"[^\x00-\x7F]+");
-        }
-
-        private static bool ContainsWhiteSpaceCharacters(string input)
-        {
-            return Regex.IsMatch(input, @"\s");
-        }
-
         private static bool ContainsLowerOrUppercaseCharacters(string input)
         {
             return Regex.IsMatch(input, @"[a-z]") || Regex.IsMatch(input, @"[A-Z]");

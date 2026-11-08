@@ -23,28 +23,11 @@ namespace AhoyBrowser
         protected override void OnRenderItemCheck(ToolStripItemImageRenderEventArgs e)
         {
             base.OnRenderItemCheck(e);
-            if (e.Item.Selected)
+            using (SolidBrush brush = new SolidBrush(AhoyColors.CurrentColorTheme()[6]))
             {
-                Rectangle rect = new Rectangle(3, 1, 20, 20);
-                Rectangle rect2 = new Rectangle(4, 2, 18, 18);
-                SolidBrush b = new SolidBrush(AhoyColors.CurrentColorTheme()[6]);
-                SolidBrush b2 = new SolidBrush(AhoyColors.CurrentColorTheme()[6]);
-
-                e.Graphics.FillRectangle(b, rect);
-                e.Graphics.FillRectangle(b2, rect2);
-                e.Graphics.DrawImage(e.Image, new Point(5, 3));
+                e.Graphics.FillRectangle(brush, new Rectangle(3, 1, 20, 20));
             }
-            else
-            {
-                Rectangle rect = new Rectangle(3, 1, 20, 20);
-                Rectangle rect2 = new Rectangle(4, 2, 18, 18);
-                SolidBrush b = new SolidBrush(AhoyColors.CurrentColorTheme()[6]);
-                SolidBrush b2 = new SolidBrush(AhoyColors.CurrentColorTheme()[6]);
-
-                e.Graphics.FillRectangle(b, rect);
-                e.Graphics.FillRectangle(b2, rect2);
-                e.Graphics.DrawImage(e.Image, new Point(5, 3));
-            }
+            e.Graphics.DrawImage(e.Image, new Point(5, 3));
         }
 
 
@@ -158,16 +141,10 @@ namespace AhoyBrowser
         }
 
 
-
         // Color text of "tagged" items
         // Font coloring, style and size...
         protected override void OnRenderItemText(ToolStripItemTextRenderEventArgs e)
         {
-            //if (!e.Item.Enabled)// Is hit but doesn't change color from gray to specified color
-            //{
-            //    e.TextColor = AhoyColors.CurrentColorTheme()[8];
-            //    e.TextFont = Design.MenuFont();
-            //}
 
             // Colorize on tag info (used by pinned list context menu)
             if (e.Item.Tag != null && e.Item.Tag.ToString().Length >= 1 && !e.Item.Selected)
@@ -466,37 +443,5 @@ namespace AhoyBrowser
         }
 
 
-        //public override Color ButtonCheckedHighlightBorder
-        //{
-        //    get
-        //    {
-        //        return AhoyColors.CurrentColorTheme()[7];
-        //    }
-        //}
-
-
-        //public override Color CheckBackground
-        //{
-        //    get
-        //    {
-        //        return AhoyColors.CurrentColorTheme()[7];
-        //    }
-        //}
-
-        //public override Color CheckSelectedBackground
-        //{
-        //    get
-        //    {
-        //        return AhoyColors.CurrentColorTheme()[7];
-        //    }
-        //}
-
-        //public override Color CheckPressedBackground
-        //{
-        //    get
-        //    {
-        //        return AhoyColors.CurrentColorTheme()[7];
-        //    }
-        //}
     }
 }

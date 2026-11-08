@@ -149,29 +149,6 @@ namespace AhoyBrowser
 
         private string DisabledTitle = "";
         private string EnabledTitle = "";
-        public void SetOptionA(string disabledTitle, string enabledTitle, bool state)
-        {
-            DisabledTitle = disabledTitle;
-            EnabledTitle = enabledTitle;
-            OptionA = state;
-
-            if (!btnToggleOptionA.Visible)
-            {
-                btnToggleOptionA.Visible = true;
-                btnToggleOptionA.Enabled = true;
-                if (OptionA)
-                {
-                    btnToggleOptionA.ForeColor = AhoyColors.CurrentColorTheme()[6];
-                    btnToggleOptionA.Text = EnabledTitle;
-                }
-                else
-                {
-                    btnToggleOptionA.ForeColor = AhoyColors.CurrentColorTheme()[8];
-                    btnToggleOptionA.Text = DisabledTitle;
-                }
-            }
-        }
-
         private void btnToggleOptionA_Click(object sender, EventArgs e)
         {
             ToggleOptionA();

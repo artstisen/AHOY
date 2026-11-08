@@ -113,10 +113,17 @@ namespace AhoyBrowser
                 MainForm.RefreshForm();
                 this.Close();
             }
-            else if ((Keys)e.KeyChar == Keys.F5)
+        }
+
+        // F5 submits (F5 has no KeyChar, so it can't be handled in KeyPress)
+        protected override bool ProcessCmdKey(ref Message msg, Keys keyData)
+        {
+            if (keyData == Keys.F5)
             {
                 btnSubmit_Click(this, null);
+                return true;
             }
+            return base.ProcessCmdKey(ref msg, keyData);
         }
 
 

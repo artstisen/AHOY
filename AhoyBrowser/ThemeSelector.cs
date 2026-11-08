@@ -27,9 +27,9 @@ namespace AhoyBrowser
             this.TopMost = true;
 
             // Set pictureboxes
-            picA.Image = Properties.Resources.themedark;
-            picB.Image = Properties.Resources.themelight;
-            picC.Image = Properties.Resources.themeblue;
+            picA.Image = ResourceCache.Get(nameof(Properties.Resources.themedark));
+            picB.Image = ResourceCache.Get(nameof(Properties.Resources.themelight));
+            picC.Image = ResourceCache.Get(nameof(Properties.Resources.themeblue));
 
             // Style form
             SetColorTheme();
@@ -178,7 +178,7 @@ namespace AhoyBrowser
             AhoyColors.ColorTheme = SelectedColorTheme;
             MainForm.SelectedTexture = Settings.DefaultTexture;
             MainForm.FormOpacity = Settings.DefaultOpacity;
-            ButtonBitmaps.UserSelectedBitmapVersion = 0; // Always set the two theme selector themes to use standard home screen (ANSI)
+            ButtonBitmaps.UserSelectedBitmapVersion = 0; // The theme selector always uses the standard button bitmaps
             MainForm.DisplayTextCycle = 0;
             MainForm.StyleEditorHasChanges = true;
             this.Close();
@@ -259,9 +259,15 @@ namespace AhoyBrowser
         }
 
 
-
-
         #region COLOR SHIFT (addition 04-01-2020)
+        protected override void OnFormClosed(FormClosedEventArgs e)
+        {
+            tempColorShiftTimer?.Stop();
+            tempColorShiftTimer?.Dispose();
+            tempColorShiftTimer = null;
+            base.OnFormClosed(e);
+        }
+
         private void ToggleColorShiftTimer(bool enabled)
         {
             if (tempColorShiftTimer == null)
@@ -281,29 +287,6 @@ namespace AhoyBrowser
             }
         }
 
-        //private Color GetColorShiftBackground()
-        //{
-        //    if (ShiftTimerBackgroundColor != null)
-        //    {
-        //        return ShiftTimerBackgroundColor;
-        //    }
-        //    else
-        //    {
-        //        return Color.Black;
-        //    }
-        //}
-
-        //private Color GetColorShiftForeground()
-        //{
-        //    if (ShiftTimerForegroundColor != null)
-        //    {
-        //        return ShiftTimerBackgroundColor;
-        //    }
-        //    else
-        //    {
-        //        return Color.Black;
-        //    }
-        //}
 
         private void StartShiftTimer()
         {

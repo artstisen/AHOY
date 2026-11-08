@@ -8,26 +8,8 @@ namespace AhoyBrowser
 {
     public class HistoryTextBox : RichTextBox
     {
-        /* Custom HistoryTextBox v1.9 by LBS, Created Jan. 2015, Last updated 24-04-2019 (see details below) */
-        /* Updated 26-06-2016 optimized return of caret position on Undo.*/
-        /* Updated 15-07-2016 SetText to handle null input and scroll to caret options in the SetText methods */
-        /* Update 24-07-2016 AppendText method added  */
-        /* Update 04-08-2016 Remove new lines and trim options (Last update done in Scotland) */
-        /* Update 30-10-2016 Copy text content unformatted (update done in Kolding) */
-        /* Update 03-12-2016 Insert ISO timestamp and paragraph divider (update done in Skejby Aarhus) */
-        /* Update 22-01-2017 Updated Clipboard set, with retry and delay count (update done in Skejby Aarhus) */
-        /* Update 18-02-2017 Updated Cut/Copy unformattet to use custom commands to force Window 10 to copy and cut */
-        /* Update 18-02-2017 Added Unicode conversion method to Cut/Copy Unformatted methods */
-        /* Update 18-02-2017 Clipboard persistance fix for Windows 10x */
-        /* Update 18-02-2017 URL paste fix to avoid large click rectangles */
-        /* Update 20-02-2017 Newline replace fix + URL Regex fix */
-        /* Update 09-03-2017 URL paste adjustment */
-        /* Update 20-05-2017 Accept Tab as Insert Tab (4 x Blank Space) */
-        /* Update 09-12-2017 Session cache of 99 undos across entire pool (99 to save memory) */
-        /* Update 09-12-2017 Reduce cache function will allow no session cache and only 99 undos on edit for memory performance */
-        /* Update 24-04-2019 Added method JoltToFixScrollbars -to fixe scrollbars from showing on first entry selection */
-        /* ------------------------------------------------------------------------------------------- */
-        /* Features 999 undo/redo steps per edit (99 across pool) and word wrap compatible Line delete */
+        // RichTextBox with its own undo/redo history (999 steps per edit, 99 across the pool),
+        // unformatted cut/copy/paste, word-wrap aware line delete, tab and timestamp insertion.
         
 
         private const int maxHistoryCount = 999;
@@ -48,9 +30,19 @@ namespace AhoyBrowser
         {
             base.OnCreateControl();
             CaretPosition = 0;
+            this.MouseUp -= HistoryTextBox_MouseClick; // OnCreateControl runs again when the handle is recreated
             this.MouseUp += HistoryTextBox_MouseClick; // Register mouse up events
             ReduceCache = false;
             IgnoreTab = false;
+        }
+
+        /// <summary>
+        /// Replace the selection with text without going through the clipboard.
+        /// The change is recorded by this control's own undo history (OnTextChanged).
+        /// </summary>
+        public void InsertText(string text)
+        {
+            this.SelectedText = text ?? "";
         }
 
         public void ReduceUndoCache(bool state)
@@ -308,59 +300,23 @@ namespace AhoyBrowser
                 // Do nothing
             }
         }
-
-
         public void InsertTab()
         {
-            // Save clipboard content to temp variable
-            tempClipboard = "";
-            if (Clipboard.ContainsText())
-            {
-                tempClipboard = Clipboard.GetText(TextDataFormat.Text);
-            }
-            SetClipboardText(TextTransform.GetBlankSpace(4));
-            this.Paste();
-            // Add previous content (if any) back to clipboard
-            if (tempClipboard.Length > 0)
-            {
-                SetClipboardText(tempClipboard);
-            }
-
+            InsertText(TextTransform.GetBlankSpace(4));
         }
-
-        /// <summary>
-        /// Insert Paragraph Divider (Clipboard is persisted)
-        /// </summary>
-        private string tempClipboard;
+        /// <summary>Insert a paragraph divider (the clipboard is not touched)</summary>
         public void InsertParagraphDivider(string input)
         {
             try
             {
-                if (Clipboard.ContainsText())
-                {
-                    tempClipboard = Clipboard.GetText();
-                }
-                else
-                {
-                    tempClipboard = "";
-                }
-
-                input = ReplaceParagraphDividerTimeTag(input);
-                SetClipboardText(input);
-                this.Paste();
+                InsertText(ReplaceParagraphDividerTimeTag(input));
                 ReplaceAndSelectionDividerTag();
-
-                if (!string.IsNullOrEmpty(tempClipboard))
-                {
-                    SetClipboardText(tempClipboard);
-                }
             }
             catch
             {
-                // Do nothing
+                // Inserting into a read-only or disposed box: nothing to do
             }
         }
-
         private void ReplaceAndSelectionDividerTag()
         {
             if (this.Text.Contains(ParagraphDividers.SelectionReplaceString))
@@ -394,36 +350,11 @@ namespace AhoyBrowser
             }
         }
 
-        /// <summary>
-        /// Insert ISO timestamp (Clipboard is persisted)
-        /// </summary>
+        /// <summary>Insert an ISO timestamp (the clipboard is not touched)</summary>
         public void InsertISOTimestamp()
         {
-            try
-            {
-                if (Clipboard.ContainsText())
-                {
-                    tempClipboard = Clipboard.GetText();
-                }
-                else
-                {
-                    tempClipboard = "";
-                }
-
-                SetClipboardText(TimeStamp.GetISOTimestamp());
-
-                this.Paste();
-                if (!string.IsNullOrEmpty(tempClipboard))
-                {
-                    SetClipboardText(tempClipboard);
-                }
-            }
-            catch
-            {
-                // Do nothing
-            }
+            InsertText(TimeStamp.GetISOTimestamp());
         }
-
         private void HistoryTextBox_MouseClick(object sender, MouseEventArgs e)
         {
             RegisterCaretPosition();
@@ -638,22 +569,9 @@ namespace AhoyBrowser
                     isFirstUndo = true;
                     FirstSelection = true;
 
-                    //this.SuspendLayout(); <- laver ballade med scrollbars, derfor fjernet igen.
+                    // (SuspendLayout/ResumeLayout here breaks the scrollbars)
                     this.Text = string.Empty;
                     this.Text = textContent;
-                    //this.ResumeLayout();
-                    //ScrollbarFix();
-                    // Bug:
-                    // Error: Ovenfor i sjældne tilfælde (this.Text = textContent;): System.AccessViolationException: 'Det blev forsøgt at læse eller skrive i en beskyttet hukommelse. Dette kan ofte være et tegn på, at en anden hukommelse er beskadiget.'
-                    // Sker når DetachedEditor kalder TransferTextAndCaretPositionsToEditor(), ved start/åbning af PLOP editor.
-
-                    // In programs consisting entirely of verifiable managed code, all references are either valid or null, and access violations are impossible.
-                    // Any operation that attempts to reference a null reference in verifiable code throws a NullReferenceException exception.
-                    // An AccessViolationException occurs only when verifiable managed code interacts with unmanaged code or with unsafe managed code.
-                    // Starting with the .NET Framework 4, AccessViolationException exceptions thrown by the common language runtime are not handled by the catch statement in a
-                    // structured exception handler if the exception occurs outside of the memory reserved by the common language runtime. To handle such an AccessViolationException exception,
-                    // you should apply the HandleProcessCorruptedStateExceptionsAttribute attribute to the method in which the exception is thrown (anbefales dog ikke).
-                    // https://docs.microsoft.com/en-us/dotnet/api/system.accessviolationexception?view=netframework-4.7.2
 
                     this.Focus();
                     if (scrollToEnd)
@@ -684,8 +602,6 @@ namespace AhoyBrowser
                     //this.SuspendLayout(); <- laver ballade med scroll bars, derfor fjernet igen...
                     this.Text = string.Empty;
                     this.Text = text;
-                    //this.ResumeLayout();
-                    //ScrollbarFix();
                     this.Focus();
 
                     if (scrollToEnd)
@@ -708,22 +624,6 @@ namespace AhoyBrowser
                 Log.LogGeneralError("Setting text (HT)");
             }
         }
-
-        // Benyttes ikke alligevel -var en test.
-        // Call this to force showing scrollbars if supposed to
-        //public void ScrollbarFix()
-        //{
-        //    if (this.ScrollBars == RichTextBoxScrollBars.Vertical)
-        //    {
-        //        this.ScrollBars = RichTextBoxScrollBars.None;
-        //        this.ScrollBars = RichTextBoxScrollBars.Vertical;
-        //    }
-        //    else if (this.ScrollBars == RichTextBoxScrollBars.Both)
-        //    {
-        //        this.ScrollBars = RichTextBoxScrollBars.None;
-        //        this.ScrollBars = RichTextBoxScrollBars.Both;
-        //    }
-        //}
 
         private string tempNewLines;
         private string GetNewLines(int count)
@@ -748,7 +648,7 @@ namespace AhoyBrowser
                 // Start by creating a new combined string
                 tempAppendText = this.Text + GetNewLines(newLinesCount) + text;
                 // Then continue like the SetText method
-                undoStorage.Add(new HistoryState(tempAppendText, text.Length));
+                undoStorage.Add(new HistoryState(tempAppendText, tempAppendText.Length)); // caret at the end of the appended text
                 PerformCleanup();
                 SuspendHistory();
                 isFirstUndo = true;
@@ -876,7 +776,6 @@ namespace AhoyBrowser
         }
 
 
-
         /// <summary>
         /// Clear History
         /// </summary>
@@ -886,20 +785,6 @@ namespace AhoyBrowser
             undoStorage.Clear();
             redoStorage.Clear();
             isFirstUndo = true;
-        }
-
-        /// <summary>
-        /// Clear Text and reset History
-        /// </summary>
-        public void ClearTextAndResetHistory()
-        {
-            InitializeStorage();
-            SuspendHistory();
-            this.Text = string.Empty;
-            undoStorage.Clear();
-            redoStorage.Clear();
-            isFirstUndo = true;
-            ResumeHistory();
         }
 
         /// <summary>

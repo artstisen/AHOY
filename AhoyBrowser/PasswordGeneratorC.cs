@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Security.Cryptography;
 using System.Collections.Generic;
 
 namespace AhoyBrowser
@@ -8,7 +9,6 @@ namespace AhoyBrowser
         // Set the password length here (should not be shorter than 8 characters to match the
         // criteria for a strong password)
         private static int NumberOfCharsInPassword { get; set; }
-        private static Random ran;
         private static List<int> PreviousRandomNumbers { get; set; }
         private static List<string> Numbers { get; set; }
         private static List<string> Uppercase { get; set; }
@@ -38,10 +38,6 @@ namespace AhoyBrowser
                 PreviousRandomNumbers = new List<int>();
             }
 
-            if (ran == null)
-            {
-                ran = new Random();
-            }
         }
 
 
@@ -51,6 +47,7 @@ namespace AhoyBrowser
             InitializeGenerator();
             CreateCombinedCharacterString();
             PreviousRandomNumbers.Clear();
+            passwordLength = Math.Clamp(passwordLength, 4, strChars.Length);
             NumberOfCharsInPassword = passwordLength - 1; // Zero indexed
             tempOutput = "";
 
@@ -67,6 +64,7 @@ namespace AhoyBrowser
         private static string tempGenerate;
         private static string Generate()
         {
+            PreviousRandomNumbers.Clear(); // Each attempt starts with all characters available
             tempGenerate = "";
             for (int i = 0; i <= NumberOfCharsInPassword; i++)
             {
@@ -84,20 +82,20 @@ namespace AhoyBrowser
             {
                 do
                 {
-                    tempRandomNumber = ran.Next(0, strChars.Length);
+                    tempRandomNumber = RandomNumberGenerator.GetInt32(0, strChars.Length);
                 }
-                while (DoesRandomNumbeExist(tempRandomNumber));
+                while (DoesRandomNumberExist(tempRandomNumber));
             }
             else
             {
-                tempRandomNumber = ran.Next(0, strChars.Length);
+                tempRandomNumber = RandomNumberGenerator.GetInt32(0, strChars.Length);
             }
 
             PreviousRandomNumbers.Add(tempRandomNumber);
             return tempRandomNumber;
         }
 
-        private static bool DoesRandomNumbeExist(int number)
+        private static bool DoesRandomNumberExist(int number)
         {
             foreach (int i in PreviousRandomNumbers)
             {

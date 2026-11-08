@@ -46,7 +46,7 @@ namespace AhoyBrowser
 
             // Prevent Ahoy from running more than one instance (per data folder)
             string mutexName = "ahoymutexid";
-            if (dataDirectory != null)
+            if (dataDirectory != null && !IsDefaultDataRoot(IO.DataRootOverride))
             {
                 byte[] pathHash = System.Security.Cryptography.SHA256.HashData(System.Text.Encoding.UTF8.GetBytes(IO.DataRootOverride.ToUpperInvariant()));
                 mutexName += "-" + Convert.ToHexString(pathHash, 0, 8);
@@ -84,6 +84,14 @@ namespace AhoyBrowser
                 }
             }
             return null;
+        }
+
+        // --data-dir pointing at %APPDATA% is the normal data folder: it shares the normal instance lock
+        private static bool IsDefaultDataRoot(string path)
+        {
+            string defaultRoot = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData);
+            return string.Equals(Path.TrimEndingDirectorySeparator(Path.GetFullPath(path)),
+                Path.TrimEndingDirectorySeparator(Path.GetFullPath(defaultRoot)), StringComparison.OrdinalIgnoreCase);
         }
     }
 }

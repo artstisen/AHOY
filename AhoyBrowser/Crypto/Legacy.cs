@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.IO;
 using System.Security.Cryptography;
 using System.Text;
@@ -77,7 +77,8 @@ namespace AhoyBrowser.Crypto
                 crypto.Write(input, 0, input.Length);
                 crypto.FlushFinalBlock();
             }
-            return Encoding.UTF8.GetString(output.ToArray());
+            // A wrong password usually fails the padding check, but not always: only accept valid UTF-8
+            return new UTF8Encoding(false, throwOnInvalidBytes: true).GetString(output.ToArray());
         }
     }
 }
