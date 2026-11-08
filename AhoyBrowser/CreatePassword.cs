@@ -20,7 +20,7 @@ namespace AhoyBrowser
                    "cannot reset it. If you forget it, your data cannot be recovered.";
         }
 
-        public CreatePassword(string welcomeMessage, string formCaption)
+        public CreatePassword(string welcomeMessage, string formCaption, string notice = null)
         {
             InitializeComponent();
             AuthPassword = "";
@@ -76,7 +76,7 @@ namespace AhoyBrowser
             lbMessage.Text = welcomeMessage;
             label1.Text = "Enter password";
             label2.Text = "Please repeat password";
-            lbWarning.Text = EncryptionNotice();
+            lbWarning.Text = notice ?? EncryptionNotice();
 
             // Hook events for highlighting save button
             tbPassword1.TextChanged += TbPassword1_TextChanged;

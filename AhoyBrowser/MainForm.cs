@@ -15800,6 +15800,138 @@ namespace AhoyBrowser
             ExportCollection();
         }
 
+        private void exportToMarblesToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            ExportToMarbles();
+        }
+
+        // The color an entry has in the pinned list (its background color), or null
+        private static Color? GetPinnedListColor(Entry entry)
+        {
+            if (entry.PresetColor > 0)
+            {
+                return Design.ReturnStatusBackgroundColor(entry.PresetColor);
+            }
+            if (AhoyColors.HasDualHexValue(entry.CustomColor))
+            {
+                return AhoyColors.ConvertFromHex(entry.CustomColor.Split(';')[0], false);
+            }
+            return null;
+        }
+
+        /// <summary>
+        /// Write the notes of the open pool as a new Marbles data file (.mbls), with a password of its own.
+        /// Sticky notes and the memo become normal entries.
+        /// </summary>
+        private void ExportToMarbles()
+        {
+            if (!PoolLoaded || AbortIfDemo())
+            {
+                return;
+            }
+            // Include unsaved changes of the open entry
+            if (!SaveCurrentEntry(!AutoSaveEntryChanges))
+            {
+                return;
+            }
+
+            List<Export.MarblesExport.MarblesEntry> marblesEntries = Export.MarblesExport.Convert(Entries, StickySettingsList,
+                tbMemoField.Text, GetPinnedListColor, DateTime.Now, out Export.MarblesExport.Summary summary);
+            if (summary.Total == 0)
+            {
+                AhoySimpleMessageBox nothing = new AhoySimpleMessageBox("There is nothing to export.", MessageText.ExportCaption(), false);
+                nothing.ShowDialog();
+                return;
+            }
+
+            string contents = summary.Entries + " entries" +
+                              (summary.StickyNotes > 0 ? ", " + summary.StickyNotes + " sticky notes" : "") +
+                              (summary.Memo ? " and the memo" : "");
+            AhoyAnswerMessageBox intro = new AhoyAnswerMessageBox(
+                "Export to Marbles\n\n" +
+                "Creates a new Marbles data file (.mbls) with " + contents + ".\n\n" +
+                "- Sticky notes and the memo become normal entries\n" +
+                "- Pinned entries stay pinned (in the same order and nearest color)\n" +
+                "- Locked entries become read-only\n" +
+                "- Categories and text bookmarks are not exported\n\n" +
+                "The file gets a password of its own. Your Ahoy pool is not changed.\n\nContinue?",
+                MessageText.ExportCaption(), false, false);
+            intro.ShowDialog();
+            if (!intro.Accepted)
+            {
+                return;
+            }
+
+            CreatePassword createPassword = new CreatePassword("Create a password for the Marbles file", MessageText.ExportCaption(),
+                "Encryption: AES-256-GCM\n" +
+                "Key derivation: PBKDF2-HMAC-SHA256, 600,000 iterations\n\n" +
+                "This password is the only key to the Marbles data file. Marbles does not store it and " +
+                "cannot reset it. If you forget it, the notes in the file cannot be recovered.");
+            createPassword.TopMost = true;
+            createPassword.ShowDialog();
+            string password = createPassword.AuthPassword;
+            if (string.IsNullOrEmpty(password))
+            {
+                return;
+            }
+            if (password.Length < Export.MarblesExport.MinPasswordLength || password.Length > Export.MarblesExport.MaxPasswordLength)
+            {
+                AhoySimpleMessageBox invalid = new AhoySimpleMessageBox("Marbles passwords are " + Export.MarblesExport.MinPasswordLength + " to " +
+                    Export.MarblesExport.MaxPasswordLength + " characters long.", MessageText.ExportCaption(), false);
+                invalid.ShowDialog();
+                return;
+            }
+
+            string path;
+            using (var dialog = new SaveFileDialog())
+            {
+                dialog.Title = "Export to Marbles";
+                dialog.Filter = "Marbles data file (*.mbls)|*.mbls";
+                dialog.DefaultExt = "mbls";
+                dialog.AddExtension = true;
+                dialog.FileName = Export.MarblesExport.DefaultFileName;
+                dialog.InitialDirectory = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
+                dialog.OverwritePrompt = false; // an existing file is refused below, never replaced
+                if (dialog.ShowDialog(this) != DialogResult.OK)
+                {
+                    return;
+                }
+                path = dialog.FileName;
+            }
+
+            string error;
+            Cursor previousCursor = Cursor.Current;
+            Cursor.Current = Cursors.WaitCursor;
+            try
+            {
+                error = Export.MarblesExport.WriteNewFile(path, marblesEntries, password);
+            }
+            catch (Exception ex)
+            {
+                error = ex.Message;
+            }
+            finally
+            {
+                Cursor.Current = previousCursor;
+            }
+
+            if (error.Length > 0)
+            {
+                Log.GeneralStatus("Export to Marbles failed");
+                AhoySimpleMessageBox failed = new AhoySimpleMessageBox("The Marbles data file was not created.\n\n" + error, MessageText.ExportCaption(), true);
+                failed.ShowDialog();
+                return;
+            }
+
+            Log.GeneralStatus("Export to Marbles (" + summary.Total + " entries)");
+            AhoySimpleMessageBox done = new AhoySimpleMessageBox(
+                "Marbles data file created:\n" + path + "\n\n" +
+                summary.Total + " entries exported.\n\n" +
+                "Put the file in the Marbles data folder (or open it from there) and log in with the new password.",
+                MessageText.ExportCaption(), false);
+            done.ShowDialog();
+        }
+
         private string tempExportFilePath = "";
         private string tempExportTimeStamp = "";
         private List<Entry> tempExportCollection;

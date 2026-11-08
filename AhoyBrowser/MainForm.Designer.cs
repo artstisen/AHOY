@@ -323,6 +323,7 @@
         private System.Windows.Forms.Button btnExport;
         private System.Windows.Forms.ToolStripMenuItem markForExportToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem importExportToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem exportToMarblesToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem importPoolToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem exportCollectionToolStripMenuItem;
         private System.Windows.Forms.ToolStripSeparator toolStripMenuItem61;
@@ -644,6 +645,7 @@
             this.markForExportToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.markAllForExportToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.importExportToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.exportToMarblesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.importPoolToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.exportCollectionToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripMenuItem62 = new System.Windows.Forms.ToolStripSeparator();
@@ -2610,6 +2612,7 @@
             this.markForExportToolStripMenuItem,
             this.markAllForExportToolStripMenuItem,
             this.importExportToolStripMenuItem,
+            this.exportToMarblesToolStripMenuItem,
             this.toolStripMenuItem61,
             this.openToolStripMenuItem,
             this.copyPoolToClipboardToolStripMenuItem,
@@ -2731,6 +2734,13 @@
             this.importExportToolStripMenuItem.Name = "importExportToolStripMenuItem";
             this.importExportToolStripMenuItem.Size = new System.Drawing.Size(281, 22);
             this.importExportToolStripMenuItem.Text = "&Import/Export";
+            //
+            // exportToMarblesToolStripMenuItem
+            //
+            this.exportToMarblesToolStripMenuItem.Name = "exportToMarblesToolStripMenuItem";
+            this.exportToMarblesToolStripMenuItem.Size = new System.Drawing.Size(281, 22);
+            this.exportToMarblesToolStripMenuItem.Text = "Export to &Marbles (.mbls)...";
+            this.exportToMarblesToolStripMenuItem.Click += new System.EventHandler(this.exportToMarblesToolStripMenuItem_Click);
             // 
             // importPoolToolStripMenuItem
             // 

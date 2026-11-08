@@ -45,7 +45,7 @@
             this.lbVersion.ForeColor = System.Drawing.Color.Gainsboro;
             this.lbVersion.Location = new System.Drawing.Point(24, 21);
             this.lbVersion.Name = "lbVersion";
-            this.lbVersion.Size = new System.Drawing.Size(514, 23);
+            this.lbVersion.Size = new System.Drawing.Size(848, 23);
             this.lbVersion.TabIndex = 0;
             this.lbVersion.Text = "--";
             // 
@@ -53,13 +53,13 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(550, 550);
+            this.ClientSize = new System.Drawing.Size(896, 448);
             this.Controls.Add(this.lbVersion);
             this.DoubleBuffered = true;
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
             this.Icon = global::AhoyBrowser.Properties.Resources.Ahoy;
-            this.MaximumSize = new System.Drawing.Size(550, 550);
-            this.MinimumSize = new System.Drawing.Size(550, 550);
+            this.MaximumSize = new System.Drawing.Size(896, 448);
+            this.MinimumSize = new System.Drawing.Size(896, 448);
             this.Name = "Splash";
             this.ShowIcon = false;
             this.ShowInTaskbar = false;

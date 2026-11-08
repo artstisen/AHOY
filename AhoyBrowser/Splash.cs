@@ -50,7 +50,10 @@ namespace AhoyBrowser
         protected override void OnPaintBackground(PaintEventArgs e)
         {
             Graphics gfx = e.Graphics;
-            gfx.DrawImage(Properties.Resources.splash, new Rectangle(0, 0, this.Width, this.Height));
+            // The image (1280x640) is drawn scaled down to the window: use high quality scaling
+            gfx.InterpolationMode = System.Drawing.Drawing2D.InterpolationMode.HighQualityBicubic;
+            gfx.PixelOffsetMode = System.Drawing.Drawing2D.PixelOffsetMode.HighQuality;
+            gfx.DrawImage(ResourceCache.Get(nameof(Properties.Resources.splash)), new Rectangle(0, 0, this.Width, this.Height));
             if (!timerSplash.Enabled && !KeyWasPressed)
             {
                 lbVersion.Visible = true;

@@ -148,7 +148,7 @@
             this.lbMessage.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(142)))), ((int)(((byte)(142)))), ((int)(((byte)(142)))));
             this.lbMessage.Location = new System.Drawing.Point(34, 36);
             this.lbMessage.Name = "lbMessage";
-            this.lbMessage.Size = new System.Drawing.Size(298, 26);
+            this.lbMessage.Size = new System.Drawing.Size(298, 36); // two lines
             this.lbMessage.TabIndex = 12;
             this.lbMessage.Text = "Enter password";
             // 
